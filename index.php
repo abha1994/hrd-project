@@ -1,5 +1,5 @@
 <?php
-echo "sadasD";die;
+echo "priyanka";die;
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
