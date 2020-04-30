@@ -1,5 +1,5 @@
 <?php
-echo "rocky";die;
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
