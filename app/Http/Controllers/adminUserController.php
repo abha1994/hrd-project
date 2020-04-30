@@ -73,8 +73,8 @@ class adminUserController extends Controller
         $joining_date = date('Y-m-d', strtotime($request->joining_date));
         $transfer_date = date('Y-m-d', strtotime($request->transfer_date));
 
-        $record = array('officer_name'=>$request->officer_name,'designation'=>$request->designation, 'email'=>$request->email,'mobile_no'=>$request->mobile_no,'role'=>$request->roles,'status'=> $request->status,'dob'=>$dob,'joining_date'=>$joining_date,'transfer_date'=>$transfer_date,'created_date'=>$date);       
-        DB::table('admin_user')->insert($record);
+        // $record = array('officer_name'=>$request->officer_name,'designation'=>$request->designation, 'email'=>$request->email,'mobile_no'=>$request->mobile_no,'role'=>$request->roles,'status'=> $request->status,'dob'=>$dob,'joining_date'=>$joining_date,'transfer_date'=>$transfer_date,'created_date'=>$date);       
+        // DB::table('admin_user')->insert($record);
 
         $userrecord = User::orderBy('id','DESC')->first();
         $userlastrecord = $userrecord->id;

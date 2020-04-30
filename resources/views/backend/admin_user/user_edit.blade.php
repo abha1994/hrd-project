@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @section('container')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/-->
 
 				
 				
@@ -83,8 +83,8 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-6 input-group date" data-provide="datepicker">
-									<input type="text"  class="form-control @error('joining_date') is-invalid @enderror" value="{{ date('d-m-Y', strtotime($user->joining_date)) }}"  placeholder="Joining Date*" name="joining_date" id="joining_date">
+								<div class="col-md-6 input-group date">
+									<input type="text"  class="form-control @error('joining_date') is-invalid @enderror" value="{{ date('d-m-Y', strtotime($user->joining_date)) }}"  placeholder="Joining Date*" name="joining_date" id="datepicker_search_from">
 									<div class="input-group-addon">
 								        <span class="glyphicon glyphicon-th"></span>
 								    </div>
@@ -94,8 +94,8 @@
 										</span>
 									@enderror
 								</div>
-								<div class="col-md-6 input-group date" data-provide="datepicker">
-									<input type="text"  class="form-control @error('transfer_date') is-invalid @enderror" value="{{ date('d-m-Y', strtotime($user->transfer_date)) }}"  placeholder="Transfer Date*" name="transfer_date" id="transfer_date">
+								<div class="col-md-6 input-group date" >
+									<input type="text"  class="form-control @error('transfer_date') is-invalid @enderror" value="{{ date('d-m-Y', strtotime($user->transfer_date)) }}"  placeholder="Transfer Date*" name="transfer_date" id="dt21">
 									<div class="input-group-addon">
 								        <span class="glyphicon glyphicon-th"></span>
 								    </div>
@@ -156,28 +156,6 @@
 		</div>
 	</div>
 
-<script type="text/javascript">
-	 $(function() {
-        	$( "#transfer_date" ).datepicker();
-        	$( "#joining_date" ).datepicker();
-       });
-</script>
-
-<!-- <script src="{{ asset('js/app.js') }}"></script> 
- -->
- <script type="text/javascript">
-   $(document).ready(function () {
- 
-        $(".sidebar-menu li").removeClass("menu-open");
-        $(".sidebar-menu li").removeClass("active");        
-        $("#liofficer").addClass('menu-open');        
-        $("#ulofficer").css('display', 'block');
-        $(".nav-link").removeClass('active');
-       // $("#liJobCategory").addClass("false");
-       // $("#liCountry").addClass("false");
-        $("#liofficers").addClass("active");
-      });
-</script>
 @endsection
 
 

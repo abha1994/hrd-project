@@ -78,11 +78,5 @@
 
     </div>
 </div>
- <script>
-    $(document).ready(function () {
-      
-        $(".nav-link").removeClass('active');
-        $("#liuser").addClass('active');
-    });
-</script>
+
 @endsection

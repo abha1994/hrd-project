@@ -75,11 +75,5 @@
     </div>    
 </div>
 <!-- <script src="{{ asset('js/app.js') }}"></script>  -->
-<script>
-    $(document).ready(function () {
-      
-        $(".nav-link").removeClass('active');
-        $("#liuser").addClass('active');
-    });
-</script>
+
 @endsection

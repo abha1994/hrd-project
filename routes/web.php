@@ -35,6 +35,16 @@ Route::resource('products','ProductController');
 Route::resource('user', 'adminUserController');
 Route::get('changeStatus/{id}','adminUserController@statuChange');
 	
+Route::resource('link-officer', 'AdminLinkController');	
+
+// Route::get('/link-officer', 'AdminLinkController@index')->name('link-officer');
+// Route::get('/add-link-officer', 'AdminLinkController@add')->name('add-link-officer');
+// Route::post('/create-link-officer', 'AdminLinkController@create')->name('create-link-officer');
+// Route::get('/edit-link-officer/{id}', 'AdminLinkController@edit')->name('edit-link-officer');
+// Route::post('/update-link-officer/{id}', 'AdminLinkController@update')->name('update-link-officer');
+// Route::get('/view-link-officer/{id}', 'AdminLinkController@view')->name('view-link-officer');
+// Route::get('/delete-link-officer/{id}', 'AdminLinkController@delete')->name('delete-link-officer');
+
 // End of officer module rule
 	
 	
@@ -88,7 +98,7 @@ Route::get('/final-selected-university/{id}', 'Nref\admin\UniversityController@f
 Route::post('/api/admin-institute-considered', 'Nref\admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
 //******************Admin**************************//
 
-   /*  Route Rocky*/	
+ 
 //------------Nref Scheme code 3--------------------->
 	
 //------------Nres Scheme code 2--------------------->	
