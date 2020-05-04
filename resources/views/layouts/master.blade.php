@@ -12,9 +12,10 @@
 		<link rel="dns-prefetch" href="//fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css">
-		
+		<!--link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
+		<!--link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css">-->
+		<link href="{{ asset('public/css/font.css') }}" rel="stylesheet">
+		<link href="{{ asset('public/css/bootstrap-datepicker3.css') }}" rel="stylesheet">
 		<link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 	</head>
 	<body class="hold-transition sidebar-mini">
