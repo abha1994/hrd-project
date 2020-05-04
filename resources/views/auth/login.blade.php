@@ -2,6 +2,8 @@
 
 @section('content')
 <link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
+ <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
+
 <section class="register-cust">
 <div class="container">
     <div class="row justify-content-center">
@@ -116,4 +118,14 @@
 		    padding: 100px 0px 90px;
     }
 </style>
+<script>
+$(document).ready(function(){
+ 
+    $("a[title ~= 'BotDetect']").removeAttr("style");
+    $("a[title ~= 'BotDetect']").removeAttr("href");
+    $("a[title ~= 'BotDetect']").css('visibility', 'hidden');
+
+});
+</script>
+
 @endsection

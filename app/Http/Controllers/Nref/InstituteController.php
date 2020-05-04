@@ -34,13 +34,13 @@ class InstituteController extends Controller
 	public function index(Request $request)
     { 
 		$data = Institute::index();
-		return view('backend/Nref/institute_form',compact('data'));
+		return view('backend/nref/institute_form',compact('data'));
 	}
 	
 	public function previewIndex(Request $request)
     {
         $data = $request->all();
-        return view('backend/Nref/preview', $data);
+        return view('backend/nref/preview', $data);
     }
 	
 	/**
