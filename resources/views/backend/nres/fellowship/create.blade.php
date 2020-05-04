@@ -1,12 +1,19 @@
 @extends('layouts.master')
 @section('container')
   <script src="{{ asset('public/js/fellow_solar_validation.js') }}"></script>
-<div class="content-wrapper" >
+
+<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
-    
-     	<div class="card-header text-center"><h4 style="color: #2384c6;">Internship Form</h4></div>
-     	<div class="card-body text-center"><h4>Fellowship Program Application</h4><h4>Annexure 1A &nbsp;&nbsp;&nbsp;<input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></div>
+      <ol class="breadcrumb"style="" >
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Fellowship Program Application</li>
+      </ol>
+    <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
+     	<div class="card-header text-center"><h4 style="color: #2384c6;">Fellowship Program Application</h4></div>
+     	<!--div class="card-body text-center"><h4>Fellowship Program Application</h4><h4>Annexure 1A &nbsp;&nbsp;&nbsp;<input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></div-->
 		<div class="card-body">
     		<form  enctype="multipart/form-data"  action="{{route('fellowship-solar-form.store')}}" autocomplete="off" id="felloship_solar" method="POST" >
     			@csrf
@@ -533,9 +540,22 @@
 </div> 
  
  <div class="modal fade" id="confirm-submit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content" style="width:1100px; margin-right: 100px;">
-            <div class="modal-header" style="color: #FFF"><h4>Internship Form <br />Fellowship Program Application Annexure 1A </h4></div>
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+ <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs--><br>
+      <ol class="breadcrumb"style="" >
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Fellowship Program Application</li>
+      </ol>
+    <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
+	
+	
+	
+  
+            <!--div class="modal-header" style="color: #FFF"><h4>Internship Form <br />Fellowship Program Application Annexure 1A </h4></div-->
             <div class="modal-body">
                 <!-- We display the details entered by the user here -->
                 <table class="table">
@@ -722,7 +742,7 @@
             </div>
         </div>
     </div>
-</div>
+</div></div></div></div>
  <style type="text/css">
   ::placeholder {  
   	font-size: 0.8em;
