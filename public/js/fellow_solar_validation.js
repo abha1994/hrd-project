@@ -1,127 +1,332 @@
-/******Jquery Fllowship Solar Form Validation*********/
-    
- 
-$(document).ready(function(){
-  $('#felloship_solar_form').validate({
+$('#submitBtn').click(function () {
 	
-      ignore: [],
-     debug: false,
-     rules: {
-        ar_spc: {
-             required: true,
-			 maxlength:1000,
-         },
-         special_achievement: {
-             required: true,
-			 maxlength:1000,
-         },
-         details_awards: {
-             required: true,
-			 maxlength:1000,
-         },
-		 book_published: {
-            required: true,
-			 maxlength:1000,
-         },
-		 audio_video: {
-             required: true,
-			 maxlength:1000,
-		 },
-        details_scholar: {
-             required: true,
-			 maxlength:1000,
-			 
-         },
-		 paper_published:{
-			    required: true,
-			 maxlength:1000,
-		 },
-		why_selected:{
-			   required: true,
-			 maxlength:1000,
-		 },
-		 address:{
-			   required: true,
-			 maxlength:1000,
-		 },
-		 employed_addr:{
-			required: function(element) {
-				return $("input:radio[name='employed']:checked").val() == '1';
-			}
-		 },
+	//$('#submitBtn').attr('data-target','#testModal2');
+	
+	$("#felloship_solar").validate();
+	
+	if ($("#felloship_solar").valid()) {
+		
+		$('#submitBtn').attr('data-target','#confirm-submit');
+	}
+	else
+	{
+		alert("Please Fill all required fields");
+		$('#submitBtn').attr('data-target','#');
+	}
+	
 
-		 salary:{
-			required: function(element) {
-				return $("input:radio[name='employed']:checked").val() == '1';
-			}
-		 },
+    /* when the button in the form, display the entered values in the modal */
+   $('#first_namev').html($('#first_name').val());
+    $('#middle_namev').html($('#middle_name').val());
+    $('#last_namev').html($('#last_name').val());
 
-		 employed_inst:{
-			required: function(element) {
-				return $("input:radio[name='employed']:checked").val() == '1';
-			}
-		 },
-		pincode:{
-			  required: true,
-			  maxlength:6,
-			  minlength:6,
-		},
-		file_photo:{
-		   required: true,  
-		},
-		research_work:{
-		    required: true,   
-		},
-		 file_id_proof:{
-			  required: true,  
-		 },
+    $('#email_idv').html($('#email_id').val());
+    $('#dobv').html($('#dob').val());
+    if($('#gender').val() == 1){
+    	$('#genderv').html('Male');
+    }
+    if($('#gender').val() == 2){
+    	$('#genderv').html('Female');
+    }
+    if($('#gender').val() == 0){
+    	$('#genderv').html('Others');
+    }
+     
+    $('#mobile_nov').html($('#mobile_no').val());
 
-		 id_proof: {
-		 	  required: true,
-		 },
+    $('#countrycdv').html($('#countryid').val());
+    $('#statecdv').html($('#stateid').val());
+    $('#districtcdv').html($('#districtid').val());
 
-         "reference_three[0]":{
-			  phoneStartingWith6: true,  
-		 },
+    //Education Detail
+    $('#c0').html($('#courseid_0').val());
+    $('#c1').html($('#courseid_1').val());
+    $('#c2').html($('#courseid_2').val());
+    $('#c3').html($('#courseid_3').val());
+    $('#c4').html($('#courseid_4').val());
+    $('#c5').html($('#courseid_5').val());
+         
+    $('#ins0').html($('#institute_0').val());
+    $('#ins1').html($('#institute_1').val());
+    $('#ins2').html($('#institute_2').val());
+    $('#ins3').html($('#institute_3').val());
+    $('#ins4').html($('#institute_4').val());
+    $('#ins5').html($('#institute_5').val());
+    
+    $('#st0').html($('#stream_0').val());
+    $('#st1').html($('#stream_1').val());
+    $('#st2').html($('#stream_2').val());
+    $('#st3').html($('#stream_3').val());
+    $('#st4').html($('#stream_4').val());
+    $('#st5').html($('#stream_5').val());
+     
+    $('#pass0').html($('#passstatus_0').val());
+    $('#pass1').html($('#passstatus_1').val());
+    $('#pass2').html($('#passstatus_2').val());
+    $('#pass3').html($('#passstatus_3').val());
+    $('#pass4').html($('#passstatus_4').val()); 
+    $('#pass5').html($('#passstatus_5').val()); 
+     
+	$('#yearcomp0').html($('#yearcompletion_0').val());
+	$('#yearcomp1').html($('#yearcompletion_1').val());
+	$('#yearcomp2').html($('#yearcompletion_2').val());
+	$('#yearcomp3').html($('#yearcompletion_3').val());
+	$('#yearcomp4').html($('#yearcompletion_4').val());
+	$('#yearcomp5').html($('#yearcompletion_5').val());
+     
+	$('#markspercen0').html($('#markspercentage_0').val());
+	$('#markspercen1').html($('#markspercentage_1').val());
+	$('#markspercen2').html($('#markspercentage_2').val());
+	$('#markspercen3').html($('#markspercentage_3').val());
+	$('#markspercen4').html($('#markspercentage_4').val());
+	$('#markspercen5').html($('#markspercentage_5').val());
+     
+   $('#area_spce').html($('#area_spc').val());
+   $('#special_ach').html($('#special_achievement').val());
+   
+   $('#details_award').html($('#details_awards').val());
+   $('#book_publish').html($('#book_published').val()); 
 
-		 "reference_three[1]":{
-			  phoneStartingWith6: true,  
-		 },
+   $('#audio_videos').html($('#audio_video').val());
+   $('#details_scholars').html($('#details_scholar').val()); 
 
-		 "reference_three[2]":{
-			  phoneStartingWith6: true,  
-		 },
 
-		 "reference_three[2]":{
-			  phoneStartingWith6: true,  
-		 },
-		 
-		 'reference_two[0]':{
-	       email:true,
-		 },
-		 'reference_two[1]':{
-	       email:true,
-		 },
+   $('#commitments').html($('#commitment').val());
+   $('#submit_bonds').html($('#submit_bond').val()); 
+   
+   $('#paper_publish').html($('#paper_published').val());
+   $('#why_select').html($('#why_selected').val());  
 
-		 'reference_two[2]':{
-	       email:true,
-		 },
+   $('#id_proofs').html($('#id_proof').val());
+   $('#file_id_proofs').html($('#file_id_proof').val());  
 
-		  'reference_two[3]':{
-	       email:true,
-		 },
+   $('#research_works').html($('#research_work').val());
+   $('#candidate_photos').html($('#candidate_photo').val());  
 
-		  'reference_two[4]':{
-	       email:true,
-		 },
-		                                            //reference_two
-       },submitHandler: function(form) {
-          form.submit();
-        }
+   $('#refname0').html($('#refname_0').val());
+   $('#refemail0').html($('#refemail_0').val());
+   $('#refphone0').html($('#refphone_0').val());
 
-	 });
+   $('#refname1').html($('#refname_[object HTMLInputElement]').val());
+   $('#refemail1').html($('#refemail_[object HTMLInputElement]').val());
+   $('#refphone1').html($('#refphone_[object HTMLInputElement]').val()); 
+
+   
 });
-/******Jquery Fllowship Solar Form Validation*********/
+
+$(document).ready(function(){
+	 $('#felloship_solar').on('submit', function(event) {
+        //Add validation rule for dynamically generated name fields
+       // alert('hello');
+	  	 
+    $( "#pincode" ).rules( "add", {
+    	required: true,
+        minlength: 6,
+        maxlength: 6,
+        digits: true
+  		 
+	});
+    $( "#landline" ).rules( "add", {
+    	 
+        minlength: 8,
+        maxlength: 8,
+        digits: true
+  		 
+	});
+
+
+	$( "#address" ).rules( "add", {
+    	required: true,         
+        maxlength: 220,
+         
+  		 
+	});
+
+	$( "#salary" ).rules( "add", {
+    	required: true,         
+        maxlength: 6,
+        digits: true,    
+  		 
+	});
+	$( "#id_proof" ).rules( "add", {
+    	required: true,         
+          		 
+	});
+
+	 
+
+	 $( "#organization" ).rules( "add", {
+    	required: true,         
+        maxlength: 220,
+         
+  		 
+	 });
+	 
+	 $( "#organization_address" ).rules( "add", {
+    	required: true,         
+        maxlength: 220,
+         
+  		 
+	 });
+
+	$( "#area_spc" ).rules( "add", {
+    	required: true,       
+        maxlength: 220,
+         
+  		 
+	});
+	$( "#special_achievement" ).rules( "add", {   
+		required: true, 	       
+        maxlength: 220,  		 
+	});
+
+	$( "#details_awards" ).rules( "add", {   
+		required: true, 	       
+        maxlength: 220,  		 
+	});
+
+	$( "#book_published" ).rules( "add", {   
+		required:true, 	       
+        maxlength: 220,  		 
+	});
+
+	$( "#audio_video" ).rules( "add", {    
+		required:true,	       
+        maxlength: 220,  		 
+	});
+	$( "#details_scholar" ).rules( "add", {    
+		required:true,	       
+        maxlength: 220,  		 
+	});
+	$( "#paper_published" ).rules( "add", { 
+		required:true,   	       
+        maxlength: 999,  		 
+	});
+	$( "#why_selected" ).rules( "add", {   
+		required:true,
+        maxlength: 999,  		 
+	});
+	$( "#employed_inst" ).rules( "add", {    	       
+        required: true,  	 
+	});
+
+	$( "#file_id_proof" ).rules( "add", {    	       
+        required: true, 
+        // extension: "pdf" 	 
+	});
+	
+	$( "#research_work" ).rules( "add", {    	       
+        required: true, 
+        // extension: "pdf" 	 
+	});  
+	$( "#candidate_photo" ).rules( "add", {    	       
+        required: true, 
+        // extension: "jpg" 	 
+	}); 
+
+
+    $('.courseid_input').each(function() {
+        $(this).rules("add", 
+            {
+                required: true,
+                messages: {
+                    required: "Course is required",
+                }
+            });
+    });
+    //Add validation rule for dynamically generated email fields
+    $('.institute_input').each(function() {
+    	 
+        $(this).rules("add", 
+            {
+                required: true,
+                maxlength: 120, 
+                messages: {
+                    required: "field is required",
+                    
+                  }
+            });
+    });
+
+    $('.stream_input').each(function() {
+    	 
+        $(this).rules("add", 
+            {
+                required: true,
+                maxlength: 120,
+
+                messages: {
+                    required: "field is required",
+                    
+                  }
+            });
+    });
+    $('.passstatus_input').each(function() {
+        $(this).rules("add", 
+            {
+                required: true,
+
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+    $('.yearcompletion_input').each(function() {
+        $(this).rules("add", 
+            {
+                required: true,
+                maxlength: 4,
+                digits: true,
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+    $('.markspercentage_input').each(function() {
+        $(this).rules("add", 
+            {
+                required: true,
+                maxlength: 3,
+                digits: true,
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+    $('.refname_input').each(function() {
+        $(this).rules("add", 
+            {
+                //required: true,
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+    $('.refemail_input').each(function() {
+        $(this).rules("add", 
+            {
+                //required: true,
+                email: true ,
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+    $('.refphone_input').each(function() {
+        $(this).rules("add", 
+            {
+               // required: true,
+                 
+                digits: true,
+
+                messages: {
+                    required: "field is required",
+                }
+            });
+    });
+}); 
+$("#felloship_solar").validate(); 
+});
 
 /******Jquery Fllowship Bank Form Validation*********/
 $(document).ready(function(){
@@ -232,11 +437,58 @@ $(document).ready(function(){
 	        $( "#remainingK" ).html( "Remaining characters: " +( maxchar ) );
 	    }
 	  })
-	});
+
 
 
 //**************************************************************************//
 
+	//************For Id proof upload***************//
+    $('#file_id_proof').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#file_id_proof').val('');
+			   $('#file_id_proof_error').html('Maximum allowed size for file is "1MB" ');
+			   $('#file_id_proof_error').css('color','red');
+			   return false;
+			}else{
+				 $('#file_id_proof_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#file_id_proof_error').html('Only pdf files allow');
+				 $('#file_id_proof_error').css('color','red');
+				 return false;
+			}
+		
+	});
+
+ //************For candidate Photo upload***************//	
+    $('#candidate_photo').bind('change', function() {
+		// alert();
+		var a=(this.files[0].size);///alert(a);
+		if(a > 100000) {
+			$('#candidate_photo').val('');
+		   $('#file_photo_error').html('Maximum allowed size for file is "100kb" ');
+		   $('#file_photo_error').css('color','red');
+		   return false;
+		}else{
+			 $('#file_photo_error').html('');
+		};
+
+        var fileExtension = ['jpeg', 'jpg'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+        	 $('#file_photo_error').html('Only jpg and jpeg allowed');
+             $('#file_photo_error').css('color','red');  //file_photo_error
+              $('#candidate_photo').val('');
+		   return false;
+        }
+
+
+	 });
+	 });
+     //************For Id proof upload***************//
+	 
 
 
     $(document).ready(function() {

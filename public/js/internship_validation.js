@@ -280,7 +280,7 @@ function remove_data(id){
 	 
 	 //************For candidate Photo upload***************//	
     $('#file_photo').bind('change', function() {
-		alert();
+		// alert();
 		var a=(this.files[0].size);///alert(a);
 		if(a > 100000) {
 			$('#file_photo').val('');
