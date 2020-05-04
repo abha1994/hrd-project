@@ -10,6 +10,7 @@ use App\Internship;
 use App\Nres\fellowship\condidatereference;
 use App\Nres\fellowship\fellowsolarreferences;
 use App\Nres\fellowship\education;
+use App\Nres\fellowship\internCourse;
 use DB;
 
 class fellowshipController extends Controller
@@ -200,14 +201,14 @@ class fellowshipController extends Controller
 		for($i=0;$i<count($request->courseid);$i++)
 		{
 		
-		        $education['fellowship_id'] = $last_id;
-                $education['courseid'] = $request->courseid[$i];
+		        $education['candidate_id'] = $last_id;
+                $education['course_id'] = $request->courseid[$i];
                 $education['institute'] = $request->institute[$i];
                 $education['stream'] = $request->stream[$i];
-				$education['passstatus'] = $request->passstatus[$i];
-				$education['yearcompletion'] = $request->yearcompletion[$i];
-				$education['markspercentage'] = $request->markspercentage[$i];
-            education::create($education); // insert record in education table
+				$education['pass_status'] = $request->passstatus[$i];
+				$education['year_completion'] = $request->yearcompletion[$i];
+				$education['marks_percentage'] = $request->markspercentage[$i];
+            internCourse::create($education); // insert record in education table
 		}
 		
 		}
@@ -229,7 +230,13 @@ class fellowshipController extends Controller
 		
        // $data = fellowship::with('educations','condidatereferences')->findOrFail($id);       
          $data = DB::table('internship_tbl')->where('candidate_id',$id)->first();    
-         $educations = DB::table('educations')->where('fellowship_id',$id)->get();  
+         ////$educations = DB::table('intern_course_details')->where('candidate_id',$id)->get(); 
+           $educations = DB::table('intern_course_details')
+            ->leftJoin('courses', 'intern_course_details.course_id', '=', 'courses.course_id')
+			->select('intern_course_details.*', 'courses.course_name')
+			->where(['candidate_id' =>$id])
+            ->get();
+			
          $country = DB::table('country')->where('countrycd',$data->countrycd)->first();
          $state = DB::table('state_master')->where('statecd',$data->statecd)->first();
          $distric = DB::table('district_master')->where('districtcd',$data->districtcd)->first();

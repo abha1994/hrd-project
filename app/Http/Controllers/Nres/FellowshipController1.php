@@ -6,13 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use App\Nres\fellowship\fellowship;
-use App\Internship\Internship;
-// use App\Nres\fellowship\condidatereference;
+use App\Internship;
+use App\Nres\fellowship\condidatereference;
 use App\Nres\fellowship\fellowsolarreferences;
-// use App\Nres\fellowship\education;
-use App\Nres\fellowship\internCourse;
+use App\Nres\fellowship\education;
 use DB;
-use Auth;
 
 class fellowshipController extends Controller
 {
@@ -68,10 +66,8 @@ class fellowshipController extends Controller
 		//dd($request);
         $records = $request->all();
 
-        // $all_data =  Session::get('userdata');
-        // $user_id = $all_data['candidate_id'];
-		
-		$user_id = Auth::id();
+        $all_data =  Session::get('userdata');
+        $user_id = $all_data['candidate_id'];
 		
 		//echo "<pre>"; print_r($all_data); die;
 
@@ -149,7 +145,7 @@ class fellowshipController extends Controller
                 $destinationPath = public_path('/../public/uploads/nres/fellowship');
                 $request->file('research_work')->move($destinationPath, $fileName);
                     //column name 
-                $records['research_work_doc']=$fileName;
+                $records['research_work']=$fileName;
                 
             }
         } //Research book image		
@@ -160,11 +156,11 @@ class fellowshipController extends Controller
                 'scheme_code'       =>  '02', 
             'salary'                =>  $records['salary'],
 			'special_achievement'   =>  $records['special_achievement'],
-            'area_specialization'   =>  $records['area_spc'],
+            'ar_spc'                =>  $records['area_spc'],
             'paper_published'       =>  $records['paper_published'],
 			'book_published'        =>  $records['book_published'],
 			'audio_video'           => $records['audio_video'],
-			'research_work_doc'         =>  $records['research_work_doc'],
+			'research_work'         =>  $records['research_work'],
 			'details_scholar'       => $records['details_scholar'],
             'details_awards'        =>  $records['details_awards'],
 			'why_selected'          => $records['why_selected'],
@@ -204,14 +200,14 @@ class fellowshipController extends Controller
 		for($i=0;$i<count($request->courseid);$i++)
 		{
 		
-		        $education['candidate_id'] = $last_id;
-                $education['course_id'] = $request->courseid[$i];
+		        $education['fellowship_id'] = $last_id;
+                $education['courseid'] = $request->courseid[$i];
                 $education['institute'] = $request->institute[$i];
                 $education['stream'] = $request->stream[$i];
-				$education['pass_status'] = $request->passstatus[$i];
-				$education['year_completion'] = $request->yearcompletion[$i];
-				$education['marks_percentage'] = $request->markspercentage[$i];
-            internCourse::create($education); // insert record in education table
+				$education['passstatus'] = $request->passstatus[$i];
+				$education['yearcompletion'] = $request->yearcompletion[$i];
+				$education['markspercentage'] = $request->markspercentage[$i];
+            education::create($education); // insert record in education table
 		}
 		
 		}
@@ -233,13 +229,7 @@ class fellowshipController extends Controller
 		
        // $data = fellowship::with('educations','condidatereferences')->findOrFail($id);       
          $data = DB::table('internship_tbl')->where('candidate_id',$id)->first();    
-         ////$educations = DB::table('intern_course_details')->where('candidate_id',$id)->get(); 
-           $educations = DB::table('intern_course_details')
-            ->leftJoin('courses', 'intern_course_details.course_id', '=', 'courses.course_id')
-			->select('intern_course_details.*', 'courses.course_name')
-			->where(['candidate_id' =>$id])
-            ->get();
-			
+         $educations = DB::table('educations')->where('fellowship_id',$id)->get();  
          $country = DB::table('country')->where('countrycd',$data->countrycd)->first();
          $state = DB::table('state_master')->where('statecd',$data->statecd)->first();
          $distric = DB::table('district_master')->where('districtcd',$data->districtcd)->first();

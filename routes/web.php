@@ -105,8 +105,7 @@ Route::post('/api/admin-institute-considered', 'Nref\admin\UniversityController@
 
 
 Route::get('/nres-home', 'Nres\admin\NreshomeController@index')->name('nres-home');
-Route::get('/fellowship-solar-form/create', 'Nres\fellowship\FellowshipController@create')->name('/fellowship-solar-form');
-Route::get('/fellowship-solar-form/{id}', 'Nres\fellowship\FellowshipController@show')->name('/fellowship-solar-form');
+Route::resource('fellowship-solar-form','Nres\fellowship\fellowshipController');
 
 Route::get('/attendance-solar-form', 'Nres\AttendanceController@index')->name('/attendance-solar-form');
 Route::get('add_attendance', 'Nres\AttendanceController@add_attendance')->name('add_attendance');
