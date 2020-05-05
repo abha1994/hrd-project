@@ -169,9 +169,23 @@ class AdminInternshipController extends Controller
 								$editUrl = url('/admin-internship-edit/'.$candidate_id);
 								$viewUrl = url('/admin-internship-view/'.$candidate_id);
 								$deleteUrl = url('/admin-internship-delete/'.$candidate_id);
+								
+								if (Auth::user()->can('considered-internship-by-level1-edit', App\Model::class)){
 								   $edit = '<a href="'.$editUrl.'"><i class="fa fa-edit"  data-toggle="tooltip" title="Edit"></i></a>';
+								}else{
+									$edit = '';
+								}
+								
+								if (Auth::user()->can('considered-internship-by-level1-list', App\Model::class)){
 								   $view = '<a href="'.$viewUrl.'"><i class="fa fa-eye" data-toggle="tooltip" title="View"></i></a>';
+								} else{
+									$view = '';
+								} 
+								if (Auth::user()->can('considered-internship-by-level1-delete', App\Model::class)){
 								   $delete =  "<a href='".$deleteUrl."' data-toggle='tooltip' title='Delete'   onclick=\"return confirm('Are you sure you want to delete?')\"><i class='fa fa-trash'></i></a>";
+								}else{
+									$delete = '';
+								}
   								   return $edit.' '.$view.' '.$delete;
 						   })
 					 ->rawColumns(['action','first_name','intern_duration','date_entry'])
@@ -219,14 +233,20 @@ class AdminInternshipController extends Controller
 								$deleteUrl = url('/admin-internship-delete/'.$candidate_id);
 								
 								
-							if (Auth::user()->can('forward-to-committee-edit', App\Model::class)){	
+							if (Auth::user()->can('forward-to-committee-internship-edit', App\Model::class)){	
 							   $edit = '<a href="'.$editUrl.'"><i class="fa fa-edit"  data-toggle="tooltip" title="Edit"></i></a>';
+							}else{
+								$edit = '';
 							}
-							if (Auth::user()->can('forward-to-committee-list', App\Model::class)){
+							if (Auth::user()->can('forward-to-committee-internship-list', App\Model::class)){
 							   $view = '<a href="'.$viewUrl.'"><i class="fa fa-eye" data-toggle="tooltip" title="View"></i></a>';
+							}else{
+								$view = '';
 							}
-							if (Auth::user()->can('forward-to-committee-delete', App\Model::class)){
+							if (Auth::user()->can('forward-to-committee-internship-delete', App\Model::class)){
 							   $delete =  "<a href='".$deleteUrl."' data-toggle='tooltip' title='Delete'  onclick=\"return confirm('Are you sure you want to delete?')\"><i class='fa fa-trash'></i></a>";
+							}else{
+								$delete = '';
 							}
 								
 						     
@@ -282,9 +302,21 @@ class AdminInternshipController extends Controller
 								$viewUrl = url('/admin-internship-view/'.$candidate_id);
 								$deleteUrl = url('/admin-internship-delete/'.$candidate_id);
 								
+								if (Auth::user()->can('rejected-internship-edit', App\Model::class)){
 								   $edit = '<a href="'.$editUrl.'"><i class="fa fa-edit"  data-toggle="tooltip" title="Edit"></i></a>';
+								}else{
+									$edit = '';
+								}
+								if (Auth::user()->can('rejected-internship-list', App\Model::class)){
 								   $view = '<a href="'.$viewUrl.'"><i class="fa fa-eye" data-toggle="tooltip" title="View"></i></a>';
+								}else{
+									$view = '';
+								}
+								if (Auth::user()->can('rejected-internship-delete', App\Model::class)){
 								   $delete =  "<a href='".$deleteUrl."' data-toggle='tooltip' title='Delete'  onclick=\"return confirm('Are you sure you want to delete?')\"><i class='fa fa-trash'></i></a>";
+								}else{
+									$delete = '';
+								}
 								
 								
 								// if($row->officer_role_id == "1"){ 
@@ -354,9 +386,21 @@ class AdminInternshipController extends Controller
 								$viewUrl = url('/admin-internship-view/'.$candidate_id);
 								$deleteUrl = url('/admin-internship-delete/'.$candidate_id);
 								
+								if (Auth::user()->can('Selected-internship-edit', App\Model::class)){
 								 $edit = '<a href="'.$editUrl.'"><i class="fa fa-edit"  data-toggle="tooltip" title="Edit"></i></a>';
+							    }else{
+									$edit = '';
+								}
+								if (Auth::user()->can('Selected-internship-list', App\Model::class)){
 								 $view = '<a href="'.$viewUrl.'"><i class="fa fa-eye" data-toggle="tooltip" title="View"></i></a>';
+								}else{
+									$view = '';
+								}
+								if (Auth::user()->can('Selected-internship-delete', App\Model::class)){
 								 $delete =  "<a href='".$deleteUrl."' data-toggle='tooltip' title='Delete'  onclick=\"return confirm('Are you sure you want to delete?')\"><i class='fa fa-trash'></i></a>";
+								}else{
+									$delete = '';
+								}
 								 return $selected.' '.$edit.' '.$view.' '.$delete;
 						   })
 				 ->rawColumns(['action','first_name','intern_duration','date_entry'])
