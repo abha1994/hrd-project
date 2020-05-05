@@ -479,7 +479,7 @@
 									<div class="col-md-3">
 										<b for="name" style="font-size: 13px;" class="control-label">ID Proof</b> 
 										<?php  if(!empty($data['internship_data']->file_id_proof)){ ?>
-										<a href="{{asset('public/uploads/internship/id_proof/'.$internship_data->file_id_proof)}}">Download Id Proof</a>
+										<a href="{{asset('public/uploads/internship/id_proof/'.$internship_data->file_id_proof)}}" target="_blank" >Download Id Proof</a>
 										 <?php  }else{ ?><a style="color:green;  font-size:12px">N/A</a> <?php  }?> 		
 										 
 										<!--<?php //if($internship_data->id_proof_type == "1"){?>
@@ -496,7 +496,7 @@
 									<div class="col-md-3">
 										<b for="name" class="control-label" style="font-size: 13px;">Experience</b>
 										<?php  if(!empty($data['internship_data']->file_experience)){ ?>
-										<a href="{{asset('public/uploads/internship/experience/'.$internship_data->file_experience)}}">Download Experience</a>
+										<a href="{{asset('public/uploads/internship/experience/'.$internship_data->file_experience)}}" target="_blank" >Download Experience</a>
 										 <?php  }else{ ?><a style="color:green;  font-size:12px">N/A</a> <?php  }?> 		
 									 </div>
 									 <div class="col-md-2">
