@@ -96,6 +96,12 @@ Route::get('/universitySelected', 'Nref\admin\UniversityController@index5')->nam
 Route::get('/final-selected-university/{id}', 'Nref\admin\UniversityController@final_selected_university')->name('final-selected-university');
 
 Route::post('/api/admin-institute-considered', 'Nref\admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
+
+
+Route::get('/attendanceAdmin', 'Nref\admin\AttendanceController@index')->name('/attendanceAdmin');
+Route::post('/attendanceAdmin-form-post', 'Nref\admin\AttendanceController@attendance_form_post')->name('attendanceAdmin-form-post');
+Route::get('/attendanceAjaxadmin', 'Nref\admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
+
 //******************Admin**************************//
 
  
