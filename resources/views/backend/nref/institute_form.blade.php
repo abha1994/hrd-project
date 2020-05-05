@@ -15,7 +15,7 @@
         <li class="breadcrumb-item active">Institute Details Form</li>
       </ol>
 	    <!-- Icon Cards-->
-	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
+	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;" id="modalCont">
 	     @if ($message = Session::get('success'))
 		<div class="alert alert-success alert-block" style="">
 	        <button type="button" class="close" data-dismiss="alert">×</button>	
@@ -56,11 +56,12 @@
 									
 									<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Name of the Department</label>
-										<input type="text"  class="form-control" value="<?php if(!empty($inst_data->department_name)){ ?>{{ $inst_data->department_name }} <?php } ?>"  id="dept_name" placeholder="Name of the department" name="dept_name">
+										<input type="text"  class="form-control dept_name" value="<?php if(!empty($inst_data->department_name)){ ?>{{ $inst_data->department_name }} <?php } ?>"  id="dept_name" placeholder="Name of the department" name="dept_name" 
+										@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
 									</div>
 									<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Coordinator of the Proposed Program</label>
-										<input type="text"  class="form-control"  value="<?php if(!empty($inst_data->coordinate_prog)){ ?>{{ $inst_data->coordinate_prog }} <?php } ?>" id="coordinate_prog" placeholder="Coordinator of the Proposed Program" name="coordinate_prog">
+										<input type="text"  class="form-control coordinate_prog"  value="<?php if(!empty($inst_data->coordinate_prog)){ ?>{{ $inst_data->coordinate_prog }} <?php } ?>" id="coordinate_prog" placeholder="Coordinator of the Proposed Program" name="coordinate_prog" @if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
 									</div>
 								</div> 
 							</div>
@@ -70,7 +71,8 @@
 								<div class="row">
 									<div class="col-md-3">
 									<label for="name"  style="font-size: 13px;" class="control-label">Type of Institution</label>
-										<select class="form-control" name="type_of_institute"  id="type_of_institute">
+										<select class="form-control type_of_institute" name="type_of_institute"  id="type_of_institute" 
+										@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										    <option value="">Type of Institution</option>
 											@foreach($type_institute as $val)
 											<option value="{{$val->institute_type_id}}"  
@@ -82,22 +84,13 @@
 											} 
 											?>>{{$val->institute_desc}}</option>
 											@endforeach
-											<option value="other" <?php if(!empty($inst_data->institute_type_id)) { if($inst_data->institute_type_id=='other') { echo 'Selected'; } } ?>>Other</option>
 								   	    </select>
 									</div>
 									
 									
-									<div class="col-md-4 inst_type" style="padding:2em">
-									<input name="inst_other_type" type="radio" value="iit" <?php if(!empty($inst_data->inst_other_type)) { if($inst_data->inst_other_type=='iit') { echo 'checked'; } }  ?>> IIT
-									<input name="inst_other_type" type="radio" value="nit" <?php if(!empty($inst_data->inst_other_type)) { if($inst_data->inst_other_type=='nit') { echo 'checked'; } }  ?>> NIT
-									<input name="inst_other_type" type="radio" value="iiscer" <?php if(!empty($inst_data->inst_other_type)) { if($inst_data->inst_other_type=='iiscer') { echo 'checked'; } } ?>> IISCER
-									<input name="inst_other_type" type="radio" value="iisc" <?php if(!empty($inst_data->inst_other_type)) { if($inst_data->inst_other_type=='iisc') { echo 'checked'; } } ?>> IISc
-							</div>
-									
-									
 									<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">University Ranking as per UGC</label>
-										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control"  value="<?php if(!empty($inst_data->university_rank)){ ?>{{ $inst_data->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank">
+										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control university_rank"  value="<?php if(!empty($inst_data->university_rank)){ ?>{{ $inst_data->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank" @if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 									</div>
 								</div> 
 							</div>
@@ -107,7 +100,7 @@
 								
 								<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Please enclosed a copy of last annual report</label>
-										<input name="annual_report" type="file" class="form-control" value="{{ old('annual_report')}}" id="annual_report">
+										<input name="annual_report" type="file" class="form-control annual_report" value="{{ old('annual_report')}}" id="annual_report" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
 									    @if ($errors->has('annual_report'))
 											<span class="invalid-feedback " role="alert">
@@ -120,10 +113,17 @@
 										 </div>
 									   @endif
 									</div>
+									
+									@if(isset($inst_data->annual_report) && $inst_data->final_submit==1)
+								<div class="col-md-4 hideannualReport">
+								<p>&nbsp;</p>
+								<a href="{{ asset('public/uploads/nref/annual_report/'.$inst_data->annual_report) }}" download><?php if($inst_data->annual_report) { echo $inst_data->annual_report; } ?></a>
+								</div>
+								@endif
 								
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;" class="control-label">Years of Establishment</label>
-										<input class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="4" value="<?php if(!empty($inst_data->year_establishment)){ ?>{{$inst_data->year_establishment}}<?php } ?>" id="yr_est" placeholder="Years of Establishment" name="yr_est">
+										<input class="form-control yr_est" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="4" value="<?php if(!empty($inst_data->year_establishment)){ ?>{{$inst_data->year_establishment}}<?php } ?>" id="yr_est" placeholder="Years of Establishment" name="yr_est" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('yr_est'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('yr_est') }}</strong>
@@ -133,7 +133,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students</label>
-										<input class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" value="<?php if(!empty($inst_data->no_student)){ ?>{{$inst_data->no_student}}<?php } ?>" id="apx_stdnt" placeholder="Approx. Number of Students" name="apx_stdnt">
+										<input class="form-control apx_stdnt" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" value="<?php if(!empty($inst_data->no_student)){ ?>{{$inst_data->no_student}}<?php } ?>" id="apx_stdnt" placeholder="Approx. Number of Students" name="apx_stdnt" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('apx_stdnt'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('apx_stdnt') }}</strong>
@@ -150,9 +150,9 @@
 							  <div class="form-group">
 								<div class="row">
 									
-									<div class="col-md-6">
+									<div class="col-md-6 file_course_proof">
 									<label for="name"  style="font-size: 13px;" class="control-label">Name and Qualification of the Faculty Members attached to the course</label>
-										<input name="file_course_proof" type="file" class="form-control" value="{{ old('file_course_proof')}}" id="file_course_proof">
+										<input name="file_course_proof" type="file" class="form-control" value="{{ old('file_course_proof')}}" id="file_course_proof" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_course_proof_error"> </span>										
 									    @if ($errors->has('file_course_proof'))
 											<span class="invalid-feedback " role="alert">
@@ -166,10 +166,17 @@
 									   @endif
 									</div>
 									
+								@if(isset($inst_data->faculty_details) && $inst_data->final_submit==1)
+								<div class="col-md-6 file_course_proof">
+								<p>&nbsp;</p>
+								<a href="{{ asset('public/uploads/nref/'.$inst_data->faculty_details) }}" download><?php if($inst_data->faculty_details) { echo $inst_data->faculty_details; } ?></a>
+								</div>
+								@endif
+									
 									<div class="col-md-3">
 									
              <label for="name"  style="font-size: 13px;" class="control-label">Any Collaborative Institute</label>
-                                        <select name="collab_inst" id="collab_inst" class="form-control">
+                                        <select name="collab_inst" id="collab_inst" class="form-control collab_inst" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										    <option value="">----- Select -----</option>
 											<option value="yes" <?php if(!empty($inst_data->any_collaboration)) { ?> @if($inst_data->any_collaboration=='yes') selected @endif <?php } ?>>Yes</option>
 											<option value="no" <?php if(!empty($inst_data->any_collaboration)) { ?> @if($inst_data->any_collaboration=='no') selected @endif <?php } ?>>No</option>
@@ -177,14 +184,15 @@
 										</select>
 										
 									</div>
-
-
-                                     <div class="col-md-3 colab_inst_yes" style="padding:2em 0em 0em 1em">
-									@if(!empty($inst_data->research_phd)) <?php $ss=explode(',',$inst_data->research_phd); //echo '<pre>';print_r($ss); ?>@endif
-									<input name="resrch_phd[]" type="checkbox" value="Research" id="research" class="resrch_phd" <?php if(!empty($inst_data->research_phd)) { ?> @if($ss[0]=='Research') checked @endif <?php } ?>> Research
-									<input name="resrch_phd[]" type="checkbox" value="Ph. D Registration" id="phd" class="resrch_phd" <?php if(!empty($inst_data->research_phd)) { ?> @if($ss[1]=='Ph. D Registration') checked @endif <?php } ?>> Ph. D Registration
+									
+									<div class="col-md-3 colab_inst_yes" style="padding:2em 0em 0em 1em">
+									@if(isset($inst_data->research_phd)) <?php $ss=explode(',',$inst_data->research_phd); //echo '<pre>';print_r($ss); echo count($ss);die; ?>@endif
+									<input name="resrch_phd[]" type="checkbox" value="Research" id="research" class="resrch_phd research" @if(isset($inst_data->research_phd)) <?php if(count($ss)>0) { for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Research') { echo "checked";} } } ?> @endif @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif> Research
+									<input name="resrch_phd[]" type="checkbox" value="Ph. D Registration" id="phd" class="resrch_phd phd" @if(isset($inst_data->research_phd)) <?php if(count($ss)>0) { for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Ph. D Registration') { echo "checked";} } }  ?>@endif @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif> Ph. D Registration
                                         
 									</div>
+
+
 									
 								</div>
 							</div>
@@ -193,7 +201,7 @@
 								<div class="row">
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Experience in Energy related courses</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->energy_experience)){ ?>{{$inst_data->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course">
+										<input type="text" class="form-control exp_energy_course" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->energy_experience)){ ?>{{$inst_data->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('exp_energy_course'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('exp_energy_course') }}</strong>
@@ -206,7 +214,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Since when the course being run</label>
-										<input type="text" class="form-control" value="<?php if(!empty($inst_data->course_start_date)){ ?>{{date('Y-m-d',strtotime($inst_data->course_start_date))}}<?php } ?>" id="course_run" placeholder="Since when the course being run" name="course_run">
+										<input type="text" class="form-control course_run" value="<?php if(!empty($inst_data->course_start_date)){ ?>{{date('Y-m-d',strtotime($inst_data->course_start_date))}}<?php } ?>" id="course_run" placeholder="Since when the course being run" name="course_run" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('course_run'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('course_run') }}</strong>
@@ -216,7 +224,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Number of Seats in each of the course</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->no_of_seat)){ ?>{{$inst_data->no_of_seat}}<?php } ?>" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course">
+										<input type="text" class="form-control no_seat_course" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->no_of_seat)){ ?>{{$inst_data->no_of_seat}}<?php } ?>" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('no_seat_course'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('no_seat_course') }}</strong>
@@ -227,7 +235,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) Specialization offered</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->specialization_offered)){ ?>{{$inst_data->specialization_offered}}<?php } ?>" id="spl_offer" placeholder="Specialization offered" name="spl_offer">
+										<input type="text" class="form-control spl_offer" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->specialization_offered)){ ?>{{$inst_data->specialization_offered}}<?php } ?>" id="spl_offer" placeholder="Specialization offered" name="spl_offer" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('spl_offer'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('spl_offer') }}</strong>
@@ -237,7 +245,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">D) If any industry collaboration is there, if so details thereof</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->industry_collaboration)){ ?>{{$inst_data->industry_collaboration}}<?php } ?>" id="indus_collab" placeholder="If any industry collaboration is there, if so details thereof" name="indus_collab">
+										<input type="text" class="form-control indus_collab" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->industry_collaboration)){ ?>{{$inst_data->industry_collaboration}}<?php } ?>" id="indus_collab" placeholder="If any industry collaboration is there, if so details thereof" name="indus_collab" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('indus_collab'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('indus_collab') }}</strong>
@@ -246,25 +254,38 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">E) If placement service is being provided</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->placement_details)){ ?>{{$inst_data->placement_details}}<?php } ?>" id="place_service" placeholder="If placement service is being provided" name="place_service">
+									
+                                  <label for="name"  style="font-size: 12px;" class="control-label">E) If placement service is being provided</label>
+                                        <select name="place_service" id="place_service" class="form-control place_service" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										    <option value="">----- Select -----</option>
+											<option value="yes" <?php if(!empty($inst_data->placement_details)){ ?>@if($inst_data->placement_details=='yes') selected @endif <?php } ?>>Yes</option>
+											<option value="no" <?php if(!empty($inst_data->placement_details)){ ?>@if($inst_data->placement_details=='no') selected @endif <?php } ?>>No</option>
+											
+										</select>
+										
 										@if ($errors->has('place_service'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('place_service') }}</strong>
 											</span>
 										@endif
+										
 									</div>
 									
 									
-									<div class="col-md-4">
+									<div class="col-md-4" style="display:none;" id="prevstd">
 									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
-										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof">
+										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_prevStudent_proof_error"> </span>										
 									    @if ($errors->has('file_prevStudent_proof'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('file_prevStudent_proof') }}</strong>
 											</span>
 										@endif
+										
+										@if(isset($inst_data->file_prevStudent_proof) && $inst_data->final_submit==1)
+										<a href="{{ asset('public/uploads/nref/'.$inst_data->file_prevStudent_proof) }}" download><?php if($inst_data->file_prevStudent_proof) { echo $inst_data->file_prevStudent_proof; } ?></a>
+										@endif
+										
 										@if ($file_prevStudent_proof_error = Session::get('ex_error'))
 										 <div class="alert" style="color:red">
 										   <strong>{{ $file_prevStudent_proof_error }}</strong>
@@ -273,8 +294,8 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">G) Any other details</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->other_details)){ ?>{{$inst_data->other_details}}<?php } ?>" id="other_details" placeholder="Any other details" name="other_details">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label"><span id='val1d' class="val1d"></span>) Any other details</label>
+										<input type="text" class="form-control other_details" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->other_details)){ ?>{{$inst_data->other_details}}<?php } ?>" id="other_details" placeholder="Any other details" name="other_details" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('other_details'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('other_details') }}</strong>
@@ -285,7 +306,7 @@
 									
 									<div class="col-md-6">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Sponsored Projects in the area of Energy, Environment and Renewable Energy</label>
-										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->spon_project)){ ?>{{$inst_data->spon_project}}<?php } ?>" id="spon_project" placeholder="Sponsored Projects in the area of Energy, Environment and Renewable Energy" name="spon_project">
+										<input type="text" class="form-control spon_project" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->spon_project)){ ?>{{$inst_data->spon_project}}<?php } ?>" id="spon_project" placeholder="Sponsored Projects in the area of Energy, Environment and Renewable Energy" name="spon_project" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('spon_project'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('spon_project') }}</strong>
@@ -303,7 +324,7 @@
 								<div class="row">
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.Tech.</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_mtech)){ ?>{{$inst_data->fellowship_mtech}}<?php } ?>" id="mtech" placeholder="M.Tech." name="mtech">
+										<input type="text" class="form-control mtech" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_mtech)){ ?>{{$inst_data->fellowship_mtech}}<?php } ?>" id="mtech" placeholder="M.Tech." name="mtech" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('mtech'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('mtech') }}</strong>
@@ -313,7 +334,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">JRF</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_jrf)){ ?>{{$inst_data->fellowship_jrf}}<?php } ?>" id="jrf" placeholder="JRF" name="jrf">
+										<input type="text" class="form-control jrf" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_jrf)){ ?>{{$inst_data->fellowship_jrf}}<?php } ?>" id="jrf" placeholder="JRF" name="jrf" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('jrf'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('jrf') }}</strong>
@@ -323,7 +344,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">SRF</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_srf)){ ?>{{$inst_data->fellowship_srf}}<?php } ?>" id="srf" placeholder="SRF" name="srf">
+										<input type="text" class="form-control srf" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_srf)){ ?>{{$inst_data->fellowship_srf}}<?php } ?>" id="srf" placeholder="SRF" name="srf" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('srf'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('srf') }}</strong>
@@ -333,30 +354,10 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.SC.</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_msc)){ ?>{{$inst_data->fellowship_msc}}<?php } ?>" id="msc" placeholder="M.SC." name="msc">
+										<input type="text" class="form-control msc" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_msc)){ ?>{{$inst_data->fellowship_msc}}<?php } ?>" id="msc" placeholder="M.SC." name="msc" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('msc'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('msc') }}</strong>
-											</span>
-										@endif
-									</div>
-									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">RA</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_ra)){ ?>{{$inst_data->fellowship_ra}}<?php } ?>" id="ra" placeholder="RA" name="ra">
-										@if ($errors->has('ra'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('ra') }}</strong>
-											</span>
-										@endif
-									</div>
-									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">PDF</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->fellowship_pdf)){ ?>{{$inst_data->fellowship_pdf}}<?php } ?>" id="pdf" placeholder="PDF." name="pdf">
-										@if ($errors->has('pdf'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('pdf') }}</strong>
 											</span>
 										@endif
 									</div>
@@ -369,7 +370,7 @@
 								<div class="row">
 								<div class="col-md-12">
 								
-								<input id="certified" name="certified" type="checkbox" value="1" <?php if(!empty($inst_data->certified_status)){ if($inst_data->certified_status==1) { echo 'checked'; } } ?> /> <span>We Certified that the information have been verified and correct</span>
+								<input id="certified" class="certified" name="certified" type="checkbox" value="1" <?php if(!empty($inst_data->certified_status)){ if($inst_data->certified_status==1) { echo 'checked'; } } ?> @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif /> <span>We Certified that the information have been verified and correct</span>
 					
 								</div>
 								
@@ -377,53 +378,53 @@
 								</div>
 								</div>
 								
-								<br><br><br>
-								
-								<div class="form-group">
+							<div class="form-group">
+							
+							@if (!empty((array) $inst_data))
 								<div class="row">
 								
-								<div class="col-md-4">
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Department with Seal</label>
-										<p style="background-color: brown;color: white;text-align:center">Signature</p>
-									
-								</div>
+								
 								
 								<div class="col-md-4">
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Dean with Seal</label>
-										<p style="background-color: brown;color: white;text-align:center">Signature</p>
-									
-								</div>
-								
-								<div class="col-md-4">
-								
-								
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Registrar with Seal</label>
-										<p style="background-color: brown;color: white;text-align:center">Signature</p>
-									
-								</div>
-								</div>
-								</div>
-								
-								<br><br><br>
-
-							
-							
-							
-							<div class="form-group">
-								
-							<div>
-							
-							<div class="form-group">
-								<div class="row">
-								
-								<div class="col-md-4">
-								<!--<a href="" download><input type="button" class="btn btn-primary " name="download" value="Download" style="padding: 1em 1em;"/></a>-->
+								@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit!=1) {  ?>
 								<a href="{{ route('pdfview',['download'=>'pdf']) }}">Download PDF</a>
+								<?php } ?> @endif
 								</div>
+								
+									@endif
 									
-									<div class="col-md-4">
-										<label for="name"  style="font-size: 13px;" class="control-label">Upload With Signature</label> 
-										<input name="file_upload_signature" type="file" class="form-control" id="file_upload_signature" value="{{ old('file_upload_signature')}}">
+			
+			
+								</div> 
+								
+								
+							
+							
+							<hr>
+							
+							@if (empty((array) $inst_data))
+									
+							<center>
+								<div class="form-group" >
+									
+									<input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Submit">
+									<button type="button" id="prevButton" class="btn btn-primary buttonEvent" data-toggle="modal" data-target="#myModal">Preview</button>
+									
+							</center>
+							
+							
+							</form>
+							@else
+								</form>
+							
+							<form enctype="multipart/form-data" action="{{ route('institute-form-post-final') }}" autocomplete="off" id="institute_formFinal" method="POST" >
+			{!! csrf_field() !!}
+			
+			                    <div class="row">
+								
+			                    <div class="col-md-4">
+										<label for="name"  style="font-size: 12px;" class="control-label">Upload With Signature</label> 
+										<input name="file_upload_signature" type="file" class="form-control" id="file_upload_signature" value="{{ old('file_upload_signature')}}" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style="font-size: 12px;"id="file_upload_signature_error"> </span>		
 										@if ($errors->has('file_upload_signature'))
 											<span class="invalid-feedback " role="alert">
@@ -437,33 +438,103 @@
 									   @endif
 										
 									</div>
-			
-			
-								</div> 
-							</div>
-							
-							<hr>
-							
-							
-								@if (empty((array) $inst_data))
+									
+								@if(isset($inst_data->file_upload_signature))
+								<div class="col-md-4">
+								<p>&nbsp;</p>
+								<a href="{{ asset('public/uploads/nref/'.$inst_data->file_upload_signature) }}" download><?php if($inst_data->file_upload_signature) { echo $inst_data->file_upload_signature; } ?></a>
+								</div>
+								@endif
+								
+								
+									</div>
+									<hr>
+									
+								@if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit!=1) { ?>
 							<center>
 								<div class="form-group" >
 								    <!--<p style="padding-top:5px; color:#993333;font-weight: bold;">Your Registration details are non editable once submitted. Please Verify that the above details are correct.</p>-->
 									
-									<input class="btn btn-primary " type="submit"  value="Submit">
-									<!--<input name="preview" type="button" id="preview" class="btn btn-primary" value="Preview" onclick="preview_display();">-->
-									<a href="{{ route('preview') }}" class="btn btn-primary" target="_blank">Preview</a>
+									<input class="btn btn-primary " type="submit" value="Final Submit">
 								</div> 
 							</center>
+								<?php } ?> @endif
+							
+							 </form>
+							
 							@endif
 							
-				    </form>
-                </div>
-            </div>
-         </div>
+							</form>
+							
+                
+            
      </div>
 	</div> 
  </div>
+ 
+ <!-- Modal Form -->
+	 
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          
+        </div>
+        <div class="modal-body" id="modalContent">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+	 
+	 <!-- MOdal Form -->
+	 <script>
+	 $("#prevButton").on("click",function() { 
+	 
+	// $("#modalContent .form-control").attr('readonly',true);
+	 
+	 $("#modalContent").html($("#modalCont").html());
+	 $("#modalContent .dept_name").val($("#modalCont .dept_name").val()).attr('readonly',true);
+	 $("#modalContent .coordinate_prog").val($("#modalCont .coordinate_prog").val()).attr('readonly',true);
+	 $("#modalContent .type_of_institute").val($("#modalCont .type_of_institute").val()).attr('disabled',true);
+	 $("#modalContent .university_rank").val($("#modalCont .university_rank").val()).attr('readonly',true);
+	 $("#modalContent .hideannualReport").remove();
+	 $("#modalContent .yr_est").val($("#modalCont .yr_est").val()).attr('readonly',true);
+	 $("#modalContent .apx_stdnt").val($("#modalCont .apx_stdnt").val()).attr('readonly',true);
+	 $("#modalContent .file_course_proof").remove();
+	 $("#modalContent .collab_inst").val($("#modalCont .collab_inst").val()).attr('disabled',true);
+	 if ($("#research").is( ":checked")) { $(".research").prop('checked',true); }
+	 if ($("#phd").is( ":checked")) { $(".phd").prop('checked',true); }
+	 $("#modalContent .resrch_phd").attr('disabled',true);
+	 $("#modalContent .exp_energy_course").val($("#modalCont .exp_energy_course").val()).attr('readonly',true);
+	 $("#modalContent .course_run").val($("#modalCont .course_run").val()).attr('readonly',true);
+	 $("#modalContent .no_seat_course").val($("#modalCont .no_seat_course").val()).attr('readonly',true);
+	 $("#modalContent .spl_offer").val($("#modalCont .spl_offer").val()).attr('readonly',true);
+	 $("#modalContent .indus_collab").val($("#modalCont .indus_collab").val()).attr('readonly',true);
+	 $("#modalContent .place_service").val($("#modalCont .place_service").val()).attr('disabled',true);
+	 $("#modalContent #prevstd").remove();
+	 
+	 
+	 
+	 if($("#modalContent #place_service option:selected").val() == 'yes'){ $(".val1d").text('F');}
+	 
+	 $("#modalContent .other_details").val($("#modalCont .other_details").val()).attr('disabled',true);
+	 $("#modalContent .spon_project").val($("#modalCont .spon_project").val()).attr('disabled',true);
+	 $("#modalContent .mtech").val($("#modalCont .mtech").val()).attr('readonly',true);
+	 $("#modalContent .jrf").val($("#modalCont .jrf").val()).attr('readonly',true);
+	 $("#modalContent .srf").val($("#modalCont .srf").val()).attr('readonly',true);
+	 $("#modalContent .msc").val($("#modalCont .msc").val()).attr('readonly',true);
+	 if ($("#certified").is( ":checked")) { $(".certified").prop('checked',true); }
+	 $("#modalContent .buttonEvent").remove();
+	 
+					
+					
+	 });
+	 </script>
+	 
   <!--script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
 
 	 <style>
