@@ -470,8 +470,8 @@
             
      </div>
 	</div> 
- </div>
- 
+ </div> </div> </div> 
+
  <!-- Modal Form -->
 	 
 	<div class="modal fade" id="myModal" role="dialog">

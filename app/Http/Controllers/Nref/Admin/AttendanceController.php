@@ -11,11 +11,12 @@ use Validator,Redirect;
 use App\Http\Requests\Form_validation;
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+         $this->middleware('permission:nref-student-attendance', ['only' => ['index','show']]);
+      
+
+    }
     public function index()
     {
 		

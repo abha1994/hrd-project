@@ -2,10 +2,8 @@
 
 @section('container')
 
-
-<?php //echo "<pre>"; print_r($data); die; ?>
 <link href="css/progress-wizard.min.css" rel="stylesheet">
- <div class="content-wrapper" >
+ <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
@@ -14,9 +12,9 @@
         </li>
         <li class="breadcrumb-item active"> </li>
       </ol>
-	    
+	   
      <div class="card card-login mx-auto mt-5" style="max-width: 65rem;">
-   							   
+ 					   
       <div class="card-header text-center">Status Details</div>
       <div class="card-body">
  
@@ -32,58 +30,8 @@
 					  <li>View map</li>
                   </ul-->
 				  
-				  <ul class="progress-indicator">
-				  <li class="completed"> <span class="bubble"></span> InProcess </li>
-				  
-				  <?php
-				  if($data->officer_role_id==0)
-				  {
-					  $by='Super Admin';
-				  }
-				  if($data->officer_role_id==1)
-				  {
-					   $by='Admin';
-				  }
-				  
-				  if($data->officer_role_id==2)
-				  {
-					   $by='Level 1 Officer';
-				  }
-				  
-				  if($data->officer_role_id==3)
-				  {
-					   $by='Level 2 Officer';
-				  }
-				  
-				  if($data->officer_role_id==4)
-				  {
-					   $by='Committee';
-				  }
-				  
-				  if($data->officer_role_id==5)
-				  {
-					   $by='Link Officer';
-				  }
-				  
-				  ?>
-					  
-					  <?php if($data->status_id == 1){ if($data->officer_role_id != 1 && $data->officer_role_id != 0){ ?>
-					  <li class="completed"> <span class="bubble"></span> Considered<br>(By- <?php echo $by; ?>)  </li>
-					  <li class=""> <span class="bubble" style="background-color:##bbbbbb" ></span> Selected  </li>
-					  <?php } else { ?>
-					  <li class="completed"> <span class="bubble"></span> Considered  </li>
-					  <li class="completed"> <span class="bubble"></span> Selected <br>(By- <?php echo $by; ?>) </li>
-					  <?php } ?>
-					  <?php } if($data->status_id == 2){ ?>
-					   <li class="completed"> <span class="bubble"></span> Non Considered<br>(By- <?php echo $by; ?>)  </li>
-					   <li class=""> <span class="bubble" style="background-color:##bbbbbb" ></span> Selected  </li>
-					  <?php } ?>
-					 
-					
-					</ul>
-
-				  
-				    <!--<ul class="progress-indicator">
+				    <ul class="progress-indicator">
+					<?php if(!empty($data)){ ?>
 					  <?php if($data->status_id == 1){ ?>
 					  <li class="completed"> <span class="bubble"></span> InProcess </li>
 					  <li class="completed"> <span class="bubble"></span> Considered  </li>
@@ -101,8 +49,8 @@
 					  <li class=""> <span class="bubble" style="background-color:##bbbbbb" ></span> Considered / Non Considered  </li>
 					  <li class=""> <span class="bubble" style="background-color:##bbbbbb" ></span> Selected  </li>
 					  <?php  } ?>
-					
-					</ul>-->
+					<?php }else{ echo "No Data Found";} ?>
+					</ul>
                
 			</div><!-- end of col -->
 			</div><!-- end of row -->
