@@ -24,7 +24,8 @@ class studentRegistrationController extends Controller
      */
     public function index()
     {
-        $students = DB::table('studentregistrations')->orderBy('id','desc')->get();
+		$login_institute_id = Auth::id();//dd($login_institute_id);
+        $students = DB::table('studentregistrations')->where('institute_id',$login_institute_id)->orderBy('id','desc')->get();
         return view('backend.nref.studentRregistration.index',compact('students'));
     }
 

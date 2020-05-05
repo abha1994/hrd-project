@@ -26,7 +26,7 @@
 		if($current_url == 'admin-internship' || $current_url == 'considered-internship' || $current_url == 'rejected-internship' || $current_url == 'selecteded-internship' || $current_url == 'internship-home' || $current_url == 'forward-to-committee' || $current_url == 'selected-internship' ){
 		   $intershipMClass = 'active';
 		}
-		if($current_url == 'university' || $current_url == 'universityCons' || $current_url == 'universityNocons' || $current_url == 'universityConsAdmin' || $current_url == 'universitySelected'|| $current_url == 'nref-home'){
+		if($current_url == 'university' || $current_url == 'universityCons' || $current_url == 'universityNocons' || $current_url == 'universityConsAdmin' || $current_url == 'universitySelected'|| $current_url == 'nref-home'  || $current_url == 'attendanceAdmin'){
 		   $nrefMClass = 'active';
 		}
 		if($current_url == 'nres-home' ){
@@ -47,7 +47,6 @@
                 <!-- <i class="right fas fa-angle-left"></i> -->
               </p>
             </a>
-             
           </li>
           @can('role-list')
           <li class="nav-item">
@@ -185,7 +184,8 @@
            <!-------------------Scheme Code 1 end---------------------->
 		 <?php }else if($menu_id == "3"){?>
 		   <!-------------------Scheme Code 3 Start---------------------->
-		   @if(Gate::check('admin-nref-institute-list') || Gate::check('considered-nref-institute-by-level1-list') || Gate::check('rejected-nref-institute-list') || Gate::check('forward-to-committee-nref-institute-list') || Gate::check('Selected-nref-institute-list'))
+		   @if(Gate::check('admin-nref-institute-list') || Gate::check('considered-nref-institute-by-level1-list') || Gate::check('rejected-nref-institute-list') || Gate::check('forward-to-committee-nref-institute-list') || Gate::check('Selected-nref-institute-list') ||
+		   Gate::check('nref-student-attendance'))
           <li class="nav-item has-treeview"  id="liofficer">
             <a href="#" class="nav-link {{$nrefMClass}}">
               <i class="nav-icon fas fa-copy"></i>
@@ -242,6 +242,35 @@
               </li>
 			  @endcan
 			  
+			  
+		   <li class="nav-item has-treeview"  id="liofficer">
+            <a href="#" class="nav-link ">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Student
+                <i class="fas fa-angle-left right"></i>
+             </p>
+            </a>
+            <ul class="nav nav-treeview" id="ulofficer">
+			 <li class="nav-item">
+                <a href="" class="nav-link" id="liofficers1">
+                   <i class="nav-icon fas fa-users"></i>
+                  <p>Pending Student</p>
+                </a>
+              </li>
+			  </ul>
+          </li>
+		  
+		    @can('nref-student-attendance')
+			<li class="nav-item ">
+            <a href="{{ url('attendanceAdmin')}}" class="nav-link <?php if($current_url == 'attendanceAdmin') {echo "active";}else{ echo "";} ?>">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Student Attendance
+              </p>
+            </a>
+          </li> 
+			  @endcan
              </ul>
           </li>
            @endif
