@@ -34,13 +34,13 @@ class InstituteController extends Controller
 	public function index(Request $request)
     { 
 		$data = Institute::index();
-		return view('backend/nref/institute_form',compact('data'));
+		return view('backend/Nref/institute_form',compact('data'));
 	}
 	
 	public function previewIndex(Request $request)
     {
         $data = $request->all();
-        return view('backend/nref/preview', $data);
+        return view('backend/Nref/preview', $data);
     }
 	
 	/**
@@ -53,6 +53,8 @@ class InstituteController extends Controller
 	 /* Final Submit */
 	 
 	public function institute_form_post_final(Request $request) {
+		
+		 
 		$transactionResult = DB::transaction(function() use ($request) {
 				date_default_timezone_set('Asia/Kolkata');
 				$date = date('Y-m-d H:i:s');
@@ -61,9 +63,13 @@ class InstituteController extends Controller
 				$ip_address = $_SERVER['REMOTE_ADDR']; 
 			   
 				$user_id = Auth::user()->id;
+				
+				//echo $user_id."==="; die;
 			
 			    
 				$existRecords = DB::table('institute_details')->where('user_id', $user_id)->get();
+				
+				//echo "<pre>"; print_r($existRecords); echo $existRecords[0]->institute_id; die;
 			    $RecordsCount = $existRecords->count();
 			    if($RecordsCount==1)
 			       {
@@ -80,6 +86,7 @@ class InstituteController extends Controller
 					}
 					else
 					{
+					
 					$filedata['file_upload_signature'] = "";
 					$filedata['final_submit'] = 0;
 					}
@@ -87,7 +94,7 @@ class InstituteController extends Controller
 				/* Details of placement of previous students CODE ENDED ROCKY */
 				$curr_year = date('Y');
 				
-				$filedata['application_cd'] =  'NREF/'.$curr_year.'/'.$existRecords->institute_id;
+				$filedata['application_cd'] =  'NREF/'.$curr_year.'/'.$existRecords[0]->institute_id;
 				
 				 DB::table('institute_details')->where('user_id',$user_id)->update($filedata); 
 				

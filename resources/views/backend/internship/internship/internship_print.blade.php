@@ -469,7 +469,7 @@
 									<label><b>Experience : </b></label>
 									    <?php
 										 if(!empty($data['internship_data']->file_experience)){ ?>
-										 <a href="{{asset('public/uploads/internship/experience/'.$data['internship_data']->file_experience)}}">Download Experience</a>
+										 <a href="{{asset('public/uploads/internship/experience/'.$data['internship_data']->file_experience)}}" target="_blank" >Download Experience</a>
 										 <?php 
 										 }else{
 											   echo "N/A";
@@ -480,7 +480,7 @@
 									<label><b>ID Proof : </b></label>
 									
 									 <?php if(!empty($data['internship_data']->file_experience)){ ?>
-									<a style="cursor:pointer"; style="color:green" href="{{asset('public/uploads/internship/id_proof/'.$data['internship_data']->file_id_proof)}}" >Download ID Proof</a>
+									<a style="cursor:pointer"; style="color:green" target="_blank" href="{{asset('public/uploads/internship/id_proof/'.$data['internship_data']->file_id_proof)}}" >Download ID Proof</a>
 										 <?php 
 										 }else{
 											   echo "N/A";
