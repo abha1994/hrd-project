@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('container')
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
   
  <div class="content-wrapper" style="margin-left: 13px;">
     <div class="container-fluid">

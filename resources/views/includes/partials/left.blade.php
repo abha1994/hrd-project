@@ -243,7 +243,7 @@
 			  @endcan
 			  
 			  
-		   <li class="nav-item has-treeview"  id="liofficer">
+		   <!--li class="nav-item has-treeview"  id="liofficer">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -259,7 +259,7 @@
                 </a>
               </li>
 			  </ul>
-          </li>
+          </li-->
 		  
 		    @can('nref-student-attendance')
 			<li class="nav-item ">

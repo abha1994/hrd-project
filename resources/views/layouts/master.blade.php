@@ -9,25 +9,14 @@
 
   
  <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
-
-    <!-- Fonts -->
-    <!--<link rel="dns-prefetch" href="//fonts.gstatic.com">-->
-    <!--<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">-->
-
-
-<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<!--link href="https://use.fontawesome.com/releases/v5.0.1/css/fontawesome.css" rel="stylesheet"-->
-<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
-<!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css"> -->
-
  <script src="{{ asset('public/css/datepicker3.css') }}"></script>
 
     <!-- Styles -->
- <link href="{{ asset('public/fontawesome/css/fontawesome.css') }}" rel="stylesheet">
-  <link href="{{ asset('public/fontawesome/css/solid.css') }}" rel="stylesheet">
-   <link href="{{ asset('public/fontawesome/css/brands.css') }}" rel="stylesheet">
+<link href="{{ asset('public/fontawesome/css/fontawesome.css') }}" rel="stylesheet">
+<link href="{{ asset('public/fontawesome/css/solid.css') }}" rel="stylesheet">
+<link href="{{ asset('public/fontawesome/css/brands.css') }}" rel="stylesheet">
+<link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
