@@ -18,7 +18,7 @@
 					  <tr>
 					  	<td>
 						<input type="hidden" name="user_id[]" value="{{$attendance->id}}" />
-						{{$attendance->student_name}}
+						{{$attendance->firstname}}
 						</td>
 						
 						<td>

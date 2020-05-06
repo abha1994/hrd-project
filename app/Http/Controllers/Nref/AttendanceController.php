@@ -16,7 +16,7 @@ class AttendanceController extends Controller
     {
 		$institute_id =  Auth::id(); //login user id
 		$students = DB::table('studentregistrations')->where('institute_id',$institute_id)->orderBy('id','desc')->get();
-		$attendanceList = DB::table('candidate_attendence')->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
+		$attendanceList = DB::table('candidate_attendence')->where('institute_id',$institute_id)->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
         return view('backend.nref.attendance',compact('students','attendanceList'));
     }
 	
@@ -33,7 +33,8 @@ class AttendanceController extends Controller
         $attendanceList = DB::table('studentregistrations')
 							->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
 							->where(['month_atten' =>$val1,'year_atten'=>$val2])
-							->where('studentregistrations.institute_id',$institute_id)
+							->where('candidate_attendence.institute_id',$institute_id)
+							// ->Where('candidate_attendence.institute_id',$institute_id)
 							->orderBy('attendence_id','asc')
 							->get();
 		return view('backend.nref.attendanceAjax',compact('attendanceList','monthValueArray','students'));
