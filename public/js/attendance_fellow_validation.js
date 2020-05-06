@@ -213,6 +213,11 @@ $(document).ready(function() {
 
 $("#monthnew").change(function(){
 	
+	var getUrl = window.location;
+//var baseurl = getUrl.origin;
+//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+var folderName= getUrl.pathname.split('/')[1];
+	
 	var monthVal=$(this).val();
 	var yearr= $('#yearnew').val();
 	
@@ -222,7 +227,7 @@ $("#monthnew").change(function(){
 				"bLengthChange": false,
                 'serverMethod': 'get',
                 'ajax': {
-                    'url':'/hrd/attendanceStudentAjax',
+                    'url':'/'+folderName+'/attendanceStudentAjax',
 					'data': { monthVal,yearr }
                 },
 

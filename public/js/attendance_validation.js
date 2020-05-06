@@ -224,6 +224,11 @@ $(document).ready(function() {
 
 $("#month_atten").on("change",function() { 
 
+var getUrl = window.location;
+//var baseurl = getUrl.origin;
+//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+var folderName= getUrl.pathname.split('/')[1];
+
 
 var monVal=$(this).val();
 var yrVal=$("#year_atten").val();
@@ -244,7 +249,7 @@ else
 
 $.ajax({
     type: "get",
-    url: '/hrd/attendanceAjax', // This is what I have updated
+    url: '/'+folderName+'/attendanceAjax', // This is what I have updated
     data: { 'monVal': monVal,'yrVal':yrVal,'currentMonth':currentMonth }
 }).done(function( result ) {
     //alert( result );

@@ -59,6 +59,11 @@ $(document).ready(function() {
 
 $("#month").change(function(){
 	
+	var getUrl = window.location;
+//var baseurl = getUrl.origin;
+//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+var folderName= getUrl.pathname.split('/')[1];
+	
 	var monthVal=$(this).val();
 	var yearr= $('#year').val();
 	
@@ -68,7 +73,7 @@ var _token = $('input[name="_token"]').val();
 				"bLengthChange": false,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':'/hrd/acknowledgeAjax',
+                    'url':'/'+folderName+'/acknowledgeAjax',
 					'data': { monthVal,yearr,_token }
                 },
 

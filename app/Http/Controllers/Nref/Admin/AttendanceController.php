@@ -32,10 +32,14 @@ class AttendanceController extends Controller
 	
 	public function attendanceAjax(Request $request)
 	{
-		//echo 'Hello';
+		//echo 'Hello'; die;
+		
+		//echo "<pre>"; dd($request); die;
 		$val1=$request->input('monVal');
 		$val2=$request->input('yrVal');
 		$val3=$request->input('uni1');
+		
+		//echo $val1; die;
 	
 	if($val1)
 	{
@@ -46,6 +50,8 @@ class AttendanceController extends Controller
 			->where(['month_atten' =>$val1,'year_atten'=>$val2])
 			->orderBy('attendence_id','asc')
             ->get();
+			
+			//echo $attendanceList; die;
 	}
 	
 	if($val3)
@@ -53,26 +59,28 @@ class AttendanceController extends Controller
 		$attendanceList = DB::table('candidate_attendence')
             ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
 			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
-			->where(['institute_id' =>$val3,'year_atten'=>$val2])
+			->where(['candidate_attendence.institute_id' =>$val3,'year_atten'=>$val2])
 			->orderBy('attendence_id','asc')
             ->get();
 	}
 	
-	if($val1 && $val3)
+	 if($val1 && $val3)
 	{
 		$attendanceList = DB::table('candidate_attendence')
             ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
 			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
 			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->where(['institute_id' =>$val3,'year_atten'=>$val2])
+			->where(['candidate_attendence.institute_id' =>$val3,'year_atten'=>$val2])
 			->orderBy('attendence_id','asc')
             ->get();
-	}
+	} 
 	
 	if($val1=="" && $val3=="")
 	{
 		$attendanceList=array();
 	}
+	
+	//echo "<pre>"; print_r($attendanceList); die;
 	
 		
 		return view('backend.nref.admin.admin_attendance.attendanceAjax',compact('attendanceList'));

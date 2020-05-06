@@ -48,6 +48,13 @@
  <!------------Admin Panale select scheme_menu----------> 
  var value = $(".scheme_menu option:selected").val();
 	$(".scheme_menu").change(function(){
+		
+		var getUrl = window.location;
+        //var baseurl = getUrl.origin;
+        var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+		
+		//alert(baseurl);
+
 		var changeValue = $(".scheme_menu option:selected").val();
 		$.ajax({
 				type: 'POST',
@@ -59,11 +66,11 @@
 			   success: function(data) {
 				   
 				   if(data == "3"){
-					   window.location.replace('http://localhost/hrd/nref-home');
+					   window.location.replace(baseurl+'/nref-home');
 				   }else if(data == "1"){
-					    window.location.href = "http://localhost/hrd/internship-home";
+					    window.location.href = baseurl+"/internship-home";
 				   }else if(data == "2"){
-					    window.location.href = "http://localhost/hrd/nres-home";
+					    window.location.href = baseurl+"/nres-home";
 				   }
 				   // location.reload();
 			   }
