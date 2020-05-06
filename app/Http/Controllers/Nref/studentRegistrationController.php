@@ -232,7 +232,7 @@ class studentRegistrationController extends Controller
             'firstname'  =>  'required|min:4|max:50',
             'gender'=> 'required|in:male,female',
             'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
-            //'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
+            ////'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
             'address' => 'required|min:20|max:150',
             'dob' => 'required',

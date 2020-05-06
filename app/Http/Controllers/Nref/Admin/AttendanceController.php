@@ -27,7 +27,7 @@ class AttendanceController extends Controller
 			->where('institute_details.status_id',3)
             ->get();
 			
-			//echo "<pre>"; print_r($institute_data); die;
+			////echo "<pre>"; print_r($institute_data); die;
 
         return view('backend.nref.admin.admin_attendance.attendance',compact('institute_data'));
     }

@@ -21,7 +21,7 @@ class studentRegistration extends Model
    	'country',
    	'state',
    	'distric',
-   	//'bankName',
+   	////'bankName',
    	//'accountNo',
    	//'ifscCode',
    	'gate_neet',

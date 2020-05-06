@@ -104,7 +104,7 @@ class RegisterController extends Controller
                    
             $candidatename = strtolower(substr($data['institute_name'],0,5));
             $email_id= $data['email_id'];
-            //dd($candidatename);
+            ////dd($candidatename);
 
         }else if($data['category_id']==2){
                     

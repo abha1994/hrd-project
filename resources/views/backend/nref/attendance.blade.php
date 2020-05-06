@@ -27,7 +27,7 @@
 			
 			
 		<br>	
-		<div class="col-md-4" style="float:left">
+		<div class="col-md-4 " style="float:left">
 		
 		               <select class="form-control" name="month_atten" id="month_atten">
 						<?php $curMonth=date("n"); $currentYear= date("Y"); 

@@ -36,13 +36,9 @@
 		               <select class="form-control commoanPara" name="university_atten" id="university_atten">
 						<option value="">Select University</option>
 						<?php foreach($institute_data as $inst) { ?>
-<<<<<<< HEAD
 						<option value="<?php echo $inst->institute_id; ?>"><?php echo $inst->institute_name; ?></option>
-=======
-						<option value="<?php echo $inst->user_id; ?>"><?php echo $inst->department_name; ?></option>
->>>>>>> 94eb6b699c2357d18d3422802655b4459b4d4986
 						<?php } ?>
-						</select>
+						</select> 
 						
 		</div>
 		
