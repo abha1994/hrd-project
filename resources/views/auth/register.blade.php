@@ -226,6 +226,7 @@
         </div>
     </div>
 </div></div></section>
+<br><br><br><br>
 </body>
 <style type="text/css">
     .error{
@@ -335,10 +336,10 @@ $(document).ready(function () {
         $( "#datepicker" ).datepicker();
     });
 
- // $.validator.addMethod("pan", function(value, element)
- //    {
- //        return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
- //    }, "Invalid Pan Number");
+ $.validator.addMethod("pan", function(value, element)
+    {
+        return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+    }, "Invalid Pan Number");
 
 
 
