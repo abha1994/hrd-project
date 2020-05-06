@@ -24,6 +24,7 @@ class Admin_institute extends Model
 		   ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
            ->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('institute_details.status_id',NULL)
+			->where('institute_details.final_submit',1)
             ->get();
 			
 		 $data['breadcum'] = 'List of Institute';
@@ -37,7 +38,7 @@ class Admin_institute extends Model
 		    ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 1)
-			->where('institute_details.officer_role_id',3)
+			->where('institute_details.officer_role_id',3)->where('institute_details.final_submit',1)
 			->get();
 			
 		 $data['breadcum'] = 'List of Application Considered by Level 1 Officer';
@@ -53,7 +54,7 @@ class Admin_institute extends Model
             ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 1)
-			->whereNotIn('institute_details.officer_role_id',[3])
+			->whereNotIn('institute_details.officer_role_id',[3])->where('institute_details.final_submit',1)
             ->get();
 		 
 		 $data['breadcum'] = 'List of Application Forward To Committee';
@@ -67,7 +68,7 @@ class Admin_institute extends Model
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
             ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
-			->where('institute_details.status_id', 2)
+			->where('institute_details.status_id', 2)->where('institute_details.final_submit',1)
 			->get();
 		 
 		 $data['breadcum'] = 'List of Non Considered Application';
@@ -81,7 +82,7 @@ class Admin_institute extends Model
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
             ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
-			->where('institute_details.status_id', 3)
+			->where('institute_details.status_id', 3)->where('institute_details.final_submit',1)
 			->get();
 			$data['breadcum'] = 'List of Selected Application After Committee Recommendation';
 		 return $data;
@@ -296,6 +297,8 @@ class Admin_institute extends Model
 	 
 	public static function delete_data($id){
 		$transactionResult = DB::transaction(function() use ($id) {
+			date_default_timezone_set('Asia/Kolkata');
+				$date = date('Y-m-d H:i:s');
 		if(!empty($id)){
 			// $candidate_id = DB::table('institute_details')->where('institute_id',$id)->get()->first()->candidate_id;
 			// if(!empty($candidate_id)){
@@ -344,8 +347,8 @@ class Admin_institute extends Model
 			$insertRecord['final_submit']=$fetchRecord[0]->final_submit;
 			$insertRecord['history_by']=2;
 			$insertRecord['created_date']=$fetchRecord[0]->created_date;
-			$insertRecord['created_by']=$fetchRecord[0]->created_by;
-			$insertRecord['modified_date']=$fetchRecord[0]->modified_date;
+			$insertRecord['modified_by']= Auth::user()->id;
+			$insertRecord['modified_date']=$date;
 			
 			$isertData = DB::table('institute_details_history')->insert($insertRecord);
 				

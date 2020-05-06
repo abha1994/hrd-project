@@ -3,7 +3,7 @@
 <br />
 
     <!-- Icon Cards-->
-	
+	 <script src="{{ asset('public/js/attendanceAdmin_validation.js') }}"></script>
 	 <div class="content-wrapper" >
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>

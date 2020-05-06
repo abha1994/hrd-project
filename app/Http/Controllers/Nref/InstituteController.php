@@ -93,10 +93,9 @@ class InstituteController extends Controller
 				
 				/* Details of placement of previous students CODE ENDED ROCKY */
 				$curr_year = date('Y');
-				
 				$filedata['application_cd'] =  'NREF/'.$curr_year.'/'.$existRecords[0]->institute_id;
-				
-				 DB::table('institute_details')->where('user_id',$user_id)->update($filedata); 
+				$filedata['created_date'] = $date;
+				DB::table('institute_details')->where('user_id',$user_id)->update($filedata); 
 				
 			
 			return back()->with('success',"Form Completely Submitted successfully");
