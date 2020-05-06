@@ -16,7 +16,7 @@ foreach($attendanceList as $attendance)
 	
 $data[] = array(
 	
-	        "fellowname"=>$attendance->student_name,
+	        "fellowname"=>$attendance->firstname,
     		"stream"=>$attendance->course,
 			"genAcknow"=>'<a href="'.route("pdfdown",["download"=>"pdf"]).'">Download</a>',
 			"uploadSlip"=>'<button type="button"  stdID="'.$attendance->id.'" style="border: 1px solid red;padding: 4px 4px;background: red;color: white;" data-toggle="modal" data-target="#myModal" class="uploadValue">Upload</button>',

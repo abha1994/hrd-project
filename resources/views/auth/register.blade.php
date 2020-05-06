@@ -2,16 +2,8 @@
 
 @section('content')
 <link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
- <!--<script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>-->
- <!--<link href="{{ asset('public/plugins/jquery-ui/jquery-ui.css') }}" rel="stylesheet">-->
- <!--<script src="{{ asset('public/plugins/jquery-ui/jquery-ui.js') }}"></script> -->
- <script src="{{ asset('public/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('public/jquery-validation/dist/jquery.validate.min.js') }}"></script>
 
-<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
-<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-
-<!--<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
 <body onload="populateDistic()">
 <section class="register-cust">
 <div class="container">
@@ -226,6 +218,7 @@
         </div>
     </div>
 </div></div></section>
+<br><br><br><br>
 </body>
 <style type="text/css">
     .error{
@@ -335,10 +328,10 @@ $(document).ready(function () {
         $( "#datepicker" ).datepicker();
     });
 
- // $.validator.addMethod("pan", function(value, element)
- //    {
- //        return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
- //    }, "Invalid Pan Number");
+ $.validator.addMethod("pan", function(value, element)
+    {
+        return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+    }, "Invalid Pan Number");
 
 
 

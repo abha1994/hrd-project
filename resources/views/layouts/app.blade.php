@@ -6,16 +6,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'HRD - Ministry of New and Renewable Energy') }}</title>
 	
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <!--link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"-->
 
     <!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{{ asset('public/assets/front_css/bootstrap.min.css') }}">
+	<link href="{{ asset('public/assets/front_css/font.css') }}" rel="stylesheet">
+
+	<script src="{{ asset('public/assets/front_js/jquery.min.js') }}"></script>
+	<script src="{{ asset('public/assets/front_js/bootstrap.min.js') }}"></script>
   
 
         <!-- Fonts -->

@@ -3,13 +3,21 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <title>Laravel</title>
+		<title>{{ config('app.name', 'HRD - Ministry of New and Renewable Energy') }}</title>
+	
+		<link rel="stylesheet" href="{{ asset('public/assets/front_css/bootstrap.min.css') }}">
+		<link href="{{ asset('public/assets/front_css/font.css') }}" rel="stylesheet">
+
+		<script src="{{ asset('public/assets/front_js/jquery.min.js') }}"></script>
+		<script src="{{ asset('public/assets/front_js/bootstrap.min.js') }}"></script>
+	
+	
+
+	
+        
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    
 
         <!-- Styles -->
         <style>

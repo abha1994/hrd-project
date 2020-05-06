@@ -29,6 +29,16 @@ Route::resource('/roles','RoleController');
 Route::resource('users','UserController');
 Route::resource('products','ProductController');
 
+// *************Pushkar**********************//
+Route::get('/forgetusername', 'ForgetUsernameController@index')->name('forgetusername');
+Route::post('/forgetusername-form-post','ForgetUsernameController@forgetusername_form')->name('forgetusername-form-post');
+
+Route::get('/forgetpassword', 'ForgetPasswordController@index')->name('forgetpassword');
+Route::post('/forgetpassword-form-post','ForgetPasswordController@forgetpassword_form')->name('forgetpassword-form-post');
+
+Route::get('/changepassword', 'ChangePasswordController@index')->name('');
+Route::post('/changepassword-post','ChangePasswordController@changepassword')->name('changepassword-post');
+// *************Pushkar**********************//
 
 // officer module  rule
 		

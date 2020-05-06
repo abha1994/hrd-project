@@ -14,11 +14,17 @@ class AttendanceController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
 		$login_id =  Auth::id(); //login user id
 		$students = DB::table('studentregistrations')->where('user_id',$login_id)->orderBy('id','asc')->get();
 		$attendanceList = DB::table('candidate_attendence')->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
 		
 		//echo "<pre>"; print_r($students); die;
+=======
+		$institute_id =  Auth::id(); //login user id
+		$students = DB::table('studentregistrations')->where('institute_id',$institute_id)->orderBy('id','desc')->get();
+		$attendanceList = DB::table('candidate_attendence')->where('institute_id',$institute_id)->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
+>>>>>>> 94eb6b699c2357d18d3422802655b4459b4d4986
         return view('backend.nref.attendance',compact('students','attendanceList'));
     }
 	
@@ -37,7 +43,12 @@ class AttendanceController extends Controller
         $attendanceList = DB::table('studentregistrations')
 							->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
 							->where(['month_atten' =>$val1,'year_atten'=>$val2])
+<<<<<<< HEAD
 							->where('studentregistrations.user_id',$login_id)
+=======
+							->where('candidate_attendence.institute_id',$institute_id)
+							// ->Where('candidate_attendence.institute_id',$institute_id)
+>>>>>>> 94eb6b699c2357d18d3422802655b4459b4d4986
 							->orderBy('attendence_id','asc')
 							->get();
 							
