@@ -98,6 +98,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         
+		$transactionResult = DB::transaction(function() use ($data) {
         $date = date('Y-m-d H:i:s');
         if($data['category_id']==3){
                    
@@ -151,5 +152,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+		
+		});
+	   return $transactionResult;
     }
 }

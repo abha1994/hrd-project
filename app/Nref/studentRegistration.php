@@ -30,6 +30,7 @@ class studentRegistration extends Model
    	'bankMandate',
    	'publication',
    	'institute_id',
+	'user_id',
    	'mobile',
    	'email_id');
 

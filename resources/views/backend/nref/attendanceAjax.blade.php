@@ -1,4 +1,4 @@
-<?php //echo "<pre>"; print_r($students);  die; ?>
+<?php //echo "<pre>"; print_r($attendanceList);  die; ?>
 <table  width="100%"  class="table table-bordered data-table">
 			    <thead>
 				       <tr>
@@ -18,7 +18,7 @@
 					  <tr>
 					  	<td>
 						<input type="hidden" name="user_id[]" value="{{$attendance->id}}" />
-						{{$attendance->student_name}}
+						{{$attendance->firstname}}
 						</td>
 						
 						<td>
