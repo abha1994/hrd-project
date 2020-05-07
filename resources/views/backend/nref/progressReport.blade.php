@@ -76,6 +76,7 @@
 						</td>
 						<!--<td><?php foreach($candidates as $candi){ ?><a href="<?php echo URL::asset('public/uploads/nref/progress_report/'.$candi->fileSign);?>" target="_blank"><?php  if($student->id==$candi->student_id) {  ?><?php if($candi->isfilesubmit==1) { echo "Click Here"; } } ?></a><?php } ?></td>-->
 						
+
 						<td><?php foreach($reports as $candi){ ?><a href="<?php echo URL::asset('public/uploads/nref/progress_report/'.$candi->report_file);?>" target="_blank"><?php  if($student->id==$candi->student_id && $candi->report_type=='yearly') {  ?>Click Here<?php } ?></a><?php } ?></td>
 						
 					  </tr>
@@ -111,7 +112,7 @@
 			
 			<input type="hidden" name="student_id" id="Std_id" />
 			<input type="hidden" name="inst_log_id" id="inst_log_id" value="{{ Auth::id()}}" />
-			<input type="hidden" name="inst_id" value="{{$institute_detailID->institute_id}}" />
+			<input type="hidden" name="inst_id" value="<?php if(isset($institute_detailID->institute_id)){echo $institute_detailID->institute_id; } ?>" />
 			<!--<input type="hidden" name="month" id="mnth_id" />
 			<input type="hidden" name="year" id="yr_id" />-->
 			
