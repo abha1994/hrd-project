@@ -57,7 +57,7 @@ class AttendanceController extends Controller
 			//echo $attendanceList; die;
 	}
 	
-	if($val3)
+	/* if($val3)
 	{
 		$attendanceList = DB::table('candidate_attendence')
             ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
@@ -71,7 +71,7 @@ class AttendanceController extends Controller
 			//echo $attendanceList;
 			
 			//echo "<pre>"; print_r($attendanceList); die;
-	}
+	} */
 	
 	 if($val1 && $val3)
 	{
