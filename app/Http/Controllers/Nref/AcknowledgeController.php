@@ -64,7 +64,7 @@ class AcknowledgeController extends Controller
 					->update($filedata);
 				if($updateQuery)
 				{
-					return back()->with('message','Slip Uploaded successfully!');
+					return back()->with('message','Slip Uploaded successfully !');
 				}else{
 					return back()->with('error','Slip Not uploaded');
 				}
