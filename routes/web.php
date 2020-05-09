@@ -85,6 +85,9 @@ Route::get('pdfdown',array('as'=>'pdfdown','uses'=>'Nref\AcknowledgeController@p
 Route::get('/yearly_reportProgress', 'Nref\ProgressreportController@index')->name('/yearly_reportProgress');
 Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progress_post')->name('progress-report-post');
 
+Route::get('/getReportAjax', 'Nref\ProgressreportController@getReportAjax')->name('/getReportAjax');
+Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew')->name('/getReportAjaxnew');
+
 /* Yearly Progress Report By ROcky */
 
 

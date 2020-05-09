@@ -12,7 +12,7 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-       <li class="breadcrumb-item active">Yearly Progress Report</li>
+       <li class="breadcrumb-item active">Progress Report(Quarterly/Yearly)</li>
       </ol>
 
     <!-- Icon Cards-->
@@ -22,34 +22,52 @@
 
 
 
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Yearly Progress Report</h4>
+	<div class="card-header text-center"><h4 style="color: #2384c6;">Progress Report(Quarterly/Yearly)</h4>
 	</div>
 			
 			
     	<div class="card-body">
 		
-		<!-- <div class="col-md-4" style="float:left">
+		<div class="col-md-3" style="float:left">
 					
-					<select class="form-control"name="month" id="month">
-					<?php $curMonth=date("n"); $currentYear= date("Y"); 
-					$monthArray=array('1'=>'January','2'=>'February','3'=>'March','4'=>'April','5'=>'May','6'=>'June','7'=>'July','8'=>'August','9'=>'September','10'=>'October','11'=>'November','12'=>'December');
-					?>
-					<?php for($i=1;$i<=$curMonth;$i++) { ?>
-					<option value="<?php echo $i; ?>" <?php if($curMonth==$i) { echo 'selected'; }?>><?php echo $monthArray[$i]; ?></option>
-					<?php } ?>
+					<select class="form-control"name="reportTypenew" id="reportTypenew">
+					<option value="">Select Type</option>
+					<option value="quarterly">Quarterly</option>
+					<option value="yearly">Yearly</option>
+					</select>
+					</div>
+		
+		<div class="col-md-3" style="float:left; display:none;" id="newmnth">
+					
+					<select class="form-control"name="monthTypenew" id="monthTypenew">
+					<option value="">Select Month</option>
+					<option value="april-june">April-June</option>
+					<option value="july-september">July-September</option>
+					<option value="october-december">October-December</option>
+					<option value="january-march">January-March</option>
 					</select>
 					</div>
 					
 					
 					
-					<div class="col-md-4" style="float:left">
+					<div class="col-md-3" style="float:left">
 
-					<select class="form-control" name="year" id="year">
-					<option value="<?php echo $currentYear;?>"><?php echo $currentYear;?></option>
+					<select class="form-control" name="yearTypenew" id="yearTypenew">
+					<option value="">Select Year</option>
+					<option value="2020-2021">2020-2021</option>
+					<option value="2021-2022">2021-2022</option>
+					<option value="2022-2023">2022-2023</option>
+					<option value="2023-2024">2023-2024</option>
+					<option value="2024-2025">2024-2025</option>
 					</select>
-					</div>-->
+					</div>
+					
+					<div class="form-group" >
+					<input type="submit" id="filterReport" class="btn btn-primary "  value= "Filter" />
+					</div>
+
 		<div class="ajaxPart" >
-    		  <table style="width:100%" class="table table-bordered" id="acknow_slip">
+    		  <table style="width:100%" class="table table-bordered" id="report_table">
 			    
 				<thead>
 				       <tr>
@@ -77,7 +95,10 @@
 						<!--<td><?php foreach($candidates as $candi){ ?><a href="<?php echo URL::asset('public/uploads/nref/progress_report/'.$candi->fileSign);?>" target="_blank"><?php  if($student->id==$candi->student_id) {  ?><?php if($candi->isfilesubmit==1) { echo "Click Here"; } } ?></a><?php } ?></td>-->
 						
 
-						<td><?php foreach($reports as $candi){ ?><a href="<?php echo URL::asset('public/uploads/nref/progress_report/'.$candi->report_file);?>" target="_blank"><?php  if($student->id==$candi->student_id && $candi->report_type=='yearly') {  ?>Click Here<?php } ?></a><?php } ?></td>
+						<!--<td><?php foreach($reports as $candi){ ?><a href="<?php echo URL::asset('public/uploads/nref/progress_report/'.$candi->report_file);?>" target="_blank"><?php  if($student->id==$candi->student_id && $candi->report_type=='yearly') {  ?>Click Here<?php } ?></a><?php } ?></td>-->
+						
+						
+						<td><?php $i=0;foreach($reports as $candi){ ?><?php  if($student->id==$candi->student_id) { if($i==0) { ?><a href="#" stdudentID=<?php echo $student->id;?> data-toggle="modal" data-target="#myModalnew" class="newModal">Click Here</a><?php $i++; } } ?><?php } ?></td>
 						
 					  </tr>
 					  @endforeach
@@ -118,10 +139,33 @@
 			
 			        <div class="form-group" >
 					<label>Progress Report Type</label>
-					<select class="form-control" name="report_type">
+					<select class="form-control" name="report_type" id="report_type">
 					<option value="">Select Type</option>
 					<option value="quarterly">Quarterly</option>
 					<option value="yearly">Yearly</option>
+					</select>
+					</div>
+					
+					<div class="form-group" id="month_report" style="display:none">
+					<label>Month</label>
+					<select class="form-control" name="report_month" id="report_month">
+					<option value="">Select Month</option>
+					<option value="april-june">April-June</option>
+					<option value="july-september">July-September</option>
+					<option value="october-december">October-December</option>
+					<option value="january-march">January-March</option>
+					</select>
+					</div>
+					
+					<div class="form-group">
+					<label>Year</label>
+					<select class="form-control" name="report_year" id="report_year">
+					<option value="">Select Year</option>
+					<option value="2020-2021">2020-2021</option>
+					<option value="2021-2022">2021-2022</option>
+					<option value="2022-2023">2022-2023</option>
+					<option value="2023-2024">2023-2024</option>
+					<option value="2024-2025">2024-2025</option>
 					</select>
 					</div>
 		
@@ -142,7 +186,75 @@
     </div>
 
   </div>
-</div></div>
+</div>
+
+<!-- CLICK HERE MODEL CODE START -->
+
+<div id="myModalnew" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+	  <h4 class="modal-title">Download Progress Report</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        
+      </div>
+      <div class="modal-body">
+	  
+			<input type="hidden" name="student_id" id="student_id" />
+			
+			        <div class="form-group" >
+					<label>Progress Report Type</label>
+					<select class="form-control" id="reportType">
+					<option value="">Select Type</option>
+					<option value="quarterly">Quarterly</option>
+					<option value="yearly">Yearly</option>
+					</select>
+					</div>
+					
+					<div class="form-group" id="monthReport" style="display:none">
+					<label>Month</label>
+					<select class="form-control" id="reportMonth">
+					<option value="">Select Month</option>
+					<option value="april-june">April-June</option>
+					<option value="july-september">July-September</option>
+					<option value="october-december">October-December</option>
+					<option value="january-march">January-March</option>
+					</select>
+					</div>
+					
+					<div class="form-group">
+					<label>Year</label>
+					<select class="form-control" id="reportYear">
+					<option value="">Select Year</option>
+					<option value="2020-2021">2020-2021</option>
+					<option value="2021-2022">2021-2022</option>
+					<option value="2022-2023">2022-2023</option>
+					<option value="2023-2024">2023-2024</option>
+					<option value="2024-2025">2024-2025</option>
+					</select>
+					</div>
+					
+					<div class="form-group ajaxReportFile">
+					</div>
+					
+					<div class="form-group" >
+					<input type="submit" name="upload" id="viewReport" class="btn btn-primary "  value= "View Report" />
+					</div>
+		
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CLICK HERE MODEL CODE ENDED -->
+
+</div>
 
 <script>
 

@@ -45,13 +45,13 @@ class ProgressreportController extends Controller
 		    $transactionResult = DB::transaction(function() use ($request) {
 			$user_id =  Auth::id();
 			$existRecords = DB::table('progress_report')
-							->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type])
+							->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type,'report_month' =>$request->report_month,'report_year' =>$request->report_year])
 							->get();
 			$RecordsCount = $existRecords->count();
 			if($RecordsCount>0) {
 				if($request->hasFile('fileSign')) {
 						$image = $request->file('fileSign');
-						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalExtension();
+						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalName();
 						$destinationPath = public_path('/../public/uploads/nref/progress_report');
 						$imagePath = $destinationPath. "/".  $fileSign;
 						$image->move($destinationPath, $fileSign);
@@ -60,14 +60,20 @@ class ProgressreportController extends Controller
 				}
 					
 				$updateQuery=DB::table('progress_report')
-					->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type])
+					->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type,'report_month' =>$request->report_month,'report_year' =>$request->report_year])
 					->update($filedata);
 				if($updateQuery)
 				{
+					
+					//echo "=="; die;
 					return back()->with('message','Report Uploaded successfully!');
 				}else{
-					return back()->with('error','Report Not uploaded');
+					
+					//echo "==--"; die;
+					return back()->with('message','Report uploaded');
 				}
+				
+				//echo "---=="; die;
 			}else{
 			    ////return back()->with('error','Attendace Not Available');
 				
@@ -75,12 +81,14 @@ class ProgressreportController extends Controller
 				$postdata['institute_login_id']=$request->inst_log_id;
 				$postdata['student_id']=$request->student_id;
 				$postdata['report_type']=$request->report_type;
+				$postdata['report_month']=$request->report_month;
+				$postdata['report_year']=$request->report_year;
 				$postdata['institute_details_id']=$request->inst_id;
 				
 				
 				if($request->hasFile('fileSign')) {
 						$image = $request->file('fileSign');
-						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalExtension();
+						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalName();
 						$destinationPath = public_path('/../public/uploads/nref/progress_report');
 						$imagePath = $destinationPath. "/".  $fileSign;
 						$image->move($destinationPath, $fileSign);
@@ -118,21 +126,71 @@ class ProgressreportController extends Controller
         return view('backend/Nref/Admin/nref/pdfdown');
     }
 	
-	public function acknowledgeAjax(Request $request)
+	public function getReportAjax(Request $request)
 	{
-		$val1=$request->input('monthVal');
-		$val2=$request->input('yearr');
-		$institute_id =  Auth::id(); // Institute login id
-        $students = DB::table('studentregistrations')->where('institute_id',$institute_id)->orderBy('id','desc')->get();
-        $candidates = DB::table('candidate_attendence')->where('institute_id',$institute_id)->orderBy('attendence_id','desc')->get();
+		$std=$request->input('std');
+		$reportType=$request->input('reportType');
+		$reportMonth=$request->input('reportMonth');
+		$reportYear=$request->input('reportYear');
+		if($reportMonth!="")
+		{
+			$mnth=$reportMonth;
+		}
+		else{
+			$mnth=null;
+		}
 
-        $attendanceList = DB::table('studentregistrations')
-            ->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
-			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->where('candidate_attendence.institute_id',$institute_id)
-			->orderBy('attendence_id','asc')
+ $report_file = DB::table('progress_report')->select('report_file')
+// ->where('student_id',$std)
+
+->where(['student_id' => $std,'report_type' =>$reportType,'report_month' =>$mnth,'report_year' =>$reportYear])
+->get()->first();
+
+//echo "<pre>"; print_r($report_file); die;
+ 
+ if(isset($report_file->report_file))
+ {
+      return $report_file->report_file;
+ }
+ else{
+	 return 0;
+ }
+	 
+ 
+	}
+	
+	
+	
+	// Get Report AJax For Main Filter
+	
+	
+	public function getReportAjaxnew(Request $request)
+	{
+		
+		$val1=$request->input('reportType');
+		$val2=$request->input('reportYear');
+		$val3=$request->input('reportMonth');
+		
+		if($val3!="")
+		{
+			$mnths=$val3;
+		}
+		else{
+			$mnths=null;
+		}
+
+		
+		
+        $attendanceList = DB::table('progress_report')
+            ->leftJoin('studentregistrations', 'progress_report.student_id', '=', 'studentregistrations.id')
+			->where(['report_type' =>$val1,'report_year'=>$val2,'report_month' =>$mnths,])
+			->orderBy('student_id','desc')
             ->get();
-		return view('backend.nref.progressReportAjax',compact('attendanceList','students','candidates','val1'));
+			
+			//echo "<pre>"; print_r($attendanceList); die;
+		return view('backend.nref.reportAjax',compact('attendanceList'));
+	 
+ 
 	}
 
 
