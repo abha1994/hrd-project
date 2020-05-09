@@ -2,7 +2,7 @@
 # Email Verification
 Dear {{$name }},
 
-find below the link for activation
+Please click on the below link to verify your Email
 
  
 
@@ -10,6 +10,7 @@ find below the link for activation
 Click To Verification
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+Regards,<br>
+HRD portal<br>
+Ministry of New and Renewable Energy<br>
 @endcomponent

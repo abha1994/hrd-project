@@ -79,9 +79,30 @@ class adminUserController extends Controller
         $userrecord = User::orderBy('id','DESC')->first();
         $userlastrecord = $userrecord->id;
         $usernamelastid = $userlastrecord +1;
-        $username = $request->officer_name.$usernamelastid;
-        $password = 'password@321';
-        $password = Hash::make($password);
+        // $username = $request->officer_name.$usernamelastid;
+		$name = $request->officer_name;
+		$substring = substr($name, 0, strpos($name, ' '));
+		  if($substring != ""){
+			
+			$name_ex = str_replace('.','',$substring);
+			$username = strtolower(mb_substr($name_ex, 0, 5).$usernamelastid);
+		  }else{
+			$username = strtolower(mb_substr($name, 0, 5).$usernamelastid);
+		  }
+			  
+		
+        // $password = 'password@321';
+		//************Password***************8//
+		$string1="abcdefghijklmnopqrstuvwxyz";
+		$string2="1234567890";
+		$string3="!@#$%^&*()_+";
+		$string=$string1.$string2.$string3;
+		$string= str_shuffle($string);
+		$user_password  = substr($string,8,14); 
+		$password1 = $user_password;
+		//************Password***************8//
+		
+        $password = Hash::make($password1);
 
 
         $userData = array('name'=>$request->officer_name,'designation'=>$request->designation,'email'=>$request->email,'username'=>$username,'password'=>$password,'mobile'=>$request->mobile_no,'status'=> $request->status,'dob'=>$dob,'joining_date'=>$joining_date,'transfer_date'=>$transfer_date,'user_type'=>'officer','role'=>$request->roles);

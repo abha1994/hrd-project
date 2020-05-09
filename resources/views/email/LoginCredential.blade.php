@@ -11,6 +11,7 @@ find below Details of login credentials of our HRD Portal
 Click To Login
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+Regards,<br>
+HRD portal<br>
+Ministry of New and Renewable Energy<br>
 @endcomponent

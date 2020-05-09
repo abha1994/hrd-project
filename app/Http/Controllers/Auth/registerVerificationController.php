@@ -24,25 +24,70 @@ class registerVerificationController extends Controller
 
         		//insert value in user_credential table
         		$date = date('Y-m-d H:i:s');
-        		$password = 'password@123';
+        		$date = date('Y-m-d H:i:s');
+				
+				//************Password***************8//
+				$string1="abcdefghijklmnopqrstuvwxyz";
+				$string2="1234567890";
+				$string3="!@#$%^&*()_+";
+				$string=$string1.$string2.$string3;
+				$string= str_shuffle($string);
+				$user_password  = substr($string,8,14); 
+        		$password = $user_password;
+				//************Password***************8//
+				
+				$Instname = strtolower($registeruser->institute_name);
+				$candidate_id = $registeruser->candidate_id;
+				
                 if($registeruser->category_id==3){
-                    $username = strtolower(substr($registeruser->institute_name,0,5));
-                    $username = $username.$registeruser->candidate_id;
+					
+					$substring_Instname = substr($Instname, 0, strpos($Instname, ' '));
+					  if($substring_Instname != ""){
+						$Instname_ex = str_replace('.','',$substring_Instname);
+						$username = strtolower(mb_substr($Instname_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($Instname, 0, 5).$candidate_id);
+					  }
+								  
+							// dd($username);	  
+								  
+                    // $username = strtolower(substr($registeruser->institute_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
                     $hashPassword = Hash::make($password);
-                    $firtname = substr($registeruser->institute_name,0,5);
+					
+                    $firtname = $registeruser->institute_name;
                     $candidate =$registeruser->institute_name;
                     $scheme_code = 3;
                 }else if($registeruser->category_id==2){
-                    $username = strtolower(substr($registeruser->first_name,0,5));
-                    $username = $username.$registeruser->candidate_id;
+                    // $username = strtolower(substr($registeruser->first_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
+					 $name = $registeruser->first_name;
+					 $substring = substr($name, 0, strpos($name, ' '));
+					  if($substring != ""){
+						$name_ex = str_replace('.','',$substring);
+						$username = strtolower(mb_substr($name_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($name, 0, 5).$candidate_id);
+					  }
+					  
                     $hashPassword = Hash::make($password);
                     $firtname = $registeruser->first_name;
                     $candidate = $registeruser->first_name.' '.$registeruser->middle_name. ' ' . $registeruser->last_name;
                     $scheme_code =2;
 
                 }else{
-                    $username = strtolower(substr($registeruser->first_name,0,5));
-                    $username = $username.$registeruser->candidate_id;
+                    // $username = strtolower(substr($registeruser->first_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
+					
+					 $name = $registeruser->first_name;
+					 $substring = substr($name, 0, strpos($name, ' '));
+					  if($substring != ""){
+						$name_ex = str_replace('.','',$substring);
+						$username = strtolower(mb_substr($name_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($name, 0, 5).$candidate_id);
+					  }
+					  
                     $hashPassword = Hash::make($password);
                     $firtname = $registeruser->first_name;
                     $candidate = $registeruser->first_name.' '.$registeruser->middle_name. ' ' . $registeruser->last_name;
