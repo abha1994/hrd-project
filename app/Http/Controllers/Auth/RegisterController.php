@@ -144,7 +144,7 @@ class RegisterController extends Controller
 
         Mail::to($data['email_id'])->send(new RegisterForm($candidatename,$email_id));
 
-        return view('auth.regiserThank',compact($emailid,$candidatename));
+        return view('auth.regiserThank',compact('emailid','candidatename'));
 
         
         return User::create([
