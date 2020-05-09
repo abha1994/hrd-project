@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Nref;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Nref\studentRegistrationModel;
+//use App\Nref\studentRegistrationModel;
 use Session;
 use DB;
 use Auth;
 use PDF;
 use Validator,Redirect;
 
-class AcknowledgeController extends Controller
+class ProgressreportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,19 +23,20 @@ class AcknowledgeController extends Controller
         $curMonth=date("n"); 
 		$currentYear= date("Y");
 		$institute_id =  Auth::id(); // Institute login id
-        $candidates = DB::table('candidate_attendence')->where('user_id',$institute_id)->orderBy('attendence_id','desc')->get();
+        $candidates = DB::table('candidate_attendence')->where('institute_id',$institute_id)->orderBy('attendence_id','desc')->get();
 		
-		// dd($candidates);
+		$reports = DB::table('progress_report')->where('institute_login_id',$institute_id)->orderBy('id','desc')->get();
+		
+		$institute_detailID = DB::table('candidate_attendence')->where('user_id',$institute_id)->first();
+		
 		$students = DB::table('studentregistrations')
-            ->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
-			->where(['month_atten' =>$curMonth,'year_atten'=>$currentYear])
-			->where('candidate_attendence.user_id',$institute_id)
-			->orderBy('attendence_id','asc')
+			->where('user_id',$institute_id)
+			->orderBy('id','desc')
             ->get();
-		return view('backend.nref.acknowledge',compact('students','candidates'));
+		return view('backend.nref.progressReport',compact('students','candidates','reports','institute_detailID'));
     }
 
-    public function acknowledge_form_post(Request $request)
+    public function report_progress_post(Request $request)
     {
 		$this->validate($request,[
      		'fileSign' => 'required',
@@ -43,33 +44,52 @@ class AcknowledgeController extends Controller
         $records = $request->all();
 		    $transactionResult = DB::transaction(function() use ($request) {
 			$user_id =  Auth::id();
-			$existRecords = DB::table('candidate_attendence')
-							->where(['student_id' => $request->student_id,'month_atten' =>$request->month,'year_atten' =>$request->year])
+			$existRecords = DB::table('progress_report')
+							->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type])
 							->get();
 			$RecordsCount = $existRecords->count();
 			if($RecordsCount>0) {
 				if($request->hasFile('fileSign')) {
 						$image = $request->file('fileSign');
 						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalExtension();
-						$destinationPath = public_path('/../public/uploads/nref/acknow_slip');
+						$destinationPath = public_path('/../public/uploads/nref/progress_report');
 						$imagePath = $destinationPath. "/".  $fileSign;
 						$image->move($destinationPath, $fileSign);
 						
-						$filedata['fileSign'] = $fileSign;
-						$filedata['isfilesubmit'] = 1;
+						$filedata['report_file'] = $fileSign;
 				}
 					
-				$updateQuery=DB::table('candidate_attendence')
-					->where(['student_id' => $request->student_id,'month_atten' =>$request->month,'year_atten' =>$request->year])
+				$updateQuery=DB::table('progress_report')
+					->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type])
 					->update($filedata);
 				if($updateQuery)
 				{
-					return back()->with('message','Slip Uploaded successfully!');
+					return back()->with('message','Report Uploaded successfully!');
 				}else{
-					return back()->with('error','Slip Not uploaded');
+					return back()->with('error','Report Not uploaded');
 				}
 			}else{
-			    return back()->with('error','Attendace Not Available');
+			    ////return back()->with('error','Attendace Not Available');
+				
+				
+				$postdata['institute_login_id']=$request->inst_log_id;
+				$postdata['student_id']=$request->student_id;
+				$postdata['report_type']=$request->report_type;
+				$postdata['institute_details_id']=$request->inst_id;
+				
+				
+				if($request->hasFile('fileSign')) {
+						$image = $request->file('fileSign');
+						$fileSign = $user_id.'_'.$request->student_id.'_file_photo.'.$image->getClientOriginalExtension();
+						$destinationPath = public_path('/../public/uploads/nref/progress_report');
+						$imagePath = $destinationPath. "/".  $fileSign;
+						$image->move($destinationPath, $fileSign);
+						
+						$postdata['report_file'] = $fileSign;
+				}
+				
+				DB::table('progress_report')->insert($postdata);
+				return back()->with('message','Report Uploaded successfully!');
 		    }
 	    });
 		return $transactionResult;
@@ -109,10 +129,10 @@ class AcknowledgeController extends Controller
         $attendanceList = DB::table('studentregistrations')
             ->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
 			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->where('candidate_attendence.user_id',$institute_id)
+			->where('candidate_attendence.institute_id',$institute_id)
 			->orderBy('attendence_id','asc')
             ->get();
-		return view('backend.nref.acknowledgeAjax',compact('attendanceList','students','candidates','val1'));
+		return view('backend.nref.progressReportAjax',compact('attendanceList','students','candidates','val1'));
 	}
 
 

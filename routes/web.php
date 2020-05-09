@@ -80,6 +80,13 @@ Route::post('/acknowledge-form-post', 'Nref\AcknowledgeController@acknowledge_fo
 Route::post('/acknowledgeAjax', 'Nref\AcknowledgeController@acknowledgeAjax')->name('acknowledgeAjax');
 Route::get('pdfdown',array('as'=>'pdfdown','uses'=>'Nref\AcknowledgeController@pdfdown'));
 
+/* Yearly Progress Report By ROcky */
+
+Route::get('/yearly_reportProgress', 'Nref\ProgressreportController@index')->name('/yearly_reportProgress');
+Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progress_post')->name('progress-report-post');
+
+/* Yearly Progress Report By ROcky */
+
 
 Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
 Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');

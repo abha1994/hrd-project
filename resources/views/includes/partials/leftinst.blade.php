@@ -98,6 +98,17 @@
               </p>
             </a>
           </li>
+		  
+		  <li class="nav-item">
+            <a href="{{ URL('yearly_reportProgress')}}" class="nav-link {{$acknowledgeMClass}}" id="liack">
+              <i class="nav-icon fas fa-user"></i>
+              Progress Report Yearly
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+		  
+		  
 		  <?php $candidate_id = Auth::user()->id;?>
 		   <li class="nav-item">
             <a href="{{ URL('institute_status')}}/<?php echo $candidate_id;?>" class="nav-link {{$statusMclass1}}" id="listatus">
