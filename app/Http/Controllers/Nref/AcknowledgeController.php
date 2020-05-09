@@ -23,12 +23,13 @@ class AcknowledgeController extends Controller
         $curMonth=date("n"); 
 		$currentYear= date("Y");
 		$institute_id =  Auth::id(); // Institute login id
-        $candidates = DB::table('candidate_attendence')->where('institute_id',$institute_id)->orderBy('attendence_id','desc')->get();
+        $candidates = DB::table('candidate_attendence')->where('user_id',$institute_id)->orderBy('attendence_id','desc')->get();
 		
+		// dd($candidates);
 		$students = DB::table('studentregistrations')
             ->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
 			->where(['month_atten' =>$curMonth,'year_atten'=>$currentYear])
-			->where('candidate_attendence.institute_id',$institute_id)
+			->where('candidate_attendence.user_id',$institute_id)
 			->orderBy('attendence_id','asc')
             ->get();
 		return view('backend.nref.acknowledge',compact('students','candidates'));
