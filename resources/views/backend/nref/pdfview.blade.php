@@ -194,24 +194,33 @@
 								<div class="form-group">
 								<div class="row">
 								
-								<div class="col-md-2" style="width: 25%;">
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Department with Seal</label>
+								<div class="col-md-2" style="width: 20%;">
+								<label for="name"  style="font-size: 12px;color:#000" class="control-label">Name and Signature of HOD with Seal</label>
 										<!--<p style="background-color: brown;color: white;text-align:center">Signature</p>-->
 										<hr>
 									
 								</div>
 								
-								<div class="col-md-2" style="width: 25%;position: relative;left: 17em;margin-top: -6em;">
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Dean with Seal</label>
+								<div class="col-md-2" style="width: 20%;position: relative;left: 10em;margin-top: -4em;">
+								<label for="name"  style="font-size: 12px;color:#000" class="control-label">Name and Signature of Dean with Seal</label>
 										<!--<p style="background-color: brown;color: white;text-align:center">Signature</p>-->
 										<hr>
 									
 								</div>
 								
-								<div class="col-md-2" style="width: 25%;float: right;position: relative;margin-top: -6em;right: 20em;">
+								<div class="col-md-2" style="width: 20%;position: relative;margin-top: -4em;left: 22em;">
 								
 								
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Name and Signature of Registrar with Seal</label>
+								<label for="name"  style="font-size: 12px;color:#000" class="control-label">Name and Signature of Registrar with Seal</label>
+										<!--<p style="background-color: brown;color: white;text-align:center">Signature</p>-->
+										<hr>
+									
+								</div>
+								
+								
+								<div class="col-md-2" style="width: 20%;float: right;position: relative;margin-top: -6em;right: 10em;">
+								
+								<label for="name"  style="font-size: 12px;color:#000" class="control-label">Name and Signature of Proposed Program with Seal</label>
 										<!--<p style="background-color: brown;color: white;text-align:center">Signature</p>-->
 										<hr>
 									

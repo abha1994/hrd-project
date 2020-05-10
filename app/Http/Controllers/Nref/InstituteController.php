@@ -37,6 +37,12 @@ class InstituteController extends Controller
 		return view('backend/Nref/institute_form',compact('data'));
 	}
 	
+	public function index2(Request $request)
+    { 
+		$data = Institute::index();
+		return view('backend/Nref/finalForm',compact('data'));
+	}
+	
 	public function previewIndex(Request $request)
     {
         $data = $request->all();
@@ -98,7 +104,8 @@ class InstituteController extends Controller
 				DB::table('institute_details')->where('user_id',$user_id)->update($filedata); 
 				
 			
-			return back()->with('success',"Form Completely Submitted successfully");
+			//return back()->with('success',"Form Completely Submitted successfully");
+			return redirect()->to('institute/')->with('success',"Form Completely Submitted successfully");
 			} 
 			 else
 			{
@@ -114,9 +121,11 @@ class InstituteController extends Controller
 	 /* Final Submit */
 
      public function institute_form_post(Request $request) {
-		
 		 
-		if($request->countrycd == "99"){
+		 
+		 //dd($request); die;
+		 
+		/* if($request->countrycd == "99"){
 			$validatedData = $request->validate([
 				'annual_report' => 'required',
 
@@ -126,9 +135,9 @@ class InstituteController extends Controller
 				'annual_report' => 'required',
 
 			]);
-		}
+		} */
 
-		 
+		
 	
 		$transactionResult = DB::transaction(function() use ($request) {
       	    date_default_timezone_set('Asia/Kolkata');
@@ -156,10 +165,15 @@ class InstituteController extends Controller
 			$postdata['other_details'] = $request->other_details;
 			$postdata['spon_project'] = $request->spon_project;
 			
+			$postdata['fellowship_period'] = $request->fellowship_period;
+			$postdata['collab_institute'] = $request->collab_institute;
 			$postdata['fellowship_mtech'] = $request->mtech; 
 			$postdata['fellowship_jrf'] = $request->jrf;
 			$postdata['fellowship_srf'] = $request->srf;
 			$postdata['fellowship_msc'] = $request->msc;
+			$postdata['fellowship_ra'] = $request->ra;
+			$postdata['fellowship_pdf'] = $request->pdf;
+			$postdata['fellowship_total'] = $request->ftotal;
 			$postdata['certified_status'] = $request->certified;
 			if(isset($request->resrch_phd)) {
 			$postdata['research_phd'] = implode(',',$request->resrch_phd);
@@ -172,10 +186,14 @@ class InstituteController extends Controller
 			$RecordsCount = $existRecords->count();
 			
 			//echo $RecordsCount; die;
+			
+			//dd($existRecords); 
 		
 			
 			 if($RecordsCount<1)
 			{
+				
+				//echo "==="; die;
 				
 				
 				DB::table('institute_details')->insert($postdata); 
@@ -258,6 +276,8 @@ class InstituteController extends Controller
 				
 				/* Details of placement of previous students CODE ENDED ROCKY */
 				
+				
+				
 				 DB::table('institute_details')->where('institute_id',$last_id)->update($filedata); 
 				
 				}
@@ -266,11 +286,98 @@ class InstituteController extends Controller
 				
 			
 			
-			return back()->with('success',"Form Submitted successfully")->with($postdata);
+			////return back()->with('success',"Form Submitted successfully")->with($postdata);
+
+			return redirect()->to('instituteFinal/'.$last_id);
 			} 
 			 else
 			{
-				return back()->with('error',"You are not allowed to update data")->with($postdata);
+				
+				//echo "<pre>"; print_r($inst_data); die;
+				
+				// Update University Form
+				
+				if($request->editID!=""){
+				
+				/* Last Annual Report code start ROCKY */
+				 if($request->hasFile('annual_report')) {
+					$image = $request->file('annual_report');
+					$annual_report = $request->editID.'_file_photo.'.$image->getClientOriginalExtension();
+					$destinationPath = public_path('/../public/uploads/nref/annual_report');
+					$imagePath = $destinationPath. "/".  $annual_report;
+					$image->move($destinationPath, $annual_report);
+					
+					$filedata['annual_report'] = $annual_report;
+					
+				}
+				
+				else
+				{
+					$filedata['annual_report'] = $existRecords[0]->annual_report;
+				}
+				
+				
+				/* Last Annual Report code ended */
+				
+				/* Name & qualificATION OF FACULTY MEMBERS  CODE START ROCKY*/
+				
+				 if($request->hasFile('file_course_proof')) {
+					$image = $request->file('file_course_proof');
+					$file_course_proof = $request->editID.'_faculty_details.'.$image->getClientOriginalExtension();
+					$destinationPath = public_path('/../public/uploads/nref');
+					$imagePath = $destinationPath. "/".  $file_course_proof;
+					$image->move($destinationPath, $file_course_proof);
+					
+					$filedata['faculty_details'] = $file_course_proof;
+				}
+				else
+				{
+				$filedata['faculty_details'] = $existRecords[0]->faculty_details;
+				}
+				
+				
+				/* NAME & QUALIFICATION OF FACULTY MEMBERS CODE ENDED ROCKY */
+				
+				
+				/* Details of placement of previous students  CODE START ROCKY*/
+				
+				if($request->hasFile('file_prevStudent_proof')) {
+					$image = $request->file('file_prevStudent_proof');
+					$file_prevStudent_proof = $request->editID.'_fileprevstudent_proof.'.$image->getClientOriginalExtension();
+					$destinationPath = public_path('/../public/uploads/nref');
+					$imagePath = $destinationPath. "/".  $file_prevStudent_proof;
+					$image->move($destinationPath, $file_prevStudent_proof);
+					$filedata['file_prevStudent_proof'] = $file_prevStudent_proof;
+				}
+				else
+				{
+				$filedata['file_prevStudent_proof'] = $existRecords[0]->file_prevStudent_proof;
+				}
+				
+				/* Details of placement of previous students CODE ENDED ROCKY */
+				
+				
+				/* Details of placement of previous students  CODE START ROCKY*/
+				
+				
+				/* Details of placement of previous students CODE ENDED ROCKY */
+				
+				DB::table('institute_details')->where('institute_id',$request->editID)->update($postdata); 
+				
+				 DB::table('institute_details')->where('institute_id',$request->editID)->update($filedata); 
+				
+				}
+				
+				
+				
+			
+			
+			////return back()->with('success',"Form Submitted successfully")->with($postdata);
+
+			return redirect()->to('instituteFinal/'.$request->editID);
+			
+				
+				////return back()->with('error',"You are not allowed to update data")->with($postdata);
 			} 
 			
 			
@@ -321,6 +428,7 @@ class InstituteController extends Controller
 			$postdata['placement_details'] = $request->place_service;
 			$postdata['other_details'] = $request->other_details;
 			$postdata['spon_project'] = $request->spon_project;
+			
 			
 			$postdata['fellowship_mtech'] = $request->mtech; 
 			$postdata['fellowship_jrf'] = $request->jrf;

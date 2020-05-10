@@ -97,6 +97,8 @@ Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nref\InstituteController@pdf
 Route::get('/preview', 'Nref\InstituteController@previewIndex')->name('/preview');
 Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
 Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
+
+Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/instituteFinal');
 Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
 	
 //******************Admin**************************//	

@@ -439,25 +439,35 @@
 					
 								</div>
 								
-								@if(isset($inst_data->file_upload_signature))
-								<?php if($inst_data->file_upload_signature!="") { ?>
-								<div class="col-md-4">
-								
-								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Signed Uploaded Form : </label>
-								<a href="{{ asset('public/uploads/nref/'.$inst_data->file_upload_signature) }}" download><?php if($inst_data->file_upload_signature) { echo $inst_data->file_upload_signature; } ?></a>
-								</div>
-									<?php } ?>
-								@endif
-								
 								
 								</div>
 								</div>
 								
 							<div class="form-group">
 							
+							@if (!empty((array) $inst_data))
+								<div class="row">
+								
+								
+								
+								<div class="col-md-4">
+								@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit!=1) {  ?>
+								<a href="{{ route('pdfview',['download'=>'pdf']) }}">
+								<input class="btn btn-primary " type="button" value="Download PDF"></a>
+								</a>
+								<?php } ?> @endif
+								</div>
+								
+									@endif
+									
+			
+			
+								</div> 
+								
+								
+							
 							
 							<hr>
-							
 							
 							@if (empty((array) $inst_data))
 									
@@ -469,28 +479,59 @@
 									
 							</center>
 							
+							
+							</form>
 							@else
+								</form>
+							
+							<form enctype="multipart/form-data" action="{{ route('institute-form-post-final') }}" autocomplete="off" id="institute_formFinal" method="POST" >
+			{!! csrf_field() !!}
+			
+			                    <div class="row">
 								
-							@if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit!=1) { ?>
+			                    <div class="col-md-6">
+										<label for="name"  style="font-size: 12px;" class="control-label">Upload With Signature( <span style="color:red">Note- You need to download form first then upload</span>)</label> 
+										<input name="file_upload_signature" type="file" class="form-control" id="file_upload_signature" value="{{ old('file_upload_signature')}}" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style="font-size: 12px;"id="file_upload_signature_error"> </span>		
+										@if ($errors->has('file_upload_signature'))
+											<span class="invalid-feedback " role="alert">
+												<strong>{{ $errors->first('file_upload_signature') }}</strong>
+											</span>
+										@endif
+										@if ($file_upload_signature_error = Session::get('ex_error'))
+										 <div class="alert" style="color:red">
+										   <strong>{{ $file_upload_signature_error }}</strong>
+										 </div>
+									   @endif
+										
+									</div>
+									
+								@if(isset($inst_data->file_upload_signature))
+								<div class="col-md-4">
+								<p>&nbsp;</p>
+								<a href="{{ asset('public/uploads/nref/'.$inst_data->file_upload_signature) }}" download><?php if($inst_data->file_upload_signature) { echo $inst_data->file_upload_signature; } ?></a>
+								</div>
+								@endif
 								
+								
+									</div>
+									<hr>
+									
+								@if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit!=1) { ?>
 							<center>
 								<div class="form-group" >
-								
-								<input type="text" name="editID" value="@if(isset($inst_data->institute_id)) {{$inst_data->institute_id }}@endif" />
+								    <!--<p style="padding-top:5px; color:#993333;font-weight: bold;">Your Registration details are non editable once submitted. Please Verify that the above details are correct.</p>-->
 									
-									<input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Update">
-									
-									<a href="{{url('/instituteFinal/'.$inst_data->institute_id)}}" class="btn btn-primary buttonEvent">Next</a>
-									
+									<input class="btn btn-primary " type="submit" value="Final Submit">
+								</div> 
 							</center>
-							<?php } ?>@endif
+								<?php } ?> @endif
+							
+							 </form>
 							
 							@endif
 							
 							</form>
-							
-							
-							
 							
                 
             
