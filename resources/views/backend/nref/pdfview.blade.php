@@ -211,7 +211,7 @@
 								<div class="col-md-2" style="width: 20%;position: relative;margin-top: -4em;left: 22em;">
 								
 								
-								<label for="name" style="font-size: 12px;color:#000" class="control-label">Name and Signature of Registrar with Seal</label>
+								<label for="name"  style="font-size: 12px;color:#000" class="control-label">Name and Signature of Registrar with Seal</label>
 										<!--<p style="background-color: brown;color: white;text-align:center">Signature</p>-->
 										<hr>
 									

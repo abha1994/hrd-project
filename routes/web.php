@@ -99,7 +99,7 @@ Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
 Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
 
 Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/instituteFinal');
-Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final'); 
+Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
 	
 //******************Admin**************************//	
 Route::get('/nref-home', 'Nref\admin\NrefhomeController@index')->name('nref-home');

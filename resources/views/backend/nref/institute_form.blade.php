@@ -435,7 +435,7 @@
 								<div class="row">
 								<div class="col-md-12">
 								
-								<input id="certified" class="certified" name="certified" type="checkbox" value="1" <?php if(!empty($inst_data->certified_status)){ if($inst_data->certified_status==1) { echo 'checked'; } } ?> @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif /> <span>We Certified that the information have been verified and correct</span> 
+								<input id="certified" class="certified" name="certified" type="checkbox" value="1" <?php if(!empty($inst_data->certified_status)){ if($inst_data->certified_status==1) { echo 'checked'; } } ?> @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif /> <span>We Certified that the information have been verified and correct</span>
 					
 								</div>
 								

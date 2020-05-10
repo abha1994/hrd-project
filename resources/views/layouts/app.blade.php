@@ -15,9 +15,10 @@
 	<link href="{{ asset('public/assets/front_css/font.css') }}" rel="stylesheet">
 
 	<script src="{{ asset('public/assets/front_js/jquery.min.js') }}"></script>
+	<script src="{{ URL::asset('public/assets/front_js/validation.js')}}"></script>
 	<script src="{{ asset('public/assets/front_js/bootstrap.min.js') }}"></script>
   
-
+<script src="{{ asset('public/jquery-validation/dist/jquery.validate.js') }}"></script>
         <!-- Fonts -->
         
 

@@ -12,8 +12,8 @@
         </li>
         <li class="breadcrumb-item active">Update Officer</li>
       </ol>
-		  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">Update Officer</h4></div>
+		  <div class="card card-login mx-auto mt-5">     
+   <div class="card-header text-center"><h4 class="mt-2" >Update Officer</h4></div>
 	  <div class="card-body">
         			<br />
         			
@@ -67,7 +67,7 @@
 									
 								
 							    <div class="col-md-6">
-									<input type="text"  class="form-control @error('mobile_no') is-invalid @enderror"  maxlength="10" value="{{ $user->mobile_no }}" id="mobile_no" placeholder="Mobile No*" name="mobile_no">
+									<input type="text"  class="form-control @error('mobile_no') is-invalid @enderror"  maxlength="10" value="{{ $user->mobile }}" id="mobile_no" placeholder="Mobile No*" name="mobile_no">
 									    @error('mobile_no')
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $message }}</strong>
@@ -110,7 +110,7 @@
 									 
 
 									 <select class="form-control" name="roles">  
-									   <option>Select</option>
+									   <option>Select Role</option>
 									   <?php foreach($roles as $k=>$v){?>
 									   <option value="<?php echo $k;?>" <?php if($user->role == $k){ echo "Selected";}?>><?php echo $v;?></option>
 									   <?php } ?>
@@ -140,9 +140,10 @@
 						
 						<hr>
 						<center>
-							<div class="form-group" >
-							   <input class="btn btn-primary" type="submit"  name="submit" value="Update">
-							   <a class="btn btn-secondary" href="{{ URL('user')}}">Cancel</a>
+							<div class="form-group">
+							   <button type="submit" value="Save" class="btn btn-primary">
+		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+							   <a class="btn btn-secondary" href="{{ URL('user')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 							</div> 
 						</center>							
 				    {!! Form::close() !!}
