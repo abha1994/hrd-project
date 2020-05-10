@@ -12,11 +12,7 @@
   <div class="card card-login mx-auto mt-5 ">     
    <div class="card-header text-center"><h4 class="mt-2">View Student</h4></div>
       <div class="card-body">
-        <div  style="float: right; padding-bottom: 10px;">
-        
-            <a class="btn btn-secondary" href="{{url('student-registration')}}">Back</a>
-           
-        </div>                 
+                      
         @include('includes/flashmessage')
         <br />
                    <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
@@ -93,6 +89,11 @@
            
         </tbody>
       </table>
+	  <br>
+	    <center>
+			<a href="{{url('student-registration')}}" class="btn btn-outline-secondary">
+			<i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+		</center>
         </div> 
     </div> </div> </div>
   <!--   <script src="{{ asset('js/app.js') }}"></script> -->

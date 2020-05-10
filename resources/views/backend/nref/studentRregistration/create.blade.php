@@ -21,7 +21,7 @@
               <input name="firstname" class="form-control" value="{{old('firstname')}}"></input>
               @if ($errors->has('firstname'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('firstname') }}</strong>
+                      <strong class="error" >{{ $errors->first('firstname') }}</strong>
                   </span>
                 @endif
           </div>
@@ -30,7 +30,7 @@
               <input name="middlename" class="form-control" value="{{old('middlename')}}"></input>
               @if ($errors->has('middlename'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('middlename') }}</strong>
+                      <strong class="error"> {{ $errors->first('middlename') }}</strong>
                   </span>
                 @endif
           </div>
@@ -39,7 +39,7 @@
               <input name="lastname" class="form-control" value="{{old('lastname')}}"></input>
               @if ($errors->has('lastname'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('lastname') }}</strong>
+                      <strong class="error">{{ $errors->first('lastname') }}</strong>
                   </span>
                 @endif
           </div>
@@ -53,7 +53,7 @@
               <input name="mobile" class="form-control" value="{{old('mobile')}}"></input>
               @if ($errors->has('mobile'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('mobile') }}</strong>
+                      <strong class="error">{{ $errors->first('mobile') }}</strong>
                   </span>
                 @endif
                 <div id="bbb"></div>
@@ -64,7 +64,7 @@
             <br />
             @if ($errors->has('email_id'))
                   <span class="help-block" id="aaa">
-                      <strong>{{ $errors->first('email_id') }}</strong>
+                      <strong class="error">{{ $errors->first('email_id') }}</strong>
                   </span>
                 @endif
                 <div id="aaa" class="error"></div>
@@ -76,7 +76,7 @@
             <br />
             @if ($errors->has('gender'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('gender') }}</strong>
+                      <strong class="error">{{ $errors->first('gender') }}</strong>
                   </span>
                 @endif
           </div>
@@ -92,7 +92,7 @@
               <textarea name="address" class="form-control">{{old('address')}}</textarea>
               @if ($errors->has('address'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('address') }}</strong>
+                      <strong class="error">{{ $errors->first('address') }}</strong>
                   </span>
                 @endif
           </div>
@@ -104,7 +104,7 @@
               <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
               @if ($errors->has('dob'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('dob') }}</strong>
+                      <strong  class="error">{{ $errors->first('dob') }}</strong>
                   </span>
                 @endif
           </div>
@@ -113,7 +113,7 @@
               <input type="text" name="pincode"  class="form-control" value="{{old('pincode')}}">
               @if ($errors->has('pincode'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('pincode') }}</strong>
+                      <strong class="error">{{ $errors->first('pincode') }}</strong>
                   </span>
                 @endif
           </div>
@@ -141,7 +141,7 @@
               </select>
               @if ($errors->has('country'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('country') }}</strong>
+                      <strong class="error">{{ $errors->first('country') }}</strong>
                   </span>
                 @endif
           </div>
@@ -149,26 +149,26 @@
               <label for="state">State <span style="color: red">*</span></label>               
               <!-- <input type="text" name="state"  class="form-control" value="{{old('state')}}"> -->
               <select name="state" class="form-control" id="state" size='1'>
-                <option value=""> Select </option>
+                <option value=""> Select State </option>
                 @foreach($states as $state)
                 <option value="{{$state->statecd}}" @if (old('state') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
                 @endforeach
               </select>
               @if ($errors->has('state'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('state') }}</strong>
+                      <strong class="error">{{ $errors->first('state') }}</strong>
                   </span>
                 @endif
           </div>
           <div class="form-group col-md-4">
-              <label for="distric">Distric <span style="color: red">*</span></label>    
+              <label for="distric">District <span style="color: red">*</span></label>    
               <select id="distric" name="distric" class="form-control">
-                <option value=""> Select </option>
+                <option value=""> Select District </option>
               </select>          
               <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
               @if ($errors->has('distric'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('distric') }}</strong>
+                      <strong class="error">{{ $errors->first('distric') }}</strong>
                   </span>
                 @endif
           </div>
@@ -213,7 +213,7 @@
               <input type="file" name="highest_qulification"  class="form-control" value="{{old('highest_qulification')}}" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
               @if ($errors->has('highest_qulification'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('highest_qulification') }}</strong>
+                      <strong class="error">{{ $errors->first('highest_qulification') }}</strong>
                   </span>
                 @endif
                 <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc, Docx, PDF & Maximum Size: 1MB)</small></p></span>
@@ -223,7 +223,7 @@
               <input type="file" name="bankMandate"  class="form-control" value="{{old('bankMandate')}}">
               @if ($errors->has('bankMandate'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('bankMandate') }}</strong>
+                      <strong  class="error">{{ $errors->first('bankMandate') }}</strong>
                   </span>
                 @endif
                 <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc, Docx, PDF & Maximum Size: 1MB)</small></p></span>
@@ -233,7 +233,7 @@
               <input type="text" name="aadhar"  class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
               @if ($errors->has('aadhar'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('aadhar') }}</strong>
+                      <strong class="error">{{ $errors->first('aadhar') }}</strong>
                   </span>
                 @endif
           </div>

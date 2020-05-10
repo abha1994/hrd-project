@@ -54,9 +54,9 @@ class studentRegistrationController extends Controller
     {
 		
 		$logID=Auth::id();
-		
+		// dd($logID);
 		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
-		
+		// dd($instID);
 		if(count(array($instID))>0)
 		{
 			$institiuteID=$instID->institute_id;

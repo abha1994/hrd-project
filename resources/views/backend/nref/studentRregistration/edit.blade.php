@@ -22,7 +22,7 @@
 				     	<input name="firstname" class="form-control" value="{{$student->firstname}}"></input>
 				     	@if ($errors->has('firstname'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('firstname') }}</strong>
+                			<strong class="error">{{ $errors->first('firstname') }}</strong>
              			</span>
         				@endif
 				   </div>
@@ -31,7 +31,7 @@
 				     	<input name="middlename" class="form-control" value="{{$student->middlename}}"></input>
 				     	@if ($errors->has('middlename'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('middlename') }}</strong>
+                			<strong class="error">  {{ $errors->first('middlename') }}</strong>
              			</span>
         				@endif
 				   </div>
@@ -40,7 +40,7 @@
 				     	<input name="lastname" class="form-control" value="{{$student->lastname}}"></input>
 				     	@if ($errors->has('lastname'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('lastname') }}</strong>
+                			<strong class="error">{{ $errors->first('lastname') }}</strong>
              			</span>
         				@endif
 					</div>				  
@@ -51,7 +51,7 @@
 				     	<input name="mobile" class="form-control" value="{{$student->mobile}}"></input>
 				     	@if ($errors->has('mobile'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('mobile') }}</strong>
+                			<strong class="error">{{ $errors->first('mobile') }}</strong>
              			</span>
         				@endif
 				    </div>
@@ -62,7 +62,7 @@
 				 		<br />
 				 		@if ($errors->has('email_id'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('email_id') }}</strong>
+                			<strong  class="error">{{ $errors->first('email_id') }}</strong>
              			</span>
         				@endif
 				 	</div>
@@ -74,7 +74,7 @@
 				 		<br />
 				 		@if ($errors->has('gender'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('gender') }}</strong>
+                			<strong class="error">{{ $errors->first('gender') }}</strong>
              			</span>
         				@endif
 				 	</div>				 	
@@ -86,7 +86,7 @@
 				       	<textarea name="address" class="form-control">{{$student->address}}</textarea>
 				     	@if ($errors->has('address'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('address') }}</strong>
+                			<strong class="error">{{ $errors->first('address') }}</strong>
              			</span>
         				@endif
 				    </div>
@@ -98,7 +98,7 @@
 				     	<input type="text" name="dob"  class="form-control" value="{{$student->dob}}" id="datepicker">
 				     	@if ($errors->has('dob'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('dob') }}</strong>
+                			<strong class="error">{{ $errors->first('dob') }}</strong>
              			</span>
         				@endif
 				    </div>
@@ -107,7 +107,7 @@
 				     	<input type="text" name="pincode"  class="form-control" value="{{$student->pincode}}">
 				     	@if ($errors->has('pincode'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('pincode') }}</strong>
+                			<strong class="error">{{ $errors->first('pincode') }}</strong>
              			</span>
         				@endif
 				  	</div>
@@ -131,35 +131,35 @@
 				   		</select>
 				    	@if ($errors->has('country'))
             				<span class="help-block">
-                				<strong>{{ $errors->first('country') }}</strong>
+                				<strong class="error">{{ $errors->first('country') }}</strong>
              				</span>
         				@endif
 				  	</div>
 				  	<div class="form-group col-md-4">
 				     	<label for="state">State <span style="color: red">*</span></label>				     	 
 				       	<select name="state" class="form-control" id="state">
-				     		<option value="0"> Select </option>
+				     		<option value="0"> Select State </option>
 				     		@foreach($states as $state)
 				     		<option value="{{$state->statecd}}" @if ($student->state == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
 				     		@endforeach
 				     	</select>
 				     	@if ($errors->has('state'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('state') }}</strong>
+                			<strong class="error">{{ $errors->first('state') }}</strong>
              			</span>
         				@endif
 				  	</div>  
 				  	<div class="form-group col-md-4">
-				     	<label for="distric">Distric <span style="color: red">*</span></label>		
+				     	<label for="distric">District <span style="color: red">*</span></label>		
 				     	<select id="distric" name="distric" class="form-control">
-				     		<option value="0"> Select </option>
+				     		<option value="0"> Select District</option>
 				     		 @foreach($distric as $dis)
 					          <option value="{{$dis->districtcd}}" @if($dis->districtcd == $student->state) selected="selected" @endif>{{$dis->district_name}}  </option>
 					        @endforeach
 				     	</select>		     	 
 				     	@if ($errors->has('distric'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('distric') }}</strong>
+                			<strong class="error">{{ $errors->first('distric') }}</strong>
              			</span>
         				@endif
 				  	</div>				 	 
@@ -202,7 +202,7 @@
 				     	<input type="file" name="highest_qulification"  class="form-control" value="{{$student->highest_qulification}}">
 				     	@if ($errors->has('highest_qulification'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('highest_qulification') }}</strong>
+                			<strong class="error">{{ $errors->first('highest_qulification') }}</strong>
              			</span>
         				@endif
 				  	</div>
@@ -211,7 +211,7 @@
 				     	<input type="file" name="bankMandate"  class="form-control" value="{{$student->bankMandate}}">
 				     	@if ($errors->has('bankMandate'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('bankMandate') }}</strong>
+                			<strong class="error">{{ $errors->first('bankMandate') }}</strong>
              			</span>
         				@endif
 					</div>
@@ -220,30 +220,27 @@
 				     	<input type="text" name="aadhar"  class="form-control" value="{{$student->aadhar}}" data-type="adhaar-number">
 				     	@if ($errors->has('aadhar'))
             			<span class="help-block">
-                			<strong>{{ $errors->first('aadhar') }}</strong>
+                			<strong class="error">{{ $errors->first('aadhar') }}</strong>
              			</span>
         				@endif
 				 	</div>				 	 
 		    	</div>  
 		    	<div class="form-row">
-					<div class="form-group col-md-4">
-				    	<label for="exampleInputPassword1">Upload Publication (In case of SRF) <span style="color: red">*</span></label>				     	 
-				     	<input type="file" name="publication"  class="form-control" value="{{$student->publication}}">
-				     	@if ($errors->has('publication'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('publication') }}</strong>
-             			</span>
-        				@endif
-				    </div>
-					<div class="form-group col-md-4" id="srf_jrf">
-				    </div>
+					 <div class="form-group col-md-4" id="srf_jrf">
+              
+					  </div>
+					  <div class="form-group col-md-4" id="publication">
+						  
+					  </div>
 			    </div> 
 				<div class="border-top bg-white card-footer text-muted text-left">
 				<br />
-				<center>
-				<button type="submit" name="editrole" value="Save" class="btn btn-primary font-weight-normal px-4">Update</button>
-			    <a href=" {{ url('student-registration')}}" class="btn btn-outline-secondary font-weight-normal mr-2">Cancle</a>
-				</center>
+				    <center>
+					<button type="submit" value="Save" class="btn btn-primary">
+					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+					<a href="{{url('student-registration')}}" class="btn btn-outline-secondary">
+					<i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+					</center>
 		</div>			
 	    </form>
         </div> 
