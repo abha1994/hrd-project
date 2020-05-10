@@ -53,7 +53,7 @@
 										<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style="font-size: 12px;"id="file_upload_signature_error"> </span>		
 										@if ($errors->has('file_upload_signature'))
 											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('file_upload_signature') }}</strong>
+												<strong>{{ $errors->first('file_upload_signature') }}</strong> 
 											</span>
 										@endif
 										@if ($file_upload_signature_error = Session::get('ex_error'))

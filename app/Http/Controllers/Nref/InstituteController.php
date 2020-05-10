@@ -360,7 +360,7 @@ class InstituteController extends Controller
 				/* Details of placement of previous students  CODE START ROCKY*/
 				
 				
-				/* Details of placement of previous students CODE ENDED ROCKY */
+				/* Details of placement of previous students CODE ENDED ROCKY */ 
 				
 				DB::table('institute_details')->where('institute_id',$request->editID)->update($postdata); 
 				

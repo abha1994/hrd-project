@@ -360,7 +360,7 @@ $('.fellow').keyup(function () {
 
 
 //************user click on preview---->
-    function preview_display(){
+    function preview_display(){ 
 	    $('#institute_form').validate();
         if ($('#institute_form').valid()) // 
         {
