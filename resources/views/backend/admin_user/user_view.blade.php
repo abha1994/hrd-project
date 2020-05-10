@@ -46,8 +46,6 @@
            		</div>
            	</div>
            </div>
-        </div> 
-    </div> </div> </div>
 <!--     <script src="{{ asset('js/app.js') }}"></script>  -->
 
 <script type="text/javascript">

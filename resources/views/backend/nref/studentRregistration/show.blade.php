@@ -9,8 +9,8 @@
         </li>
         <li class="breadcrumb-item active">View Student</li>
       </ol>
-  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">View Student</h4></div>
+  <div class="card card-login mx-auto mt-5 ">     
+   <div class="card-header text-center"><h4 class="mt-2">View Student</h4></div>
       <div class="card-body">
         <div  style="float: right; padding-bottom: 10px;">
         

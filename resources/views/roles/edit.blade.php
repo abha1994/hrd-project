@@ -1,23 +1,16 @@
 @extends('layouts.master')
 @section('container')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Edit Role</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{'/home'}}">Home</a></li>
-              <li class="breadcrumb-item active">Role Management</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <div class="container-fluid" id="app"> 
+	<div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs--><br>
+      <ol class="breadcrumb" >
+        <li class="breadcrumb-item">
+          <a href="{{url('home')}}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Update Role Management</li>
+      </ol>
+  <div class="card card-login mx-auto mt-5 ">     
+   <div class="card-header text-center"><h4 class="mt-2">Update Role Management</h4></div>
     @if (count($errors) > 0)
     <div class="alert alert-danger">
         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -28,8 +21,6 @@
         </ul>
     </div>
     @endif 
-<div class="col-md-12">
-    <div class="card card-primary card-outline">
         <div class="card-body">
 
 {!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
@@ -57,16 +48,15 @@
 
 
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a class="btn btn-secondary" href="{{ route('roles.index') }}"> Back</a>
+	
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+        <a class="btn btn-secondary" href="{{ route('roles.index') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
     </div>
 </div>
 {!! Form::close() !!}
     </div>
     </div>
-</div>
-
-    </div>    
+</div> 
 </div>
  <script type="text/javascript">
  $(document).ready(function () {

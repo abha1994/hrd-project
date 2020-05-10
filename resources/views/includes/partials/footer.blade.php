@@ -9,6 +9,8 @@
 <script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
 
 
+  <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('public/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script-->
 <footer class="main-footer">
@@ -21,9 +23,14 @@
 </footer>
 
 <script>
-
+$(document).ready(function() {
+	
+ $('#example').DataTable();
+});
 
  $(document).ready(function(){
+	 
+	 
 	 <!----- Left Menu ------------>
  	 $('.has-treeview').each(function(e){
 		if($(this).find("a").hasClass("active")){

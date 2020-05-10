@@ -1,33 +1,37 @@
 @extends('layouts.master')
 @section('container')
-   <div class="content-wrapper" >
+   
+   
+    <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">List Officer</li>
+        <li class="breadcrumb-item active">List Officer
+		 </li>
       </ol>
-	 	  <div class="card card-login mx-auto mt-5 " style="">     
-   <div class="card-header text-center"><h4 class="mt-2">List Officer</h4></div>
-	  <div class="card-body">
-    <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">        
-        <div class="pull-right" style="float: right;">
-        @can('user-create')
-            <a class="btn btn-success" href="{{ URL('user/create ') }}"><i class="nav-icon fas fa-plus"></i> Officer</a>
-            @endcan
-
-        </div>
-        <br />
-        <br />
-        @if ($message = Session::get('success'))
+	 
+      <!-- Example DataTables Card-->
+      <div class="card mb-3">
+	    <div class="card-header text-center"><h4 class="mt-2">List Officer</h4></div>
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">        
+		   
+		   @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
-        @endif
-        <br />
-            <table class="table table-bordered">
+         @endif
+		
+			<div class="pull-right" style="float: right;">
+				  @can('user-create')
+					<a class="btn btn-success" href="{{ URL('user/create ') }}"><i class="nav-icon fas fa-plus"></i> Officer</a>
+				@endcan
+            </div><br><br>
+	
+           <div class="table-responsive card-box">
+                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                 
                 <thead>
                 <tr>
@@ -79,18 +83,6 @@
             </table>
              
         </div> 
-    </div> </div> </div> </div>
-<!--      <script src="{{ asset('js/app.js') }}"></script> 
- -->
-<script type="text/javascript">
-   $(document).ready(function () {
- 
-        // $(".sidebar-menu li").removeClass("menu-open");
-        // $(".sidebar-menu li").removeClass("active");        
-        // $("#liofficer").addClass('menu-open');        
-        // $("#ulofficer").css('display', 'block');
-        // $(".nav-link").removeClass('active');
-        // $("#liofficers").addClass("active");
-      });
-</script>
+    </div> </div> </div></div>
+
  @endsection

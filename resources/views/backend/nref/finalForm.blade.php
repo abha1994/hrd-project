@@ -14,7 +14,7 @@
         <li class="breadcrumb-item active">Institute Details Form</li>
       </ol>
 	    <!-- Icon Cards-->
-	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;" id="modalCont">
+	   <div class="card card-login mx-auto mt-5 " id="modalCont">
 	     @if ($message = Session::get('success'))
 		<div class="alert alert-success alert-block" style="">
 	        <button type="button" class="close" data-dismiss="alert">×</button>	
@@ -31,7 +31,7 @@
 		@endif
 							
 
-     <div class="card-header text-center"><h4 style="    color: #2384c6;">Institute Details Form</h4></div>
+     <div class="card-header text-center"><h4 class="mt-2">Institute Details Form</h4></div>
       <div class="card-body">
 							
 	<form enctype="multipart/form-data" action="{{ route('institute-form-post-final') }}" autocomplete="off" id="institute_formFinal" method="POST" >
@@ -69,8 +69,9 @@
 								
 							<center>
 								<div class="form-group" >
-									
-									<input class="btn btn-primary " type="submit" value="Final Submit">
+								<button type="submit" value="Final Save" class="btn btn-primary">
+		                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>	
+								<a href="{{url('/institute')}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back</a>
 								</div> 
 							</center>
 							

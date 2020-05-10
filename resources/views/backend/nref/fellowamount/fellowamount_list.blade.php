@@ -12,14 +12,11 @@
       </ol>
 	 
       <!-- Example DataTables Card-->
-      <div class="card mb-3">
-	
-        <div class="card-header">
-          <a href="{{ URL('add-fellowamount') }}"><i class="fa fa-plus"></i> Add Fellow Amount</a>
-		</div>
-	
-        <div class="card-body">
-		 @if ($success = Session::get('success'))
+       <div class="card mb-3">
+	    <div class="card-header text-center"><h4 class="mt-2">List Fellow Amount</h4></div>
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app"> 
+		   
+		    @if ($success = Session::get('success'))
 		 <div class="alert alert-success alert-block">
 		   <button type="button" class="close" data-dismiss="alert">×</button>	
 		   <strong>{{ $success }}</strong>
@@ -32,9 +29,17 @@
 		   <strong>{{ $error }}</strong>
 		 </div>
 	     @endif
-				
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+		 
+		   <div class="pull-right" style="float: right;">
+				@can('role-create')
+				<a class="btn btn-success" href="{{ URL('add-fellowamount') }}"><i class="nav-icon fas fa-plus"></i> Add Fellow Amount</a>
+				@endcan
+			</div>
+			<br><br>
+	
+             <div class="table-responsive card-box">
+                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                               
               <thead>
                 <tr>
 				  <th id="sort">S. No.</th>
@@ -93,6 +98,6 @@
         </div>
         <!--div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div-->
       </div>
-    </div>
+    </div>  </div>
 
 @endsection

@@ -67,24 +67,18 @@
 </div-->
 <?php // }else{ ?>
 
- <div class="content-wrapper" >
+	<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
-	  <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Internship Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ url('internship-home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Internship Dashboard</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+      <ol class="breadcrumb" >
+        <li class="breadcrumb-item">
+          <a href="{{url('home')}}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Internship Dashboard</li>
+      </ol>
+	  <div class="card card-login mx-auto mt-5 ">     
+	   <div class="card-header text-center"><h4 class="mt-2">Internship Dashboard</h4></div>
+		  <div class="card-body">
       <ol class="breadcrumb">
         <li class="breadcrumb-item active"><b>Overview of Internship Data</b></li>
       </ol>
@@ -349,7 +343,7 @@
 	
         <?php // echo "<pre>"; print_r($userdata);?>
      </div>
-     </div>
+     </div></div></div>
      
      
 <?php //} ?>

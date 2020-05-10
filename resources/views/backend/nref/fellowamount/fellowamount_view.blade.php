@@ -1,23 +1,18 @@
 @extends('layouts.master')
 
 @section('container')
- <div class="content-wrapper">
+ 	<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
-      <ol class="breadcrumb">
+      <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{url('home')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Fellow Amount List</li>
+        <li class="breadcrumb-item active">View Fellow Amount</li>
       </ol>
-	 
-	  <div class="card card-login mx-auto mt-5 " style="max-width: 28rem;">
-	  <div class="card-body">
-	
-
-     <div class="card-header text-center"><h4 style="color: #2384c6;">View Fellow Amount</h4></div>
+  <div class="card card-login mx-auto mt-5 ">     
+   <div class="card-header text-center"><h4 class="mt-2">View Fellow Amount</h4></div>
       <div class="card-body">
-               
                             <div class="form-group">
 								<div class="row">
 								    <div class="col-md-4">
@@ -53,18 +48,14 @@
 								</div> 
 							</div>
 							
-							<hr>
-							<center>
-								<div class="form-group" >
-								   <button class="btn btn-primary"style="background-color: #ffffff;" ><a href="{{ URL('fellowamount-list')}}">Cancel</a></button>
-								</div> 
-							</center>
-							
+							<div class="col-xs-12 col-sm-12 col-md-12 text-center">
+        <a class="btn btn-secondary" href="{{ URL('fellowamount-list')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+    </div>
 				    
                 </div>
             </div>
          </div>
-     </div>   </div>
+     </div>   
 
 @endsection
 	

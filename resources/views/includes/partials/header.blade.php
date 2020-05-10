@@ -9,13 +9,18 @@
 <?php   
     if(Auth::user()->role != 0){
     $menu_id = Session::get('menu_id'); // dd($menu_id);?>
-     <select name="scheme_menu" class="scheme_menu">
+	<div class="col-xs-6 col-sm-6 col-md-6 text-center">
+     <select name="scheme_menu" class="scheme_menu"  class="form-control">
 	      <option value="">Select Scheme</option>
-	      <option value="1" <?php if($menu_id == 1){echo "Selected";}else{ echo "Selected";}?>>Internship</option>
-		  <option value="2" <?php if($menu_id == 2){echo "Selected";}else{ }?>>Fellowship Solar</option>
-		  <option value="3" <?php if($menu_id == 3){echo "Selected";}else{ }?>>Fellowship</option>
+	      <option value="1"  <?php if($menu_id == 1){echo "Selected";}else{ echo "Selected";}?>>Internship</option>
+		  <hr class="solid">
+		  <option value="2" <?php if($menu_id == 2){echo "Selected";}else{ }?>>New And Renewable Energy Solar</option>
+		  <hr class="solid">
+		  <option value="3" <?php if($menu_id == 3){echo "Selected";}else{ }?>>New And Renewable Energy Fellowship
+		  </option>
 	  </select>
-	<?php } ?>
+	  </div>
+	<?php  } ?>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
@@ -43,6 +48,16 @@
   </nav>
 
 <style>
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+.scheme_menu{
+    height: 35px;
+    border-color: #343a40;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 6px 4px 2px 16px;
+	}
 .wrapper > .main-header{
 	background-color: #17a2b8;
 }
@@ -66,5 +81,9 @@
 .error{
       color: red;
       font-size: 12px;
+}
+.alert-success{
+	    height: 44px;
+
 }
 </style>

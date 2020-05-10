@@ -10,7 +10,7 @@
   
  <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
  <script src="{{ asset('public/css/datepicker3.css') }}"></script>
-
+ <link rel="stylesheet" type="text/css" href="{{ asset('public/css/dataTables.bootstrap4.min.css') }}">
     <!-- Styles -->
 <link href="{{ asset('public/fontawesome/css/fontawesome.css') }}" rel="stylesheet">
 <link href="{{ asset('public/fontawesome/css/solid.css') }}" rel="stylesheet">

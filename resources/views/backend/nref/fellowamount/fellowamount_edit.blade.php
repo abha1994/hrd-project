@@ -1,21 +1,17 @@
 @extends('layouts.master')
 
 @section('container')
- <div class="content-wrapper">
+ 	<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
-      <ol class="breadcrumb">
+      <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{url('home')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Fellow Amount List</li>
+        <li class="breadcrumb-item active">update Fellow Amount</li>
       </ol>
-	 
- <div class="card card-login mx-auto mt-5 " style="max-width: 28rem;">
-	
-	
-<?php //dd($data['role_data']);?>
-     <div class="card-header text-center"><h4 style="color: #2384c6;">Update Fellow Amount</h4></div>
+  <div class="card card-login mx-auto mt-5 ">     
+   <div class="card-header text-center"><h4 class="mt-2">update Fellow Amount</h4></div>
       <div class="card-body">
      	<form  enctype="multipart/form-data"  action="{{ route('update-fellowamount',$data['fellow_amount_data']->fellow_amount_id) }}" class=""  onsubmit="this.elements['submit'].disabled=true;" autocomplete="off" id="internship_form" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
@@ -70,14 +66,11 @@
 							
 							
 						
-							
-							<hr>
-							<center>
-								<div class="form-group" >
-								   <input class="btn btn-primary" type="submit"  name="submit" value="Submit">
-								   <button class="btn btn-primary"style="background-color: #ffffff;" ><a href="{{ URL('fellowamount-list')}}">Cancel</a></button>
-								</div> 
-							</center>
+	<div class="col-xs-12 col-sm-12 col-md-12 text-center">
+         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+        <a class="btn btn-secondary" href="{{ URL('fellowamount-list')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+    </div>
+	
 							
 				    </form>
                 </div>

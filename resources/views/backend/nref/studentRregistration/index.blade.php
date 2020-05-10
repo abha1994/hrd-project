@@ -26,7 +26,7 @@
         </div>                 
         @include('includes/flashmessage')
         <br />
-            <table class="table table-bordered">
+           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <tr>
                     <th>S. No.</th>
                     <th>Student Name</th>

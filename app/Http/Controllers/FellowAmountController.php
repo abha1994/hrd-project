@@ -135,7 +135,7 @@ class FellowAmountController extends Controller
 		
         $data = FellowAmount::update_fellowamount($postdata,$id);
 		if($data['status'] == "1" ){
-			  return redirect('fellowamount')->with('success','Fellow Amount Data Updated successfully');
+			  return redirect('fellowamount-list')->with('success','Fellow Amount Data Updated successfully');
 		}
 	   
     }

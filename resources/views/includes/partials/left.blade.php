@@ -82,15 +82,14 @@
           </li>
           @endcan
           @can('user-list')
-          <li class="nav-item">
+          <!--li class="nav-item">
             <a href="{{url('users')}}" class="nav-link {{$userMClass}}" id="liuser">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 User Management
-                <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
-          </li>
+          </li-->
           @endcan
           @can('officer-list')
           <li class="nav-item has-treeview"  id="liofficer">

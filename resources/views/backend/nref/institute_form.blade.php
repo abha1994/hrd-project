@@ -14,7 +14,7 @@
         <li class="breadcrumb-item active">Institute Details Form</li>
       </ol>
 	    <!-- Icon Cards-->
-	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;" id="modalCont">
+	   <div class="card card-login mx-auto mt-5 "  id="modalCont">
 	     @if ($message = Session::get('success'))
 		<div class="alert alert-success alert-block" style="">
 	        <button type="button" class="close" data-dismiss="alert">×</button>	
@@ -39,7 +39,7 @@
 			// echo "<pre>"; print_r($inst_data); echo count($inst_data); die; 
 	 ?>
 	 <!--<marquee behavior="scroll" z-index:99;="" width="100%" height="30px" scrollamount="3" direction="left" style="background:rgba(0,0,0,.03)"><h3><span style="color:#FF0000;">The internship will be on unpaid basis. No stipend will be provided to interns. </span></h3></marquee>-->
-     <div class="card-header text-center"><h4 style="    color: #2384c6;">Institute Details Form</h4></div>
+     <div class="card-header text-center"><h4 class="mt-2">Institute Details Form</h4></div>
       <div class="card-body">
      	<form enctype="multipart/form-data" action="{{ route('institute-form-post') }}" autocomplete="off" id="institute_form" method="POST" >
 			{!! csrf_field() !!}
@@ -463,9 +463,10 @@
 									
 							<center>
 								<div class="form-group" >
-									
-									<input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Submit">
-									<button type="button" id="prevButton" class="btn btn-primary buttonEvent" data-toggle="modal" data-target="#myModal">Preview</button>
+								    <!--input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Submit">-->
+									<button type="submit" value="Save" class="btn btn-primary">
+		                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+									<button type="button" id="prevButton" class="btn btn-primary buttonEvent" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; Preview</button>
 									
 							</center>
 							
@@ -476,11 +477,13 @@
 							<center>
 								<div class="form-group" >
 								
-								<input type="text" name="editID" value="@if(isset($inst_data->institute_id)) {{$inst_data->institute_id }}@endif" />
+								<input type="hidden" name="editID" value="@if(isset($inst_data->institute_id)) {{$inst_data->institute_id }}@endif" />
 									
-									<input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Update">
+									<!--input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Update"-->
+									<button type="submit" value="Update" class="btn btn-primary">
+		                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp; Save</button>
 									
-									<a href="{{url('/instituteFinal/'.$inst_data->institute_id)}}" class="btn btn-primary buttonEvent">Next</a>
+									<a href="{{url('/instituteFinal/'.$inst_data->institute_id)}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp; Next</a>
 									
 							</center>
 							<?php } ?>@endif
