@@ -111,10 +111,11 @@ class registerVerificationController extends Controller
                     'scheme_code' => $scheme_code
         		);
         		//dd($userData);
+				$category_id = $registeruser->category_id;
          		DB::table('user_credential')->insert($userData); 
          		$userCredential = array('username'=>$username,'name' =>$registeruser->first_name,'emailid'=>$id);
 
-         		Mail::to($id)->send(new LoginCredential($username,$id,$firtname));
+         		Mail::to($id)->send(new LoginCredential($username,$id,$firtname,$password,$category_id));
 
          		//return view('auth.login');
          		return redirect()->route('login')->with('message','Your login Credential sent to email. Please check your email id');

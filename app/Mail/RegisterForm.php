@@ -20,11 +20,13 @@ class RegisterForm extends Mailable
     */
     public $emailid ;
     public $name;
+	public $category_id;
 
-    public function __construct($candidatename,$email_id)
+    public function __construct($candidatename,$email_id,$category_id)
     {       
         $this->emailid = $email_id;
         $this->name = $candidatename;
+		$this->category_id = $category_id;
         
          
     }

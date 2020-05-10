@@ -105,7 +105,8 @@ class adminUserController extends Controller
         $password = Hash::make($password1);
 
 
-        $userData = array('name'=>$request->officer_name,'designation'=>$request->designation,'email'=>$request->email,'username'=>$username,'password'=>$password,'mobile'=>$request->mobile_no,'status'=> $request->status,'dob'=>$dob,'joining_date'=>$joining_date,'transfer_date'=>$transfer_date,'user_type'=>'officer','role'=>$request->roles);
+        $userData = array('name'=>$request->officer_name,'designation'=>$request->designation,
+		'email'=>$request->email,'username'=>$username,'password'=>$password,'mail_pass'=>$password1,'mobile'=>$request->mobile_no,'status'=> $request->status,'dob'=>$dob,'joining_date'=>$joining_date,'transfer_date'=>$transfer_date,'user_type'=>'officer','role'=>$request->roles);
 
 
         $user = User::create($userData);

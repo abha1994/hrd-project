@@ -21,13 +21,14 @@ class OfficerLoginCredential extends Mailable
     public $emailid ;
     public $ofname;
     public $username;
-
+	 public $mail_pass;
+	
     public function __construct($userData)
     {       
         $this->emailid = $userData['email'];
         $this->ofname = $userData['name'];
         $this->username = $userData['username'];
-        
+        $this->mail_pass = $userData['mail_pass'];
          
     }
 

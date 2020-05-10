@@ -1,11 +1,11 @@
 @component('mail::message')
-# Login Credentials of Officer
+# Login Credentials
 Dear {{ $ofname }},
 
-find below Details of login credentials of our HRD Portal
+Please find below Details of login credentials of our HRD Portal :
 
- Username : {{ $username }} Or {{$emailid}}<br>
- Passowrd : password@321<br>
+ Username : {{ $username }} <br>
+ Passowrd : {{$mail_pass}}<br>
 
 @component('mail::button', ['url' => url('/login')])
 Click To Login

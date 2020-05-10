@@ -1,11 +1,12 @@
 @component('mail::message')
 # Login Credentials
-Dear {{ $candidateName }},
 
-find below the login Credentials
+<?php if($category_id != 3) {  echo "<h5>Dear ".$candidateName.", </h5>"; }else { echo "<h5>Hello, </h5>";} ?>
+
+Please find below the login Credentials :
 <br>
-username: {{ $username }} Or {{$emailid}}<br>
-password: password@123<br>
+Username: {{ $username }} <br>
+password: {{ $password }}<br>
 
 @component('mail::button', ['url' => url('login')])
 Click To Login

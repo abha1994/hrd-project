@@ -22,13 +22,16 @@ class LoginCredential extends Mailable
     public $candidateName;
     public $username;
     public $emailid;
+	public $password;
+	public $category_id;
      
-    public function __construct($username,$id,$firtname)
+    public function __construct($username,$id,$firtname,$password,$category_id)
     {       
         $this->emailid = $id;
         $this->username = $username;
         $this->candidateName = $firtname;
-
+        $this->password = $password;
+		$this->category_id = $category_id;
          
     }
 

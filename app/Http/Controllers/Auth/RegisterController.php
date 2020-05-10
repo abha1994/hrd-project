@@ -141,8 +141,8 @@ class RegisterController extends Controller
          //$id = DB::getPdo()->lastInsertId();
         $emailid =$data['email_id'];
         $candidatename = $candidatename;
-
-        Mail::to($data['email_id'])->send(new RegisterForm($candidatename,$email_id));
+        $category_id = $data['category_id'];
+        Mail::to($data['email_id'])->send(new RegisterForm($candidatename,$email_id,$category_id));
 
         return view('auth.regiserThank',compact('emailid','candidatename'));
 

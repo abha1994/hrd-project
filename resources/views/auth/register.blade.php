@@ -159,9 +159,9 @@
 
                                      
                                 </div> 
-							
+								<br>
                                 <p style='color:red' class="remainsFields"><br>Note:You cannot modify Email or Mobile later. So please be careful while entering.</p>
-                               	<br> <div class="form-group">
+                                <div class="form-group">
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                            
