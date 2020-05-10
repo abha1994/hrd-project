@@ -29,6 +29,7 @@ Route::resource('/roles','RoleController');
 Route::resource('users','UserController');
 Route::resource('products','ProductController');
 
+
 // *************Pushkar**********************//
 Route::get('/forgetusername', 'ForgetUsernameController@index')->name('forgetusername');
 Route::post('/forgetusername-form-post','ForgetUsernameController@forgetusername_form')->name('forgetusername-form-post');
@@ -145,6 +146,16 @@ Route::get('how-to-apply', 'Internship\InternshipController@how_to_apply')->name
 Route::get('/internship-print', 'Internship\InternshipController@internship_form_print')->name('internship-print');
 Route::get('/internship-guidelines', 'Internship\InternshipController@guidelines')->name('internship-guidelines');
 Route::get('/intern-status/{id}', 'Internship\InternshipController@intern_status')->name('intern-status');
+
+
+//-------------Fellow Amount----------------->	
+Route::get('/fellowamount-list', 'FellowAmountController@index')->name('fellowamount');
+Route::get('/add-fellowamount', 'FellowAmountController@add')->name('add-fellowamount');
+Route::post('/create-fellowamount', 'FellowAmountController@create')->name('create-fellowamount');
+Route::get('/delete-fellowamount/{id}', 'FellowAmountController@delete')->name('delete-fellowamount');
+Route::get('/view-fellowamount/{id}', 'FellowAmountController@view')->name('view-fellowamount');
+Route::get('/edit-fellowamount/{id}', 'FellowAmountController@edit')->name('edit-fellowamount');
+Route::post('/update-fellowamount/{id}', 'FellowAmountController@update')->name('update-fellowamount');
 
 //-------------Admin Internship----------------->
 	

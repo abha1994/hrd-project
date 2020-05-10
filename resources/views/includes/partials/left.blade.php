@@ -117,6 +117,17 @@
              </ul>
           </li>
           @endcan
+		   @can('user-list')
+          <li class="nav-item">
+            <a href="{{url('fellowamount-list')}}" class="nav-link {{$userMClass}}" id="fellowamount">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Fellow Amount
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          @endcan
 	     <?php $menu_id = Session::get('menu_id');
 		 // dd($menu_id);
 		 if($menu_id == "1" || $menu_id == null){?>
