@@ -2,7 +2,7 @@
 
 @section('content')
 <link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
- <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
+ <!--script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script-->
 
 <section class="register-cust">
 <div class="container">
@@ -15,7 +15,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="login_form">
                         @csrf
 
                         <div class="form-group row">

@@ -95,7 +95,7 @@
 
 
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog ">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -142,7 +142,9 @@
         bLengthChange: false,
 
 	});
-  } ); */
+  } ); 
+  
+  */
 
 </script>
 <style>

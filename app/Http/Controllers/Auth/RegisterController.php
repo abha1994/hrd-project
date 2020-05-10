@@ -98,20 +98,21 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         
+		$transactionResult = DB::transaction(function() use ($data) {
         $date = date('Y-m-d H:i:s');
         if($data['category_id']==3){
                    
-            $candidatename = strtolower(substr($data['institute_name'],0,5));
+            $candidatename = $data['institute_name'];//strtolower(substr($data['institute_name'],0,5));
             $email_id= $data['email_id'];
-            //dd($candidatename);
+            ////dd($candidatename);
 
         }else if($data['category_id']==2){
                     
-            $candidatename =strtolower(substr($data['first_name'],0,5));
+            $candidatename = $data['first_name'];//strtolower(substr($data['first_name'],0,5));
             $email_id= $data['email_id'];
 
         }else{
-            $candidatename = strtolower(substr($data['first_name'],0,5));
+            $candidatename = $data['first_name'];//strtolower(substr($data['first_name'],0,5));
             $email_id= $data['email_id'];
         }
         $registrationData = array(
@@ -143,7 +144,7 @@ class RegisterController extends Controller
 
         Mail::to($data['email_id'])->send(new RegisterForm($candidatename,$email_id));
 
-        return view('auth.regiserThank',compact($emailid,$candidatename));
+        return view('auth.regiserThank',compact('emailid','candidatename'));
 
         
         return User::create([
@@ -151,5 +152,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+		
+		});
+	   return $transactionResult;
     }
 }

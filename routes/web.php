@@ -81,6 +81,16 @@ Route::post('/acknowledge-form-post', 'Nref\AcknowledgeController@acknowledge_fo
 Route::post('/acknowledgeAjax', 'Nref\AcknowledgeController@acknowledgeAjax')->name('acknowledgeAjax');
 Route::get('pdfdown',array('as'=>'pdfdown','uses'=>'Nref\AcknowledgeController@pdfdown'));
 
+/* Yearly Progress Report By ROcky */
+
+Route::get('/yearly_reportProgress', 'Nref\ProgressreportController@index')->name('/yearly_reportProgress');
+Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progress_post')->name('progress-report-post');
+
+Route::get('/getReportAjax', 'Nref\ProgressreportController@getReportAjax')->name('/getReportAjax');
+Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew')->name('/getReportAjaxnew');
+
+/* Yearly Progress Report By ROcky */
+
 
 Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
 Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');
@@ -88,6 +98,8 @@ Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nref\InstituteController@pdf
 Route::get('/preview', 'Nref\InstituteController@previewIndex')->name('/preview');
 Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
 Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
+
+Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/instituteFinal');
 Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
 	
 //******************Admin**************************//	

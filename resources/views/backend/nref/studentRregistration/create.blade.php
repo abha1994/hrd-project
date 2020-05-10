@@ -9,9 +9,9 @@
         </li>
         <li class="breadcrumb-item active">Add Student</li>
       </ol>
-  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">Add Student</h4></div>
-      <div class="card-body">
+  <div class="card card-login mx-auto mt-5 ">     
+   <div class="card-header text-center"><h4 class="mt-2">Add Student</h4></div>
+      <div class="card-body " style="">
      <form  enctype="multipart/form-data"  action="{{ route('student-registration.store') }}" class="" id="studentRegistrationForm" method="POST" >
       {{csrf_field()}}
 
@@ -260,14 +260,14 @@
         
            
         </div>
-        <div class="border-top bg-white card-footer text-muted text-left">
-        <br />
+       
 		<center>
-        <button type="submit" name="editrole" value="Save" class="btn btn-primary font-weight-normal px-4">Save</button>
-        <a href="{{url('student-registration')}}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" value="Save" class="btn btn-primary">
+		<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+        <a href="{{url('student-registration')}}" class="btn btn-outline-secondary">
+		<i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 		</center>
-      <!-- <a href=" " class="btn btn-outline-secondary font-weight-normal mr-2">Add other students detail </a> -->
-    </div>      
+    
       </form>
         </div>
     </div>
@@ -276,10 +276,7 @@
 
 <style>
 
-  .error{
-      color: red;
-      font-size: 12px;
-  }
+ 
  
  
 </style>

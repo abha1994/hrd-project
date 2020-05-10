@@ -25,7 +25,7 @@ class studentRegistrationController extends Controller
     public function index()
     {
 		$login_institute_id = Auth::id();//dd($login_institute_id);
-        $students = DB::table('studentregistrations')->where('institute_id',$login_institute_id)->orderBy('id','desc')->get();
+        $students = DB::table('studentregistrations')->where('user_id',$login_institute_id)->orderBy('id','desc')->get();
         return view('backend.nref.studentRregistration.index',compact('students'));
     }
 
@@ -52,6 +52,18 @@ class studentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+		
+		$logID=Auth::id();
+		
+		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
+		
+		if(count(array($instID))>0)
+		{
+			$institiuteID=$instID->institute_id;
+		}
+		else{
+			$institiuteID=="";
+		}
          
        // dd($request->all());
          $this->validate($request,[
@@ -147,7 +159,9 @@ class studentRegistrationController extends Controller
         
  
 
-        $records['institute_id'] = Auth::id();
+        
+		$records['institute_id'] = $institiuteID;
+		$records['user_id'] = $logID;
         $records['dob']= date('Y-m-d', strtotime($request->dob));
          
         studentRegistration::create($records);
@@ -198,13 +212,27 @@ class studentRegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
+		
+		$logID=Auth::id();
+		
+		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
+		
+		if(count(array($instID))>0)
+		{
+			$institiuteID=$instID->institute_id;
+		}
+		else{
+			$institiuteID=="";
+		}
+		
         $records = studentRegistration::find($id);
+		
           
         $this->validate($request,[
             'firstname'  =>  'required|min:4|max:50',
             'gender'=> 'required|in:male,female',
             'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
-            //'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
+            ////'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
             'address' => 'required|min:20|max:150',
             'dob' => 'required',
@@ -303,7 +331,8 @@ class studentRegistrationController extends Controller
         $records->bankMandate = $records['bankMandate'];
         $records->publication = $records['publication'];
         $records->aadhar = $request->aadhar;
-        $records->institute_id = Auth::id();
+        $records->institute_id = $institiuteID;
+		$records->user_id = Auth::id();
           
         $records->save();
         return redirect()->route('student-registration.index')

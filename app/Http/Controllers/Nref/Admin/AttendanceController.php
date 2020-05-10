@@ -21,10 +21,13 @@ class AttendanceController extends Controller
     {
 		
 		$institute_data =DB::table('institute_details')
-            // ->leftJoin('registration', 'institute_details.candidate_id', '=', 'registration.candidate_id')
-			// ->select('registration.institute_name','institute_details.candidate_id')
+		     ->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
+             ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+			 ->select('registration.institute_name','institute_details.institute_id')
 			->where('institute_details.status_id',3)
             ->get();
+			
+			////echo "<pre>"; print_r($institute_data); die;
 
         return view('backend.nref.admin.admin_attendance.attendance',compact('institute_data'));
     }
@@ -54,15 +57,21 @@ class AttendanceController extends Controller
 			//echo $attendanceList; die;
 	}
 	
-	if($val3)
+	/* if($val3)
 	{
 		$attendanceList = DB::table('candidate_attendence')
             ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
 			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
-			->where(['candidate_attendence.institute_id' =>$val3,'year_atten'=>$val2])
+			->where(['studentregistrations.institute_id' =>$val3,'year_atten'=>$val2])
 			->orderBy('attendence_id','asc')
             ->get();
-	}
+			
+			//echo $val3; die;
+			
+			//echo $attendanceList;
+			
+			//echo "<pre>"; print_r($attendanceList); die;
+	} */
 	
 	 if($val1 && $val3)
 	{
@@ -70,7 +79,7 @@ class AttendanceController extends Controller
             ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
 			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
 			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->where(['candidate_attendence.institute_id' =>$val3,'year_atten'=>$val2])
+			->where(['studentregistrations.institute_id' =>$val3,'year_atten'=>$val2])
 			->orderBy('attendence_id','asc')
             ->get();
 	} 

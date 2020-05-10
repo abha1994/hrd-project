@@ -14,9 +14,11 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-		$institute_id =  Auth::id(); //login user id
-		$students = DB::table('studentregistrations')->where('institute_id',$institute_id)->orderBy('id','desc')->get();
-		$attendanceList = DB::table('candidate_attendence')->where('institute_id',$institute_id)->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
+		$login_id =  Auth::id(); //login user id
+		$students = DB::table('studentregistrations')->where('user_id',$login_id)->orderBy('id','asc')->get();
+		$attendanceList = DB::table('candidate_attendence')->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
+		
+		////echo "<pre>"; print_r($students); die;
         return view('backend.nref.attendance',compact('students','attendanceList'));
     }
 	
@@ -27,16 +29,19 @@ class AttendanceController extends Controller
 		$val2=$request->input('yrVal');
 		$currentmonth=$request->input('currentMonth');
 		$monthValueArray=array('0'=>$val1,'1'=>$currentmonth);
-		$institute_id =  Auth::id();
-        $students = DB::table('studentregistrations')->where('institute_id',$institute_id)->orderBy('id','desc')->get();
+		$login_id =  Auth::id();
+        $students = DB::table('studentregistrations')->where('user_id',$login_id)->orderBy('id','desc')->get();
+		
+		
 
         $attendanceList = DB::table('studentregistrations')
 							->leftJoin('candidate_attendence', 'studentregistrations.id', '=', 'candidate_attendence.student_id')
 							->where(['month_atten' =>$val1,'year_atten'=>$val2])
-							->where('candidate_attendence.institute_id',$institute_id)
-							// ->Where('candidate_attendence.institute_id',$institute_id)
+							->where('studentregistrations.user_id',$login_id)
 							->orderBy('attendence_id','asc')
 							->get();
+							
+							//echo "<pre>"; print_r($attendanceList); die;
 		return view('backend.nref.attendanceAjax',compact('attendanceList','monthValueArray','students'));
 	}
 
@@ -48,6 +53,21 @@ class AttendanceController extends Controller
 		// $all_data =  Session::get('userdata');
 		// $user_id = $all_data['candidate_id'];
 		$user_id =  Auth::id();	
+		
+		$instID= DB::table('institute_details')->where('user_id', $user_id)->first();
+		
+		//echo "<pre>"; print_r($instID); die;
+		
+		if(count(array($instID))>0)
+		{
+			$institiuteID=$instID->institute_id;
+		}
+		else{
+			$institiuteID=="";
+		}
+		
+		
+		
 		 $this->validate($request,[
             'working_days' => 'required',
             'holiday' => 'required',
@@ -60,7 +80,8 @@ class AttendanceController extends Controller
         $records = $request->all();
 		for($i=0;$i<count($request->working_days);$i++)
 		   {
-				$postdata['institute_id']=$user_id;
+				$postdata['institute_id']=$institiuteID;
+				$postdata['user_id']=$user_id;
 				$postdata['scheme_code']=3;
 				$postdata['student_id']=$request->user_id[$i];
 				$postdata['month_atten']=$request->month_atten;
@@ -73,10 +94,10 @@ class AttendanceController extends Controller
 				$postdata['leave_approved_days']=$request->leave_approval[$i];
 				$postdata['total_days']=$request->total_days[$i];
 
-				$existUser = DB::table('candidate_attendence')->where(['institute_id' => $user_id,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->count();
+				$existUser = DB::table('candidate_attendence')->where(['institute_id' => $institiuteID,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->count();
 				if($existUser>0)
 				{
-					DB::table('candidate_attendence')->where(['institute_id' => $user_id,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->update($postdata);
+					DB::table('candidate_attendence')->where(['institute_id' => $institiuteID,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->update($postdata);
 					$msg="Your Attandace Updated successfully.";
 				}
 				else{

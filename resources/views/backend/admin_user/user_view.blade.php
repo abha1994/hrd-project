@@ -9,8 +9,8 @@
         </li>
         <li class="breadcrumb-item active">View Officer</li>
       </ol>
-	  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">View Officer</h4></div>
+	  <div class="card card-login mx-auto mt-5">     
+   <div class="card-header text-center"><h4 class="mt-2">View Officer</h4></div>
       <div class="card-body">     
  
         			     
@@ -24,7 +24,7 @@
            						<td>Designation : </td><td>{{$data->designation}}</td>
            					</tr>
            					<tr> 
-           						<td>Mobile Numer : </td><td>{{$data->mobile_no}}</td>
+           						<td>Mobile Numer : </td><td>{{$data->mobile}}</td>
            					</tr>
            					<tr> 
            						<td>Joining Date : </td><td>{{$data->joining_date}}</td>
@@ -35,9 +35,12 @@
            					<tr> 
            						<td>Date of Birth : </td><td>{{$data->dob}}</td>
            					</tr>
-
-           					<tr><td></td><td style="float:right"><a href="{{url('user')}}" class="btn btn-secondary">Back</a></td></tr>
-           				</table>
+                        </table>
+						<center>
+							<div class="form-group">
+							   <a class="btn btn-secondary" href="{{ URL('user')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+							</div> 
+						</center>	
            			</div>
            			</div>
            		</div>

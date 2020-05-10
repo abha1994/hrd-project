@@ -11,6 +11,7 @@ password: password@123<br>
 Click To Login
 @endcomponent
 
-Thanks,<br>
-{{ config('app.name') }}
+Regards,<br>
+HRD portal<br>
+Ministry of New and Renewable Energy<br>
 @endcomponent

@@ -10,8 +10,8 @@
         </li>
         <li class="breadcrumb-item active">Add Officer</li>
       </ol>
-	  	  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">Add Officer</h4></div>
+	  	  <div class="card card-login mx-auto mt-5">     
+   <div class="card-header text-center"><h4 class="mt-2">Add Officer</h4></div>
 	  <div class="card-body">
         			<br />
         			{!! Form::open(['route'=>'user.store','method'=>'post']) !!}
@@ -105,7 +105,7 @@
 								<div class="col-md-6">
 									
 									<select class="form-control" name="roles">  
-									   <option>Select</option>
+									   <option>Select Role*</option>
 									   <?php foreach($roles as $k=>$v){?>
 									   <option value="<?php echo $k;?>"><?php echo $v;?></option>
 									   <?php } ?>
@@ -135,9 +135,10 @@
 						
 						<hr>
 						<center>
-							<div class="form-group" >
-							   <input class="btn btn-primary" type="submit"  name="submit" value="Submit">
-							   <a class="btn btn-secondary" href="{{ URL('user')}}">Cancel</a>
+							<div class="form-group">
+							   <button type="submit" value="Save" class="btn btn-primary">
+		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+							   <a class="btn btn-secondary" href="{{ URL('user')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 							</div> 
 						</center>							
 				    {!! Form::close() !!}

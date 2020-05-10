@@ -1,4 +1,4 @@
-<?php //echo "<pre>"; print_r($students);  die; ?>
+<?php //echo "<pre>"; print_r($attendanceList);  die; ?>
 <table  width="100%"  class="table table-bordered data-table">
 			    <thead>
 				       <tr>
