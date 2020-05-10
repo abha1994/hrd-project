@@ -316,7 +316,7 @@ class UniversityController extends Controller
 			$insertRecord['final_submit']=$fetchRecord['existRecords'][0]->final_submit;
 			$insertRecord['history_by']=1;
 			$insertRecord['created_date']=$fetchRecord['existRecords'][0]->created_date;
-			$insertRecord['modified_by']=Auth::user()->id;
+			$insertRecord['created_by']=Auth::user()->id;
 			$insertRecord['modified_date']=$date;
 			
 			/* Move Files to another history Folder */
