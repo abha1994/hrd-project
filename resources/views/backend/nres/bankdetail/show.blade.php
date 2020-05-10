@@ -5,20 +5,14 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+           <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">View Bank details</li>
       </ol>
-  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">View Bank details</h4></div>
-      <div class="card-body">      
-        <div  style="float: right; padding-bottom: 10px;">
-        
-           <a href="{{ route('bank-details.index') }}" > Back  </a>
-           
-        </div>                 
-        @include('includes/flashmessage')
-        <br />
+
+  <div class="card card-login mx-auto mt-5 " style="">     
+   <div class="card-header text-center"><h4 class="mt-2">View Bank details of <?php if($recorde->student_id == $student_name->id){ echo $student_name->firstname;}?></h4></div>
+      
         <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">        
          <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
         <tbody>
@@ -41,11 +35,23 @@
           </tr>
            <tr>
             <td>RTGS Enable : </td>
-            <td>{{$recorde->rtgs}}</td>
+            <td>
+			    @if($recorde->rtgs == "Y" )
+			       YES 
+					@else 
+				   NO 
+				@endif
+			</td>
           </tr>
            <tr>
             <td>NEFT Enable : </td>
-            <td>{{$recorde->neft}}</td>
+            <td>
+			    @if($recorde->neft == "Y" )
+			       YES 
+					@else 
+				   NO 
+				@endif
+			</td>
           </tr>
            <tr>
             <td>Pan Number : </td>
@@ -72,13 +78,15 @@
             <td>{{$recorde->bank_email}}</td>
           </tr>  
            
-           
+        
         </tbody>
       </table>
-
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+			<a class="btn btn-secondary" href="{{ route('bank-details.index') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+			</div>
         </div>
         </div> 
-    </div></div></div>
+    </div></div>
 <!--     <script src="{{ asset('js/app.js') }}"></script>  -->
 <script type="text/javascript">
   

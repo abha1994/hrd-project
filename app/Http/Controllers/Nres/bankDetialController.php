@@ -43,7 +43,8 @@ class bankDetialController extends Controller
     {
 		
 		$user_id = Auth::id();
-        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$user_id)->get(); 
+		// $student_name = DB::table('studentregistrations')->select('institute_id')->where('user_id',$user_id)->get();
+        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('user_id',$user_id)->get(); 
         $bankdetils = DB::table('banklist')->distinct()->get('bank');
         return view('backend.nres.bankdetail.create',compact('bankdetils','student_name'));
     }
@@ -85,8 +86,11 @@ class bankDetialController extends Controller
      */
     public function show($id)
     {
+		$user_id = Auth::id();
+		// $student_name = DB::table('studentregistrations')->select('institute_id')->where('user_id',$user_id)->get();
+        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('user_id',$user_id)->get()->first(); 
         $recorde = BankDetail::findOrFail($id);
-        return view('backend.nres.bankdetail.show',compact('recorde'));
+        return view('backend.nres.bankdetail.show',compact('recorde','student_name'));
     }
 
     /**
@@ -98,7 +102,7 @@ class bankDetialController extends Controller
     public function edit($id)
     {
 		$user_id = Auth::id();
-        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$user_id)->get(); 
+        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('user_id',$user_id)->get(); 
         $bankdetils = DB::table('banklist')->distinct()->get('bank');
         $record = BankDetail::findOrFail($id);
         return view('backend.nres.bankdetail.edit',compact('record','bankdetils','student_name'));

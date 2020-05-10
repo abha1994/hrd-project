@@ -335,6 +335,7 @@ $(document).ready(function(){
      ignore: [],
      debug: false,
      rules: {
+		
         bank_cname: {
              required: true,
          },
@@ -354,17 +355,20 @@ $(document).ready(function(){
 		 },
        pan: {
              required: true,
-             pattern:/^[a-zA-z]{5}\d{4}[a-zA-Z]{1}$/,
-             maxlength:10, 
+             pan: true,
+             // maxlength:10, 
 			 
          },
           ifsc_code:{
 			  required: true,
-			//required: function(element) {
-				//return $("input:radio[name='rtgs']:checked").val() == 'Y';
-			//},
-			pattern: /^[A-Za-z]{4}\d{7}$/,
+			  ifsc:true
 		 },
+		  account_type: {
+             required: true,
+         },
+		  student_id: {
+             required: true,
+         },
 		 aadhar_no:{
 			    required: true,
 			    minlength:12,
@@ -372,10 +376,12 @@ $(document).ready(function(){
 		bank_phone:{
 			   required: true,
 			   minlength:10,
+			   phoneStartingWith6: true
 		 },
 		bank_mobile:{
 			   required: true,
 			   minlength:10,
+			   phoneStartingWith6: true
 		 },
 		
 		bank_email:{
@@ -397,7 +403,63 @@ $(document).ready(function(){
 
 
  $(document).ready(function() { 
+ 
+  $.validator.addMethod("ifsc", function(value, element) {
+    var reg = /^[A-Za-z]{4}[0-9]{6,7}$/;
+    if (this.optional(element)) {
+      console.log(value);
+      console.log(element);
+      return true;
+    }
+    if (value.match(reg)) {
+      return true;
+    } else {
+      return false;
+    }
+  }, "Please specify a valid IFSC CODE");
 
+
+// Number validation close................
+$(".numericOnly").keypress(function (e) {
+    if (String.fromCharCode(e.keyCode).match(/[^0-9]/g)) return false;
+});
+// Number validation close................
+
+	/******Mobile Number Start from 6 to 9*********/
+	$.validator.addMethod("phoneStartingWith6", function(value, element) {
+		return this.optional(element) || /^[6-9]\d{9}$/.test(value);
+	}, "Phone number should start with 6,7,8,9");
+    /******Mobile Number Start from 6 to 9*********/
+	
+	  /*** Valid Pan number *****/
+
+	 jQuery.validator.addMethod("pan", function(value, element)
+		{
+			return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+		}, "Please enter a valid PAN Number");
+	   /****** Valid Pan Number *****/	
+	   
+
+
+	   
+	   $('[data-type="adhaar-number"]').keyup(function() {
+		  var value = $(this).val();
+		  value = value.replace(/\D/g, "").split(/(?:([\d]{4}))/g).filter(s => s.length > 0).join("-");
+		  $(this).val(value);
+		});
+
+		$('[data-type="adhaar-number"]').on("change, blur", function() {
+		  var value = $(this).val();
+		  var maxLength = $(this).attr("maxLength");
+		  if (value.length != maxLength) {
+			$(this).addClass("highlight-error");
+		  } else {
+			$(this).removeClass("highlight-error");
+		  }
+		});
+
+	   
+	
     $('#research_work').bind('change', function() {
 		    var a=(this.files[0].size);
 			if(a > 1000000) {

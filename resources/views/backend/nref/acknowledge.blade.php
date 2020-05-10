@@ -10,30 +10,25 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
        <li class="breadcrumb-item active">Acknowledgement Slip</li>
       </ol>
 
     <!-- Icon Cards-->
-    <div class="card card-login mx-auto mt-5 " style="max-width: 102rem; margin-bottom: 28px;">
-	     
-@include('includes/flashmessage')
-
-
-
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Acknowledgement Slip</h4>
-	</div>
+    <div class="card card-login mx-auto mt-5">
+	<div class="card-header text-center"><h4 class="mt-2">Acknowledgement Slip</h4></div>
+	 <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">  
+		@include('includes/flashmessage')	
 			
-			
-    	<div class="card-body">
-		
+    	
 		<div class="col-md-4" style="float:left">
 					
 					<select class="form-control"name="month" id="month">
 					<?php $curMonth=date("n"); $currentYear= date("Y"); 
 					$monthArray=array('1'=>'January','2'=>'February','3'=>'March','4'=>'April','5'=>'May','6'=>'June','7'=>'July','8'=>'August','9'=>'September','10'=>'October','11'=>'November','12'=>'December');
 					?>
+					<option value="">Select Month</option>
 					<?php for($i=1;$i<=$curMonth;$i++) { ?>
 					<option value="<?php echo $i; ?>" <?php if($curMonth==$i) { echo 'selected'; }?>><?php echo $monthArray[$i]; ?></option>
 					<?php } ?>

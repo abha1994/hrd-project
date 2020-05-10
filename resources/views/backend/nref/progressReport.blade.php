@@ -10,23 +10,18 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
        <li class="breadcrumb-item active">Progress Report(Quarterly/Yearly)</li>
       </ol>
 
     <!-- Icon Cards-->
-    <div class="card card-login mx-auto mt-5 " style="max-width: 102rem; margin-bottom: 28px;">
-	     
-@include('includes/flashmessage')
-
-
-
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Progress Report(Quarterly/Yearly)</h4>
-	</div>
+    <div class="card card-login mx-auto mt-5">
+	   <div class="card-header text-center"><h4 class="mt-2">Progress Report(Quarterly/Yearly)</h4></div>
+	    <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
+	   @include('includes/flashmessage')
 			
-			
-    	<div class="card-body">
+	
 		
 		<div class="col-md-3" style="float:left">
 					

@@ -10,7 +10,7 @@
     <div class="sidebar">
     <?php
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = '' ;
+		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 ='' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -31,6 +31,9 @@
 		}
 		if($current_url == 'institute_status' ){
 		   $statusMclass1 = 'active';
+		}
+		if($current_url == 'yearly_reportProgress' ){
+		   $progressMclass1 = 'active';
 		}
 	?>
 	
@@ -100,7 +103,7 @@
           </li>
 		  
 		  <li class="nav-item">
-            <a href="{{ URL('yearly_reportProgress')}}" class="nav-link {{$acknowledgeMClass}}" id="liack">
+            <a href="{{ URL('yearly_reportProgress')}}" class="nav-link {{$progressMclass1}}" id="liack">
               <i class="nav-icon fas fa-user"></i>
               Progress Report Yearly
                 <!-- <span class="right badge badge-danger">New</span> -->
