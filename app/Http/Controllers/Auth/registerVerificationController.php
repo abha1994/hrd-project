@@ -14,7 +14,7 @@ class registerVerificationController extends Controller
 
     public function verify($id){
     	
-
+    $transactionResult = DB::transaction(function() use ($id) {
     	$registeruser = DB::table('registration')->where('email_id', $id)->first();
     	if($registeruser){
     		if($registeruser->email_varified==0){
@@ -129,6 +129,8 @@ class registerVerificationController extends Controller
         }else{
         	echo 'there is some proble please try after some time';
         }
+		});
+	   return $transactionResult;
 
     }
 
