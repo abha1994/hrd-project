@@ -159,13 +159,14 @@
 
                                      
                                 </div> 
+							
                                 <p style='color:red' class="remainsFields"><br>Note:You cannot modify Email or Mobile later. So please be careful while entering.</p>
-                                <div class="form-group">
+                               	<br> <div class="form-group">
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                            
                                             <select name="state" class="form-control @error('state') is-invalid @enderror" id="state" >
-                                                <option value=""> Select </option>
+                                                <option value=""> Select State</option>
                                                     @foreach($states as $state)
                                                         <option value="{{$state->statecd}}" @if (old('state') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
                                                     @endforeach
@@ -179,7 +180,7 @@
                                           <div class="form-group col-md-6">
                                                      
                                                 <select id="distric" name="distric" class="form-control @error('distric') is-invalid @enderror">
-                                                    <option value=""> Select </option>
+                                                    <option value=""> Select District</option>
                                                 </select>                
                                                 <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
                                                 @error('distric')

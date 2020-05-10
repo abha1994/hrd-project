@@ -23,7 +23,7 @@
         <a class="nav-link" data-toggle="dropdown" href="#">
          <!--  <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3"> -->
          <div class="image">
-          <img src="{{asset('public/assets/img/default.png')}}" class="img-circle" height="40px" alt="User Image">
+          <img src="{{asset('public/assets/img/default.png')}}" class="img-circle" height="31px" alt="User Image">
           <span >{{Auth::user()->name}} </span>
         </div>
           
@@ -41,3 +41,30 @@
       </li>
     </ul>
   </nav>
+
+<style>
+.wrapper > .main-header{
+	background-color: #17a2b8;
+}
+.navbar-light .navbar-nav .nav-link{
+	color:#fff;
+}
+.navbar-light .navbar-nav .nav-link:hover{
+	color:#fff;
+}
+ .card-body{
+	border:1px solid #17a2b8;
+}
+.card-header{
+	background-color:#17a2b8!important;
+	color:white;
+	border-radius:0px;
+}
+.btn-primary{
+	background-color:#17a2b8!important;
+}
+.error{
+      color: red;
+      font-size: 12px;
+}
+</style>

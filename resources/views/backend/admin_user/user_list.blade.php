@@ -9,8 +9,8 @@
         </li>
         <li class="breadcrumb-item active">List Officer</li>
       </ol>
-	 	  <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">     
-   <div class="card-header text-center"><h4 style="    color: #2384c6;">List Officer</h4></div>
+	 	  <div class="card card-login mx-auto mt-5 " style="">     
+   <div class="card-header text-center"><h4 class="mt-2">List Officer</h4></div>
 	  <div class="card-body">
     <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">        
         <div class="pull-right" style="float: right;">
@@ -46,11 +46,10 @@
                   <td><?php echo $user->name;?></td>
                   <td><?php echo $user->designation;?></td>
                   <td>  @if(!empty($user->getRoleNames()))
-        @foreach($user->getRoleNames() as $v)
-           <label class="badge badge-success">{{ $v }}</label>
-        @endforeach
-      @endif
-				    
+							@foreach($user->getRoleNames() as $v)
+							   <label class="badge badge-success">{{ $v }}</label>
+							@endforeach
+						@endif
 				  </td>
                   <td>
 				    
@@ -62,14 +61,14 @@
 				  </td>
           <td style="width: 217px;">
             <form action="{{ route('user.destroy',$user->id) }}" method="POST">
-				      <a class="btn btn-info" href="{{ url('user/'.$user->id) }}" style="color: white">Show</a>
+				      <a class="btn btn-info" href="{{ url('user/'.$user->id) }}" style="color: white"><i class="fa fa-eye" aria-hidden="true"></i></a>
               @can('user-edit')
-              <a class="btn btn-primary" href="{{ url('user/'.$user->id.'/edit') }}">Edit</a>
+              <a class="btn btn-primary" href="{{ url('user/'.$user->id.'/edit') }}"><i class="fa fa-edit" aria-hidden="true"></i></a>
              @endcan
                     @csrf
                     @method('DELETE')
                    @can('user-delete')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     @endcan
                    
                 </form>

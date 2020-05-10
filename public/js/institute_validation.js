@@ -236,6 +236,50 @@
 	 //************For candidate photo upload***************//	
 });
 
+
+
+// we used jQuery 'keyup' to trigger the computation as the user type
+
+$(document).ready(function() {
+$('.fellow').keyup(function () {
+ 
+    var sum = 0;
+    $('.fellow').each(function() {
+        sum += Number($(this).val());
+    });
+    $('#ftotal').val(sum);
+     
+});
+});
+
+
+/*function calculate() {
+	
+	var total=0;
+	var mtech = document.getElementById('mtech').value;
+	var jrf = document.getElementById('jrf').value;
+	var srf = document.getElementById('srf').value;
+	var msc = document.getElementById('msc').value;
+	var ra = document.getElementById('ra').value;
+	var pdf = document.getElementById('pdf').value;
+	
+	if(!isNaN(mtech))
+	{
+		total +=parseInt(mtech);
+	}
+	
+	if(!isNaN(jrf))
+	{
+		total +=parseInt(jrf);
+	}
+
+
+	
+	if (!isNaN(total)) {
+                document.getElementById('ftotal').value = total;
+            }
+} */
+
 	
 
 
@@ -278,25 +322,33 @@
 	if(p1=="yes")
 	{
 		$("#prevstd").show();
-		$("#val1d").text('G');
+		$("#prevstd1").show();
+		$("#val1d").text('H');
 		$("#file_prevStudent_proof").prop('required',true);
+		$("#collab_institute").prop('required',true);
+		
+		
 	}
 	else
 	{
 		$("#prevstd").hide();
+		$("#prevstd1").hide();
 		$("#val1d").text('F');
 		$("#file_prevStudent_proof").prop('required',false);
+		$("#collab_institute").prop('required',false);
 	}	
 	
 	});
 	
 	if($("#place_service option:selected").val() == 'yes'){
 		$("#prevstd").show();
-		$("#val1d").text('G');
+		$("#prevstd1").show();
+		$("#val1d").text('H');
 	}
 	else
 	{
 		$("#prevstd").hide();
+		$("#prevstd1").hide();
 		$("#val1d").text('F');
 	}
 	
