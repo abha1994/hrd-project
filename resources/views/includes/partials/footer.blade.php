@@ -16,13 +16,12 @@
 <footer class="main-footer">
 	  <div class="container">
 		<div class="">
-		   <img src="{{ URL::asset('public/assets/img/iconic_logo_v2.png')}}" style="height: 58px;width: 314px; margin-left: 33px;">
+		  <img src="{{ URL::asset('public/assets/img/iconic_logo_v2.png')}}" style="height: 58px;width: 314px; margin-left: 33px;">
 		   <small style="margin-left: 9%;">Designed & Developed by National Informatics Centre.</small>
 		</div>
 	  </div>
 </footer>
-
-<script>
+ <script>
 $(document).ready(function() {
 	
  $('#example').DataTable();
@@ -55,14 +54,7 @@ $(document).ready(function() {
  <!------------Admin Panale select scheme_menu----------> 
  var value = $(".scheme_menu option:selected").val();
 	$(".scheme_menu").change(function(){
-		
-		var getUrl = window.location;
-        //var baseurl = getUrl.origin;
-        var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
-		
-		//alert(baseurl);
-
-		var changeValue = $(".scheme_menu option:selected").val();
+	 var changeValue = $(".scheme_menu option:selected").val();
 		$.ajax({
 				type: 'POST',
 				url:"{{ route('session-menu') }}",
@@ -71,13 +63,13 @@ $(document).ready(function() {
 					"scheme_menu": changeValue
                 },
 			   success: function(data) {
-				   
+				   //alert(data);
 				   if(data == "3"){
-					   window.location.replace(baseurl+'/nref-home');
+					    window.location.href = "{{ url('nref-home')}}";
 				   }else if(data == "1"){
-					    window.location.href = baseurl+"/internship-home";
+					    window.location.href = "{{ url('internship-home')}}";
 				   }else if(data == "2"){
-					    window.location.href = baseurl+"/nres-home";
+					    window.location.href  = "{{ url('nres-home')}}";
 				   }
 				   // location.reload();
 			   }

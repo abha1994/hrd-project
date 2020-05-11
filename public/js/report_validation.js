@@ -93,7 +93,7 @@ var _token = $('input[name="_token"]').val();
 				"bLengthChange": false,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':'/'+folderName+'/acknowledgeAjax',
+                    'url':acknowledgeAjax,
 					'data': { monthVal,yearr,_token }
                 },
 
@@ -257,7 +257,7 @@ $(document).ready(function() {
 	{
 		$.ajax({
     type: "get",
-    url: '/'+folderName+'/getReportAjax', // This is what I have updated
+    url: getReportAjax, // This is what I have updated
     data: { 'std': std,'reportType':reportType,'reportMonth':reportMonth,'reportYear':reportYear }
     }).done(function( result ) {
 		
@@ -353,7 +353,7 @@ $(document).ready(function() {
 				"bLengthChange": false,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':'/'+folderName+'/getReportAjaxnew',
+                    'url':getReportAjaxnew,
 					'data': { reportType,reportYear,reportMonth,_token }
                 },
 

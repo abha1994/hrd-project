@@ -15,7 +15,7 @@
 	
 	
 <?php //dd($data['institute_data']);?>
-<div class="card-header text-center"><h4 style="color: #2384c6;">Application - <?php if(!empty($data['institute_data']->application_cd)) { echo $data['institute_data']->application_cd;}?> </h4></div>
+<div class="card-header text-center"><h4 class="mt-2">Application - <?php if(!empty($data['institute_data']->application_cd)) { echo $data['institute_data']->application_cd;}?> </h4></div>
       <div class="card-body">
 
 							<div class="form-group">
@@ -61,7 +61,7 @@
 									
 									
 									<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">University Ranking as per UGC</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF</label>
 										<p><?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>
 									</div>
 								</div> 
@@ -84,7 +84,7 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students in Proposed Program</label>
 										<p><?php if(!empty($data['institute_data']->no_student)){ ?>{{$data['institute_data']->no_student}}<?php } ?></p>
 									</div>
 								
@@ -126,18 +126,21 @@
 				 echo "No";
 			 }
 			 
-			 } ?></p>
-							<			
+			 } ?></p>			
 									</div>
 									@if($data['institute_data']->any_collaboration=='yes')
 										
-									<div class="col-md-3" style="padding:2em 0em 0em 1em">
+									<div class="col-md-4" style="padding:2em 0em 0em 1em">
 									@if(isset($data['institute_data']->research_phd)) 
 									<?php $ss=explode(',',$data['institute_data']->research_phd); ?>
 									<input name="resrch_phd" type="checkbox" value="Research"   
 									<?php if(count($ss)>0) { for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Research') { echo "checked";} } } ?> > Research
 									<input name="resrch_phd[]" type="checkbox" value="Ph. D Registration" 
 									<?php if(count($ss)>0) { for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Ph. D Registration') { echo "checked";} } }  ?>> Ph. D Registration
+									
+									<input name="resrch_phd[]" type="checkbox" value="Post Graduate Program" 
+									<?php if(count($ss)>0) { for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Post Graduate Program') { echo "checked";} } }  ?>> Post Graduate Program
+									
                                      @endif
 									</div>
 									@endif
@@ -206,9 +209,14 @@
 										
 									</div>
 									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">F) Name of Collaborate Institute</label>
+										<p><?php if(!empty($data['institute_data']->collab_institute)){ ?>{{$data['institute_data']->collab_institute}}<?php } ?></p>
+									</div>
+									
 									@if($data['institute_data']->placement_details=='yes')
 									<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">G) Details of placement of previous students</label>
 										@if(isset($data['institute_data']->file_prevStudent_proof))
 										<a href="{{ asset('public/uploads/nref/'.$data['institute_data']->file_prevStudent_proof) }}" download><?php if($data['institute_data']->file_prevStudent_proof) { echo $data['institute_data']->file_prevStudent_proof; } ?></a>
 										@endif
@@ -218,7 +226,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">
-									 <?php if($data['institute_data']->placement_details=='yes') { echo "G"; }
+									 <?php if($data['institute_data']->placement_details=='yes') { echo "H"; }
 									       else
 										   {
 											   echo "F";
@@ -260,8 +268,23 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.SC.</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.SC. Renewable Energy</label>
 										<p><?php if(!empty($data['institute_data']->fellowship_msc)){ ?>{{$data['institute_data']->fellowship_msc}}<?php } ?></p>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">RA</label>
+										<p><?php if(!empty($data['institute_data']->fellowship_ra)){ ?>{{$data['institute_data']->fellowship_ra}}<?php } ?></p>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">PDF</label>
+										<p><?php if(!empty($data['institute_data']->fellowship_pdf)){ ?>{{$data['institute_data']->fellowship_pdf}}<?php } ?></p>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Total</label>
+										<p><?php if(!empty($data['institute_data']->fellowship_total)){ ?>{{$data['institute_data']->fellowship_total}}<?php } ?></p>
 									</div>
 									
 								
@@ -293,9 +316,11 @@
 							
 		<?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
 		
-		           <center>
+	
+
+	           <center>
 								<div class="form-group" >
-								   <button class="btn btn-primary"style="background-color: #ffffff;" ><a href="{{ URL('university')}}">Back</a></button>
+					 <a class="btn btn-secondary" href="{{ URL('university')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 			
 
 			
@@ -323,7 +348,7 @@
     <div class="modal-content" style="width: 109%;">
       <div class="modal-header">
 	 
-		  <div class="card-header text-center" style="width: 100%;"><h4 style="color: #2384c6;" class="application_id"> </h4><button type="button" class="close" onclick="close_consider_university()" style="padding: 15px;margin: -77px -31px -15px auto;">&times;</button></div>
+		  <div class="card-header text-center" style="width: 100%;"><h4  class="application_id mt-2"> </h4><button type="button" class="close" onclick="close_consider_university()" style="padding: 15px;margin: -77px -31px -15px auto;">&times;</button></div>
 		  
 		  
      </div>

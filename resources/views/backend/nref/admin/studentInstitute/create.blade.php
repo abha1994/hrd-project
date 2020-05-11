@@ -18,7 +18,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">        
-    <div class="col-md-12">
+    <div class="col-md-10">
     <div class="card card-primary card-outline">
         <div class="card-body">              
      
@@ -90,46 +90,11 @@
                       <strong>{{ $errors->first('gender') }}</strong>
                   </span>
                 @endif
-          </div>          
-        </div>
+          </div>
 
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <?php $categories_arr = array( '1'=>'General' ,'2'=>'OBC','3'=>'SC','4'=>'ST')?>
-            <label for="student_image">Category<span style="color: red">*</span></label> 
-              <select name="category" id="category" class="form-control">
-                  <!-- <option value="">Select Category</option> -->
-                  @foreach($categories_arr as $key=>$category)
-                    <option value="{{ $key }}">{{ $category }}</option>
-                  @endforeach
-              </select>
-              @if ($errors->has('category'))
-                <span class="invalid-feedback " role="alert">
-                  <strong>{{ $errors->first('category') }}</strong>
-                </span>
-              @endif
-             
-          </div>
-           <div class="form-group col-md-4">
-             <label for="student_image">Student Image <span style="color: red">*</span></label>   
-             <input type="file" name="student_image" class="form-control" value="{{old('student_image')}}">
-              @if ($errors->has('student_image'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('student_image') }}</strong>
-                </span>
-              @endif
-          </div>
-           <div class="form-group col-md-4">
-             <label for="commiteedocument">Selection Committee Recommandation doc.  <span style="color: red">*</span></label>   
-             <input type="file" name="commiteedocument" class="form-control" value="{{old('commiteedocument')}}">
-              @if ($errors->has('commiteedocument'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('commiteedocument') }}</strong>
-                </span>
-              @endif
-          </div>
-        </div>
 
+          
+        </div>
 
         <div class="form-row">
           <div class="form-group col-md-12">
@@ -164,11 +129,10 @@
                 @endif
           </div>
           <div class="form-group col-md-4">
-              <label for="couseApplied">Fellowship <span style="color: red">*</span></label>              
+              <label for="couseApplied">Course Applied For<span style="color: red">*</span></label>              
               <select name="course" class="form-control" onchange="showfield(this.options[this.selectedIndex].value)">
-                <option value="">Select</option>
                 @foreach($courses as $course)
-                <option value="{{$course->course_id}}" @if (old('course') == $course->course_name) {{ 'selected' }} @endif>{{$course->course_name}}</option>
+                <option value="{{$course->course_name}}" @if (old('course') == $course->course_name) {{ 'selected' }} @endif>{{$course->course_name}}</option>
                 @endforeach
                  
               </select>
@@ -183,7 +147,7 @@
               <!-- <input type="text" name="country"  class="form-control" value="{{old('country')}}"> -->
               <select name="country" class="form-control">
                 @foreach($country as $con)
-                <option value="{{$con->countrycd}}" {{ $con->name == 'INDIA' ? 'selected' : ''}}>{{$con->name}}</option>
+                <option value="{{$con->name}}" {{ $con->name == 'INDIA' ? 'selected' : ''}}>{{$con->name}}</option>
                 @endforeach
               </select>
               @if ($errors->has('country'))
@@ -208,7 +172,7 @@
                 @endif
           </div>
           <div class="form-group col-md-4">
-              <label for="distric">District <span style="color: red">*</span></label>    
+              <label for="distric">Distric <span style="color: red">*</span></label>    
               <select id="distric" name="distric" class="form-control">
                 <option value=""> Select </option>
               </select>          
@@ -304,17 +268,7 @@
           <div class="form-group col-md-4" id="publication">
               
           </div>
-         <div class="form-group col-md-4" id="experience">
-              
-          </div>
-
-          <div class="form-group " id="gate">
-              
-          </div>
-
-          <div class="form-group " id="net">
-              
-          </div>
+        
            
         </div>
         <div class="border-top bg-white card-footer text-muted text-left">
@@ -402,44 +356,23 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
 
   function showfield(name){   
     //alert(name);
-  if(name == '12' || name == '13') {
-    document.getElementById('srf_jrf').innerHTML = '<label for="exampleInputPassword1">GATE or NEET Score (in case of SRF & JRF)<span style="color: red">*</span></label><input type="file" name="gate_neet"  class="form-control">@if ($errors->has("gate_neet"))<span class="help-block"><strong>{{ $errors->first("gate_neet") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
+  if(name == 'Junior Research Fellowship (JRF)' || name == 'Senior research fellowship (SRF)') {
+    document.getElementById('srf_jrf').innerHTML = '<label for="exampleInputPassword1">Gate or NEET Score (in case of SRF & JRF)<span style="color: red">*</span></label><input type="file" name="gate_neet"  class="form-control">@if ($errors->has("gate_neet"))<span class="help-block"><strong>{{ $errors->first("gate_neet") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
   }else{
     document.getElementById('srf_jrf').innerHTML='';
   }
-  if (name == '13'){
-    document.getElementById('publication').innerHTML = '<label for="exampleInputPassword1"> Upload Publication(In sase of SRF) <span style="color: red">*</span></label><input type="file" name="publication"  class="form-control">@if ($errors->has("publication"))<span class="help-block"><strong>{{ $errors->first("publication") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span> ';
-
-    document.getElementById('experience').innerHTML = '<label for="exampleInputPassword1"> Upload experience(In sase of SRF) <span style="color: red">*</span></label><input type="file" name="experience"  class="form-control">@if ($errors->has("experience"))<span class="help-block"><strong>{{ $errors->first("experience") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span> ';
-
-
-    
+  if (name == 'Senior research fellowship (SRF)'){
+    document.getElementById('publication').innerHTML = '<label for="exampleInputPassword1"> Upload Publication(In sase of SRF) <span style="color: red">*</span></label><input type="file" name="publication"  class="form-control">@if ($errors->has("publication"))<span class="help-block"><strong>{{ $errors->first("publication") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
   }else{
     document.getElementById('publication').innerHTML='';
-     document.getElementById('experience').innerHTML='';
   }
    
-   if(name == '6') {
-    document.getElementById('gate').innerHTML = '<label for="exampleInputPassword1">GATE  Score <span style="color: red">*</span></label><input type="file" name="gate"  class="form-control">@if ($errors->has("gate"))<span class="help-block"><strong>{{ $errors->first("gate") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
-  }else{
-    document.getElementById('gate').innerHTML='';
-  }
-  if(name == '7') {
-    document.getElementById('net').innerHTML = '<label for="exampleInputPassword1">NEET Score<span style="color: red">*</span></label><input type="file" name="net"  class="form-control">@if ($errors->has("net"))<span class="help-block"><strong>{{ $errors->first("net") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
-  }else{
-    document.getElementById('net').innerHTML='';
-  }
  }
   
 
  $(document).ready(function () {
-  $.validator.addMethod("phoneStartingWith6", function(value, element) {
-    return this.optional(element) || /^[6-9]\d{9}$/.test(value);
-  }, "Phone number should start with 6,9");
-
     
     $('#studentRegistrationForm').validate({
-       ///alert('amresh');
         rules: {
           firstname:{
             required: true,
@@ -448,8 +381,6 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
             
           },
           mobile : {
-           //matches: "/[0-9]{10}/",
-           phoneStartingWith6:true,
             required: true,
             number: true,
             minlength:10,
@@ -509,29 +440,7 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
             required: true,
           }, 
           aadhar: {
-            required: true,
-            remote: {
-              url: "{{URL('validate_aadhar')}}",
-              type: "GET",
-                data: {
-              _token: function() {
-                return "{{csrf_token()}}"
-            }
-          },
-          // async: false,
-              complete: function(data) {
-                     
-                     console.log(data.responseText);
-
-                      // if (data.responseText === 'true') { //i.e. email is unique
-                      // $(this).removeClass(".error");
-                      // $('#aaa').html('<span style="color:green"> Email id all ready exit in database</span>');
-                      //  } else{
-                      //     $(this).addClass(".error");
-                      //   $('#aaa').html('<span style="color:red">Ready to go</span>');
-                      //  }
-                  }
-              }
+            required: true
           },
           address : {
             required: true,
@@ -548,18 +457,8 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
               maxlength: 6,
               digits: true
           },
-          student_image: {
-              required: true,
-              extension: "jpg|jpeg|png"
-          },
-          commiteedocument:{
-            required:true
-          },
         state: {
               required: true
-          },
-          course:{
-            required:true
           },
           distric:{
             required:true
@@ -606,10 +505,6 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
             },
             distric: {
               required: "Destic filed is required. Please select your distric!"
-            },
-            student_image: {
-                required: "Please upload Student Image ",
-                extension: "Please upload valid file formats jpg|jpeg|png"
             },
             highest_qulification: {
                 required: "Please upload Highest Qualification",

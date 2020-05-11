@@ -21,7 +21,7 @@ class NrefhomeController extends Controller
      public function index()
     {
 		 // return view('home',compact('dashboard_data'));
-		  return view('backend\nref\admin\nref_home');
+		  return view('backend.nref.Admin.nref_home');
 	}
 
 

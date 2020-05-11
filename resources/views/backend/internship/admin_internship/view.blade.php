@@ -5,13 +5,14 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Internship List</li>
+        <li class="breadcrumb-item active">Internship View</li>
       </ol>
-	  <div class="card card-login mx-auto mt-5 " style="max-width: 66rem;">
-	  <div class="card-body">
-	
+	     <div class="card mb-3">
+	  <div class="card-header text-center"><h4 class="mt-2">Application - <?php if(!empty($data['internship_data']->application_cd)) { echo $data['internship_data']->application_cd;}?></h4></div>
+      
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   	
 	
         @if ($account = Session::get('success'))
 		 <div class="alert alert-success alert-block">
@@ -33,8 +34,9 @@
 
 
 
-     <div class="card-header text-center" style="height: 43px;"><h4 style="color: #2384c6;font-size: 17px;">Application - <?php if(!empty($data['internship_data']->application_cd)) { echo $data['internship_data']->application_cd;}?></h4></div>
-      <div class="card-body" id="divToPrint">
+   
+
+<div class="" id="divToPrint">
 	   <div class="form-group" style="margin-bottom: -1rem;    font-size: 13px;">
 	   <div class="row">
    <div class="col-md-5">  	           
@@ -528,7 +530,7 @@
 				<hr>
 				<center>
 					<div class="form-group" >
-					<a   href="javascript:history.back()" class="btn btn-primary "style="background-color: #2384c6; color:white">Cancel</a>
+					<a   href="javascript:history.back()" class="btn btn-primary "style="background-color: #2384c6; color:white"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;  Cancel</a>
 					
 					
 @if(Gate::check('admin-internship-status-considered') || Gate::check('considered-internship-by-level1-status-considered') || Gate::check('rejected-internship-status-considered') || Gate::check('forward-to-committee-internship-status-considered'))		

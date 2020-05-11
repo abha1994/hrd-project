@@ -29,7 +29,7 @@ class AttendanceController extends Controller
 			
 			////echo "<pre>"; print_r($institute_data); die;
 
-        return view('backend.nref.admin.admin_attendance.attendance',compact('institute_data'));
+        return view('backend/nref/Admin.admin_attendance.attendance',compact('institute_data'));
     }
 	
 	

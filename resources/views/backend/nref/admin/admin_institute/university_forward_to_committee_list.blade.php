@@ -13,12 +13,8 @@
 	 
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-        <div class="card-header">
-          <div class="card-header text-center"><h4 style="color: #2384c6;"><?php echo $data['breadcum'];?></h4></div>
-		</div>
-	  
-	
-        <div class="card-body">
+	    <div class="card-header text-center"><h4 class="mt-2"><?php echo $data['breadcum'];?></h4></div>
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 		 @if ($account = Session::get('success'))
 		 <div class="alert alert-success alert-block">
 		   <button type="button" class="close" data-dismiss="alert">×</button>	

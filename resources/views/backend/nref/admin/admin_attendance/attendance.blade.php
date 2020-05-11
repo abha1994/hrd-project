@@ -2,7 +2,9 @@
 @section('container')
 <br />
 
-    <!-- Icon Cards-->
+<script>
+var pageurl = "{{ url('attendanceAjaxadmin')}}";
+</script>
 	 <script src="{{ asset('public/js/attendanceAdmin_validation.js') }}"></script>
 	 <div class="content-wrapper" >
     <div class="container-fluid">
@@ -13,17 +15,12 @@
         </li>
         <li class="breadcrumb-item active">Candidates Attendance Form</li>
       </ol>
-    <div class="card card-login mx-auto mt-5 " style="max-width: 102rem; margin-bottom: 28px;">
+     <div class="card mb-3">
+	    <div class="card-header text-center"><h4 class="mt-2">Candidates Attendance Form</h4></div>
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app"> 
 	     
+
 @include('includes/flashmessage')
-
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Candidates Attendance Form</h4>
-	</div>
-
-	    <div class="col-sm-6 text-right pull-right">
-        
-       
-    </div>
 	
 	<form enctype="multipart/form-data" action="{{ route('attendanceAdmin-form-post') }}" autocomplete="off" id="attendance_form==" method="POST" onsubmit="return validate(this);">
 			{!! csrf_field() !!}
@@ -98,24 +95,8 @@
 							
 		</form>
     </div>
-</div></div>
-<style>
-    .BDC_CaptchaIconsDiv{
-        margin-left: 241px;
-        margin-top: -54px;
-	}
-	strong{
-        color: red;
-        font-size: 11px;
-    }
-	.error{
-	    color: red;
-	    font-size: 12px;
-	}
-	.has-error .form-control {
-    border-color: #a94442;
-}
-</style>
+</div></div></div>
+
 <!-- /.container-fluid-->
 @endsection
 	

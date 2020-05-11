@@ -10,7 +10,7 @@
     <div class="sidebar">
     <?php
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $roleMClass = $userMClass = $officerMClass = $intershipMClass = $nrefMClass = '' ;
+		$dashboardClass = $roleMClass = $userMClass = $officerMClass = $intershipMClass = $nrefMClass = $nresMClass = '' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -59,17 +59,7 @@
             </a>
           </li>
           @endcan
-          @can('studentregistration-list')
-          <li class="nav-item">
-            <a href="{{url('student-registration')}}" class="nav-link" id="listudent">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                Student Registration
-                <!-- <span class="right badge badge-danger">New</span> -->
-              </p>
-            </a>
-          </li>
-          @endcan
+     
           @can('bankdetail-list')
           <li class="nav-item">
             <a href="{{url('bank-details')}}" class="nav-link" id="libank">
@@ -270,6 +260,39 @@
               </li>
 			  </ul>
           </li-->
+		  
+		    @can('studentregistration-list')
+          <li class="nav-item">
+            <a href="{{url('registerd-student')}}" class="nav-link" id="listudent">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Student Registration
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          @endcan
+		  
+		
+        
+          <li class="nav-item">
+            <a href="{{url('fund-transfer')}}" class="nav-link" >
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Fund Transfer
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('application-processed')}}" class="nav-link" >
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Application Processed
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
 		  
 		    @can('nref-student-attendance')
 			<li class="nav-item ">

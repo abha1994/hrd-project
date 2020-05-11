@@ -15,7 +15,7 @@ use PDF;
 use Illuminate\Mail\Message;
 use Validator,Redirect;
 use Illuminate\Contracts\Encryption\DecryptException;
-use App\Nref\Admin\Admin_institute;
+use App\Nref\admin\Admin_institute;
 use App\AdminInternship;
 use Session;
 
@@ -29,7 +29,7 @@ class UniversityController extends Controller
 	 
     public function __construct()
     {
-	    $current_url =  \Request::segment(1);
+	    $current_url =  \Request::segment(1);//dd($current_url);
 		if($current_url == 'university'){
 			
 			$this->middleware('permission:admin-nref-institute-list|admin-nref-institute-edit|admin-nref-institute-delete', ['only' => ['index','view']]);
@@ -74,32 +74,33 @@ class UniversityController extends Controller
 	public function index(Request $request)
     { 
 		$data = Admin_institute::index();
-		return view('backend/Nref/Admin/admin_institute/university_list',compact('data'));
+
+		return view('backend/nref/Admin/admin_institute/university_list',compact('data'));
 	}
 	
 	public function index2(Request $request)
     { 
 		$data = Admin_institute::considered_by_level1();
-		return view('backend/Nref/Admin/admin_institute/university_level1_list',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_level1_list',compact('data'));
 	}
 	
 	
 	public function index3(Request $request)
     { 
 		$data = Admin_institute::forward_to_committee();
-		return view('backend/Nref/Admin/admin_institute/university_forward_to_committee_list',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_forward_to_committee_list',compact('data'));
 	}
 	
 	public function index4(Request $request)
     { 
 		$data = Admin_institute::rejected();
-		return view('backend/Nref/Admin/admin_institute/university_reject_list',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_reject_list',compact('data'));
 	}
 	
     public function index5(Request $request)
     { 
 		$data = Admin_institute::selected();
-		return view('backend/Nref/Admin/admin_institute/university_selected_list',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_selected_list',compact('data'));
 	}
 	
 	/**
@@ -111,7 +112,7 @@ class UniversityController extends Controller
 	public function edit($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/Nref/Admin/admin_institute/university_edit',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_edit',compact('data'));
 	}
 	
 	public function finalSubmit($id)
@@ -119,7 +120,7 @@ class UniversityController extends Controller
 	
 	   $data = Admin_institute::edit($id);
 	   // dd($data);
-	   return view('backend/Nref/Admin/admin_institute/university_final',compact('data'));
+	   return view('backend/nref/Admin/admin_institute/university_final',compact('data'));
 	}
 	
 	 /**
@@ -136,6 +137,11 @@ class UniversityController extends Controller
 		
 		$all_data =  Session::get('userdata');
 		
+		//echo "<pre>"; print_r($all_data); die;
+		
+  $registeration_id = DB::table('user_credential')->where('registeration_id',$candiId)->get()->first();
+ 
+		
 		$user_id = $all_data['candidate_id'];
 		$loginuser = DB::table('registration')->where('candidate_id',$candiId)->get()->first();
 		view()->share('logindetails',$loginuser);
@@ -143,18 +149,18 @@ class UniversityController extends Controller
 		$type_institute = DB::table('institute_type')->orderBy('institute_type_id','asc')->get();
 		view()->share('type_institute',$type_institute);
 		
-		$items = DB::table('institute_details')->where('candidate_id', $candiId)->get();
+		$items = DB::table('institute_details')->where('user_id', $registeration_id->id)->get();
 	    
 		 view()->share('items',$items);
 
 
         if($request->has('download')){
-            $pdf = PDF::loadView('backend/Nref/Admin/admin_institute/pdfview');
+            $pdf = PDF::loadView('backend/nref/Admin/admin_institute/pdfview');
             return $pdf->download('pdfview.pdf');
         }
 
 
-        return view('backend/Nref/Admin/admin_institute/pdfview');
+        return view('backend/nref/Admin/admin_institute/pdfview');
     }
 	 
 	 public function updateFinalSubmit($id, Request $request)
@@ -255,6 +261,7 @@ class UniversityController extends Controller
 			$postdata['specialization_offered'] = $request->spl_offer;
 			$postdata['industry_collaboration'] = $request->indus_collab;
 			$postdata['placement_details'] = $request->place_service;
+			$postdata['collab_institute'] = $request->collab_institute;
 			
 			if(isset($request->file_prevStudent_proof)) {
 			$postdata['file_prevStudent_proof'] = $request->file_prevStudent_proof;
@@ -263,10 +270,14 @@ class UniversityController extends Controller
 
 			$postdata['other_details'] = $request->other_details;
 			$postdata['spon_project'] = $request->spon_project;
+			$postdata['fellowship_period'] = $request->fellowship_period;
 			$postdata['fellowship_mtech'] = $request->mtech; 
 			$postdata['fellowship_jrf'] = $request->jrf;
 			$postdata['fellowship_srf'] = $request->srf;
 			$postdata['fellowship_msc'] = $request->msc;
+			$postdata['fellowship_ra'] = $request->ra;
+			$postdata['fellowship_pdf'] = $request->pdf;
+			$postdata['fellowship_total'] = $request->ftotal;
 			$postdata['certified_status'] = $request->certified;
 			
 			// echo "<pre>"; print_r($fetchRecord); 
@@ -303,13 +314,18 @@ class UniversityController extends Controller
 			$insertRecord['specialization_offered']=$fetchRecord['existRecords'][0]->specialization_offered;
 			$insertRecord['industry_collaboration']=$fetchRecord['existRecords'][0]->industry_collaboration;
 			$insertRecord['placement_details']=$fetchRecord['existRecords'][0]->placement_details;
+			$insertRecord['collab_institute']=$fetchRecord['existRecords'][0]->collab_institute;	
 			$insertRecord['file_prevStudent_proof']=$fetchRecord['existRecords'][0]->file_prevStudent_proof;
 			$insertRecord['other_details']=$fetchRecord['existRecords'][0]->other_details;
 			$insertRecord['spon_project']=$fetchRecord['existRecords'][0]->spon_project;
+			$insertRecord['fellowship_period']=$fetchRecord['existRecords'][0]->fellowship_period;
 			$insertRecord['fellowship_mtech']=$fetchRecord['existRecords'][0]->fellowship_mtech;
 			$insertRecord['fellowship_jrf']=$fetchRecord['existRecords'][0]->fellowship_jrf;
 			$insertRecord['fellowship_srf']=$fetchRecord['existRecords'][0]->fellowship_srf;
 			$insertRecord['fellowship_msc']=$fetchRecord['existRecords'][0]->fellowship_msc;
+			$insertRecord['fellowship_ra']=$fetchRecord['existRecords'][0]->fellowship_ra;
+			$insertRecord['fellowship_pdf']=$fetchRecord['existRecords'][0]->fellowship_pdf;
+			$insertRecord['fellowship_total']=$fetchRecord['existRecords'][0]->fellowship_total;
 			$insertRecord['signed_form']=$fetchRecord['existRecords'][0]->signed_form;
 			$insertRecord['certified_status']=$fetchRecord['existRecords'][0]->certified_status;
 			$insertRecord['file_upload_signature']=$fetchRecord['existRecords'][0]->file_upload_signature;
@@ -602,7 +618,7 @@ class UniversityController extends Controller
 	public function view($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/Nref/admin/admin_institute/university_view',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_view',compact('data'));
 	}
 	
 	

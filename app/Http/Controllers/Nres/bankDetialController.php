@@ -62,12 +62,16 @@ class bankDetialController extends Controller
 		
      
 	    $user_id = Auth::user()->id;
+		
+		$institute_id = DB::table('institute_details')->where('user_id',$user_id)->get()->first()->institute_id; 
+		 
 		$scheme_code =  Auth::user()->scheme_code;
 		  if($scheme_code == "2"){
-			   $records['student_id'] = $user_id; 
+			   $records['student_id'] = $user_id;		   
 			   $records['scheme_code'] = '2';
 		  }elseif($scheme_code == "3"){
-			   $records['institute_id'] = $user_id;
+			   $records['institute_id'] = $institute_id;
+			   $records['user_id'] = $user_id;
 			   $records['student_id'] = $records['student_id'];
 			   $records['scheme_code'] = 3;
 		}
@@ -117,17 +121,17 @@ class bankDetialController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $records = BankDetail::find($id);
-        $user_id = Auth::id();
-      
-	  
+      $records = BankDetail::find($id);
+      $user_id = Auth::id(); 
+      $institute_id = DB::table('institute_details')->where('user_id',$user_id)->get()->first()->institute_id; 
+	  // dd($institute_id);
 	  $scheme_code =  Auth::user()->scheme_code;
 	  if($scheme_code == "2"){
 		   $records->student_id = $user_id;
            $records->scheme_code = '2';
 	  }else if($scheme_code == "3"){
-		
-		   $records->institute_id = $user_id;
+		   $records->institute_id = $institute_id;
+		   $records->user_id = $user_id;
 		   $records->student_id = $request->student_id;
            $records->scheme_code = '3';
 	  }

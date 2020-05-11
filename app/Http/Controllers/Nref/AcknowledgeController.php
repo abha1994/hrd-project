@@ -92,10 +92,10 @@ class AcknowledgeController extends Controller
 	    view()->share('items',$items);
 
         if($request->has('download')){
-            $pdf = PDF::loadview('backend/Nref/Admin/nref/pdfdown');
+            $pdf = PDF::loadview('backend/nref/pdfdown');
             return $pdf->download('pdfdown.pdf');
         }
-        return view('backend/Nref/Admin/nref/pdfdown');
+        return view('backend/nref/pdfdown');
     }
 	
 	public function acknowledgeAjax(Request $request)
@@ -112,7 +112,7 @@ class AcknowledgeController extends Controller
 			->where('candidate_attendence.user_id',$institute_id)
 			->orderBy('attendence_id','asc')
             ->get();
-		return view('backend.nref.acknowledgeAjax',compact('attendanceList','students','candidates','val1'));
+		return view('backend/nref/acknowledgeAjax',compact('attendanceList','students','candidates','val1'));
 	}
 
 

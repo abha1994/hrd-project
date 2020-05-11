@@ -27,36 +27,7 @@
 	}); 
 
 
-$(document).ready(function() { 
-
-
-
-
-/* on change month Datatable content */
-
-/* $("#month").change(function(){
-	
-	var monthVal=$(this).val();
-	var yearr= $('#year').val();
-	
-	//alert(monthVal);
-	
-	$.ajax({
-    type: "get",
-    url: '/vueAxiosIP/acknowledgeAjax', // This is what I have updated
-    data: { 'monthVal': monthVal,'yearr':yearr}
-}).done(function( result ) {
-    //alert( result );
-	$(".ajaxPart").html(result);
-});
-
-}); */
-
-/* End Change month Code */
-
-
-/* Start NEw Code Of On change */
-
+$(document).ready(function() {
 $("#month").change(function(){
 	
 	var getUrl = window.location;
@@ -73,7 +44,7 @@ var _token = $('input[name="_token"]').val();
 				"bLengthChange": false,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url':'/'+folderName+'/acknowledgeAjax',
+                    'url':page_url,
 					'data': { monthVal,yearr,_token }
                 },
 

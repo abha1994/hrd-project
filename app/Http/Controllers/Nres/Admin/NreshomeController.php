@@ -21,7 +21,7 @@ class NreshomeController extends Controller
      public function index()
     {
 		 // return view('home',compact('dashboard_data'));
-		  return view('backend\nres\admin\nres_home');
+		  return view('backend.nres.admin.nres_home');
 	}
 
 

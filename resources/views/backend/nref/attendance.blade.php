@@ -3,6 +3,9 @@
 @section('container'))
 <br />
 
+<script>
+    var page_url = "{{ url('attendanceAjax') }}";
+</script>
   <script src="{{ asset('public/js/attendance_validation.js') }}"></script>
 
 <div class="content-wrapper">

@@ -7,21 +7,18 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
-         <li class="breadcrumb-item active">Internship List</li>
+         <li class="breadcrumb-item active">Internship Edit</li>
       </ol>
-	  <div class="card card-login mx-auto mt-5 " style="max-width: 70rem;">
+	     <div class="card mb-3">
+	 <div class="card-header text-center"><h4 class="mt-2">Application - <?php if(!empty($data['internship_data']->application_cd)) { echo $data['internship_data']->application_cd;}?></h4></div>
+      
+	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
  <?php 
     $all_data = Session::get('all_data');
  ?>
- 
- <style>
- .error{
-	 color:red;
- }
- </style>
- @if ($success = Session::get('success'))
+  @if ($success = Session::get('success'))
 		 <div class="alert alert-success alert-block">
 		   <button type="button" class="close" data-dismiss="alert">×</button>	
 		   <strong>{{ $success }}</strong>
@@ -34,11 +31,6 @@
 		   <strong>{{ $error }}</strong>
 		 </div>
 	     @endif
-		 
-	  <div class="card-header text-center"><h4 style="color: #2384c6;">Application - <?php if(!empty($data['institute_data']->application_cd)) { echo $data['institute_data']->application_cd;}?> </h4></div>
-      <div class="card-body">
-	  
-	  	 
 		 
      	<form  enctype="multipart/form-data"  action="{{ route('admin-internship-update',$id) }}" class=""   autocomplete="off" id="internship_form_edit" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
@@ -835,13 +827,13 @@
 							</div>
 							
 							<hr>
-							<center>
-								<div class="form-group" >
-								    <input class="btn btn-primary " type="submit"  name="submit" value="Submit">
-									<a  onClick="javascript:history.go(-1)"  class="btn btn-primary "style="background-color: #2384c6; color:white;width: 11%;">Cancel</a>
-								</div> 
-							</center>
-							
+
+    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+        <a class="btn btn-secondary" style="color:white" onClick="javascript:history.go(-1)"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+    </div>
+
+													
 				    </form>
                 </div>
             </div>

@@ -30,6 +30,25 @@ Route::resource('users','UserController');
 Route::resource('products','ProductController');
 
 
+
+Route::resource('registerd-student','getInstituteController');
+Route::post('get-institute','getInstituteController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','getInstituteController@getInstitutebyid')->name('get-instituteId');
+Route::get('registerd-student/{id}/{ids}','getInstituteController@showInstitueStudent');
+Route::post('/consider','getInstituteController@consider');
+Route::post('/nonconsider','getInstituteController@nonConsider');
+Route::get('registerd-student/{id}/edit/{ids}','getInstituteController@edit');
+Route::post('get-institute','getInstituteController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','getInstituteController@getInstitutebyid')->name('get-instituteId');
+
+Route::get('registerd-student/{id}/{ids}','getInstituteController@showInstitueStudent');
+Route::get('registerd-student/{id}/edit/{ids}','getInstituteController@edit');
+
+Route::resource('fund-transfer','fincaceController');
+Route::resource('application-processed','applicationProcessedController');
+Route::get('export-application','applicationProcessedController@exportcsv');
+
+
 // *************Pushkar**********************//
 Route::get('/forgetusername', 'ForgetUsernameController@index')->name('forgetusername');
 Route::post('/forgetusername-form-post','ForgetUsernameController@forgetusername_form')->name('forgetusername-form-post');
@@ -71,6 +90,29 @@ Route::resource('link-officer', 'AdminLinkController');
 Route::resource('student-registration','Nref\studentRegistrationController');
 Route::get('validate_email','Nref\studentRegistrationController@validateEmail');
 Route::get('validate_mobile','Nref\studentRegistrationController@validateMobile');
+Route::get('validate_aadhar','Nref\studentRegistrationController@validateAadhar');
+
+//****************Admin Student Panel*********************//
+Route::resource('registerd-student','Nref\Admin\AdminStudentRegistrationController');
+Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
+Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
+Route::post('/consider','Nref\Admin\AdminStudentRegistrationController@consider');
+Route::post('/nonconsider','Nref\Admin\AdminStudentRegistrationController@nonConsider');
+Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
+Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
+
+Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
+Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
+
+//****************Admin Student Panel*********************//
+
+Route::resource('fund-transfer','Nref\Admin\fincaceController');
+Route::resource('application-processed','Nref\Admin\applicationProcessedController');
+Route::get('export-application','Nref\Admin\applicationProcessedController@exportcsv');
+
+
 
 Route::get('/attendance', 'Nref\AttendanceController@index')->name('/attendance');
 Route::get('/attendanceAjax', 'Nref\AttendanceController@attendanceAjax')->name('/attendanceAjax');
@@ -103,27 +145,27 @@ Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/in
 Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
 	
 //******************Admin**************************//	
-Route::get('/nref-home', 'Nref\admin\NrefhomeController@index')->name('nref-home');
-Route::get('/university', 'Nref\admin\UniversityController@index')->name('university');
-Route::get('/edit-university/{id}', 'Nref\admin\UniversityController@edit')->name('edit-university');
-Route::post('/update-university/{id}', 'Nref\admin\UniversityController@update')->name('update-university');
-Route::get('/view-university/{id}', 'Nref\admin\UniversityController@view')->name('view-university');
-Route::get('/delete-university/{id}', 'Nref\admin\UniversityController@delete')->name('delete-university');
-Route::get('/final-university/{id}', 'Nref\admin\UniversityController@finalSubmit')->name('final-university');
-Route::post('/final-university-submit/{id}', 'Nref\admin\UniversityController@updateFinalSubmit')->name('final-university-submit');
-Route::get('pdfviewAdmin',array('as'=>'pdfviewAdmin','uses'=>'Nref\admin\UniversityController@pdfviewAdmin'));
-Route::get('/universityCons', 'Nref\admin\UniversityController@index2')->name('universityCons');
-Route::get('/universityConsAdmin', 'Nref\admin\UniversityController@index3')->name('universityConsAdmin');
-Route::get('/universityNocons', 'Nref\admin\UniversityController@index4')->name('universityNocons');
-Route::get('/universitySelected', 'Nref\admin\UniversityController@index5')->name('universitySelected');
-Route::get('/final-selected-university/{id}', 'Nref\admin\UniversityController@final_selected_university')->name('final-selected-university');
+Route::get('/nref-home', 'Nref\Admin\NrefhomeController@index')->name('nref-home');
+Route::get('/university', 'Nref\Admin\UniversityController@index')->name('university');
+Route::get('/edit-university/{id}', 'Nref\Admin\UniversityController@edit')->name('edit-university');
+Route::post('/update-university/{id}', 'Nref\Admin\UniversityController@update')->name('update-university');
+Route::get('/view-university/{id}', 'Nref\Admin\UniversityController@view')->name('view-university');
+Route::get('/delete-university/{id}', 'Nref\Admin\UniversityController@delete')->name('delete-university');
+Route::get('/final-university/{id}', 'Nref\Admin\UniversityController@finalSubmit')->name('final-university');
+Route::post('/final-university-submit/{id}', 'Nref\Admin\UniversityController@updateFinalSubmit')->name('final-university-submit');
+Route::get('pdfviewAdmin',array('as'=>'pdfviewAdmin','uses'=>'Nref\Admin\UniversityController@pdfviewAdmin'));
+Route::get('/universityCons', 'Nref\Admin\UniversityController@index2')->name('universityCons');
+Route::get('/universityConsAdmin', 'Nref\Admin\UniversityController@index3')->name('universityConsAdmin');
+Route::get('/universityNocons', 'Nref\Admin\UniversityController@index4')->name('universityNocons');
+Route::get('/universitySelected', 'Nref\Admin\UniversityController@index5')->name('universitySelected');
+Route::get('/final-selected-university/{id}', 'Nref\Admin\UniversityController@final_selected_university')->name('final-selected-university');
 
-Route::post('/api/admin-institute-considered', 'Nref\admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
+Route::post('/api/admin-institute-considered', 'Nref\Admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
 
 
-Route::get('/attendanceAdmin', 'Nref\admin\AttendanceController@index')->name('/attendanceAdmin');
-Route::post('/attendanceAdmin-form-post', 'Nref\admin\AttendanceController@attendance_form_post')->name('attendanceAdmin-form-post');
-Route::get('/attendanceAjaxadmin', 'Nref\admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
+Route::get('/attendanceAdmin', 'Nref\Admin\AttendanceController@index')->name('/attendanceAdmin');
+Route::post('/attendanceAdmin-form-post', 'Nref\Admin\AttendanceController@attendance_form_post')->name('attendanceAdmin-form-post');
+Route::get('/attendanceAjaxadmin', 'Nref\Admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
 
 //******************Admin**************************//
 
@@ -133,7 +175,7 @@ Route::get('/attendanceAjaxadmin', 'Nref\admin\AttendanceController@attendanceAj
 //------------Nres Scheme code 2--------------------->	
 
 
-Route::get('/nres-home', 'Nres\admin\NreshomeController@index')->name('nres-home');
+Route::get('/nres-home', 'Nres\Admin\NreshomeController@index')->name('nres-home');
 Route::resource('fellowship-solar-form','Nres\fellowship\fellowshipController');
 
 Route::get('/attendance-solar-form', 'Nres\AttendanceController@index')->name('/attendance-solar-form');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Nref\studentRegistration;
+namespace App\Http\Controllers\Nref\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\studentRegistration;
@@ -10,9 +10,10 @@ use Response;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Auth;
-class studentRegistrationController extends Controller
+
+class AdminStudentRegistrationController extends Controller
 {
-    function __construct()
+	 function __construct()
     {
          $this->middleware('permission:studentregistration-list|studentregistration-create|studentregistration-edit|studentregistration-delete', ['only' => ['index','show']]);
          $this->middleware('permission:studentregistration-create', ['only' => ['create','store']]);
@@ -21,7 +22,7 @@ class studentRegistrationController extends Controller
 
 
     }
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,8 +30,11 @@ class studentRegistrationController extends Controller
     public function index()
     {
 
+        //dd($request);
+        $inst = DB::table('institute_details')->get();
         $students = DB::table('studentregistrations')->orderBy('id','desc')->get();
-        return view('backend.nref.studentRregistration.index',compact('students'));
+       return view('backend.nref.Admin.studentInstitute.index',compact('inst'));
+       
     }
 
     /**
@@ -61,7 +65,7 @@ class studentRegistrationController extends Controller
          $this->validate($request,[
             'firstname'  =>  'required|min:4|max:50',
             'gender'=> 'required|in:male,female',
-            'email_id' => 'required|email|unique:studentregistrations',
+           // 'email_id' => 'required|email|unique:studentregistrations',
             // 'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations',
             'address' => 'required|min:20|max:150',
@@ -147,8 +151,7 @@ class studentRegistrationController extends Controller
             }
         } //Bank Mandate Document
 
-        //$all_data =  Session::get('userdata');
-        
+        //$all_data =  Session::get('userdata');       
  
 
         $records['nref_id'] = Auth::id();
@@ -173,7 +176,7 @@ class studentRegistrationController extends Controller
         $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
         $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
          
-        return view('backend.nref.studentRregistration.show',compact('recorde','stateName','disticName'));
+        return view('backend.nref.Admin.studentInstitute.show',compact('recorde','stateName','disticName'));
     }
 
     /**
@@ -182,15 +185,15 @@ class studentRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,$ids)
     {
-         $student = studentRegistration::findOrFail($id);
-         //dd($stuent);
-         $country = DB::table('country')->get();
+        $student = studentRegistration::findOrFail($id);
+        //dd($stuent);
+        $country = DB::table('country')->get();
         $states = DB::table('state_master')->get();
         $distric = DB::table('district_master')->get();
         $courses = DB::table('courses')->where('display',1)->get();
-         return view('backend.nref.studentRregistration.edit',compact('student','country','states','distric','courses'));
+         return view('backend.nref.Admin.studentInstitute/.edit',compact('student','country','states','distric','courses','ids'));
     }
 
     /**
@@ -202,14 +205,16 @@ class studentRegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $records = studentRegistration::find($id);
+
           
         $this->validate($request,[
             'firstname'  =>  'required|min:4|max:50',
             'gender'=> 'required|in:male,female',
-            'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
+            //'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
             //'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
-            'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
+            //'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
             'address' => 'required|min:20|max:150',
             'dob' => 'required',
             //'bankName' =>'required',
@@ -307,11 +312,21 @@ class studentRegistrationController extends Controller
         $records->bankMandate = $records['bankMandate'];
         $records->publication = $records['publication'];
         $records->aadhar = $request->aadhar;
-        $records->nref_id = $request->nref_id;
-          
+        //$records->nref_id = $request->nref_id;
+           
         $records->save();
-        return redirect()->route('student-registration.index')
-                        ->with('message','Student registration updated successfully.');
+
+        //return redirect()->route('get-instituteId.$ids')->with('message','Student registration updated successfully.');
+        $history = array('studentregistration_id'=>$records->id,'institute_id'=>$records->institute_id,'user_id'=>4,'firstname'=>$request->firstname,'middlename'=>$request->middlename,'lastname'=>$request->lastname,'gender'=>$request->gender,'email_id'=>$request->email_id,'mobile'=>$request->mobile,'address'=>$request->address,'dob'=>$request->dob,'country'=>$request->country,'state'=>$request->state,'distric'=>$request->distric,'gate_neet'=>$records['gate_neet'],'highest_qulification'=>$records['highest_qulification'],'bankMandate'=>$records['bankMandate'],'publication'=>$records['publication'],'aadhar'=>$request->aadhar,'modified_by'=>Auth::user()->id,'modified_date'=>date("Y-m-d H:i:s"),'status'=>1);
+         
+         
+            DB::table('studentregistrations_history')->insert($history);
+         
+        
+
+
+        //return Redirect::to('route_name?q='.$append_data)
+        return \Redirect::route('get-instituteId', [$request->redirectid])->with('message', 'Student record updated successfully.!!!');
 
     }
 
@@ -321,10 +336,21 @@ class studentRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         //studentRegistration::destroy($id);
-         return redirect()->route('student-registration.index')->with('message','Student detail deleted successfully !');
+
+         
+        $records =  studentRegistration::findOrFail($id);
+
+        $history = array('studentregistration_id'=>$records->id,'institute_id'=>$records->institute_id,'user_id'=>4,'firstname'=>$records->firstname,'middlename'=>$records->middlename,'lastname'=>$records->lastname,'gender'=>$records->gender,'email_id'=>$records->email_id,'mobile'=>$records->mobile,'address'=>$records->address,'dob'=>$records->dob,'country'=>$records->country,'state'=>$records->state,'distric'=>$records->distric,'gate_neet'=>$records->gate_neet,'highest_qulification'=>$records->highest_qulification,'bankMandate'=>$records->bankMandate,'publication'=>$records->publication,'aadhar'=>$records->aadhar,'modified_by'=>Auth::user()->id,'modified_date'=>date("Y-m-d H:i:s"),'status'=>2);
+
+         
+            DB::table('studentregistrations_history')->insert($history);
+            studentRegistration::destroy($id);
+
+
+          return \Redirect::route('get-instituteId', [$request->redirecturl])->with('message', 'Student record deleted successfully.!!!');
     }
 
      public function getDisticList(Request $request)
@@ -365,5 +391,101 @@ class studentRegistrationController extends Controller
             }
         }      
  
+    }
+
+    public function getInstitute(Request $request)
+    {
+        //dd($request->findStudentInst);
+       $id = $request->findStudentInst;
+        
+        if(!empty($request->findStudentInst)){
+            //dd(123);
+
+            
+             
+        $inst = DB::table('institute_details')->get();
+        $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->get();
+
+        return view('backend.nref.Admin.studentInstitute.list',compact('students','inst','id'));
+        }else{
+
+        }
+    }
+
+    public function getInstitutebyid($id){
+         $inst = DB::table('institute_details')->get();
+        $students = DB::table('studentregistrations')->where('institute_id',$id)->get();
+
+        return view('backend.nref.Admin.studentInstitute.list',compact('students','inst','id'));
+    }
+
+
+    public function showInstitueStudent($id, $ids){
+        
+        $recorde = studentRegistration::findOrFail($id);
+        //dd($recorde->state);
+        //dd($recorde);
+        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+         
+        return view('backend.nref.Admin.studentInstitute.show',compact('recorde','stateName','disticName','ids'));
+    }
+
+    public function consider(Request $request){
+          
+        $condidate_id = $request->studentId;
+        $backPage = $request->backPage;
+        $condidateRecord = studentRegistration::findOrFail($condidate_id);
+          
+        $officer_id = Auth::id();
+        $roleid = \App\User::with('roles')->find($officer_id);
+         
+        $studentVerification = array(
+            'candidate_id'=>$condidateRecord->id,
+            'institute_id'=>$condidateRecord->institute_id,
+            'officer_id'=>$officer_id,
+            'officer_role_id'=>$roleid->role,
+            'status_application'=>'1',
+            'remarks'=>$request->remarks,
+            'scheme_code'=>'3',
+            'verified_date'=>date('Y-m-d')
+            
+        );
+        $student = array('officer_id'=>$officer_id,
+            'officer_role_id'=>$roleid->role,'status_id'=>'1',);
+
+        DB::table('studentregistrations')->where('id',$condidateRecord->id)->update($student);
+        DB::table('student_verification')->insert($studentVerification);
+        return \Redirect::route('get-instituteId', [$request->backPage])->with('message', 'Student consider status updated successfully.!!!');
+    }
+
+    public function nonConsider(Request $request){
+         
+        $condidate_id = $request->studentId;
+        $backPage = $request->backPage;
+        $condidateRecord = studentRegistration::findOrFail($condidate_id);
+          
+        $officer_id = Auth::id();
+        $roleid = \App\User::with('roles')->find($officer_id);
+         
+        $studentVerification = array(
+            'candidate_id'      =>$condidateRecord->id,
+            'institute_id'      =>$condidateRecord->institute_id,
+            'officer_id'        =>$officer_id,
+            'officer_role_id'   =>$roleid->role,
+            'status_application'=>'2',
+            'reason'            => $request->reason,
+            'remarks'           =>$request->remarks,
+            'scheme_code'       =>'3',
+            'verified_date'     =>date('Y-m-d')
+            
+        );
+         $student = array('officer_id'=>$officer_id,
+            'officer_role_id'=>$roleid->role,'status_id'=>'2',);
+
+        DB::table('studentregistrations')->where('id',$condidateRecord->id)->update($student);
+        DB::table('student_verification')->insert($studentVerification);
+        return \Redirect::route('get-instituteId', [$request->backPage])->with('message', 'Student Non consider status updated successfully.!!!');
+        //return view('backend.nref.Admin.studentInstitute.list',compact('students','inst','id'));
     }
 }

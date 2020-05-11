@@ -34,19 +34,19 @@ class InstituteController extends Controller
 	public function index(Request $request)
     { 
 		$data = Institute::index();
-		return view('backend/Nref/institute_form',compact('data'));
+		return view('backend/nref/institute_form',compact('data'));
 	}
 	
 	public function index2(Request $request)
     { 
 		$data = Institute::index();
-		return view('backend/Nref/finalForm',compact('data'));
+		return view('backend/nref/finalForm',compact('data'));
 	}
 	
 	public function previewIndex(Request $request)
     {
         $data = $request->all();
-        return view('backend/Nref/preview', $data);
+        return view('backend/nref/preview', $data);
     }
 	
 	/**
@@ -575,17 +575,17 @@ class InstituteController extends Controller
 
 
         if($request->has('download')){
-            $pdf = PDF::loadview('backend/Nref/pdfview');
+            $pdf = PDF::loadview('backend/nref/pdfview');
             return $pdf->download('pdfview.pdf');
         }
-      return view('backend/Nref/pdfview');
+      return view('backend/nref/pdfview');
     }
 	
 	public function preview(Request $request)
     {
 		
 		$data['myForm'] =array('1'=>'rohan','2'=>'sohan');
-		return loadview('backend/Nref/preview', $data);
+		return loadview('backend/nref/preview', $data);
 		
 	}
 	
