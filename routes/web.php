@@ -31,18 +31,18 @@ Route::resource('products','ProductController');
 
 
 
-Route::resource('registerd-student','getInstituteController');
-Route::post('get-institute','getInstituteController@getInstitute')->name('get-institute');
-Route::get('get-instituteId/{id}','getInstituteController@getInstitutebyid')->name('get-instituteId');
-Route::get('registerd-student/{id}/{ids}','getInstituteController@showInstitueStudent');
-Route::post('/consider','getInstituteController@consider');
-Route::post('/nonconsider','getInstituteController@nonConsider');
-Route::get('registerd-student/{id}/edit/{ids}','getInstituteController@edit');
-Route::post('get-institute','getInstituteController@getInstitute')->name('get-institute');
-Route::get('get-instituteId/{id}','getInstituteController@getInstitutebyid')->name('get-instituteId');
+Route::resource('registerd-student','Nref\Admin\AdminStudentRegistrationController');
+Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
+Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
+Route::post('/consider','Nref\Admin\AdminStudentRegistrationController@consider');
+Route::post('/nonconsider','Nref\Admin\AdminStudentRegistrationController@nonConsider');
+Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
+Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
+Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
 
-Route::get('registerd-student/{id}/{ids}','getInstituteController@showInstitueStudent');
-Route::get('registerd-student/{id}/edit/{ids}','getInstituteController@edit');
+Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
+Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
 
 Route::resource('fund-transfer','fincaceController');
 Route::resource('application-processed','applicationProcessedController');
