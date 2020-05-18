@@ -8,7 +8,7 @@
 	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
 							
 
-     <div class="card-header text-center"><h4 style="color: #2384c6;"><center>Short Term Program</center></h4></div>
+     <div class="card-header text-center"><h4 style="color: #2384c6;"><center>Student Registration</center></h4></div>
      <div class="card-body">
 		<table>
 			<tr>

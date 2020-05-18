@@ -15,6 +15,30 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" id="registration_form">
                         @csrf
+						
+	 
+ <div class="form-group" >
+  <div class="row">
+  <div class="col-md-12"> 
+	<select class="form-control" name="scheme_code" class="scheme_code"  >
+	      <option value="">Select Scheme</option>
+	      <option value="1"  <?php if("1" == old('scheme_code')){echo"selected"; }else{echo "
+		  ";}?> >National Renewable Energy Internship</option>
+		  <hr class="solid">
+		  <option value="2"  <?php if("2" == old('scheme_code')){echo"selected"; }else{echo "
+		  ";}?>>National Renewable Energy Science</option>
+		  <hr class="solid">
+		  <option value="3"  <?php if("3" == old('scheme_code')){echo"selected"; }else{echo "
+		  ";}?> >National Renewable Energy Fellowships
+		  </option>
+		  <hr class="solid">
+		  <option value="4"  <?php if("4" == old('scheme_code')){echo"selected"; }else{echo "
+		  ";}?>>National Renewable Energy Short-term
+		  </option>
+	  </select>
+	</div></div>
+</div>
+	  
                         <div class="form-group" >
                             <div class="row">
                                 <div class="col-md-4"> 

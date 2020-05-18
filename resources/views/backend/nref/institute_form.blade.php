@@ -34,23 +34,20 @@
             $loginuser_data = $data['loginuser_data'];
 			$type_institute = $data['type_institute'];
 			$inst_data = $data['institute_details_data'];
-			
-			//echo "<pre>"; print_r($inst_data); die;
-			
-			
-			// echo "<pre>"; print_r($inst_data); echo count($inst_data); die; 
+			if($inst_data != null){
+				$crseDtls=json_decode($inst_data->course_offered_dept);
+				$countArray=count((array)$crseDtls);
+			}else{
+				$countArray = "";
+			}
+		
 	 ?>
 	 <!--<marquee behavior="scroll" z-index:99;="" width="100%" height="30px" scrollamount="3" direction="left" style="background:rgba(0,0,0,.03)"><h3><span style="color:#FF0000;">The internship will be on unpaid basis. No stipend will be provided to interns. </span></h3></marquee>-->
      <div class="card-header text-center"><h4 class="mt-2">Institute Details Form</h4></div>
       <div class="card-body">
      	<form enctype="multipart/form-data" action="{{ route('institute-form-post') }}" autocomplete="off" id="institute_form" method="POST" class="abcd">
 			{!! csrf_field() !!}
-			<?php 
-			$crseDtls=json_decode($inst_data->course_offered_dept);
-			$countArray=count((array)$crseDtls);
 			
-			//echo $countArray;
-			?>
 		<input type="hidden" id="counter" value="<?php if($countArray>0) { echo $countArray; } else { echo '1';} ?>">
 			
 				            <div class="form-group">
@@ -501,6 +498,11 @@
 											<option value="2022-2023" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2022-2023") { echo "selected"; } } ?>>2022-2023</option>
 											<option value="2023-2024" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2023-2024") { echo "selected"; } } ?>>2023-2024</option>
 											<option value="2024-2025" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2024-2025") { echo "selected"; } } ?>>2024-2025</option>
+											<option value="2025-2026" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2025-2026") { echo "selected"; } } ?>>2025-2026</option>
+											<option value="2026-2027" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2026-2027") { echo "selected"; } } ?>>2026-2027</option>
+											<option value="2027-2028" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2027-2028") { echo "selected"; } } ?>>2027-2028</option>
+											<option value="2028-2029" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2028-2029") { echo "selected"; } } ?>>2028-2029</option>
+											<option value="2029-2030" <?php if(isset($inst_data->fellowship_period)) { if($inst_data->fellowship_period=="2029-2030") { echo "selected"; } } ?>>2029-2030</option>
 											
 								   	    </select>
 									</div>

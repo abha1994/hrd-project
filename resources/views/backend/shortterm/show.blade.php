@@ -8,28 +8,24 @@
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Role Management
+        <li class="breadcrumb-item active">Student Registration
 		 </li>
       </ol>
 	 
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-	    <div class="card-header text-center"><h4 class="mt-2">Role Management</h4></div>
+	    <div class="card-header text-center"><h4 class="mt-2">Student Registration</h4></div>
 	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 
             
 			
-			<div class="pull-right" style="float: right;">
-				@can('role-create')
-				<a class="btn btn-success" href="{{ route('roles.create') }}"><i class="nav-icon fas fa-plus"></i> Role</a>
-				@endcan
-            </div>
+			 
 			<br />
 			
 			<br />
            <div class="table-responsive card-box">
                  <div class="card-body">
-		<table>
+		<table class="table">
 			<tr>
 				<td>Name of the proposed training program</td>
 				<td>{{ $record[0]->name_proposed_training_program }}</td>

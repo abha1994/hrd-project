@@ -41,7 +41,7 @@
 								
 								<div class="col-md-4">
 								
-								<a href="{{ route('pdfview',['download'=>'pdf']) }}">
+								<a href="{{ route('pdfview_final',['download'=>'pdf']) }}">
 								<input class="btn btn-primary " type="button" value="Download PDF"></a>
 								</a>
 								

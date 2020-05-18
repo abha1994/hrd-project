@@ -215,7 +215,7 @@ Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew
 
 Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
 Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');
-Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nref\InstituteController@pdfview'));
+Route::get('pdfview_final',array('as'=>'pdfview_final','uses'=>'Nref\InstituteController@pdfview'));
 Route::get('/preview', 'Nref\InstituteController@previewIndex')->name('/preview');
 Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
 Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
@@ -277,9 +277,8 @@ Route::get('bank-details-registers/{id}','Nres\bankDetialController@register');
 Route::get('api/get-student-adhaar-number','Nres\bankDetialController@get_student_adhar');
 Route::get('/bankMandateForm/{id}', 'Nres\bankDetialController@index2')->name('/bankMandateForm');
 Route::post('/bank-form-post-final/{id}', 'Nres\bankDetialController@bank_form_post_final')->name('bank-form-post-final');
-// Route::get('pdfview/{id}','Nres\bankDetialController@pdfview');
 
-Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nres\bankDetialController@pdfview'));
+// Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nres\bankDetialController@pdfview'));
 
 //------------Nres Scheme code 2--------------------->	
 	

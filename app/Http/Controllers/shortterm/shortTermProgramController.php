@@ -17,9 +17,27 @@ class shortTermProgramController extends Controller
     public function index()
     {
         //echo 'short term program';
-        $records = DB::table('short_term_program')->orderBy('short_term_id','DESC')->get();
+       // $records = DB::table('short_term_program')->orderBy('short_term_id','DESC')->get();
           
-        return view('backend.shortterm.index',compact('records'));
+        //return view('backend.shortterm.index',compact('records'));
+
+        $userid = DB::table('short_term_program')->where('user_id',Auth::id())->count();
+         if($userid>0){
+
+        $record = DB::table('short_term_program')->where('user_id', Auth::id())->first();
+            if(!empty($record->signature_doc))   {
+                return redirect('short-term-program/'.$record->short_term_id);
+            } else{
+                 return view('backend.shortterm.edit',compact('record'));
+            }
+           
+         }else{
+             return view('backend.shortterm.create');
+          
+         }
+
+
+        
     }
 
     /**
@@ -29,7 +47,7 @@ class shortTermProgramController extends Controller
      */
     public function create()
     {
-        return view('backend.shortterm.create');
+        //return view('backend.shortterm.create');
     }
 
     /**
@@ -76,13 +94,18 @@ class shortTermProgramController extends Controller
 
          ]);
 
+
+
+
+
          $record = $request->all();
          $lastid = DB::table('short_term_program')->latest('short_term_id')->first();
-            if(!empty($lastid)){
-               $lastid = $lastid->short_term_id +1;
-			}else{
-				 $lastid =1;
-			}
+         if(!empty($lastid)){
+            $lastid = $lastid->short_term_id +1;
+        }else{
+             $lastid =1;
+        }
+         
 
          if ($request->hasFile('history_organization_doc_')) {
             if ($request->file('history_organization_doc_')->isValid()) {             
@@ -160,6 +183,7 @@ class shortTermProgramController extends Controller
             'anticipated_impact' => $request->anticipated_impact,
             'financial_proposal_doc' =>  $records['financial_proposal_doc'],
             'created_by' => Auth::id(),
+            'user_id' => Auth::id(),
             'created_date' =>date('y-m-d'),
             'other_re_area'=>$request->other_re_area
         );
@@ -255,13 +279,14 @@ class shortTermProgramController extends Controller
             }
         } 
 
+
          if ($request->hasFile('course_material_doc')) {
 
             if ($request->file('course_material_doc')->isValid()) {             
                 $fileName=$request->file('course_material_doc')->getClientOriginalName();
                 $fileName =$id."_course_material_doc".$fileName;
                 $request->file('course_material_doc')->move('public/uploads/short_term', $fileName);
-                $records['course_material_doc']=$fileName;                
+                $records->course_material_doc=$fileName;                
             }
         }  
         if ($request->hasFile('guest_faculty_doc')) {
@@ -269,7 +294,7 @@ class shortTermProgramController extends Controller
                 $fileName=$request->file('guest_faculty_doc')->getClientOriginalName();
                 $fileName =$id."_guest_faculty_doc".$fileName;
                 $request->file('guest_faculty_doc')->move('public/uploads/short_term', $fileName);
-                $records['guest_faculty_doc']=$fileName;                
+                $records->guest_faculty_doc=$fileName;                
             }
         }  
         if ($request->hasFile('content_letter_doc')) {
@@ -277,7 +302,7 @@ class shortTermProgramController extends Controller
                 $fileName=$request->file('content_letter_doc')->getClientOriginalName();
                 $fileName =$id."_content_letter_doc".$fileName;
                 $request->file('content_letter_doc')->move('public/uploads/short_term', $fileName);
-                $records['content_letter_doc']=$fileName;                
+                $records->content_letter_doc=$fileName;                
             }
         }  
         if ($request->hasFile('financial_proposal_doc')) {
@@ -285,7 +310,7 @@ class shortTermProgramController extends Controller
                 $fileName=$request->file('financial_proposal_doc')->getClientOriginalName();
                 $fileName =$id."_financial_proposal_doc".$fileName;
                 $request->file('financial_proposal_doc')->move('public/uploads/short_term', $fileName);
-                $records['financial_proposal_doc']=$fileName;                
+                $records->financial_proposal_doc=$fileName;                
             }
         }  
 
@@ -324,6 +349,7 @@ class shortTermProgramController extends Controller
             'anticipated_impact' => $request->anticipated_impact,
             'financial_proposal_doc' =>  $records->financial_proposal_doc,
             'created_by' => Auth::id(),
+            'user_id'=>Auth::id(),
             'created_date' =>date('y-m-d'),
             'other_re_area'=>$request->other_re_area
         );
@@ -373,7 +399,13 @@ class shortTermProgramController extends Controller
         ->where('short_term_id', $id)
         
         ->update(array('signature_doc' => $records['signature_doc']));
-        return redirect()->route('short-term-program.index')->with('message','Singature udated successfully');
+        return redirect('short-term-program/'.$id);
+       // return redirect()->route('short-term-program-view/'.$id)->with('message','Singature udated successfully');
          
+    }
+
+    public function shorttermview(Request $request, $id){
+         $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+         return view('backend.shortterm.show',compact('record'));
     }
 }

@@ -7,13 +7,13 @@
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Short Term Program
+        <li class="breadcrumb-item active">Student Registration
      </li>
       </ol>
    
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-      <div class="card-header text-center"><h4 class="mt-2">Short Term Program</h4></div>
+      <div class="card-header text-center"><h4 class="mt-2">Student Registration</h4></div>
          <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
   @include('includes/flashmessage')
       

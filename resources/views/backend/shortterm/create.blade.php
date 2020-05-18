@@ -7,12 +7,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Short Term Program </h1>
+            <h1 class="m-0 text-dark">Student Registration</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{url('short-term-program')}}">Home</a></li>
-              <li class="breadcrumb-item active">Short Term Program</li>
+              <li class="breadcrumb-item active">Student Registration</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
