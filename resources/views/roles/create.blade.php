@@ -33,16 +33,19 @@
             {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
         </div>
     </div>
+	
+	<?php //dd($permission);?>
      <div class="col-xs-10 col-sm-10 col-md-12">
     <div class="form-group">
             <div class="text-success mb-2">Choose Permission:</div>
             <div class="row">
-            @foreach($permission as $value)
+            <?php foreach($permission as $value){ 
+			?>
                 <div class="col-3"><label style="font-size:16px;font-weight:400;display:inline-block;">{{ Form::checkbox ('permission[]', $value->id, false, array('class' => 'name')) }} 
                 {{ $value->name }}</label>
                 </div>
             <br />
-            @endforeach
+            <?php } ?>
         </div>  
       </div>
   </div>

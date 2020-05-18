@@ -68,7 +68,7 @@
 					</div>
 					
 					<div class="form-group" >
-					<input type="submit" id="filterReport" class="btn btn-primary "  value= "Filter" />
+					<input type="submit" id="filterReport" class="btn btn-primary "  value= "Search" />
 					</div>
 
 		<div class="ajaxPart" >

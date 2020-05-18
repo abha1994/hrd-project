@@ -1,26 +1,27 @@
 @extends('layouts.master')
 
 @section('container')
-
-
-<div class="content-wrapper">
+=
+	 
+	 	<div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb" >
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="{{url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Change Password</li>
       </ol>
   <div class="card card-login mx-auto mt-5 ">     
-   <div class="card-header text-center"><h4 class="mt-2">Change Password	</h4></div>
-      <div class="card-body " style="">
-	  
-	  
- 
-     
-	 
-	                           @if ($message = Session::get('error'))
+   <div class="card-header text-center"><h4 class="mt-2">Change Password</h4></div>
+   
+   <?php 
+   $all_data = Session::get('all_data');
+   // ^f(2aw&mt_cs5$
+   // dd($all_data);?>
+   
+      <div class="card-body">
+	      @if ($message = Session::get('error'))
                                  <div class="alert alert-danger alert-block">
 	                               <button type="button" class="close" data-dismiss="alert">×</button>	
                                    <strong>{{ $message }}</strong>
@@ -31,9 +32,8 @@
 	                           <button type="button" class="close" data-dismiss="alert">×</button>	
                                  <strong>{{ $message }}</strong>
                                 </div>
-                               @endif					  
-     
-       <form action="{{ route('changepassword-post') }}" autocomplete="off" id="changepassword_form" method="POST" id="changepassword">
+                               @endif	
+     	     <form action="{{ route('changepassword-post') }}" autocomplete="off" id="changepassword_form" method="POST" id="changepassword">
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
               <div class="form-group">
 				<input type="password" class="form-control password" value="<?php if(!empty($all_data['oldpassword'])){ ?>{{$all_data['oldpassword']}}<?php }else if(old('oldpassword')){ ?>{{ old('oldpassword')}} <?php } ?>" id="oldpassword" placeholder="Old Password" name="oldpassword">
@@ -94,17 +94,21 @@
 		
 			
         </form> 
-      </div>
-    </div>
-    </div></div>
 
+                </div>
+            </div>
+         </div>
+     </div>
 
 <style>
 .invalid-feedback {
-	color:red;
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
 }
-.error{
-	color:red;
-}
-</script>
+</style>
 @endsection
+	
+	

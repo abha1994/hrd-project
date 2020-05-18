@@ -134,7 +134,7 @@
         </div>
 	
 		<div class="col-xs-12 col-sm-12 col-md-12 text-center">
-         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
      
     </div>
 							

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('container')
-=
+
 	 
 	 	<div class="content-wrapper">
     <div class="container-fluid">

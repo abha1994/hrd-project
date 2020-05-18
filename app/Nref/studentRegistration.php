@@ -1,6 +1,6 @@
 <?php
 
-namespace App\nref;
+namespace App\Nref;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,25 +13,32 @@ class studentRegistration extends Model
    	'firstname',
       'middlename',
       'lastname',
+	  'course_id',
    	'gender',
    	'address',
    	'dob',
+	'doj',
    	'pincode',
    	'course',
    	'country',
    	'state',
    	'distric',
-   	////'bankName',
-   	//'accountNo',
-   	//'ifscCode',
+   	'experience',
+	'candidate_declaration',
+   	'student_image',
+   	'commiteedocument',
+      'category',
+      'gate',
+      'net',
    	'gate_neet',
    	'highest_qulification',
    	'aadhar',
    	'bankMandate',
    	'publication',
    	'institute_id',
-	'user_id',
+      'user_id',
    	'mobile',
-   	'email_id');
+   	'email_id',
+   );
 
 }

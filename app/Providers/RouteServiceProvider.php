@@ -46,6 +46,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapShortTermRoutes();
+
         //
     }
 
@@ -62,6 +64,14 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
     }
+ 
+    protected function mapShortTermRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/shortterm.php'));
+    }
+ 
 
     /**
      * Define the "api" routes for the application.

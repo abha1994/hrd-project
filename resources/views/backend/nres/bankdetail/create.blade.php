@@ -28,7 +28,7 @@
 			
                 <div class="row">
 				<?php $scheme_code =  Auth::user()->scheme_code; if($scheme_code == "3"){?>
-				<div class="col-md-4">
+				<div class="col-md-3">
 						<select name="student_id" id="student_id" class="form-control">
 						   <option value="">Select Student*</option>
 						   <?php foreach($student_name as $k=>$v){  ?>
@@ -43,51 +43,36 @@
 					</div>
 				<?php } ?>
 				
-					<div class="col-md-4">
-					<input type="text" class="form-control phoneStartingWith6 numericOnly"  value="{{old('bank_phone')}}" id="bank_phone" placeholder="Phone No*" name="bank_phone" maxlength="10">
-							@if ($errors->has('bank_phone'))
+					<div class="col-md-3">
+					<input type="text" readonly class="form-control phoneStartingWith6 numericOnly"  value="{{old('candidate_phone')}}" id="candidate_phone" placeholder="Phone No*" name="candidate_phone" maxlength="10">
+							@if ($errors->has('candidate_phone'))
 								<span class="invalid-feedback " role="alert">
-									<strong>{{ $errors->first('bank_phone') }}</strong>
+									<strong>{{ $errors->first('candidate_phone') }}</strong>
 								</span>
 							@endif
 					</div>
 					
-					<div class="col-md-4">
-						<input name="aadhar_no"  value="{{old('aadhar_no')}}" class="form-control numericOnly" type="text" id="aadhar_no"  class="form-control" placeholder="Adhar No*"  data-type="adhaar-number" maxlength="14" >
+					<div class="col-md-3">
+						<input name="aadhar_no" readonly  value="{{old('aadhar_no')}}" class="form-control numericOnly" type="text" id="aadhar_no"  class="form-control" placeholder="Adhar No*"  data-type="adhaar-number" maxlength="14" >
 						@if ($errors->has('aadhar_no'))
 							<span class="invalid-feedback " role="alert">
 								<strong>{{ $errors->first('aadhar_no') }}</strong>
 							</span>
 						@endif 
 					</div>
-					
-					
-                </div> 
-    	    </div>
-         	<div class="form-group">
-			    <div class="row">
-				
-				<div class="col-md-6">
-					<input type="text" class="form-control"  value="{{old('pan')}}" id="pan_no" placeholder="Pan Number*" name="pan" maxlength="10" >
+				    
+					<div class="col-md-3">
+					<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();"   value="{{old('pan')}}" id="pan_no" placeholder="Pan Number*" name="pan" maxlength="10" >
 					@if ($errors->has('pan'))
 						<span class="invalid-feedback " role="alert">
 							<strong>{{ $errors->first('pan') }}</strong>
 						</span>
 					@endif
 				</div>	
-									
-					<div class="col-md-6">
-						<input type="text" class="form-control onlyalpha required" value="{{old('bank_cname')}}" id="bank_cname" placeholder="Candidate Name*" name="bank_cname" maxlength="15">
-						@if ($errors->has('bank_cname'))
-							<span class="invalid-feedback " role="alert">
-								<strong>{{ $errors->first('bank_cname') }}</strong>
-							</span>
-						@endif
-					</div>
-                    
-				    
-				</div> 
-			</div>
+					
+                </div> 
+    	    </div>
+       
 <h5><b>Student Bank Details :</b></h5><hr>
       	<div class="form-group">			
             <div class="row">
@@ -115,7 +100,7 @@
 					</div>
 					
 					 <div class="col-md-3">
-						<input type="text" class="form-control  required numericOnly"  value="" id="account_no" placeholder="Account Number*" name="account_number" maxlength="12">
+						<input type="text" class="form-control  required numericOnly"   value="{{old('account_number')}}" id="account_no" placeholder="Account Number*" name="account_number" maxlength="12">
 						@if ($errors->has('account_number'))
 						<span class="invalid-feedback " role="alert">
 							<strong>{{ $errors->first('account_number') }}</strong>
@@ -195,7 +180,7 @@
        
      
 			<div class="col-xs-12 col-sm-12 col-md-12 text-center">
-				 <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+				 <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
 				<a class="btn btn-secondary" href="{{ url('bank-details') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 			</div>
 	
@@ -219,10 +204,27 @@
    </style>
    <script type="text/javascript">
    
+   $("#student_id").on('change',function(){
+    var getstudentData=$(this).val();
+	// alert(getValue);
+	  if(getstudentData){
+       $.ajax({
+          type:"GET",
+          url:"{{url('api/get-student-adhaar-number')}}?getstudentData="+getstudentData,
+          success:function(res){  
+		  // alert(res);
+		   var myObj = JSON.parse(res);
+	       $('#candidate_phone').val(myObj.mobile);
+           $('#aadhar_no').val(myObj.aadhar);
+          }
+       });
+    } 
+   });
+   
    	 function showfield(name){   
   	 
 	if(name == 'Y') {
-		document.getElementById('ifsc').innerHTML = '<input type="text"  class="form-control" value="" id="ifsc_code" placeholder="IFCS Code*" name="ifsc_code" maxlength="11">@if ($errors->has("ifsc_code"))<span class="help-block"><strong>{{ $errors->first("ifsc_code") }}</strong></span> @endif </span>';
+		document.getElementById('ifsc').innerHTML = '<input type="text"  class="form-control" onkeyup="this.value = this.value.toUpperCase();"   value="{{old("ifsc_code")}}" id="ifsc_code" placeholder="IFCS Code*" name="ifsc_code" maxlength="11">';
 	}else{
 		document.getElementById('ifsc').innerHTML='';
 	}

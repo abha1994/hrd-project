@@ -9,7 +9,18 @@
 <script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
 
 
-  <script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script>
+<!-- Rocky Start -->
+
+
+<script src="{{ asset('public/js/datatable/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('public/js/datatable/jszip.min.js') }}"></script>
+<script src="{{ asset('public/js/datatable/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('public/js/datatable/pdfmake.min.js') }}"></script>
+<script src="{{ asset('public/js/datatable/vfs_fonts.js') }}"></script>
+<script src="{{ asset('public/js/datatable/buttons.html5.min.js') }}"></script>
+
+<!-- Rocky Ended -->
+  <!--script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script-->
   <script type="text/javascript" src="{{ asset('public/js/dataTables.bootstrap4.min.js') }}"></script>
 
 <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script-->
@@ -64,12 +75,20 @@ $(document).ready(function() {
                 },
 			   success: function(data) {
 				   //alert(data);
-				   if(data == "3"){
+				   if(data == "0"){
+					    window.location.href = "{{ url('home')}}";
+				   }else if(data == "3"){
 					    window.location.href = "{{ url('nref-home')}}";
 				   }else if(data == "1"){
 					    window.location.href = "{{ url('internship-home')}}";
 				   }else if(data == "2"){
 					    window.location.href  = "{{ url('nres-home')}}";
+				   }else if(data == "4"){
+					    window.location.href  = "{{ url('nrest-home')}}";
+				   }else if(data == "5"){
+					    window.location.href = "{{ url('institute')}}";
+				   }else if(data == "6"){
+					    window.location.href = "{{ url('short-term-program')}}";
 				   }
 				   // location.reload();
 			   }
@@ -82,5 +101,6 @@ $(document).ready(function() {
 	})	
 	
  <!------------Admin Panale select scheme_menu----------> 
+ 
 })
 </script>

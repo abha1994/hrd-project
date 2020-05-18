@@ -58,10 +58,13 @@
         </div> 
     </div>
      <script type="text/javascript">
- $(document).ready(function () {
-      $(".nav-link").removeClass('active');
-      $("#liRole").addClass('active');
-    });
+
+ // $(document).ready(function () {
+ 	
+      // $(".nav-link").removeClass('active');
+      // $("#lifund").addClass('active');
+    // });
+</script>
 </script>
     <!--  <script src="{{ asset('js/app.js') }}"></script>  -->
 @endsection

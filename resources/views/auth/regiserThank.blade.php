@@ -12,10 +12,10 @@
       <div class="card-body">
  
  
-                                
-				Dear Candidate,
+                        
+				Hello ,
 				<p>congratulations !</p>
-				<p>Your registration verification code send to this emailid : </p>
+				<p>Your registration verification code send to this emailid : {{ session('EMAILID') }}       </p>
 				<p>Please login to your email account and click the verification link. </p>
 
                                  
@@ -26,7 +26,11 @@
 
                 </div>
             </div>
-    
+    <?php
+
+session()->forget('EMAILID');
+session()->flush();
+    ?>
   
 
 @endsection

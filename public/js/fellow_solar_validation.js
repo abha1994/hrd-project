@@ -336,9 +336,7 @@ $(document).ready(function(){
      debug: false,
      rules: {
 		
-        bank_cname: {
-             required: true,
-         },
+        
          bank_name: {
              required: true,
          },
@@ -353,7 +351,7 @@ $(document).ready(function(){
              required: true,
              minlength:9,
 		 },
-       pan: {
+         pan: {
              required: true,
              pan: true,
              // maxlength:10, 
@@ -369,23 +367,22 @@ $(document).ready(function(){
 		  student_id: {
              required: true,
          },
-		 aadhar_no:{
-			    required: true,
-			    minlength:12,
-		 },
-		bank_phone:{
-			   required: true,
-			   minlength:10,
-			   phoneStartingWith6: true
-		 },
+		 // aadhar_no:{
+			    // required: true,
+			    // minlength:12,
+		 // },
+		// bank_phone:{
+			   // required: true,
+			   // minlength:10,
+			   // phoneStartingWith6: true
+		 // },
 		bank_mobile:{
-			   required: true,
-			   minlength:10,
+               minlength:10,
 			   phoneStartingWith6: true
 		 },
 		
 		bank_email:{
-		   required: true,
+		  // required: true,
 		   email:true,  
 		},
 		
@@ -401,8 +398,11 @@ $(document).ready(function(){
 /******Jquery Fllowship Bank Form Validation*********/
   
 
-
  $(document).ready(function() { 
+
+
+
+
  
   $.validator.addMethod("ifsc", function(value, element) {
     var reg = /^[A-Za-z]{4}[0-9]{6,7}$/;

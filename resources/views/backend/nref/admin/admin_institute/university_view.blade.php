@@ -2,6 +2,8 @@
 
 @section('container')
 
+<?php //echo "<pre>"; print_r($data['courses_list']); die; ?>
+
  <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
@@ -64,6 +66,23 @@
 									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF</label>
 										<p><?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>
 									</div>
+									
+									<!--<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department : </label>
+									
+									<?php //$curse=explode(',',$data['institute_data']->lstCourse); ?>
+									
+									    @if(isset($data['courses_list']))
+										@foreach($data['courses_list'] as $courseName)
+										
+						<?php /* if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$courseName->course_id) { ?>
+										<p>{{$k+1}}.{{$courseName->course_name}}</p>
+						<?php } } } */ ?>
+										@endforeach
+										@endif
+										
+									</div>-->
+									
 								</div> 
 							</div>
 							
@@ -90,6 +109,62 @@
 								
 								</div> 
 							</div>
+							
+							<!--- NEW Functionality Add more -->
+							
+							<table border="0" class="table table-bordered table-striped table-hover" id="tab0">
+                    <thead style="font-size: 14px; font-weight: 300;line-height: 0.9;">
+						<tr>
+                             
+                            <th>Course Offered by department</th>
+                            <th class="text-center">Approx. Number of Students</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_append" class="table_append">
+						<div> 
+						
+
+						
+						<?php 
+						$crseDtls=json_decode($data['institute_data']->course_offered_dept);
+												
+							if(isset($crseDtls)) { foreach($crseDtls as $key=>$value)
+							{ ?>
+							
+							<tr class="record">
+							
+                                <td class="text-center">
+	                             
+						@foreach($data['courses_offered'] as $val) 
+					<?php if($key==$val->course_id) { ?>{{$val->course_name}}<?php } ?>
+											@endforeach 
+									
+									@if ($errors->has('course_id'))courses_offered
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('course_id') }}</strong>
+										</span>
+									@endif
+								</td>
+                                <td class="text-center">
+                                	<?php echo $crseDtls->$key; ?>
+								</td>
+								
+								
+                            </tr>
+							
+							<?php } } else {  ?>
+							
+							<tr>
+                                 
+                                <td colspan="3"><center>No data available</center></td>
+                            </tr>
+							
+							<?php } ?>
+                        </div>
+                    </tbody>
+                </table>
+							
+							<!-- New Functionality ADD more -->
 							
 							<br>
 							<h4><u>Details of the Course:-</u></h4>
@@ -130,6 +205,11 @@
 									</div>
 									@if($data['institute_data']->any_collaboration=='yes')
 										
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Name of Collaborate Institute</label>
+										<p><?php if(!empty($data['institute_data']->collab_institute)){ ?>{{$data['institute_data']->collab_institute}}<?php } ?></p>
+									</div>
+										
 									<div class="col-md-4" style="padding:2em 0em 0em 1em">
 									@if(isset($data['institute_data']->research_phd)) 
 									<?php $ss=explode(',',$data['institute_data']->research_phd); ?>
@@ -143,6 +223,8 @@
 									
                                      @endif
 									</div>
+									
+
 									@endif
 									
 									
@@ -160,7 +242,7 @@
 									<div class="row">
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Since when the course being run</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Date of approximate course Start</label>
 										<p><?php if(!empty($data['institute_data']->course_start_date)){ ?>{{date('Y-m-d',strtotime($data['institute_data']->course_start_date))}}<?php } ?></p>
 									</div>
 									
@@ -209,14 +291,11 @@
 										
 									</div>
 									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">F) Name of Collaborate Institute</label>
-										<p><?php if(!empty($data['institute_data']->collab_institute)){ ?>{{$data['institute_data']->collab_institute}}<?php } ?></p>
-									</div>
+									
 									
 									@if($data['institute_data']->placement_details=='yes')
 									<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">G) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
 										@if(isset($data['institute_data']->file_prevStudent_proof))
 										<a href="{{ asset('public/uploads/nref/'.$data['institute_data']->file_prevStudent_proof) }}" download><?php if($data['institute_data']->file_prevStudent_proof) { echo $data['institute_data']->file_prevStudent_proof; } ?></a>
 										@endif
@@ -226,7 +305,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">
-									 <?php if($data['institute_data']->placement_details=='yes') { echo "H"; }
+									 <?php if($data['institute_data']->placement_details=='yes') { echo "G"; }
 									       else
 										   {
 											   echo "F";
@@ -251,6 +330,14 @@
 								<div class="row">
 								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Fellowship slot requirement :</label>
 								</div>
+								
+								<div class="row">
+								<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period</label>
+									<p><?php if(!empty($data['institute_data']->fellowship_period)){ ?>{{$data['institute_data']->fellowship_period}}<?php } ?></p>
+									</div>
+									</div>
+									
 								<div class="row">
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.Tech.</label>

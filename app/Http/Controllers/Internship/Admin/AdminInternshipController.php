@@ -59,7 +59,14 @@ class AdminInternshipController extends Controller
 			$this->middleware('permission:Selected-internship-list|Selected-internship-edit|Selected-internship-delete', ['only' => ['selected_internship','view']]);
 			$this->middleware('permission:Selected-internship-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:Selected-internship-delete', ['only' => ['destroy']]);
+		
 		}
+		// else if($current_url == 'rejected-internship'){
+			
+			// $this->middleware('permission:final-rejected-internship-list|final-rejected-internship-edit|final-rejected-internship-delete', ['only' => ['final_rejected_internship','view']]);
+			// $this->middleware('permission:final-rejected-internship-edit', ['only' => ['edit','update']]);
+			// $this->middleware('permission:final-rejected-internship-delete', ['only' => ['destroy']]);
+		// }
 		
 	  }
 	

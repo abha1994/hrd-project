@@ -74,10 +74,10 @@
         <li class="breadcrumb-item">
           <a href="{{url('home')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Internship Dashboard</li>
+        <li class="breadcrumb-item active">National Renewable Energy Internship</li>
       </ol>
 	  <div class="card card-login mx-auto mt-5 ">     
-	   <div class="card-header text-center"><h4 class="mt-2">Internship Dashboard</h4></div>
+	   <div class="card-header text-center"><h4 class="mt-2">National Renewable Energy Internship</h4></div>
 		  <div class="card-body">
       <ol class="breadcrumb">
         <li class="breadcrumb-item active"><b>Overview of Internship Data</b></li>

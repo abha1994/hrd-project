@@ -6,21 +6,36 @@
       </li>
       
     </ul>
-<?php   
+<?php    $menu_id = Session::get('menu_id');
     if(Auth::user()->role != 0){
-    $menu_id = Session::get('menu_id'); // dd($menu_id);?>
-	<div class="col-xs-6 col-sm-6 col-md-6 text-center">
+    // dd($menu_id);?>
+	<div class="col-xs-6 col-sm-6 col-md-6 text-center" style="margin-left: 20%;">
      <select name="scheme_menu" class="scheme_menu"  class="form-control">
-	      <option value="">Select Scheme</option>
-	      <option value="1"  <?php if($menu_id == 1){echo "Selected";}else{ echo "Selected";}?>>Internship</option>
+	      <option value="0">Select Scheme</option>
+	      <option value="1"  <?php if($menu_id == 1){echo "Selected";}else{ echo "Selected";}?>>National Renewable Energy Internship</option>
 		  <hr class="solid">
-		  <option value="2" <?php if($menu_id == 2){echo "Selected";}else{ }?>>New And Renewable Energy Solar</option>
+		  <option value="2" <?php if($menu_id == 2){echo "Selected";}else{ }?>>National Renewable Energy Science</option>
 		  <hr class="solid">
-		  <option value="3" <?php if($menu_id == 3){echo "Selected";}else{ }?>>New And Renewable Energy Fellowship
+		  <option value="3" <?php if($menu_id == 3){echo "Selected";}else{ }?>>National Renewable Energy Fellowships
+		  </option>
+		  <hr class="solid">
+		  <option value="4" <?php if($menu_id == 4){echo "Selected";}else{ }?>>National Renewable Energy Short-term
 		  </option>
 	  </select>
-	  </div>
-	<?php  } ?>
+	</div>
+<?php  }else{    ?>
+	
+   <div class="col-xs-6 col-sm-6 col-md-6 text-center" style="margin-left: 20%;">
+     <select name="scheme_menu" class="scheme_menu"  class="form-control">
+	      <option value="0">Select Scheme</option>
+	     <option value="5" <?php if($menu_id == 5){echo "Selected";}else{ }?>>National Renewable Energy Fellowships Form
+		  </option>
+		  <hr class="solid">
+		  <option value="6" <?php if($menu_id == 6){echo "Selected";}else{ }?>>National Renewable Energy Short-term Form
+		  </option>
+	  </select>
+	</div>
+<?php } ?>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
@@ -34,30 +49,47 @@
           
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+		  <a class="nav-link" href="{{ url('changepassword') }}">
+             <i class="nav-icon fa fa-key" aria-hidden="true"></i> {{ __('Change Password') }}
+          </a>
           <a class="nav-link" href="{{ route('logout') }}"
               onclick="event.preventDefault();
               document.getElementById('logout-form').submit();">
              <i class="nav-icon fa fa-power-off red" aria-hidden="true"></i> {{ __('Logout') }}
           </a>
+		  
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
           @csrf
           </form>
+		  
         </div>
       </li>
     </ul>
   </nav>
 
 <style>
+
 hr.solid {
   border-top: 3px solid #bbb;
 }
 .scheme_menu{
-    height: 35px;
+    text-align: center;
+    height: 47px;
     border-color: #343a40;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 20px;
     padding: 6px 4px 2px 16px;
+    width: 100%;
 	}
+.scheme_menu_user {
+	text-align: center;
+    height: 47px;
+    border-color: #343a40;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 6px 4px 2px 16px;
+    width: 100%;
+}
 .wrapper > .main-header{
 	background-color: #17a2b8;
 }
@@ -66,6 +98,7 @@ hr.solid {
 }
 .navbar-light .navbar-nav .nav-link:hover{
 	color:#fff;
+	background-color:#17a2b8;
 }
  .card-body{
 	border:1px solid #17a2b8;

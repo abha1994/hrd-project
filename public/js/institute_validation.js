@@ -1,5 +1,6 @@
 
   /******Jquery Institute Form Validation*********/
+  
     $(document).ready(function() {
 	 $('#institute_form').validate({
      ignore: [],
@@ -54,22 +55,26 @@
 			},
 			},
 		
-		 collab_inst: {
+		  collab_inst: {
             required: true,  
          },
 		 
+		/* 
 		 resrch_phd: {
-			required: function(element) {
+			 required: true,
+			 required: function(element) {
+				
+				alert("Hii");
 				if($("#collab_inst").val()!= 'yes')
 				{
-			   return true;
-				}
+					//return $("input.resrch_phd:checked").length < 0;
+				} 
 				else
 				{
 				return false;
-				}
-			},
-		}, 
+				} 
+			}, 
+		}, */
 		 exp_energy_course: {
             required: true,  
          },
@@ -85,10 +90,13 @@
 		 spon_project:{
 			  required:true,
 		 },
+		 fellowship_period:{
+			  required:true,
+		 },
 		 certified:{
 			  required:true,
 		 },
-		 
+	
 		 file_upload_signature: {
 		required: function(element) {
 				if($("#final_repo").val()== '')
@@ -137,6 +145,7 @@
                   }
 				  });
                });
+			   
 			   
 			   
 	    });
@@ -298,20 +307,29 @@ $('.fellow').keyup(function () {
 	  if(v2=="yes")
 	  {
 		  $(".colab_inst_yes").show();
+		  $("#prevstd1").show();
+		  $("#collab_institute").prop('required',true);
+		  $("input[name='resrch_phd[]']").prop('required',true);
+		  
 	  }
 	  else
 	  {
 		  $(".colab_inst_yes").hide();
+		  $("#prevstd1").hide();
+		  $("#collab_institute").prop('required',false);
+		  $("input[name='resrch_phd[]']").prop('required',false);
 	  }
 	  
 	  });
 	  
 	   if($("#collab_inst option:selected").val() == 'yes'){
 		$(".colab_inst_yes").show();
+		$("#prevstd1").show();
 		}
 		else
 		{
 			$(".colab_inst_yes").hide();
+			$("#prevstd1").hide();
 		}
 	
 	
@@ -322,33 +340,27 @@ $('.fellow').keyup(function () {
 	if(p1=="yes")
 	{
 		$("#prevstd").show();
-		$("#prevstd1").show();
-		$("#val1d").text('H');
+		$("#val1d").text('G');
 		$("#file_prevStudent_proof").prop('required',true);
-		$("#collab_institute").prop('required',true);
 		
 		
 	}
 	else
 	{
 		$("#prevstd").hide();
-		$("#prevstd1").hide();
 		$("#val1d").text('F');
 		$("#file_prevStudent_proof").prop('required',false);
-		$("#collab_institute").prop('required',false);
 	}	
 	
 	});
 	
 	if($("#place_service option:selected").val() == 'yes'){
 		$("#prevstd").show();
-		$("#prevstd1").show();
-		$("#val1d").text('H');
+		$("#val1d").text('G');
 	}
 	else
 	{
 		$("#prevstd").hide();
-		$("#prevstd1").hide();
 		$("#val1d").text('F');
 	}
 	
@@ -380,3 +392,77 @@ $('.fellow').keyup(function () {
   } );
   
   //** DatePicker Function **//
+  
+    $(document).ready(function(){
+
+	$('#updatebtn').on('click', function(event) {
+		
+		var cnt=$("#counter").val();
+
+		for(j=0;j<cnt;j++) {
+			
+		if($("#courseid_"+j).val()=="")
+		{
+		$("#courseid_"+j).focus();
+		alert("Please Select Course Value");
+		return false;
+		}
+		
+		if($("#student_"+j).val()=="")
+		{
+		$("#student_"+j).focus();
+		alert("Please Enter Student No");
+		return false;
+		}
+		
+		if(j==1)
+		{
+			if($("#courseid_0").val()==$("#courseid_"+j).val())
+			{
+				alert("Duplicate Entry for course is not allowed");
+				$("#courseid_"+j).focus();
+				return false;
+			}
+		}
+		
+		if(j==2)
+		{
+			if($("#courseid_0").val()==$("#courseid_1").val())
+			{
+				alert("Duplicate Entry for course is not allowed");
+				$("#courseid_1").focus();
+				return false;
+			}
+			
+			if($("#courseid_0").val()==$("#courseid_"+j).val())
+			{
+				alert("Duplicate Entry for course is not allowed");
+				$("#courseid_"+j).focus();
+				return false;
+			}
+			
+			if($("#courseid_1").val()==$("#courseid_"+j).val())
+			{
+				alert("Duplicate Entry for course is not allowed");
+				$("#courseid_"+j).focus();
+				return false;
+			}
+		}
+		
+		
+		}
+		
+		
+		
+		/* $('.courseid_input').each(function() {
+        $(this).rules("add", 
+            {
+                required: true,
+                messages: {
+                    required: "Course is required",
+                }
+            });
+    }); */
+		
+	});
+	});

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Mail;
 use File;
 use PDF;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Mail\Message;
 use Validator,Redirect;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -74,33 +75,39 @@ class UniversityController extends Controller
 	public function index(Request $request)
     { 
 		$data = Admin_institute::index();
+		
+		$stateList = Admin_institute::getState();
 
-		return view('backend/nref/Admin/admin_institute/university_list',compact('data'));
+		return view('backend/nref/Admin/admin_institute/university_list',compact('data','stateList'));
 	}
 	
 	public function index2(Request $request)
     { 
 		$data = Admin_institute::considered_by_level1();
-		return view('backend/nref/Admin/admin_institute/university_level1_list',compact('data'));
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_level1_list',compact('data','stateList'));
 	}
 	
 	
 	public function index3(Request $request)
     { 
 		$data = Admin_institute::forward_to_committee();
-		return view('backend/nref/Admin/admin_institute/university_forward_to_committee_list',compact('data'));
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_forward_to_committee_list',compact('data','stateList'));
 	}
 	
 	public function index4(Request $request)
     { 
 		$data = Admin_institute::rejected();
-		return view('backend/nref/Admin/admin_institute/university_reject_list',compact('data'));
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_reject_list',compact('data','stateList'));
 	}
 	
     public function index5(Request $request)
     { 
 		$data = Admin_institute::selected();
-		return view('backend/nref/Admin/admin_institute/university_selected_list',compact('data'));
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_selected_list',compact('data','stateList'));
 	}
 	
 	/**
@@ -152,6 +159,9 @@ class UniversityController extends Controller
 		$items = DB::table('institute_details')->where('user_id', $registeration_id->id)->get();
 	    
 		 view()->share('items',$items);
+		 
+		 $courses = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+        view()->share('courses',$courses);
 
 
         if($request->has('download')){
@@ -232,6 +242,8 @@ class UniversityController extends Controller
 		date_default_timezone_set('Asia/Kolkata');
 		$date = date('Y-m-d H:i:s');
 		
+		$courseDetails=array_combine($request->courseid,$request->studentno);
+		
 		    $institute_name = $request->institute_name;
 			
 			// $postdata['user_id'] = $id;
@@ -255,6 +267,15 @@ class UniversityController extends Controller
 			if(isset($request->resrch_phd)) {
 			$postdata['research_phd'] = implode(',',$request->resrch_phd);
 			}
+			
+			
+			
+			/* if(isset($request->lstCourse)) {
+			$postdata['lstCourse'] = implode(',',$request->lstCourse);
+			} */
+			
+            $postdata['course_offered_dept'] = json_encode($courseDetails);
+			
 			$postdata['energy_experience'] = $request->exp_energy_course;
 			$postdata['course_start_date'] = $request->course_run;
 			$postdata['no_of_seat'] = $request->no_seat_course;
@@ -280,11 +301,22 @@ class UniversityController extends Controller
 			$postdata['fellowship_total'] = $request->ftotal;
 			$postdata['certified_status'] = $request->certified;
 			
-			// echo "<pre>"; print_r($fetchRecord); 
+			 //echo "<pre>"; print_r($fetchRecord); die;
 			//echo $fetchRecord['existRecords'][0]->faculty_details;
 			
 			//echo count($fetchRecord['existRecords']);
 			//die;
+			
+			if($request->collab_inst=="no")
+			{
+				$postdata['research_phd'] ="";
+				$postdata['collab_institute'] = "";
+			}
+			
+			if($request->place_service=="no")
+			{
+				$postdata['file_prevStudent_proof'] = "";
+			}
 			
 			
 			if(count($fetchRecord['existRecords'])>0)
@@ -308,6 +340,8 @@ class UniversityController extends Controller
 			$insertRecord['faculty_details']=$fetchRecord['existRecords'][0]->faculty_details;
 			$insertRecord['any_collaboration']=$fetchRecord['existRecords'][0]->any_collaboration;
 			$insertRecord['research_phd']=$fetchRecord['existRecords'][0]->research_phd;
+			////$insertRecord['lstCourse']=$fetchRecord['existRecords'][0]->lstCourse;
+			$insertRecord['course_offered_dept']=$fetchRecord['existRecords'][0]->course_offered_dept;
 			$insertRecord['energy_experience']=$fetchRecord['existRecords'][0]->energy_experience;
 			$insertRecord['course_start_date']=$fetchRecord['existRecords'][0]->course_start_date;
 			$insertRecord['no_of_seat']=$fetchRecord['existRecords'][0]->no_of_seat;
@@ -696,6 +730,160 @@ class UniversityController extends Controller
        });
 	   return $transactionResult;
     }
+	
+	/* Filter Function Start */
+	
+	public function pendingInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::pendingInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	}
+	
+	public function considerInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::considerInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	}
+	
+	public function nonconsiderInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::nonconsiderInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	}
+	
+	public function frwdCommiteInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::fwdcommitInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/fwdCommiteAjax',compact('data'));
+	}
+	
+	public function selectedInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::selectedInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	}
+	
+	
+	/* Export CSV */
+	
+	public function array_to_csv($array, $download = "") {
+		if ($download != "") {	
+			header("Content-Description: File Transfer");
+			header("Content-Type: application/csv;");
+			header("Content-Disposition: attachment; filename=$download");
+		}		
+		ob_start();
+		$f = fopen('php://output', 'w') or show_error("Can't open php://output");
+		$n = 0;		
+		foreach ($array as $line) {
+			$n++;
+			if ( ! fputcsv($f, $line)) {
+				show_error("Can't write line $n: $line");
+			}
+		}
+		fclose($f) or show_error("Can't close php://output");
+		$str = ob_get_contents();
+		ob_end_clean();
+		if ($download == "") {
+			return $str;	
+		} else {	
+			echo $str;
+		}		
+	}
+	
+    public function exportPdf(Request $request){
+		
+		//echo "<pre>"; dd($request);
+		 $type = $request->input('type');
+	     $coursepdf = $request->input('coursepdf');
+		 $statepdf = $request->input('statepdf');
+		 $frmDate=$request->input('frmdatepdf');
+	     $toDate = $request->input('todatepdf');
+		 $institutetype = $request->input('institutetype');
+	
+	if($type == "2"){
+            $institute_data= Admin_institute::all_export_data($coursepdf,$statepdf,$frmDate,$toDate,$institutetype); 
+			 //dd($internship_data);
+			$Mpdf = PDF::loadview('backend/nref/admin/admin_institute/pdf_report', compact('institute_data'))->setPaper('a4', 'landscape');
+			return $Mpdf->download('institute.pdf'); 
+	}
+	else
+	{
+		$response = Admin_institute::export_all($coursepdf,$statepdf,$frmDate,$toDate,$institutetype);
+		
+		if($institutetype=="1")
+		{
+			$redirectURL= 'university';
+		}
+		
+		else if($institutetype=="2")
+		{
+			$redirectURL= 'universityCons';
+		}
+		
+		else if($institutetype=="3")
+		{
+			$redirectURL= 'universityNocons';
+		}
+		
+		else if($institutetype=="4")
+		{
+			$redirectURL= 'universityConsAdmin';
+		}
+		
+		else if($institutetype=="5")
+		{
+			$redirectURL= 'universitySelected';
+		}
+		
+		if(isset($response['internship_export']) && !empty($response['internship_export'])){
+		$datamrg = array_merge( $response['header'] , $response['internship_export'] );
+		self::array_to_csv($datamrg,'Institute List-'.date('Y-m-d H:i:s').'.csv');
+		}
+		
+		else{
+		return redirect($redirectURL)->with('error','Institute data not found for export Some error, try again ');
+		} 
+	}
+		
+	}
+	
+	
 	
 	
 	

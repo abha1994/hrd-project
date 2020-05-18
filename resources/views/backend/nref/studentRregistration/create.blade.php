@@ -1,31 +1,26 @@
 @extends('layouts.master')
 @section('container') 
+
+
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Student Registration</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{url('student-registration')}}">Home</a></li>
-              <li class="breadcrumb-item active">Student Registration</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">        
-    <div class="col-md-12">
-    <div class="card card-primary card-outline">
-        <div class="card-body">              
+    <div class="container-fluid">
+      <!-- Breadcrumbs--><br>
+      <ol class="breadcrumb"style="" >
+        <li class="breadcrumb-item">
+          <a href="">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Student Registration</li>
+      </ol>
+    <div class="card card-login mx-auto mt-5 " >
+     	<div class="card-header text-center"><h4 class="mt-2">Student Registration</h4></div>
+     	<!--div class="card-body text-center"><h4>Fellowship Program Application</h4><h4>Annexure 1A &nbsp;&nbsp;&nbsp;<input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></div-->
+		<div class="card-body">
+		
      
         <br />
      <form  enctype="multipart/form-data"  action="{{ route('student-registration.store') }}" class="" id="studentRegistrationForm" method="POST" >
       {{csrf_field()}}
-
+<input type="hidden" id="hidden_id" value="">
       <div class="form-row">
           <div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }} col-md-4">
               <label for="firstName">First Name <span style="color: red">*</span></label>
@@ -61,7 +56,8 @@
         <div class="form-row">
          <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }} col-md-4">
               <label for="mobile">Mobile <span style="color: red">*</span></label>
-              <input name="mobile" class="form-control" value="{{old('mobile')}}"></input>
+              <input name="mobile" id="mobile" onblur="checkmobileStatus()" class="form-control" maxlength="10" value="{{old('mobile')}}"></input>
+			  <div id="mobile_msg"></div>
               @if ($errors->has('mobile'))
                   <span class="help-block">
                       <strong>{{ $errors->first('mobile') }}</strong>
@@ -71,8 +67,9 @@
           </div>
           <div class="form-group col-md-4">
             <label for="email">Email Id <span style="color: red">*</span></label><br />
-            <input name="email_id" id="email_id" class="form-control" value="{{old('email_id')}}"></input>
-            <br />
+            <input name="email_id" onblur="checkMailStatus()" id="email_id" class="form-control" value="{{old('email_id')}}">
+          <div id="email_msg"></div>
+		
             @if ($errors->has('email_id'))
                   <span class="help-block" id="aaa">
                       <strong>{{ $errors->first('email_id') }}</strong>
@@ -82,8 +79,8 @@
           </div>
             <div class="form-group col-md-4">
             <label for="gender">Gender <span style="color: red">*</span></label><br />
-            <input type="radio" name="gender" value="male" {{ old('gender') == "male" ? 'checked' : '' }}> Male &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="gender" value="female" {{ old('gender') == "female" ? 'checked' : '' }} > Female
+            <input type="radio" name="gender" value="1" {{ old('gender') == "1" ? 'checked' : '' }}> Male &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="gender" value="2" {{ old('gender') == "2" ? 'checked' : '' }} > Female
             <br />
             @if ($errors->has('gender'))
                   <span class="help-block">
@@ -98,9 +95,9 @@
             <?php $categories_arr = array( '1'=>'General' ,'2'=>'OBC','3'=>'SC','4'=>'ST')?>
             <label for="student_image">Category<span style="color: red">*</span></label> 
               <select name="category" id="category" class="form-control">
-                  <!-- <option value="">Select Category</option> -->
+                   <option value="">Select Category</option>
                   @foreach($categories_arr as $key=>$category)
-                    <option value="{{ $key }}">{{ $category }}</option>
+                    <option value="{{ $key }}" @if (old('category') == $key) {{ 'selected' }} @endif>{{ $category }}</option>
                   @endforeach
               </select>
               @if ($errors->has('category'))
@@ -112,40 +109,41 @@
           </div>
            <div class="form-group col-md-4">
              <label for="student_image">Student Image <span style="color: red">*</span></label>   
-             <input type="file" name="student_image" class="form-control" value="{{old('student_image')}}">
+             <input type="file" name="student_image" class="form-control" id="student_image" value="{{old('student_image')}}">
               @if ($errors->has('student_image'))
                 <span class="help-block">
                   <strong>{{ $errors->first('student_image') }}</strong>
                 </span>
               @endif
+			  <label style="color:#FF0000; font-size:11px;"> (File Format accepts: img,png &amp; Maximum Size: 100kb) <br>
+			<p id="file_photo_error"></p>
           </div>
            <div class="form-group col-md-4">
              <label for="commiteedocument">Selection Committee Recommandation doc.  <span style="color: red">*</span></label>   
-             <input type="file" name="commiteedocument" class="form-control" value="{{old('commiteedocument')}}">
+             <input type="file" name="commiteedocument" id="commiteedocument" class="form-control" value="{{old('commiteedocument')}}">
               @if ($errors->has('commiteedocument'))
                 <span class="help-block">
                   <strong>{{ $errors->first('commiteedocument') }}</strong>
                 </span>
               @endif
+			   <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+			<p id="commiteedocument_error"></p>
           </div>
         </div>
 
 
         <div class="form-row">
-          <div class="form-group col-md-12">
+          <div class="form-group col-md-6">
               <label for="address">Address <span style="color: red">*</span></label>
                
-              <textarea name="address" class="form-control">{{old('address')}}</textarea>
+              <textarea name="address"  style="height: 36px;"  class="form-control">{{old('address')}}</textarea>
               @if ($errors->has('address'))
                   <span class="help-block">
                       <strong>{{ $errors->first('address') }}</strong>
                   </span>
                 @endif
           </div>
-           
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-4 " >
+		  <div class="form-group col-md-6 " >
               <label for="dob">DOB <span style="color: red">*</span></label>               
               <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
               @if ($errors->has('dob'))
@@ -154,9 +152,21 @@
                   </span>
                 @endif
           </div>
+           
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4 " >
+              <label for="doj">DOJ <span style="color: red">*</span></label>               
+              <input type="date" name="doj"  class="form-control" value="{{old('doj')}}" id="doj">
+              @if ($errors->has('doj'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('doj') }}</strong>
+                  </span>
+                @endif
+          </div>
           <div class="form-group col-md-4">
               <label for="pincode">Pincode <span style="color: red">*</span></label>               
-              <input type="text" name="pincode"  class="form-control" value="{{old('pincode')}}">
+              <input type="text" name="pincode"  class="form-control" maxlength="6" value="{{old('pincode')}}">
               @if ($errors->has('pincode'))
                   <span class="help-block">
                       <strong>{{ $errors->first('pincode') }}</strong>
@@ -182,9 +192,9 @@
               <label for="country">Country <span style="color: red">*</span></label>               
               <!-- <input type="text" name="country"  class="form-control" value="{{old('country')}}"> -->
               <select name="country" class="form-control">
-                @foreach($country as $con)
-                <option value="{{$con->countrycd}}" {{ $con->name == 'INDIA' ? 'selected' : ''}}>{{$con->name}}</option>
-                @endforeach
+               
+                <option value="91" >INDIA</option>
+              
               </select>
               @if ($errors->has('country'))
                   <span class="help-block">
@@ -196,7 +206,7 @@
               <label for="state">State <span style="color: red">*</span></label>               
               <!-- <input type="text" name="state"  class="form-control" value="{{old('state')}}"> -->
               <select name="state" class="form-control" id="state" size='1'>
-                <option value=""> Select </option>
+                <option value=""> Select State</option>
                 @foreach($states as $state)
                 <option value="{{$state->statecd}}" @if (old('state') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
                 @endforeach
@@ -210,7 +220,7 @@
           <div class="form-group col-md-4">
               <label for="distric">District <span style="color: red">*</span></label>    
               <select id="distric" name="distric" class="form-control">
-                <option value=""> Select </option>
+                <option value=""> Select District</option>
               </select>          
               <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
               @if ($errors->has('distric'))
@@ -221,115 +231,115 @@
           </div>
            
         </div>
-        <!-- <div class="form-row">
-          <div class="form-group col-md-4">
-              <label for="bankName">Bank Name <span style="color: red">*</span></label>              
-              <input type="text" name="bankName"  class="form-control" value="{{old('bankName')}}">
-              @if ($errors->has('bankName'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('bankName') }}</strong>
-                  </span>
-                @endif
-          </div>
-          <div class="form-group col-md-4">
-              <label for="accountNo">Account Number <span style="color: red">*</span></label>              
-              <input type="text" name="accountNo"  class="form-control" value="{{old('accountNo')}}">
-              @if ($errors->has('accountNo'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('accountNo') }}</strong>
-                  </span>
-                @endif
-          </div>
-          <div class="form-group col-md-4">
-              <label for="ifsc">IFSC Code <span style="color: red">*</span></label>              
-              <input type="text" name="ifscCode"  class="form-control" value="{{old('ifscCode')}}">
-              @if ($errors->has('ifscCode'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('ifscCode') }}</strong>
-                  </span>
-                @endif
-          </div>
-           
-        </div> -->
-
-        <hr />
+   
         <div class="form-row" >
          
           <div class="form-group col-md-4">
               <label for="exampleInputPassword1">Highest Qualification  <span style="color: red">*</span></label>              
-              <input type="file" name="highest_qulification"  class="form-control" value="{{old('highest_qulification')}}" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+              <input type="file" name="highest_qulification"  id="highest_qulification" class="form-control" value="{{old('highest_qulification')}}" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
               @if ($errors->has('highest_qulification'))
                   <span class="help-block">
                       <strong>{{ $errors->first('highest_qulification') }}</strong>
                   </span>
                 @endif
-                <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc, Docx, PDF & Maximum Size: 1MB)</small></p></span>
-          </div>
-            <div class="form-group col-md-4">
-              <label for="exampleInputPassword1">Upload Bank Mandate Form <span style="color: red">*</span></label>              
-              <input type="file" name="bankMandate"  class="form-control" value="{{old('bankMandate')}}">
-              @if ($errors->has('bankMandate'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('bankMandate') }}</strong>
-                  </span>
-                @endif
-                <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc, Docx, PDF & Maximum Size: 1MB)</small></p></span>
+                <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 5MB) <br>
+               <span  style="font-size: 12px;"id="highest_qulification_error"> </span>
           </div>
           <div class="form-group col-md-4">
               <label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>              
-              <input type="text" name="aadhar"  class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
+              <input type="text" name="aadhar" id="aadhar"  onblur="checkadharStatus()"   class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
+			  <div id="aadhar_msg"></div>
               @if ($errors->has('aadhar'))
                   <span class="help-block">
                       <strong>{{ $errors->first('aadhar') }}</strong>
                   </span>
                 @endif
           </div>
-           
+         
+		    <div class="form-group col-md-4">
+		    <p> First Download and Upload  <a href="./../resources/views/backend/nref/studentRregistration/nref_declation_form.pdf" download>Click</a></p>
+			 
+			  
+              <label for="exampleInputPassword1">Candidate declaration form 
+			 
+			  <span style="color: red">*</span></label>	
+			  <input type="file" name="candidate_declaration" id="candidate_declaration" class="form-control">
+				@if ($errors->has('candidate_declaration'))
+				<span class="help-block">
+					<strong>{{ $errors->first('candidate_declaration') }}</strong>
+				</span>
+				@endif
+				<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+				 <span  style="font-size: 12px;"id="candidate_declaration_error"> </span>
+		  </div> 
         </div>
+       
+
         <div class="form-row">
         
-         <!--  <div class="form-group col-md-4">
-              <label for="exampleInputPassword1">Upload Publication (In case of SRF) <span style="color: red">*</span></label>               
-              <input type="file" name="publication"  class="form-control" value="{{old('publication')}}">
-              @if ($errors->has('publication'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('publication') }}</strong>
-                  </span>
-                @endif
-               <p style="color: red; font-style: italic; font-weight: 5px"><small>(File Format accepts: Doc, Docx, PDF & Maximum Size: 1MB)</small></p></span>
-          </div> -->
-          <div class="form-group col-md-4" id="srf_jrf">
+            <div class="form-group col-md-4" id="publication" style="display:none">
+		      <label for="exampleInputPassword1">Upload Publication <span style="color: red">*</span></label>	<input type="file" name="publication" id="publication_data" class="form-control" >
+				@if ($errors->has('publication'))
+				<span class="help-block">
+					<strong>{{ $errors->first('publication') }}</strong>
+				</span>
+				@endif
+				<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+				 <span  style="font-size: 12px;"id="publication_data_error"> </span>
+		</div>
+		  
+
+         <div class="form-group col-md-4" id="experience" style="display:none">
+               <label for="exampleInputPassword1">Upload experience <span style="color: red">*</span></label>	<input type="file" name="experience" id="experience_data" class="form-control" >
+				@if ($errors->has('experience'))
+				<span class="help-block">
+					<strong>{{ $errors->first('experience') }}</strong>
+				</span>
+				@endif
+				<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+				 <span  style="font-size: 12px;"id="experience_data_error"> </span>
+			</div>
+
+          <div class="form-group " id="gate" style="display:none">
               
-          </div>
-          <div class="form-group col-md-4" id="publication">
-              
-          </div>
-         <div class="form-group col-md-4" id="experience">
-              
+			    <label for="exampleInputPassword1">GATE Score<span style="color: red">*</span></label>	<input type="file" name="gate" id="gate_data" class="form-control" >
+				@if ($errors->has('gate'))
+				<span class="help-block">
+					<strong>{{ $errors->first('gate') }}</strong>
+				</span>
+				@endif
+				<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+				 <span  style="font-size: 12px;"id="gate_data_error"> </span>
+				
+				
           </div>
 
-          <div class="form-group " id="gate">
-              
-          </div>
-
-          <div class="form-group " id="net">
-              
-          </div>
-           
+          <div class="form-group " id="net" style="display:none">
+              <label for="exampleInputPassword1">NET Score<span style="color: red">*</span></label>	
+			  <input type="file" name="net" id="net_data" class="form-control">
+				@if ($errors->has('net'))
+				<span class="help-block">
+					<strong>{{ $errors->first('net') }}</strong>
+				</span>
+				@endif
+				<label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+				 <span  style="font-size: 12px;"id="net_data_error"> </span>
+		  </div>
         </div>
-        <div class="border-top bg-white card-footer text-muted text-left">
-        <br />
-        <button type="submit" name="editrole" value="Save" class="btn btn-primary font-weight-normal px-4">Save</button>
-        <a href="{{url('student-registration')}}" class="btn btn-outline-secondary">Cancel</a>
-      <!-- <a href=" " class="btn btn-outline-secondary font-weight-normal mr-2">Add other students detail </a> -->
-    </div>      
+      
+                  <center>
+					<button type="submit" value="Submit" class="btn btn-primary">
+					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
+					<a href="{{url('student-registration')}}" class="btn btn-outline-secondary">
+					<i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+					</center>		
       </form>
-        </div>
+        </div> </div>
+		  
     </div>
 </div>
-</div>
-</div>
-</div>
+
+
 <style>
     .BDC_CaptchaIconsDiv{
         margin-left: 241px;
@@ -354,15 +364,54 @@ label.error
  
 </style>
 <script type="text/javascript">
-  // ajax for Destic
-   $('#state').change(function(){    
+function checkMailStatus(){
+var email_id=$("#email_id").val();
+var hidden_id=$("#hidden_id").val();// value in field email
+$.ajax({
+    type:'get',
+        url:"{{URL('validate_email')}}",// put your real file name 
+        data:{email_id: email_id,hidden_id:hidden_id},
+        success:function(msg){
+            $('#email_msg').html(msg); // your message will come here.     
+        }
+ });
+}
+
+function checkmobileStatus(){
+var mobile=$("#mobile").val();// value in field email
+var hidden_id=$("#hidden_id").val();// value in field email
+$.ajax({
+    type:'get',
+        url:"{{URL('validate_mobile')}}",// put your real file name 
+        data:{mobile: mobile,hidden_id:hidden_id},
+        success:function(msg){
+            $('#mobile_msg').html(msg); // your message will come here.     
+        }
+ });
+}
+
+function checkadharStatus(){
+var aadhar=$("#aadhar").val();// value in field email
+var hidden_id=$("#hidden_id").val();// value in field email
+$.ajax({
+    type:'get',
+        url:"{{URL('validate_aadhar')}}",// put your real file name 
+        data:{aadhar: aadhar,hidden_id:hidden_id},
+        success:function(msg){
+            $('#aadhar_msg').html(msg); // your message will come here.     
+        }
+ });
+}
+
+	// ajax for Destic
+$('#state').change(function(){    
    var stateID = $(this).val();    
    if(stateID){
        $.ajax({
           type:"GET",
           url:"{{url('api/get-distic-list')}}?statecd="+stateID,
           success:function(res){  
-          //console.log(res);             
+          console.log(res);             
            if(res){
                $("#distric").empty();
                $("#distric").append('<option>Select</option>');
@@ -375,59 +424,41 @@ label.error
            }
           }
        });
-   }   
-   });
-   // End of ajax for Destic
-   //Aadhar Validation
+    }   
+});   // End of ajax for Destic
+
+//Aadhar Validation
 $('[data-type="adhaar-number"]').keyup(function() {
   var value = $(this).val();
   value = value.replace(/\D/g, "").split(/(?:([\d]{4}))/g).filter(s => s.length > 0).join("-");
   $(this).val(value);
 });
-
-$('[data-type="adhaar-number"]').on("change, blur", function() {
-  var value = $(this).val();
-  var maxLength = $(this).attr("maxLength");
-  if (value.length != maxLength) {
-    $(this).addClass("highlight-error");
-  } else {
-    $(this).removeClass("highlight-error");
-  }
-});
-
 //End of Aadhar Validation
-// Date time picker 
-  
-  //End of datetime picker
 
-  function showfield(name){   
+ function showfield(name){   
     //alert(name);
-  if(name == '12' || name == '13') {
-    document.getElementById('srf_jrf').innerHTML = '<label for="exampleInputPassword1">GATE or NEET Score (in case of SRF & JRF)<span style="color: red">*</span></label><input type="file" name="gate_neet"  class="form-control">@if ($errors->has("gate_neet"))<span class="help-block"><strong>{{ $errors->first("gate_neet") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
-  }else{
-    document.getElementById('srf_jrf').innerHTML='';
-  }
+
   if (name == '13'){
-    document.getElementById('publication').innerHTML = '<label for="exampleInputPassword1"> Upload Publication(In sase of SRF) <span style="color: red">*</span></label><input type="file" name="publication"  class="form-control">@if ($errors->has("publication"))<span class="help-block"><strong>{{ $errors->first("publication") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span> ';
-
-    document.getElementById('experience').innerHTML = '<label for="exampleInputPassword1"> Upload experience(In sase of SRF) <span style="color: red">*</span></label><input type="file" name="experience"  class="form-control">@if ($errors->has("experience"))<span class="help-block"><strong>{{ $errors->first("experience") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span> ';
-
+	  $('#publication').show();
+	  $('#experience').show();
 
     
   }else{
-    document.getElementById('publication').innerHTML='';
-     document.getElementById('experience').innerHTML='';
+     $('#publication').hide();
+     $('#experience').hide();
   }
    
-   if(name == '6') {
-    document.getElementById('gate').innerHTML = '<label for="exampleInputPassword1">GATE  Score <span style="color: red">*</span></label><input type="file" name="gate"  class="form-control">@if ($errors->has("gate"))<span class="help-block"><strong>{{ $errors->first("gate") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
+   if(name == '6' || name == '12' || name == '13') {
+	   $('#gate').show();
   }else{
-    document.getElementById('gate').innerHTML='';
+	  $('#gate').hide();
+    // document.getElementById('gate').innerHTML='';
   }
-  if(name == '7') {
-    document.getElementById('net').innerHTML = '<label for="exampleInputPassword1">NEET Score<span style="color: red">*</span></label><input type="file" name="net"  class="form-control">@if ($errors->has("net"))<span class="help-block"><strong>{{ $errors->first("net") }}</strong></span> @endif <p style="color: red; font-style: italic;"><small>(File Format accepts: Doc,Docx,PDF & Maximum Size: 1MB)</small></p></span>';
+  if(name == '8'|| name == '12' || name == '13') {
+	  $('#net').show();
   }else{
-    document.getElementById('net').innerHTML='';
+	  $('#net').hide();
+    // document.getElementById('net').innerHTML='';
   }
  }
   
@@ -437,106 +468,226 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
     return this.optional(element) || /^[6-9]\d{9}$/.test(value);
   }, "Phone number should start with 6,9");
 
-    
+	//***********Student Photo upload***************//
+$('#student_image').bind('change', function() {
+	// alert();
+		var a=(this.files[0].size);///alert(a);
+		if(a > 100000) {
+		   $('#file_photo').val('');
+		   $('#file_photo_error').html('Maximum allowed size for file is "100kb" ');
+		   $('#file_photo_error').css('color','red');
+		   return false;
+		}else{
+			 $('#file_photo_error').html('');
+		};
+
+        var fileExtension = ['jpeg', 'jpg'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+        	 $('#file_photo_error').html('Only jpg and jpeg allowed');
+             $('#file_photo_error').css('color','red');  //file_photo_error
+             $('#file_photo').val('');
+		   return false;
+        }
+});
+	//************Student Photo upload***************//
+	//************commiteedocument upload***************//
+    $('#commiteedocument').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#commiteedocument').val('');
+			   $('#commiteedocument_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#commiteedocument_error').css('color','red');
+			   return false;
+			}else{
+				 $('#commiteedocument_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#commiteedocument_error').html('Only pdf files allow');
+				 $('#commiteedocument_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************commiteedocument upload***************//
+	 //************Highest Qualification  upload***************//
+    $('#highest_qulification').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 5000000) {
+				$('#highest_qulification').val('');
+			   $('#highest_qulification_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#highest_qulification_error').css('color','red');
+			   return false;
+			}else{
+				 $('#highest_qulification_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#highest_qulification_error').html('Only pdf files allow');
+				 $('#highest_qulification_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************Highest Qualification  upload***************//
+	  //************candidate_declaration   upload***************//
+    $('#candidate_declaration').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 5000000) {
+				$('#candidate_declaration').val('');
+			    $('#candidate_declaration_error').html('Maximum allowed size for file is "5MB" ');
+			    $('#candidate_declaration_error').css('color','red');
+			   return false;
+			}else{
+				 $('#candidate_declaration_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#candidate_declaration_error').html('Only pdf files allow');
+				$('#candidate_declaration_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************candidate_declaration   upload***************//
+
+	 
+	 	 	 //************publication  upload***************//
+    $('#publication_data').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#publication_data').val('');
+			   $('#publication_data_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#publication_data_error').css('color','red');
+			   return false;
+			}else{
+				 $('#publication_data_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#publication_data_error').html('Only pdf files allow');
+				 $('#publication_data_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************publication  upload***************//
+	 
+	 	 
+//************Experience  upload***************//
+    $('#experience_data').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#experience_data').val('');
+			   $('#experience_data_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#experience_data_error').css('color','red');
+			   return false;
+			}else{
+				 $('#experience_data_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#experience_data_error').html('Only pdf files allow');
+				 $('#experience_data_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************Experience  upload***************//
+
+//************gate  upload***************//
+    $('#gate_data').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#gate_data').val('');
+			   $('#gate_data_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#gate_data_error').css('color','red');
+			   return false;
+			}else{
+				 $('#gate_data_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#gate_data_error').html('Only pdf files allow');
+				 $('#gate_data_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************gate  upload***************//
+	 
+	 //************net  upload***************//
+    $('#net_data').bind('change', function() {
+		    var a=(this.files[0].size);
+			if(a > 1000000) {
+				$('#net_data').val('');
+			   $('#net_data_error').html('Maximum allowed size for file is "5MB" ');
+			   $('#net_data_error').css('color','red');
+			   return false;
+			}else{
+				 $('#net_data_error').html('');
+			};
+			
+			var fileExtension = ['pdf'];
+			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+				$('#net_data_error').html('Only pdf files allow');
+				 $('#net_data_error').css('color','red');
+				 return false;
+			}
+		
+	});
+     //************net  upload***************//
+	 
+
+
     $('#studentRegistrationForm').validate({
        ///alert('amresh');
         rules: {
           firstname:{
             required: true,
-            minlength: 4,
+            // minlength: 2,
             maxlength:50,
             
           },
-          mobile : {
-           //matches: "/[0-9]{10}/",
-           phoneStartingWith6:true,
+           gender : {
+            required: true,
+          },  
+           mobile : {
+            phoneStartingWith6:true,
             required: true,
             number: true,
             minlength:10,
             maxlength:10,
-            remote: {
-              url: "{{url('validate_mobile')}}",
-              type: "GET",
-                data: {
-              _token: function() {
-                return "{{csrf_token()}}"
-            }
+
           },
-          // async: false,
-              complete: function(data) {
-                     
-                    // console.log(data.responseText);
-                      // if (data.responseText == "true") { //i.e. email is unique
-                      // $(this).removeClass(".error");
-                      // $('#bbb').html('<span style="color:green">Ready to go</span>');
-                      //  } else{
-                      //     $(this).addClass(".error");
-                      //   $('#bbb').html('<span style="color:red">Mobile Number all ready exit in database</span>');
-                      //  }
-                  }
-              }
-          },
-          email_id : {
+		   doj : {
+            required: true,
+            date:true
+          }, 
+           email_id : {
             required: true,
             email: true ,
-
-          remote: {
-              url: "{{URL('validate_email')}}",
-              type: "GET",
-                data: {
-              _token: function() {
-                return "{{csrf_token()}}"
-            }
-          },
-          // async: false,
-              complete: function(data) {
-                     
-                     console.log(data.responseText);
-
-                      // if (data.responseText === 'true') { //i.e. email is unique
-                      // $(this).removeClass(".error");
-                      // $('#aaa').html('<span style="color:green"> Email id all ready exit in database</span>');
-                      //  } else{
-                      //     $(this).addClass(".error");
-                      //   $('#aaa').html('<span style="color:red">Ready to go</span>');
-                      //  }
-                  }
-              }
-             
-          }, 
-
-          gender : {
-            required: true,
-          }, 
-          aadhar: {
-            required: true,
-            remote: {
-              url: "{{URL('validate_aadhar')}}",
-              type: "GET",
-                data: {
-              _token: function() {
-                return "{{csrf_token()}}"
-            }
-          },
-          // async: false,
-              complete: function(data) {
-                     
-                     console.log(data.responseText);
-
-                      // if (data.responseText === 'true') { //i.e. email is unique
-                      // $(this).removeClass(".error");
-                      // $('#aaa').html('<span style="color:green"> Email id all ready exit in database</span>');
-                      //  } else{
-                      //     $(this).addClass(".error");
-                      //   $('#aaa').html('<span style="color:red">Ready to go</span>');
-                      //  }
-                  }
-              }
-          },
+			//remote: "{{URL('validate_email')}}"
+        },
+		
+		// remote: {
+                    // url: "includes/check_email.php",
+                    // type: "post",
+                    // complete: function(data){
+                        // if( data.responseText == "false" ) {
+                            // alert("Free");
+                          // }
+                     // }
+                // },
+				
           address : {
             required: true,
-            minlength:20,
-            maxlength:150
           }, 
           dob : {
             required: true,
@@ -548,14 +699,8 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
               maxlength: 6,
               digits: true
           },
-          student_image: {
-              required: true,
-              extension: "jpg|jpeg|png"
-          },
-          commiteedocument:{
-            required:true
-          },
-        state: {
+         
+         state: {
               required: true
           },
           course:{
@@ -564,75 +709,50 @@ $('[data-type="adhaar-number"]').on("change, blur", function() {
           distric:{
             required:true
           },
-            highest_qulification: {
-                required: true,
-                extension: "docx|rtf|doc|pdf"
-            },
-            bankMandate: {
-              required: true,
-                extension: "docx|rtf|doc|pdf"
-            },
-            publication: {
-              required: true,
-                extension: "docx|rtf|doc|pdf"
-            },
-             gate_neet: {
-              required: true,
-                extension: "docx|rtf|doc|pdf"
-            },
-
-        },
-        messages: {
-          firstname: {
-                required: "First name is required. Please enter your first name!",                
-            },
-            mobile:{
-              required:"Mobile file is required. Please enter your mobile number!",
-            },
-            email_id:{
-              required:"Email id is required. Please enter your email id!",
-            },
-            address: {
-              required: "Address field is required. Please enter your address!"
-            },
-            dob: {
-              required: "Date of birth is required. Please select your DOB!"
-            },
-            pincode:{
-              required: "Pincode is required. Please enter pincode!"
-            },
-            state:{
-              required: "State field is required. Please select your state!"
-            },
-            distric: {
-              required: "Destic filed is required. Please select your distric!"
-            },
-            student_image: {
-                required: "Please upload Student Image ",
-                extension: "Please upload valid file formats jpg|jpeg|png"
-            },
-            highest_qulification: {
-                required: "Please upload Highest Qualification",
-                extension: "Please upload valid file formats"
-            },
-            bankMandate: {
-                required: "Please upload Bank Mandate",
-                extension: "Please upload valid file formats"
-            },
-            publication: {
-                required: "Please upload publication",
-                extension: "Please upload valid file formats"
-            },
-            gate_neet: {
-              required: "Please upload Gate or NEET Score",
-                extension: "Please upload valid file formats"
-            }
+         
+			publication :{
+				required :true
+			},
+			experience :{
+				required :true
+			},
+			gate :{
+				required :true
+			},
+			net :{
+				required :true
+			},
+			// bankMandate :{
+				// required :true
+			// },
+			highest_qulification :{
+				required :true
+			},
+			commiteedocument :{
+				required :true
+			},
+			candidate_declaration: {
+				required :true
+			},
+			student_image :{
+				required :true
+			},
+			category :{
+				required :true
+			},
+			aadhar:{
+				required:true
+			},
+			  
+			  
         }
     });
+
+
     
 });
 
- 
+  
 </script>
 <script type="text/javascript">
  $(document).ready(function () {

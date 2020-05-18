@@ -22,7 +22,7 @@ class Admin_institute extends Model
 		  $data['institute_data'] =DB::table('institute_details')
            ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 		   ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-           ->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
+           ->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id','institute_details.course_offered_dept')
 			->where('institute_details.status_id',NULL)
 			->where('institute_details.final_submit',1)
             ->get();
@@ -35,7 +35,7 @@ class Admin_institute extends Model
 		 $data['institute_data'] =DB::table('institute_details')
 		    ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-		    ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
+		    ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 1)
 			->where('institute_details.officer_role_id',3)->where('institute_details.final_submit',1)
@@ -51,7 +51,7 @@ class Admin_institute extends Model
 		 $data['institute_data'] =DB::table('institute_details')
 		    ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
+            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 1)
 			->whereNotIn('institute_details.officer_role_id',[3])->where('institute_details.final_submit',1)
@@ -66,7 +66,7 @@ class Admin_institute extends Model
 		 $data['institute_data'] =DB::table('institute_details')
 		    ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
+            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 2)->where('institute_details.final_submit',1)
 			->get();
@@ -80,7 +80,7 @@ class Admin_institute extends Model
 		 $data['institute_data'] =DB::table('institute_details')
 		    ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 		    ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
+            ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 3)->where('institute_details.final_submit',1)
 			->get();
@@ -229,10 +229,12 @@ class Admin_institute extends Model
 	   $data['institute_data'] =  DB::table('institute_details')
 	   ->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
 	   ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
-	   ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.collab_institute','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_period','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_ra','institute_details.fellowship_pdf','institute_details.fellowship_total','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature')
+	   ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.lstCourse','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.collab_institute','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_period','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_ra','institute_details.fellowship_pdf','institute_details.fellowship_total','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.course_offered_dept')
 	   ->where('institute_details.institute_id',$id)->get()->first();
 	   //$data['role_data'] = DB::table('role')->orderBy('role_id','asc')->get();
 	   $data['type_inst'] = DB::table('institute_type')->orderBy('institute_type_id','asc')->get();
+	   $data['courses_list'] = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+	   $data['courses_offered'] = DB::table('courses')->where('course_offered',1)->orderBy('course_name','asc')->get();
 	   return $data;
 	 }
 	 
@@ -341,6 +343,8 @@ class Admin_institute extends Model
 			$insertRecord['fellowship_jrf']=$fetchRecord[0]->fellowship_jrf;
 			$insertRecord['fellowship_srf']=$fetchRecord[0]->fellowship_srf;
 			$insertRecord['fellowship_msc']=$fetchRecord[0]->fellowship_msc;
+			$insertRecord['fellowship_period']=$fetchRecord[0]->fellowship_period;
+			$insertRecord['fellowship_total']=$fetchRecord[0]->fellowship_total;
 			$insertRecord['signed_form']=$fetchRecord[0]->signed_form;
 			$insertRecord['certified_status']=$fetchRecord[0]->certified_status;
 			$insertRecord['file_upload_signature']=$fetchRecord[0]->file_upload_signature;
@@ -411,6 +415,694 @@ class Admin_institute extends Model
 	   });
 	   return $transactionResult;
 	 }
+	 
+	 
+	 /* Filter Code Start */
+	 
+	 public static function getState(){
+		 
+		  $state =DB::table('state_master')->distinct()->orderBy('state_name','asc')->get();
+		
+		 return $state;
+	}
+	 
+	 public static function pendingInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+		 
+		  $data['breadcum'] = "List University Data";
+		  
+		  
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+
+			   
+		if($courseId=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($courseId=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+		
+		if($courseId=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+		
+		if($courseId=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+		
+		if($courseId=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+		
+		if($courseId=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		  
+		  
+		  $query =DB::table('institute_details')
+		->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+		->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+		->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+		
+		if($courseId!="") {
+		$query = $query->whereNotNull($fellow);
+		}
+		
+		if($stateId!="") {
+		$query = $query->where('registration.statecd',$stateId);
+		}
+		
+		if($frmDate !="")
+		{
+			$query= $query->where('institute_details.created_date','>=',$a);
+		}
+		
+		if($toDate !="")
+		{
+			$query= $query->where('institute_details.created_date','<=',$b);
+		}
+		
+		$query= $query->where('institute_details.status_id',null);
+		$query= $query->where('institute_details.final_submit',1);
+		
+		
+		$data['institute_data'] = $query->get();
+		
+			
+		 $data['breadcum'] = 'List of Institute';
+		 return $data;
+	}
+	
+	
+	//// Consider Level 1 code 
+	
+	public static function considerInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+		 
+		  $data['breadcum'] = "List University Data";
+		  
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+
+			   
+		if($courseId=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($courseId=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+		
+		if($courseId=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+		
+		if($courseId=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+		
+		if($courseId=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+		
+		if($courseId=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		  
+		  
+		  $query =DB::table('institute_details')
+		->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+		->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+		->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+		
+		if($courseId!="") {
+		$query = $query->whereNotNull($fellow);
+		}
+		
+		if($stateId!="") {
+		$query = $query->where('registration.statecd',$stateId);
+		}
+		
+		if($frmDate !="")
+		{
+			$query= $query->where('institute_details.created_date','>=',$a);
+		}
+		
+		if($toDate !="")
+		{
+			$query= $query->where('institute_details.created_date','<=',$b);
+		}
+		
+		$query= $query->where('institute_details.status_id',1);
+		$query= $query->where('institute_details.officer_role_id',3);
+		$query= $query->where('registration.category_id',3);
+		$query= $query->where('institute_details.final_submit',1);
+		
+		
+		$data['institute_data'] = $query->get();
+			
+		 $data['breadcum'] = 'List of Institute';
+		 return $data;
+	}
+	
+	
+	// Non Consider 
+	
+		public static function nonconsiderInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+		 
+		  $data['breadcum'] = "List University Data";
+		  
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+
+			   
+		if($courseId=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($courseId=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+		
+		if($courseId=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+		
+		if($courseId=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+		
+		if($courseId=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+		
+		if($courseId=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		  
+		  
+		  $query =DB::table('institute_details')
+		->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+		->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+		->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+		
+		if($courseId!="") {
+		$query = $query->whereNotNull($fellow);
+		}
+		
+		if($stateId!="") {
+		$query = $query->where('registration.statecd',$stateId);
+		}
+		
+		if($frmDate !="")
+		{
+			$query= $query->where('institute_details.created_date','>=',$a);
+		}
+		
+		if($toDate !="")
+		{
+			$query= $query->where('institute_details.created_date','<=',$b);
+		}
+		
+		$query= $query->where('institute_details.status_id',2);
+		$query= $query->where('registration.category_id',3);
+		$query= $query->where('institute_details.final_submit',1);
+		
+		
+		$data['institute_data'] = $query->get();
+		  
+		
+			
+		 $data['breadcum'] = 'List of Institute';
+		 return $data;
+	}
+	
+	
+	
+	//  Forward to Commitie
+	
+	
+		public static function fwdcommitInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+		 
+		$data['breadcum'] = "List University Data";
+	
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+
+			   
+		if($courseId=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($courseId=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+		
+		if($courseId=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+		
+		if($courseId=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+		
+		if($courseId=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+		
+		if($courseId=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		  
+		  
+		  $query =DB::table('institute_details')
+		->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+		->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+		->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+		
+		if($courseId!="") {
+		$query = $query->whereNotNull($fellow);
+		}
+		
+		if($stateId!="") {
+		$query = $query->where('registration.statecd',$stateId);
+		}
+		
+		if($frmDate !="")
+		{
+			$query= $query->where('institute_details.created_date','>=',$a);
+		}
+		
+		if($toDate !="")
+		{
+			$query= $query->where('institute_details.created_date','<=',$b);
+		}
+		
+		$query= $query->where('institute_details.status_id',1);
+		$query= $query->where('registration.category_id',3);
+		$query= $query->whereNotIn('institute_details.officer_role_id',[3]);
+		$query= $query->where('institute_details.final_submit',1);
+		
+		
+		$data['institute_data'] = $query->get();
+		  
+		 $data['breadcum'] = 'List of Institute';
+		 return $data;
+	}
+	
+	
+	
+	// Selected Code 
+	
+	
+		public static function selectedInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+		 
+		  $data['breadcum'] = "List University Data";
+		  
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+
+			   
+		if($courseId=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($courseId=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+		
+		if($courseId=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+		
+		if($courseId=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+		
+		if($courseId=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+		
+		if($courseId=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		  
+		  
+		  $query =DB::table('institute_details')
+		->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+		->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+		->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+		
+		if($courseId!="") {
+		$query = $query->whereNotNull($fellow);
+		}
+		
+		if($stateId!="") {
+		$query = $query->where('registration.statecd',$stateId);
+		}
+		
+		if($frmDate !="")
+		{
+			$query= $query->where('institute_details.created_date','>=',$a);
+		}
+		
+		if($toDate !="")
+		{
+			$query= $query->where('institute_details.created_date','<=',$b);
+		}
+		
+		$query= $query->where('institute_details.status_id',3);
+		$query= $query->where('registration.category_id',3);
+		$query= $query->where('institute_details.final_submit',1);
+		
+		
+		$data['institute_data'] = $query->get();
+		  
+		
+			
+		 $data['breadcum'] = 'List of Institute';
+		 return $data;
+	}
+	
+	
+	 public static function all_export_data($coursepdf=null,$statepdf=null,$frmDate=null,$toDate=null,$institutetype=null)
+	 
+	 {
+		$a = date("Y-m-d",strtotime($frmDate));
+		$b = date("Y-m-d",strtotime($toDate));
+
+		if($coursepdf=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($coursepdf=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+
+		if($coursepdf=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+
+		if($coursepdf=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+
+		if($coursepdf=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+
+		if($coursepdf=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+			$query =DB::table('institute_details')
+			->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+			->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+			->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_ra','institute_details.fellowship_pdf','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.lstCourse','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+
+			if($coursepdf!="") {
+			$query = $query->whereNotNull($fellow);
+			}
+
+			if($statepdf!="") {
+			$query = $query->where('registration.statecd',$statepdf);
+			}
+
+			if($frmDate !="")
+			{
+			$query= $query->where('institute_details.created_date','>=',$a);
+			}
+
+			if($toDate !="")
+			{
+			$query= $query->where('institute_details.created_date','<=',$b);
+			}
+			
+			if($institutetype == "5"){
+			$query= $query->where('institute_details.status_id',3);
+			}
+			else if($institutetype == "4"){
+			$query= $query->where('institute_details.status_id',1);
+			$query= $query->whereNotIn('institute_details.officer_role_id',[3]);
+			}
+			
+			else if($institutetype == "3"){
+			$query= $query->where('institute_details.status_id',2);
+			}
+			
+			else if($institutetype == "2"){
+			$query= $query->where('institute_details.status_id',1);
+		    $query= $query->where('institute_details.officer_role_id',3);
+			}
+			
+			else if($institutetype == "1"){
+			$query= $query->where('institute_details.status_id',null);
+			}
+			
+			
+			
+			$query= $query->where('registration.category_id',3);
+			$query= $query->where('institute_details.final_submit',1);
+
+			$data['institute_details']  = $query->get();
+
+			$data['type_inst'] = DB::table('institute_type')->orderBy('institute_type_id','asc')->get();
+			$data['courses_list'] = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+			return $data;
+    }
+	
+	/* Export Code In Excel Format */
+	
+		public static function export_all($coursepdf=null,$statepdf=null,$frmDate=null,$toDate=null,$institutetype=null){
+			
+			
+		$a = date("Y-m-d",strtotime($frmDate));
+		$b = date("Y-m-d",strtotime($toDate));
+
+		if($coursepdf=="mtech")
+		{
+		$fellow="fellowship_mtech";
+		}
+
+		if($coursepdf=="jrf")
+		{
+		$fellow="fellowship_jrf";
+		}
+
+		if($coursepdf=="srf")
+		{
+		$fellow="fellowship_srf";
+		}
+
+		if($coursepdf=="msc")
+		{
+		$fellow="fellowship_msc";
+		}
+
+		if($coursepdf=="ra")
+		{
+		$fellow="fellowship_ra";
+		}
+
+		if($coursepdf=="pdf")
+		{
+		$fellow="fellowship_pdf";
+		}
+		
+		
+		$data=array();
+		
+		
+		$query =DB::table('institute_details')
+			->leftJoin('user_credential', 'user_credential.id', '=', 'institute_details.user_id')
+			->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+			->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','institute_details.user_id','institute_details.institute_id','institute_details.department_name','institute_details.application_cd','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_ra','institute_details.fellowship_pdf','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.lstCourse','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id');
+			
+			if($coursepdf!="") {
+			$query = $query->whereNotNull($fellow);
+			}
+
+			if($statepdf!="") {
+			$query = $query->where('registration.statecd',$statepdf);
+			}
+
+			if($frmDate !="")
+			{
+			$query= $query->where('institute_details.created_date','>=',$a);
+			}
+
+			if($toDate !="")
+			{
+			$query= $query->where('institute_details.created_date','<=',$b);
+			}
+
+			if($institutetype == "5"){
+			$query= $query->where('institute_details.status_id',3);
+			}
+			
+			else if($institutetype == "4"){
+			$query= $query->where('institute_details.status_id',1);
+			$query= $query->whereNotIn('institute_details.officer_role_id',[3]);
+			}
+			
+			else if($institutetype == "3"){
+			$query= $query->where('institute_details.status_id',2);
+			}
+			
+			else if($institutetype == "2"){
+			$query= $query->where('institute_details.status_id',1);
+		    $query= $query->where('institute_details.officer_role_id',3);
+			}
+			
+			else if($institutetype == "1"){
+			$query= $query->where('institute_details.status_id',null);
+			}
+			
+			$query= $query->where('registration.category_id',3);
+			$query= $query->where('institute_details.final_submit',1);
+			
+			$data['institute_details']  = $query->get();
+			
+			$data['type_inst'] = DB::table('institute_type')->orderBy('institute_type_id','asc')->get();
+			$data['courses_list'] = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+	
+	
+	//echo "<pre>"; print_r($data['institute_details']); die;
+		 if(isset($data['institute_details']) && !empty($data['institute_details']))
+		{  
+	
+	    $header2=$newcomp=array();
+		$data['header']=array(
+		'0' =>array(
+		''  =>"S. No.",
+		'application_cd'  =>"Application Id",
+		'dept_name' =>  "Name of the Department",
+		'cordinate_prog'=>  "Coordinator of the Proposed Program",
+		'type_institute'=>  "Type of Institution",
+		'uni_rank'=>  "University/Institute Ranking as per UGC/NIRF",
+		'course_list'=>  "Course Listing",
+		'year_est'=>  "Years of Establishment",
+		'approx_student'=>  "Approx. Number of Students in Proposed Program",
+		'any_collabInst'=>  "Any Collaborative Institute",
+		'exp_energyCourse'=>  "Experience in Energy related courses",
+		'date_start'=>  "A) Date of approximate course Start",
+		'no_seats'=>  "B) Number of Seats in each of the course",
+		'special_offer'=>  "C) Specialization offered",
+		'indus_collab'=>"D) If any industry collaboration is there, if so details thereof",
+		'placement_prov'=>  "E) If placement service is being provided",
+		'any_details'=>  "F ) Any other details",
+		'spon_project'=>  "Sponsored Projects in the area of Energy, Environment and Renewable Energy",
+		'fellow_period'=>  "Fellowship slot requirement Period",
+		'mtech'=>  "M.Tech.",
+		'jrf'=>  "JRF",
+		'srf'=>  "SRF",
+		'msc'=>  "M.SC. Renewable Energy",
+		'ra'=>  "RA",
+		'pdf'=>  "PDF",
+		'fellow_total'=>  "Total",
+
+		),
+		);
+		 $i=1; 
+		foreach($data['institute_details'] as $value)
+		{ 
+		
+		
+		if(isset($data['type_inst'])){
+		foreach($data['type_inst'] as $instit){
+		if($instit->institute_type_id == $value->institute_type_id){
+		$instType = $instit->institute_desc;
+		}
+		}
+		}
+		
+		$curse=explode(',',$value->lstCourse);
+		
+		if(isset($data['courses_list'])) {
+		foreach($data['courses_list'] as $val)
+
+		if(count($curse)>0) { 
+		for($k=0;$k<count($curse);$k++) {
+		if($curse[$k]==$val->course_id) {
+	    $courseList[]=$val->course_name;
+		} } }
+		}
+
+		$data['internship_export'][$i]['']=$i;
+		$data['internship_export'][$i]['application_cd'] = $value->application_cd;
+		$data['internship_export'][$i]['dept_name']=  $value->department_name;
+		$data['internship_export'][$i]['cordinate_prog'] = $value->coordinate_prog;
+		$data['internship_export'][$i]['type_institute'] = $instType;
+		$data['internship_export'][$i]['uni_rank'] = $value->university_rank;
+		$data['internship_export'][$i]['course_list'] =  implode(',',$courseList);
+		$data['internship_export'][$i]['year_est'] = $value->year_establishment;
+		$data['internship_export'][$i]['approx_student'] = $value->no_student;
+		$data['internship_export'][$i]['any_collabInst'] = ucfirst($value->any_collaboration);
+		$data['internship_export'][$i]['exp_energyCourse'] = $value->energy_experience;
+		$data['internship_export'][$i]['date_start'] = $value->course_start_date;
+		$data['internship_export'][$i]['no_seats'] = $value->no_of_seat;
+		$data['internship_export'][$i]['special_offer'] = $value->specialization_offered;
+		$data['internship_export'][$i]['indus_collab'] = $value->industry_collaboration;
+		$data['internship_export'][$i]['placement_prov'] = ucfirst($value->placement_details);
+		$data['internship_export'][$i]['any_details'] = $value->other_details;
+		$data['internship_export'][$i]['spon_project'] = $value->spon_project;
+		$data['internship_export'][$i]['fellow_period'] = $value->fellowship_period;
+		$data['internship_export'][$i]['mtech'] = $value->fellowship_mtech;
+		$data['internship_export'][$i]['jrf'] = $value->fellowship_jrf;
+		$data['internship_export'][$i]['srf'] = $value->fellowship_srf;
+		$data['internship_export'][$i]['msc'] = $value->fellowship_msc;
+		$data['internship_export'][$i]['ra'] = $value->fellowship_ra;
+		$data['internship_export'][$i]['pdf'] = $value->fellowship_pdf;
+		$data['internship_export'][$i]['fellow_total'] = $value->fellowship_total;
+		$i++;
+		} 
+		 }
+		
+		
+		//echo "<pre>"; print_r($data); die;
+		return $data;   
+		}
 	 
 	
 	  

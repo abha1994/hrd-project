@@ -167,6 +167,7 @@ $(document).ready(function() {
 	{
 		$("#month_report").hide();
 		$("#newmnth").hide();
+		$("#monthTypenew").val('');
 	}
 	
 	});
@@ -284,6 +285,17 @@ $(document).ready(function() {
 	
 	});
 });
+
+
+$(document).ready(function() {
+	$( "#report_table" ).DataTable({
+		bDestroy: true,
+		bRetrieve: true,
+		bSort: false,
+        bLengthChange: false,
+
+	});
+  } );
 
 
 // MAin Listing Filter Code

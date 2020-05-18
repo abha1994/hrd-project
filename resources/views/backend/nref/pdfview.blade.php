@@ -1,4 +1,4 @@
-
+<?php //echo "<pre>"; print_r($courses); echo count($courses); die; ?>
  <div class="content-wrapper" style="margin-left: 13px;">
     <div class="container-fluid">
 	 
@@ -48,9 +48,27 @@
 									
 									
 									<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">University Ranking as per UGC : </label>
+									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF : </label>
 										<strong><?php if(count($items)>0){ ?>{{ $items[0]->university_rank }} <?php } ?></strong>
 									</div>
+									
+									<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Course Listing : </label>
+									
+									<?php $curse=explode(',',$items[0]->lstCourse); ?>
+									
+									@if(isset($courses))
+										@foreach($courses as $courseName)
+										
+						<?php if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$courseName->course_id) { ?>
+										<p>{{$k+1}}.{{$courseName->course_name}}</p>
+						<?php } } } ?>
+										@endforeach
+										@endif
+										
+									</div>
+									
+									
 								</div> 
 							</div>
 							
@@ -63,7 +81,7 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students : </label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students in Proposed Program : </label>
 										<strong><?php if(count($items)>0){ ?>{{$items[0]->no_student}}<?php } ?></strong>
 									</div>
 								
@@ -86,6 +104,8 @@
 									 <?php if(count($items)>0){  $ss=explode(',',$items[0]->research_phd); } ?>
 									<input name="resrch_phd[]" type="checkbox" value="Research" id="research" class="resrch_phd" <?php for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Research') { echo "checked";} }  ?>> Research
 									<input name="resrch_phd[]" type="checkbox" value="Ph. D Registration" id="phd" class="resrch_phd" <?php for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Ph. D Registration') { echo "checked";} }  ?>> Ph. D Registration
+									
+									<input name="resrch_phd[]" type="checkbox" value="Post Graduate Program" id="postgrad" class="resrch_phd" <?php for($i=0;$i<count($ss);$i++) { if($ss[$i]=='Post Graduate Program') { echo "checked";} }  ?>> Post Graduate Program
                                         
 									
 									@endif <?php } ?>
@@ -105,7 +125,7 @@
 									<div class="row">
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Since when the course being run : </label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Date of approximate course Start : </label>
 										<strong><?php if(count($items)>0){ ?>{{date('Y-m-d',strtotime($items[0]->course_start_date))}}<?php } ?></strong>
 									</div>
 									
@@ -134,7 +154,13 @@
 									
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">F) Any other details : </label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">F) Name of Collaborate Institute : </label>
+										<strong><?php if(count($items)>0){ ?>{{$items[0]->collab_institute}}<?php } ?></strong>
+									</div>
+									
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">G) Any other details : </label>
 										<strong><?php if(count($items)>0){ ?>{{$items[0]->other_details}}<?php } ?></strong>
 									</div>
 									
@@ -152,6 +178,12 @@
 								<label for="name"  style="font-size: 13px;color:#000" class="control-label">Fellowship slot requirement :</label>
 								</div>
 								<div class="row">
+								
+								<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Fellowship slot requirement Period : </label>
+										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_period}}<?php } ?></strong>
+									</div>
+									
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.Tech. : </label>
 										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_mtech}}<?php } ?></strong>
@@ -169,8 +201,23 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.SC. : </label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">M.SC. Renewable Energy : </label>
 										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_msc}}<?php } ?></strong>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">RA</label>
+										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_ra}}<?php } ?></strong>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">PDF</label>
+										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_pdf}}<?php } ?></strong>
+									</div>
+									
+									<div class="col-md-4">
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Total</label>
+										<strong><?php if(count($items)>0){ ?>{{$items[0]->fellowship_total}}<?php } ?></strong>
 									</div>
 									
 								

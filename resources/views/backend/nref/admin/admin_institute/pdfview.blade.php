@@ -51,6 +51,24 @@
 									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF : </label>
 										<strong><?php if(count($items)>0){ ?>{{ $items[0]->university_rank }} <?php } ?></strong>
 									</div>
+									
+									
+									<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Course Listing : </label>
+									
+									<?php $curse=explode(',',$items[0]->lstCourse); ?>
+									
+									@if(isset($courses))
+										@foreach($courses as $courseName)
+										
+						<?php if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$courseName->course_id) { ?>
+										<p>{{$k+1}}.{{$courseName->course_name}}</p>
+						<?php } } } ?>
+										@endforeach
+										@endif
+										
+									</div>
+									
 								</div> 
 							</div>
 							

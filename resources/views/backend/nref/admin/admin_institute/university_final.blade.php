@@ -26,7 +26,9 @@
 								<div class="row">
 								    
 									<div class="col-md-4">
-								<a href="{{ route('pdfviewAdmin',['download'=>'pdf','candiID'=>$data['institute_data']->candidate_id]) }}">Download PDF</a>
+								<a href="{{ route('pdfviewAdmin',['download'=>'pdf','candiID'=>$data['institute_data']->candidate_id]) }}">
+								<input class="btn btn-primary " type="button" value="Download PDF"></a>
+								</a>
 
 								</div>
 								

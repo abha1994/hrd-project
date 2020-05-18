@@ -10,7 +10,7 @@
     <div class="sidebar">
     <?php
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 ='' ;
+		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 = $studentMClass = $shortMClass ='' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -35,9 +35,15 @@
 		if($current_url == 'yearly_reportProgress' ){
 		   $progressMclass1 = 'active';
 		}
+		if($current_url == 'st-student-registration' ){
+		   $studentMClass = 'active';
+		}
+		if($current_url == 'short-term-program' ){
+		   $shortMClass = 'active';
+		}
 	?>
 	
-
+<?php $menu_id = Session::get('menu_id'); ?>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -53,7 +59,7 @@
             </a>
              
           </li>
-          
+          <?php if($menu_id == "5"){?>
           <li class="nav-item">
             <a href="{{ URl('institute')}}" class="nav-link {{$institutepMClass}}" id="liuniversity">
               <i class="nav-icon fas fa-th"></i>
@@ -105,7 +111,7 @@
 		  <li class="nav-item">
             <a href="{{ URL('yearly_reportProgress')}}" class="nav-link {{$progressMclass1}}" id="liack">
               <i class="nav-icon fas fa-user"></i>
-              Progress Report Yearly
+              Progress Report
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
@@ -121,7 +127,27 @@
               </p>
             </a>
           </li>
-         
+		  <?php }else if($menu_id == "6"){ ?>
+		  
+		    <li class="nav-item">
+            <a href="{{ URl('short-term-program')}}" class="nav-link {{$shortMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Short Term Program Form
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			
+			<li class="nav-item">
+            <a href="{{ URl('st-student-registration')}}" class="nav-link {{$studentMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Participant Form
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			
+		  <?php } ?>
            
         </ul>
       </nav>

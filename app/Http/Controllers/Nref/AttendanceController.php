@@ -16,7 +16,8 @@ class AttendanceController extends Controller
     {
 		$login_id =  Auth::id(); //login user id
 		$students = DB::table('studentregistrations')->where('user_id',$login_id)->orderBy('id','asc')->get();
-		$attendanceList = DB::table('candidate_attendence')->where(['month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
+                $institute_id = DB::table('institute_details')->where('user_id', $login_id)->get()->first()->institute_id;
+		$attendanceList = DB::table('candidate_attendence')->where(['institute_id'=>$institute_id,'user_id'=>$login_id,'month_atten' =>date("n"),'year_atten'=>date("Y")])->orderBy('attendence_id','asc')->get();
 		
 		////echo "<pre>"; print_r($students); die;
         return view('backend.nref.attendance',compact('students','attendanceList'));

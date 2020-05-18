@@ -69,8 +69,8 @@
 								
 							<center>
 								<div class="form-group" >
-								<button type="submit" value="Final Save" class="btn btn-primary">
-		                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>	
+								<button type="submit" value="Final Submit" class="btn btn-primary">
+		                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>	
 								<a href="{{url('/institute')}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back</a>
 								</div> 
 							</center>

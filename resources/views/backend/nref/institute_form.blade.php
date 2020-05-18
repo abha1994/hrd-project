@@ -35,15 +35,23 @@
 			$type_institute = $data['type_institute'];
 			$inst_data = $data['institute_details_data'];
 			
+			//echo "<pre>"; print_r($inst_data); die;
+			
 			
 			// echo "<pre>"; print_r($inst_data); echo count($inst_data); die; 
 	 ?>
 	 <!--<marquee behavior="scroll" z-index:99;="" width="100%" height="30px" scrollamount="3" direction="left" style="background:rgba(0,0,0,.03)"><h3><span style="color:#FF0000;">The internship will be on unpaid basis. No stipend will be provided to interns. </span></h3></marquee>-->
      <div class="card-header text-center"><h4 class="mt-2">Institute Details Form</h4></div>
       <div class="card-body">
-     	<form enctype="multipart/form-data" action="{{ route('institute-form-post') }}" autocomplete="off" id="institute_form" method="POST" >
+     	<form enctype="multipart/form-data" action="{{ route('institute-form-post') }}" autocomplete="off" id="institute_form" method="POST" class="abcd">
 			{!! csrf_field() !!}
-		
+			<?php 
+			$crseDtls=json_decode($inst_data->course_offered_dept);
+			$countArray=count((array)$crseDtls);
+			
+			//echo $countArray;
+			?>
+		<input type="hidden" id="counter" value="<?php if($countArray>0) { echo $countArray; } else { echo '1';} ?>">
 			
 				            <div class="form-group">
 								<div class="row">
@@ -91,6 +99,28 @@
 									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF</label>
 										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control university_rank"  value="<?php if(!empty($inst_data->university_rank)){ ?>{{ $inst_data->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank" @if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 									</div>
+									
+									<!-- MultiSelect DropDown-->
+									
+									<?php /* if(isset($inst_data->lstCourse)) { $curse=explode(',',$inst_data->lstCourse); } */ ?>
+								
+
+                                    <!--<div class="col-md-5">
+									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department</label><br>
+										<select class="form-control lstCourse" name="lstCourse[]"  id="lstCourse" 
+										@if(isset($inst_data->final_submit))<?php /* if($inst_data->final_submit==1) {  echo 'disabled'; } */ ?> @endif multiple required>
+											@if(isset($data['courses_list'])) 
+
+											@foreach($data['courses_list'] as $val)
+						<option value="{{$val->course_id}}" <?php /* if(isset($inst_data->lstCourse)) { if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$val->course_id) { echo "selected";} } } }  */?>>{{$val->course_name}}</option>
+
+											@endforeach
+											@endif
+								   	    </select>
+									</div> -->									
+									
+									<!-- MultiSelect Dropdown -->
+									
 								</div> 
 							</div>
 							
@@ -99,7 +129,7 @@
 								
 								<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Please enclosed a copy of last annual report</label>
-										<input name="annual_report" type="file" class="form-control annual_report" value="{{ old('annual_report')}}" id="annual_report" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										<input name="annual_report" type="file" class="form-control annual_report" value="{{ old('annual_report')}}" id="annual_report"  @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
 									    @if ($errors->has('annual_report'))
 											<span class="invalid-feedback " role="alert">
@@ -143,6 +173,122 @@
 								</div> 
 							</div>
 							
+							<!--- NEW Functionality Add more -->
+							
+							<table border="0" class="table table-bordered table-striped table-hover tablecourse" id="tab0">
+                    <thead style="font-size: 14px; font-weight: 300;line-height: 0.9;">
+						<tr>
+                             
+                            <th>Course Offered by department</th>
+                            <th class="text-center">Approx. Number of Students</th>
+                            <th class="text-center">Click Add Row for additional course</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_append" class="table_append">
+						<div> 
+						
+						<?php $p=0;						
+							if(isset($crseDtls)) { foreach($crseDtls as $key=>$value)
+							{ ?>
+							
+							<tr class="record">
+							
+				
+                                 
+                                <td class="text-center">
+	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_<?php echo $p; ?>" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
+										<option value="">Select Course</option>
+											@foreach($data['courses_offered'] as $val) 
+										   		<option value="{{$val->course_id}}"  <?php if($key==$val->course_id) { echo "selected";} ?>>{{$val->course_name}}</option>
+											@endforeach 
+									</select>
+									@if ($errors->has('course_id'))courses_offered
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('course_id') }}</strong>
+										</span>
+									@endif
+								</td>
+                                <td class="text-center">
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="<?php echo $crseDtls->$key; ?>"  id="student_<?php echo $p; ?>" placeholder="Enter No of student*" name="studentno[]" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>									   
+									@if ($errors->has('studentno'))
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('studentno') }}</strong>
+										</span>
+									@endif
+								</td>
+								
+								
+                                
+                                <td>  
+								
+								@if($p==0)
+								    <div class="form-group button-group ">
+									    <input type="button" id="add_fields" class="add_button1" name="add_fields" value="+" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
+									    
+						            </div>
+									@else
+										<button type="button" class="remove_fields" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>-</button>
+									@endif
+								</td>
+								
+									
+								
+								
+							
+								
+								
+                            </tr>
+							
+							<?php $p++;} } else {  ?>
+							
+							<tr>
+                                 
+                                <td class="text-center">
+	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_0">
+										<option value="">Select Course</option>
+											@foreach($data['courses_offered'] as $val) 
+										   		<option value="{{$val->course_id}}">{{$val->course_name}}</option>
+											@endforeach 
+									</select>
+									@if ($errors->has('course_id'))courses_offered
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('course_id') }}</strong>
+										</span>
+									@endif
+								</td>
+                                <td class="text-center">
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="" id="student_0; ?>" placeholder="Enter No of student*" name="studentno[]">									   
+									@if ($errors->has('studentno'))
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('studentno') }}</strong>
+										</span>
+									@endif
+								</td>
+								
+								
+                                
+                                <td>
+								    <div class="form-group button-group ">
+									    <input type="button" id="add_fields" class="add_button1" name="add_fields" value="+">
+									    
+						            </div>
+								</td>
+								
+									
+								
+								
+							
+								
+								
+                            </tr>
+							
+							<?php } ?>
+                        </div>
+                    </tbody>
+                </table>
+							
+							<!-- New Functionality ADD more -->
+							
 							<br>
 							<h4><u>Details of the Course:-</u></h4>
 							
@@ -151,7 +297,7 @@
 									
 									<div class="col-md-6 file_course_proof">
 									<label for="name"  style="font-size: 13px;" class="control-label">Name and Qualification of the Faculty Members attached to the course</label>
-										<input name="file_course_proof" type="file" class="form-control" value="{{ old('file_course_proof')}}" id="file_course_proof" required @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										<input name="file_course_proof" type="file" class="form-control" value="{{ old('file_course_proof')}}" id="file_course_proof"  @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_course_proof_error"> </span>										
 									    @if ($errors->has('file_course_proof'))
 											<span class="invalid-feedback " role="alert">
@@ -171,6 +317,12 @@
 								<a href="{{ asset('public/uploads/nref/'.$inst_data->faculty_details) }}" download><?php if($inst_data->faculty_details) { echo $inst_data->faculty_details; } ?></a>
 								</div>
 								@endif
+								
+								</div>
+								</div>
+								
+								<div class="form-group">
+								<div class="row">
 									
 									<div class="col-md-3">
 									
@@ -182,6 +334,17 @@
 											
 										</select>
 										
+									</div>
+									
+									<div class="col-md-4" style="display:none;" id="prevstd1">
+									<label for="name"  style="font-size: 13px;" class="control-label">Name of Collaborate Institute</label>
+										<input name="collab_institute" type="text" class="form-control" value="<?php if(!empty($inst_data->collab_institute)){ ?>{{$inst_data->collab_institute}}<?php } ?>" id="collab_institute" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>										
+									    @if ($errors->has('collab_institute'))
+											<span class="invalid-feedback " role="alert">
+												<strong>{{ $errors->first('collab_institute') }}</strong>
+											</span>
+										@endif
+			
 									</div>
 									
 									<div class="col-md-5 colab_inst_yes" style="padding:2em 0em 0em 1em">
@@ -276,20 +439,9 @@
 									</div>
 									
 									
-									<div class="col-md-4" style="display:none;" id="prevstd1">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Name of Collaborate Institute</label>
-										<input name="collab_institute" type="text" class="form-control" value="<?php if(!empty($inst_data->collab_institute)){ ?>{{$inst_data->collab_institute}}<?php } ?>" id="collab_institute" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>										
-									    @if ($errors->has('collab_institute'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('collab_institute') }}</strong>
-											</span>
-										@endif
-			
-									</div>
-									
 									
 									<div class="col-md-4" style="display:none;" id="prevstd">
-									<label for="name"  style="font-size: 13px;" class="control-label">G) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
 										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_prevStudent_proof_error"> </span>										
 									    @if ($errors->has('file_prevStudent_proof'))
@@ -465,7 +617,7 @@
 								<div class="form-group" >
 								    <!--input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Submit">-->
 									<button type="submit" value="Save" class="btn btn-primary">
-		                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+		                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
 									<button type="button" id="prevButton" class="btn btn-primary buttonEvent" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; Preview</button>
 									
 							</center>
@@ -480,8 +632,8 @@
 								<input type="hidden" name="editID" value="@if(isset($inst_data->institute_id)) {{$inst_data->institute_id }}@endif" />
 									
 									<!--input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Update"-->
-									<button type="submit" value="Update" class="btn btn-primary">
-		                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp; Save</button>
+									<button type="submit" value="Update" class="btn btn-primary" id="updatebtn">
+		                            <i class="fa fa-edit" aria-hidden="true"></i>&nbsp; Submit</button>
 									
 									<a href="{{url('/instituteFinal/'.$inst_data->institute_id)}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-right" aria-hidden="true"></i>&nbsp; Next</a>
 									
@@ -563,6 +715,7 @@
 	 $("#modalContent .ra").val($("#modalCont .ra").val()).attr('readonly',true);
 	 $("#modalContent .pdf").val($("#modalCont .pdf").val()).attr('readonly',true);
 	 $("#modalContent .ftotal").val($("#modalCont .ftotal").val()).attr('readonly',true);
+	 $("#modalContent .tablecourse").val($("#modalCont .tablecourse").val()).attr('readonly',true);
 	 if ($("#certified").is( ":checked")) { $(".certified").prop('checked',true); }
 	 $("#modalContent .buttonEvent").remove();
 	 
@@ -579,9 +732,61 @@
 		   font-size: 12px;
 	    }
 	</style>
-	
 
     <!-- /.container-fluid-->
+	
+	<script type="text/javascript">
+
+
+var courss = <?php echo json_encode($data['courses_offered']); ?>; 
+
+var opt=[];
+
+for(j=0;j<courss.length;j++)
+{
+	opt +='<option value="'+ courss[j]['course_id'] +'">'+ courss[j]['course_name']+'</option>';
+}
+
+	$(document).ready( function(){
+
+    $('#add_fields').click( function(){
+        add_inputs()
+    });
+    
+
+$(document).on('click', '.remove_fields', function() {
+ 
+var counter = parseInt($('#counter').val());
+
+$(this).closest('.record').remove();
+counter = counter-1;	
+//alert(counter);	
+parseInt($('#counter').val(counter));
+
+    });
+
+    function add_inputs(){
+       var counter = parseInt($('#counter').val()); 
+	   
+	   //alert(counter);
+
+        if(counter <=2){  
+       var html = '<tr class="record"><td class="text-center"><select class="form-control courseid_input" name="courseid[]" id="courseid_' + counter + '"><option value="">Select Course</option>'+ opt +'</select></td><td><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="studentno[]" id="student_' + counter + '" placeholder="Enter No. of student*" class="form-control"></td><td><button type="button" class="remove_fields">-</button></td></tr>';         
+        
+        $('#table_append').append(html);
+        $('#counter').val( counter + 1 );
+    }else{
+    	alert('Only Three Course Details row is allowed');
+
+    }
+         
+    }
+
+
+});
+
+</script> 
+
 @endsection
 	
 	

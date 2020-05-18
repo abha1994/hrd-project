@@ -122,8 +122,8 @@ class InstituteController extends Controller
 
      public function institute_form_post(Request $request) {
 		 
-		 
-		 //dd($request); die;
+
+
 		 
 		/* if($request->countrycd == "99"){
 			$validatedData = $request->validate([
@@ -145,8 +145,10 @@ class InstituteController extends Controller
 			
 			$device = $_SERVER['HTTP_USER_AGENT'];
 		    $ip_address = $_SERVER['REMOTE_ADDR']; 
+			
+			$courseDetails=array_combine($request->courseid,$request->studentno);
 		   
-			$user_id = Auth::user()->id;;
+			$user_id = Auth::user()->id;
 			$postdata['scheme_code'] = 3;
 			$postdata['user_id'] = $user_id;
 			$postdata['department_name'] = $request->dept_name;
@@ -164,7 +166,7 @@ class InstituteController extends Controller
 			$postdata['placement_details'] = $request->place_service;
 			$postdata['other_details'] = $request->other_details;
 			$postdata['spon_project'] = $request->spon_project;
-			
+			$postdata['course_offered_dept'] = json_encode($courseDetails);
 			$postdata['fellowship_period'] = $request->fellowship_period;
 			$postdata['collab_institute'] = $request->collab_institute;
 			$postdata['fellowship_mtech'] = $request->mtech; 
@@ -179,8 +181,28 @@ class InstituteController extends Controller
 			$postdata['research_phd'] = implode(',',$request->resrch_phd);
 			}
 			
-			  
+			else{
+				$postdata['research_phd'] ="";
+			}
 			
+			/* if(isset($request->lstCourse)) {
+			$postdata['lstCourse'] = implode(',',$request->lstCourse);
+			}
+			else
+			{
+				$postdata['lstCourse'] = "";
+			} */
+			
+			if($request->collab_inst=="no")
+			{
+				$postdata['research_phd'] = "";
+				$postdata['collab_institute'] = "";
+			}
+			
+			if($request->place_service=="no")
+			{
+				$postdata['file_prevStudent_proof'] = "";
+			}
 			
 			$existRecords = DB::table('institute_details')->where('user_id', $user_id)->get();
 			$RecordsCount = $existRecords->count();
@@ -362,9 +384,11 @@ class InstituteController extends Controller
 				
 				/* Details of placement of previous students CODE ENDED ROCKY */
 				
+				//dd($filedata);
+				DB::table('institute_details')->where('institute_id',$request->editID)->update($filedata);
 				DB::table('institute_details')->where('institute_id',$request->editID)->update($postdata); 
 				
-				 DB::table('institute_details')->where('institute_id',$request->editID)->update($filedata); 
+				  
 				
 				}
 				
@@ -572,7 +596,9 @@ class InstituteController extends Controller
 		$items = DB::table('institute_details')->where('user_id', $candidate_id)->get();
 	    
 		 view()->share('items',$items);
-
+		 
+		 $courses = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+        view()->share('courses',$courses);
 
         if($request->has('download')){
             $pdf = PDF::loadview('backend/nref/pdfview');
@@ -624,6 +650,7 @@ class InstituteController extends Controller
 			$postdata['certified_status'] = $request->certified;
 			
 			$postdata['research_phd'] = implode(',',$request->resrch_phd);
+			
 			
 			  
 			

@@ -7,14 +7,15 @@ use Illuminate\Support\Facades\DB;
 use DateTime;
 use Validator,Redirect;
 use Session;
-
+use Auth;
 
 
 class ForgetPasswordController extends Controller
 {
-    
+   
     public function index(Request $request)
-    {
+    { 
+	echo "SDfSD";die;
 		$all_data =  Session::get('userdata');
 		if($all_data == null){
 			

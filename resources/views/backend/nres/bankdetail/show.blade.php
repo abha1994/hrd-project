@@ -11,7 +11,13 @@
       </ol>
 
   <div class="card card-login mx-auto mt-5 " style="">     
-   <div class="card-header text-center"><h4 class="mt-2">View Bank details of <?php if($recorde->student_id == $student_name->id){ echo $student_name->firstname;}?></h4></div>
+   <div class="card-header text-center"><h4 class="mt-2">View Bank details of  <?php 
+			// dd($student_name);
+			foreach($student_name as $v){
+				if($v->id == $recorde->student_id){
+					 echo ucwords($v->firstname.' '.$v->lastname);
+				}
+			 }?> </h4></div>
       
         <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">        
          <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
@@ -19,7 +25,27 @@
            
           <tr>
             <td>Candidate Name : </td>
-            <td>{{$recorde->bank_cname}} </td>
+			
+            <td>  <?php 
+			// dd($student_name);
+			foreach($student_name as $v){
+				if($v->id == $recorde->student_id){
+					 echo ucwords($v->firstname.' '.$v->lastname);
+				}
+			 }?> 
+		    </td>
+          </tr>
+		   <tr>
+            <td>Bank Phone : </td>
+            <td>{{$recorde->candidate_phone}}</td>
+          </tr>
+		   <tr>
+            <td>Pan Number : </td>
+            <td>{{$recorde->pan}}</td>
+          </tr>
+           <tr>
+            <td>Aadhar Number : </td>
+            <td>{{$recorde->aadhar_no}}</td>
           </tr>
            <tr>
             <td>Bank Name : </td>
@@ -53,22 +79,12 @@
 				@endif
 			</td>
           </tr>
-           <tr>
-            <td>Pan Number : </td>
-            <td>{{$recorde->pan}}</td>
-          </tr>
-           <tr>
-            <td>Aadhar Number : </td>
-            <td>{{$recorde->aadhar_no}}</td>
-          </tr>
+          
            <tr>
             <td>Account Type : </td>
             <td>{{$recorde->account_type}}</td>
           </tr>
-            <tr>
-            <td>Bank Phone : </td>
-            <td>{{$recorde->bank_phone}}</td>
-          </tr>
+           
            <tr>
             <td>Bank  Mobile : </td>
             <td>{{$recorde->bank_mobile}}</td>
@@ -77,6 +93,17 @@
             <td>Bank Email Id : </td>
             <td>{{$recorde->bank_email}}</td>
           </tr>  
+		  <tr>
+            <td>Bank Email Id : </td>
+            <td>{{$recorde->bank_email}}</td>
+          </tr>  
+		  <?php if(!empty($recorde->bank_mandate_form)){ ?>
+		  <tr>
+            <td>Bank Mandate Form : </td>
+            <td><a href="{{asset('public/uploads/nref/BankMandateForm/'.$recorde->bank_mandate_form)}}">Download</a></td>
+          </tr> 
+		  <?php } ?>
+		  
            
         
         </tbody>

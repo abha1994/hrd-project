@@ -17,14 +17,17 @@
         <br />
                    <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
         <tbody>
-           
+          <tr>
+		    <td>Student Name : </td>
+            <td><img src="{{asset('public/uploads/nref/student_registration/student_photo/'.$recorde->student_image)}}" width="50px; height:50px"> </td>
+          </tr>
           <tr>
             <td>Student Name : </td>
-            <td>{{$recorde->firstname}} {{ $recorde->middlename}} {{$recorde->lastname}}</td>
-          </tr>
+             <td> <?php echo ucwords($recorde->firstname.' '.$recorde->middlename.' '.$recorde->lastname);?></td>
+		  </tr>
            <tr>
             <td>Gender : </td>
-            <td>{{$recorde->gender}}</td>
+            <td><?php if($recorde->gender == "1"){echo "Male";}else if($recorde->gender == "2"){echo "Female";} ?></td>
           </tr>
            <tr>
             <td>Address : </td>
@@ -32,59 +35,76 @@
           </tr>
            <tr>
             <td>Age : </td>
-            <td>{{$recorde->dob}}</td>
+            <td><?php echo date('d-m-Y',strtotime($recorde->dob));?></td>
+          </tr>
+		   <tr>
+            <td>Doj : </td>
+            <td><?php echo date('d-m-Y',strtotime($recorde->doj));?></td>
+          </tr>
+		   <tr>
+            <td>Category : </td>
+			<td> <?php $categories_arr = array( '1'=>'General' ,'2'=>'OBC','3'=>'SC','4'=>'ST');
+			 foreach($categories_arr as $k=>$v){
+			 if($k == $recorde->category){ echo  $v; } }?></td>
           </tr>
            <tr>
             <td>Pincode : </td>
             <td>{{$recorde->pincode}}</td>
           </tr>
            <tr>
-            <td>course : </td>
-            <td>{{$recorde->course}}</td>
-          </tr>
-           <tr>
             <td>Country : </td>
-            <td>{{$recorde->country}}</td>
+            <td>INDIA</td>
           </tr>
            <tr>
             <td>State : </td>
             <td>{{$stateName[0]->state_name}}</td>
           </tr>
            <tr>
-            <td>Destric : </td>
+            <td>Destrict : </td>
             <td>{{$disticName[0]->district_name}}</td>
-          </tr>
-          <!--  <tr>
-            <td>Bank Name : </td>
-            <td>{{$recorde->bankName}}</td>
-          </tr>
-           <tr>
-            <td>Account Number : </td>
-            <td>{{$recorde->accountNo}}</td>
-          </tr>
-          <tr>
-            <td>ifscCode : </td>
-            <td>{{$recorde->ifscCode}}</td>
-          </tr> -->
-          <tr>
-            <td>Gate or NEET Score (in case of SRF & JRF)* : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/'.$recorde->gate_neet)}}" target="_blank">{{$recorde->gate_neet}}</a></td>
-          </tr>
-          <tr>
-            <td>Highest Qualification : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/'.$recorde->highest_qulification)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
           </tr>
            <tr>
             <td> Aadhar Number of Student  : </td>
             <td>{{$recorde->aadhar}}</td>
           </tr>
+		   <tr>
+            <td>Selection Committee Recommandation : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/commitee_recommanded/'.$recorde->commiteedocument)}}" target="_blank">{{$recorde->commiteedocument}}</a></td>
+          </tr>
+		   <tr>
+            <td>Highest Qualification : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/qulification/'.$recorde->highest_qulification)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
+          </tr>
+		   <tr>
+            <td>Candidate declaration form  : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/candidate_declaration/'.$recorde->candidate_declaration)}}" target="_blank">{{$recorde->candidate_declaration}}</a></td>
+          </tr>
+		  
+	
+		   <tr>
+            <td>Course Applied For : </td>
+            <td><?php foreach($courses as $course)  { 
+			    if ($recorde->course == $course->course_id) {
+				echo $course->course_name ;
+			    }
+			}?>
+			 </td>
+          </tr>			
+		   <tr>
+            <td>GATE : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/gate/'.$recorde->gate)}}" target="_blank">{{$recorde->gate}}</a></td>
+          </tr>
+		   <tr>
+            <td>NET : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/net/'.$recorde->net)}}" target="_blank">{{$recorde->net}}</a></td>
+          </tr>
            <tr>
-            <td>Upload Bank Mandate Form  : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/'.$recorde->bankMandate)}}" target="_blank">{{$recorde->bankMandate}}</a></td>
+            <td>Experience  : </td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/experience/'.$recorde->experience)}}" target="_blank">{{$recorde->experience}}</a></td>
           </tr>
           <tr>
             <td>Publication  : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/'.$recorde->publication)}}" target="_blank"> {{$recorde->publication}}</a></td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/publication/'.$recorde->publication)}}" target="_blank"> {{$recorde->publication}}</a></td>
           </tr>
            
         </tbody>

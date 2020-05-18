@@ -814,7 +814,7 @@
 									<div class="col-md-6">
 										<label for="name"  style="font-size: 13px;" class="control-label">Candidate Photograph<span>*</span></label> 
 										<input name="file_photo" type="file" class="form-control" id="file_photo" value="{{ old('file_photo')}}">
-										<label style="color:#FF0000; font-size:11px;"> (File Format accepts: JPEG/JPG &amp; Maximum Size: 200KB)
+										<label style="color:#FF0000; font-size:11px;"> (File Format accepts: JPEG/JPG &amp; Maximum Size: 100KB)
 										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										 <img src="{{asset('public/uploads/internship/photo/'.$data['internship_data']->file_photo)}}" style="height:50px; width:50px">
 										 </label><br><span  style="font-size: 12px;"id="file_photo_error"> </span>		

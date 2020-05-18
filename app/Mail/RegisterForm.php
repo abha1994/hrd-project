@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 use Illuminate\Http\Request;
-
+use  Session;
 class RegisterForm extends Mailable
 {
     use Queueable, SerializesModels;
@@ -20,13 +20,11 @@ class RegisterForm extends Mailable
     */
     public $emailid ;
     public $name;
-	public $category_id;
 
-    public function __construct($candidatename,$email_id,$category_id)
+    public function __construct($candidatename,$email_id)
     {       
         $this->emailid = $email_id;
         $this->name = $candidatename;
-		$this->category_id = $category_id;
         
          
     }
@@ -40,6 +38,9 @@ class RegisterForm extends Mailable
     {
         
         //return $this->markdown('email.Register');
+    
+        Session::put('EMAILID', $this->emailid);
+        
          return $this->from('hrd@gov.in','HRD')
                     ->to($this->emailid)
                     ->subject('Email Verificattion for Registration')

@@ -35,7 +35,6 @@
                                         <th>S. No.</th>
 										<th>Candidate Name</th>
 										<th>Bank Name</th>
-										<th>Branch</th>
 										<th>A/C Number</th>
 										<th>Aadhar No</th>
 										<th>Action</th>
@@ -47,19 +46,25 @@
 								   @foreach($banks as $bank)
 									<tr>
 										<td>{{$loop->iteration}}</td>
-										 <td>{{$bank->bank_cname}} </td>
+										<td>
+										 <?php foreach($student_name as $v){
+											if($v->id == $bank->student_id){
+												 echo ucwords($v->firstname.' '.$v->lastname);
+											}
+										 }?> </td>
 										<td>{{$bank->bank_name}} </td>
-										<td>{{$bank->branch_name}}</td>
 										<td>{{$bank->account_number}}</td>
 										<td>{{$bank->aadhar_no}}</td>
 										<td>
 											
-
-										
+<a href="{{url('bank-details/'.$bank->id)}}"><i class="fa fa-eye"></i></a>
+<?php if($bank->is_final_submit == "0"){ ?>
+<a href="{{url('bank-details/'.$bank->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+<?php } ?>
 										 
-										   <a class="btn btn-info" href="{{url('bank-details/'.$bank->id)}}" style="color: white"> View </a>
-										
-										   <a  class="btn btn-primary" href="{{url('bank-details/'.$bank->id.'/edit')}}">Edit</a>
+										<?php //if($bank->bank_mandate_uploaded != "1") {?>
+										   <!--a  class="btn btn-primary" href="{{url('bank-details/'.$bank->id.'/edit')}}">Edit</a-->
+										   <?php //} ?>
 										
 										
 												<!-- <a class="btn btn-sm btn-outline-secondary btn-sml mr-2" href="{{url('bank-details-registers/'.$bank->id)}}">Register </a> -->

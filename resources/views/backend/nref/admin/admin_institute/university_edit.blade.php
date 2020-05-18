@@ -23,7 +23,13 @@
      	<form  enctype="multipart/form-data"  action="{{ route('update-university',$data['institute_data']->institute_id) }}" class=""   autocomplete="off" id="institute_form" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
 			
-				           
+				 <?php 
+			$crseDtls=json_decode($data['institute_data']->course_offered_dept);
+			$countArray=count((array)$crseDtls);
+			
+			//echo $countArray;
+			?>
+		<input type="hidden" id="counter" value="<?php if($countArray>0) { echo $countArray; } else { echo '1';} ?>">          
 
 							<div class="form-group">
 								<div class="row">
@@ -83,8 +89,22 @@
 									
 									<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">University/Institute Ranking as per UGC/NIRF</label>
-										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="4" class="form-control"  value="<?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank">
+										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control"  value="<?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank">
 									</div>
+									
+									<?php //$curse=explode(',',$data['institute_data']->lstCourse); ?>
+									<!--<div class="col-md-3">
+									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department</label>
+										<select class="form-control" name="lstCourse[]"  id="lstCourse" multiple required>
+										   @if(isset($data['courses_list']))
+											@foreach($data['courses_list'] as $val)
+											<option value="{{$val->course_id}}" <?php /* if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$val->course_id) { echo "selected";} } } */ ?>>{{$val->course_name}}</option>
+											@endforeach
+											@endif
+								   	    </select>
+									</div>-->
+									
+									
 								</div> 
 							</div>
 							
@@ -138,6 +158,122 @@
 								</div> 
 							</div>
 							
+							<!--- NEW Functionality Add more -->
+							
+							<table border="0" class="table table-bordered table-striped table-hover" id="tab0">
+                    <thead style="font-size: 14px; font-weight: 300;line-height: 0.9;">
+						<tr>
+                             
+                            <th>Course Offered by department</th>
+                            <th class="text-center">Approx. Number of Students</th>
+                            <th class="text-center">Click Add Row for additional course</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_append" class="table_append">
+						<div> 
+						
+						<?php $p=0;						
+							if(isset($crseDtls)) { foreach($crseDtls as $key=>$value)
+							{ ?>
+							
+							<tr class="record">
+							
+				
+                                 
+                                <td class="text-center">
+	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_<?php echo $p; ?>">
+										<option value="">Select Course</option>
+											@foreach($data['courses_offered'] as $val) 
+										   		<option value="{{$val->course_id}}"  <?php if($key==$val->course_id) { echo "selected";} ?>>{{$val->course_name}}</option>
+											@endforeach 
+									</select>
+									@if ($errors->has('course_id'))courses_offered
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('course_id') }}</strong>
+										</span>
+									@endif
+								</td>
+                                <td class="text-center">
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="<?php echo $crseDtls->$key; ?>"  id="student_<?php echo $p; ?>" placeholder="Enter No of student*" name="studentno[]">									   
+									@if ($errors->has('studentno'))
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('studentno') }}</strong>
+										</span>
+									@endif
+								</td>
+								
+								
+                                
+                                <td>  
+								
+								@if($p==0)
+								    <div class="form-group button-group ">
+									    <input type="button" id="add_fields" class="add_button1" name="add_fields" value="+">
+									    
+						            </div>
+									@else
+										<button type="button" class="remove_fields">-</button>
+									@endif
+								</td>
+								
+									
+								
+								
+							
+								
+								
+                            </tr>
+							
+							<?php $p++;} } else {  ?>
+							
+							<tr>
+                                 
+                                <td class="text-center">
+	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_0">
+										<option value="">Select Course</option>
+											@foreach($data['courses_offered'] as $val) 
+										   		<option value="{{$val->course_id}}">{{$val->course_name}}</option>
+											@endforeach 
+									</select>
+									@if ($errors->has('course_id'))courses_offered
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('course_id') }}</strong>
+										</span>
+									@endif
+								</td>
+                                <td class="text-center">
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="" id="student_0; ?>" placeholder="Enter No of student*" name="studentno[]">									   
+									@if ($errors->has('studentno'))
+										<span class="invalid-feedback " role="alert">
+											<strong>{{ $errors->first('studentno') }}</strong>
+										</span>
+									@endif
+								</td>
+								
+								
+                                
+                                <td>
+								    <div class="form-group button-group ">
+									    <input type="button" id="add_fields" class="add_button1" name="add_fields" value="+">
+									    
+						            </div>
+								</td>
+								
+									
+								
+								
+							
+								
+								
+                            </tr>
+							
+							<?php } ?>
+                        </div>
+                    </tbody>
+                </table>
+							
+							<!-- New Functionality ADD more -->
+							
 							<br>
 							<h4><u>Details of the Course:-</u></h4>
 							
@@ -181,6 +317,17 @@
 											
 										</select>
 										
+									</div>
+									
+									<div class="col-md-4" style="display:none;" id="prevstd1">
+									<label for="name"  style="font-size: 13px;" class="control-label"> Name of Collaborate Institute</label>
+										<input name="collab_institute" type="text" class="form-control" value="<?php if(!empty($data['institute_data']->collab_institute)){ ?>{{$data['institute_data']->collab_institute}}<?php } ?>" id="collab_institute" >										
+									    @if ($errors->has('collab_institute'))
+											<span class="invalid-feedback " role="alert">
+												<strong>{{ $errors->first('collab_institute') }}</strong>
+											</span>
+										@endif
+			
 									</div>
 									
 									<?php //echo '=='.$data['institute_data']->research_phd; ?>
@@ -276,20 +423,9 @@
 										
 									</div>
 									
-									<div class="col-md-4" style="display:none;" id="prevstd1">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Name of Collaborate Institute</label>
-										<input name="collab_institute" type="text" class="form-control" value="<?php if(!empty($data['institute_data']->collab_institute)){ ?>{{$data['institute_data']->collab_institute}}<?php } ?>" id="collab_institute" >										
-									    @if ($errors->has('collab_institute'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('collab_institute') }}</strong>
-											</span>
-										@endif
-			
-									</div>
-									
 									
 									<div class="col-md-4" style="display:none;" id="prevstd">
-									<label for="name"  style="font-size: 13px;" class="control-label">G) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
 										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof">
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_id_proof_error"> </span>										
 									    @if ($errors->has('file_prevStudent_proof'))
@@ -451,7 +587,7 @@
 							<hr>
 							
 		<div class="col-xs-12 col-sm-12 col-md-12 text-center">
-         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+         <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
         <a class="btn btn-secondary" href="{{ URL('university')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
     </div>
 
@@ -481,6 +617,58 @@
 			overflow: scroll;
 		}*/
 	</style>
+	
+		<script type="text/javascript">
+
+
+var courss = <?php echo json_encode($data['courses_offered']); ?>; 
+
+var opt=[];
+
+for(j=0;j<courss.length;j++)
+{
+	opt +='<option value="'+ courss[j]['course_id'] +'">'+ courss[j]['course_name']+'</option>';
+}
+
+	$(document).ready( function(){
+
+    $('#add_fields').click( function(){
+        add_inputs()
+    });
+    
+
+$(document).on('click', '.remove_fields', function() {
+ 
+var counter = parseInt($('#counter').val());
+
+$(this).closest('.record').remove();
+counter = counter-1;	
+//alert(counter);	
+parseInt($('#counter').val(counter));
+
+    });
+
+    function add_inputs(){
+       var counter = parseInt($('#counter').val()); 
+	   
+	   //alert(counter);
+
+        if(counter <=2){  
+       var html = '<tr class="record"><td class="text-center"><select class="form-control courseid_input" name="courseid[]" id="courseid_' + counter + '"><option value="">Select Course</option>'+ opt +'</select></td><td><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="studentno[]" id="student_' + counter + '" placeholder="Enter No. of student*" class="form-control"></td><td><button type="button" class="remove_fields">-</button></td></tr>';         
+        
+        $('#table_append').append(html);
+        $('#counter').val( counter + 1 );
+    }else{
+    	alert('Only Three Course Details row is allowed');
+
+    }
+         
+    }
+
+
+});
+
+</script>
 
 @endsection
 	

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Nref;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\studentRegistration;
+use App\Nref\studentRegistration;
 use App\User;
 use DB;
 use Response;
@@ -14,11 +14,7 @@ class studentRegistrationController extends Controller
 {
     function __construct()
     {
-         // $this->middleware('permission:studentregistration-list|studentregistration-create|studentregistration-edit|studentregistration-delete', ['only' => ['index','show']]);
-         // $this->middleware('permission:studentregistration-create', ['only' => ['create','store']]);
-         // $this->middleware('permission:studentregistration-edit', ['only' => ['edit','update']]);
-         // $this->middleware('permission:studentregistration-delete', ['only' => ['destroy']]);
-
+         
 
     }
     /**
@@ -28,11 +24,47 @@ class studentRegistrationController extends Controller
      */
     public function index()
     {
-
-        $students = DB::table('studentregistrations')
-            ->join('courses','course_id','=','studentregistrations.course')->orderBy('id','desc')->get();
-            
+		$login_institute_id = Auth::id();//dd($login_institute_id);
+        $students = DB::table('studentregistrations')->where('user_id',$login_institute_id)->orderBy('id','desc')->get();
         return view('backend.nref.studentRregistration.index',compact('students'));
+    }
+	
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bank_mandate_form(Request $request)
+    {
+		 
+		   $transactionResult = DB::transaction(function() use ($request) { 
+		   $records = $request->all();
+		   $institute_id =  Auth::id();
+			   if($request->hasFile('bankMandate')) {
+						$image = $request->file('bankMandate');
+						$bankMandate = $institute_id.'_'.$request->student_id.'_'.'3'.'_bankMandate.'.$image->getClientOriginalExtension();
+						$destinationPath = public_path('/../public/uploads/nref/student_registration/bankMandate');
+						$imagePath = $destinationPath. "/".  $bankMandate;
+						$image->move($destinationPath, $bankMandate);
+						$records1['bankMandate'] = $bankMandate;
+				}
+				$records1['is_bank_details_fill'] = "2";
+				$updateQuery=DB::table('studentregistrations')
+					->where(['id' => $request->student_id,'institute_id' =>$request->institute_id,'user_id' =>$request-> user_id])
+					->update($records1);
+					
+			    
+					
+					
+				if($updateQuery)
+				{
+				 	return back()->with('message','Bank Mandate Form Uploaded successfully !');
+				}else{
+					return back()->with('error','Bank Mandate Form Not uploaded');
+				}
+			
+	    });
+		return $transactionResult;
     }
 
     /**
@@ -46,6 +78,7 @@ class studentRegistrationController extends Controller
         $states = DB::table('state_master')->get();
         $distric = DB::table('district_master')->get();
         $courses = DB::table('courses')->where('display',1)->get();
+
         return view('backend.nref.studentRregistration.create',compact('country','states','distric','courses'));
     }
 
@@ -57,17 +90,29 @@ class studentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+		 $transactionResult = DB::transaction(function() use ($request) {
+		$logID=Auth::id();
+		// dd($logID);
+		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
+		// dd($instID);
+		if(count(array($instID))>0)
+		{
+			$institiuteID=$instID->institute_id;
+		}
+		else{
+			$institiuteID=="";
+		}
          
        // dd($request->all());
          $this->validate($request,[
-            'firstname'  =>  'required|min:4|max:50',
-            'gender'=> 'required|in:male,female',
+            'firstname'  =>  'required|max:50',
+            'gender'=> 'required',
             'email_id' => 'required|email|unique:studentregistrations',
             // 'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations',
             'address' => 'required|max:150',
             'dob' => 'required',
-            //'bankName' =>'required',
+            'doj' =>'required',
             'state' => 'required|not_in:0',
             'distric' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
@@ -75,131 +120,108 @@ class studentRegistrationController extends Controller
             //'ifscCode' =>'required|regex:/^[A-Za-z]{4}\d{7}$/',             
             //'gate_neet' => 'required|max:1024|mimes:doc,docx,pdf',
             'highest_qulification' => 'required|max:1024|mimes:doc,docx,pdf',
-            'aadhar' => 'required|string|max:14',
-            'bankMandate' => 'required|max:1024|mimes:doc,docx,pdf',
+            'aadhar' => 'required|string|max:14|unique:studentregistrations',
+            // 'bankMandate' => 'required|max:1024|mimes:doc,docx,pdf',
             //'publication' => 'required|max:1024|mimes:doc,docx,pdf',
 
          ]);
-        
-         $records = $request->all(); 
-         if ($request->hasFile('gate_neet')) {
-            if ($request->file('gate_neet')->isValid()) {             
-                $fileName=$request->file('gate_neet')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('gate_neet')->move('uploads/nref/student_registration', $fileName);
-                $records['gate_neet']=$fileName;                
-            }
-        } //Gate and Neet Document
-
-        if ($request->hasFile('highest_qulification')) {
-            if ($request->file('highest_qulification')->isValid()) {             
-                $fileName=$request->file('highest_qulification')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('highest_qulification')->move('uploads/nref/student_registration', $fileName);
-                $records['highest_qulification']=$fileName;                
-            }
-        } //highest Qulification Document
-
-         if ($request->hasFile('aadhar')) {
-            if ($request->file('aadhar')->isValid()) {             
-                $fileName=$request->file('aadhar')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('aadhar')->move('uploads/nref/student_registration', $fileName);
-                $records['aadhar']=$fileName;               
-            }
-        } //Aadhar Document
-
-        if ($request->hasFile('bankMandate')) {
-            if ($request->file('bankMandate')->isValid()) {
-                $fileName=$request->file('bankMandate')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('bankMandate')->move('uploads/nref/student_registration', $fileName);
-                $records['bankMandate']=$fileName;               
-            }
-        } //Bank Mandate Document
-
-        if ($request->hasFile('publication')) {
-            if ($request->file('publication')->isValid()) {             
-                $fileName=$request->file('publication')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('publication')->move('uploads/nref/student_registration', $fileName);
-                $records['publication']=$fileName;                
-            }
-        } //Bank Mandate Document
-
-        // Student Image
-        if ($request->hasFile('student_image')) {
-            if ($request->file('student_image')->isValid()) {             
-                $fileName=$request->file('student_image')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('student_image')->move('uploads/nref/student_registration', $fileName);
-                $records['student_image']=$fileName;                
-            }
-        } //student Image
-
-        if ($request->hasFile('student_image')) {
-            if ($request->file('student_image')->isValid()) {             
-                $fileName=$request->file('student_image')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('student_image')->move('uploads/nref/student_registration', $fileName);
-                $records['student_image']=$fileName;                
-            }
-        } //student Image
-        
-        //Selection Committee Recommandation document 
-        if ($request->hasFile('commiteedocument')) {
-            if ($request->file('commiteedocument')->isValid()) {             
-                $fileName=$request->file('commiteedocument')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('commiteedocument')->move('uploads/nref/student_registration', $fileName);
-                $records['commiteedocument']=$fileName;                
-            }
-        } //Selection Committee Recommandation document 
-
-
-        //Gate 
-        if ($request->hasFile('gate')) {
-            if ($request->file('gate')->isValid()) {             
-                $fileName=$request->file('gate')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('gate')->move('uploads/nref/student_registration', $fileName);
-                $records['gate']=$fileName;                
-            }
-        } //Gate 
-         //NET
-        if ($request->hasFile('net')) {
-            if ($request->file('net')->isValid()) {             
-                $fileName=$request->file('net')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('net')->move('uploads/nref/student_registration', $fileName);
-                $records['net']=$fileName;                
-            }
-        } //Gate 
-
-        if ($request->hasFile('experience')) {
-            if ($request->file('experience')->isValid()) {             
-                $fileName=$request->file('experience')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                $request->file('experience')->move('uploads/nref/student_registration', $fileName);
-                $records['experience']=$fileName;                
-            }
-        } //Gate 
-
-        //
-
-        //commiteedocument
-
-        //$all_data =  Session::get('userdata');
-        
- 
-        $insid = Auth::id();
-        $records['institute_id'] =  $insid;
-        $records['user_id'] = $insid;
-        $records['dob']= date('Y-m-d', strtotime($request->dob));
-        //dd($records);
+         
+        $records = $request->all();
+        date_default_timezone_set('Asia/Kolkata');
+		$date = date('Y-m-d H:i:s');
+			
+        $records['institute_id'] = $institiuteID;
+		$records['user_id'] = $logID;
+        $records['dob']= $request->dob;
+		$records['doj']= $request->doj;
+		
+// dd($records);
         studentRegistration::create($records);
-         return redirect()->route('student-registration.index')
-                        ->with('message','Your registration  created successfully.');
+		$last_id = DB::getPDO()->lastInsertId();
+		if(!empty($last_id)){
+		 if($request->hasFile('highest_qulification')) {
+				$image = $request->file('highest_qulification');
+				$highest_qulification = $institiuteID.'_'.$last_id.'_'.'3'.'_qulification.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/qulification');
+				$imagePath = $destinationPath. "/".  $highest_qulification;
+				$image->move($destinationPath, $highest_qulification);
+				$records1['highest_qulification'] = $highest_qulification;
+		}
+				
+        if($request->hasFile('candidate_declaration')) {
+				$image = $request->file('candidate_declaration');
+				$candidate_declaration = $institiuteID.'_'.$last_id.'_'.'3'.'_candidate_declaration.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/candidate_declaration');
+				$imagePath = $destinationPath. "/".  $candidate_declaration;
+				$image->move($destinationPath, $candidate_declaration);
+				$records1['candidate_declaration'] = $candidate_declaration;
+		}
+		
+		if($request->hasFile('publication')) {
+				$image = $request->file('publication');
+				$publication = $institiuteID.'_'.$last_id.'_'.'3'.'_publication.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/publication');
+				$imagePath = $destinationPath. "/".  $publication;
+				$image->move($destinationPath, $publication);
+				$records1['publication'] = $publication;
+		}
+
+        if($request->hasFile('student_image')) {
+				$image = $request->file('student_image');
+				$student_image = $institiuteID.'_'.$last_id.'_'.'3'.'_student_image.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/student_photo');
+				$imagePath = $destinationPath. "/".  $student_image;
+				$image->move($destinationPath, $student_image);
+				$records1['student_image'] = $student_image;
+		}
+		
+		if($request->hasFile('commiteedocument')) {
+				$image = $request->file('commiteedocument');
+				$commiteedocument = $institiuteID.'_'.$last_id.'_'.'3'.'_commiteedocument.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/commitee_recommanded');
+				$imagePath = $destinationPath. "/".  $commiteedocument;
+				$image->move($destinationPath, $commiteedocument);
+				$records1['commiteedocument'] = $commiteedocument;
+		}
+
+        if($request->hasFile('gate')) {
+			if ($request->file('gate')->isValid()) {  
+				$image = $request->file('gate');
+				$gate = $institiuteID.'_'.$last_id.'_'.'3'.'_gate.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/gate');
+				$imagePath = $destinationPath. "/".  $gate;
+				$image->move($destinationPath, $gate);
+				$records1['gate'] = $gate;
+			}
+		}
+		
+		if($request->hasFile('net')) {
+				$image = $request->file('net');
+				$net = $institiuteID.'_'.$last_id.'_'.'3'.'_net.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/net');
+				$imagePath = $destinationPath. "/".  $net;
+				$image->move($destinationPath, $net);
+				$records1['net'] = $net;
+		}
+		
+		if($request->hasFile('experience')) {
+				$image = $request->file('experience');
+				$experience = $institiuteID.'_'.$last_id.'_'.'3'.'_experience.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/experience');
+				$imagePath = $destinationPath. "/".  $experience;
+				$image->move($destinationPath, $experience);
+				$records1['experience'] = $experience;
+		}
+		$records1['created_date']= $date;
+		$records1['scheme_code']= "3";
+		    DB::table('studentregistrations')->where('id',$last_id)->update($records1); 
+            		
+		}
+		return redirect()->route('student-registration.index')
+                          ->with('message','Your registration  created successfully.');
+		  });
+	   return $transactionResult;
+        
     }
 
     /**
@@ -211,14 +233,11 @@ class studentRegistrationController extends Controller
     public function show($id)
     {
         $recorde = studentRegistration::findOrFail($id);
-        //dd($recorde->state);
-        //dd($recorde);
+        $courses = DB::table('courses')->where('display',1)->get();
         $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-         $country = DB::table('country')->where('countrycd',$recorde->country)->distinct('countrycd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();    
-        $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();         
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
          
-        return view('backend.nref.studentRregistration.show',compact('recorde','stateName','disticName','country','course'));
+        return view('backend.nref.studentRregistration.show',compact('recorde','stateName','disticName','courses'));
     }
 
     /**
@@ -247,17 +266,30 @@ class studentRegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
+		
+		$logID=Auth::id();
+		
+		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
+		
+		if(count(array($instID))>0)
+		{
+			$institiuteID=$instID->institute_id;
+		}
+		else{
+			$institiuteID=="";
+		}
+		
         $records = studentRegistration::find($id);
-          
+		   
         $this->validate($request,[
-            'firstname'  =>  'required|min:4|max:50',
-            'gender'=> 'required|in:male,female',
+            'firstname'  =>  'required|max:50',
+            'gender'=> 'required',
             'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
-            //'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
+            ////'mobile' => 'required|numeric|min:10|max:10|unique:users,mobile_number,'.$user->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
-            'address' => 'required|min:20|max:150',
+            'address' => 'required|max:150',
             'dob' => 'required',
-            //'bankName' =>'required',
+            'doj' =>'required',
             'state' => 'required|not_in:0',
             'distric' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
@@ -265,97 +297,122 @@ class studentRegistrationController extends Controller
             //'ifscCode' =>'required|regex:/^[A-Za-z]{4}\d{7}$/',             
             //'gate_neet' => 'required|max:1024|mimes:doc,docx,pdf',
             //'highest_qulification' => 'required|max:1024|mimes:doc,docx,pdf',
-            'aadhar' => 'required|string|max:14',
+            'aadhar' => 'required|string|max:14|unique:studentregistrations,aadhar,'.$records->id,
             //'bankMandate' => 'required|max:1024|mimes:doc,docx,pdf',
            // 'publication' => 'required|max:1024|mimes:doc,docx,pdf',
 
          ]);
           
-      if ($request->hasFile('gate_neet')) {
-            if ($request->file('gate_neet')->isValid()) {
-             
-                $fileName=$request->file('gate_neet')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                    //upload
-                $request->file('gate_neet')->move('uploads/nref/student_registration', $fileName);
-                    //column name 
-                $records['gate_neet']=$fileName;
-                
-            }
-        } //Gate and Neet Document
+	 if($request->hasFile('highest_qulification')) {
+				$image = $request->file('highest_qulification');
+				$highest_qulification = $institiuteID.'_'.$last_id.'_'.'3'.'_qulification.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/qulification');
+				$imagePath = $destinationPath. "/".  $highest_qulification;
+				$image->move($destinationPath, $highest_qulification);
+				$records['highest_qulification'] = $highest_qulification;
+		}
+				
+        if($request->hasFile('candidate_declaration')) {
+				$image = $request->file('candidate_declaration');
+				$candidate_declaration = $institiuteID.'_'.$last_id.'_'.'3'.'_candidate_declaration.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/candidate_declaration');
+				$imagePath = $destinationPath. "/".  $candidate_declaration;
+				$image->move($destinationPath, $candidate_declaration);
+				$records['candidate_declaration'] = $candidate_declaration;
+		}
+		
+		if($request->hasFile('publication')) {
+				$image = $request->file('publication');
+				$publication = $institiuteID.'_'.$last_id.'_'.'3'.'_publication.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/publication');
+				$imagePath = $destinationPath. "/".  $publication;
+				$image->move($destinationPath, $publication);
+				$records['publication'] = $publication;
+		}
 
-        if ($request->hasFile('highest_qulification')) {
-            if ($request->file('highest_qulification')->isValid()) {
-             
-                $fileName=$request->file('highest_qulification')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                    //upload
-                $request->file('highest_qulification')->move('uploads/nref/student_registration', $fileName);
-                    //column name 
-                $records['highest_qulification']=$fileName;
-                
-            }
-        } //highest Qulification Document
+        if($request->hasFile('student_image')) {
+				$image = $request->file('student_image');
+				$student_image = $institiuteID.'_'.$last_id.'_'.'3'.'_student_image.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/student_photo');
+				$imagePath = $destinationPath. "/".  $student_image;
+				$image->move($destinationPath, $student_image);
+				$records['student_image'] = $student_image;
+		}
+		
+		if($request->hasFile('commiteedocument')) {
+				$image = $request->file('commiteedocument');
+				$commiteedocument = $institiuteID.'_'.$last_id.'_'.'3'.'_commiteedocument.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/commitee_recommanded');
+				$imagePath = $destinationPath. "/".  $commiteedocument;
+				$image->move($destinationPath, $commiteedocument);
+				$records['commiteedocument'] = $commiteedocument;
+		}
 
-         if ($request->hasFile('aadhar')) {
-            if ($request->file('aadhar')->isValid()) {
-             
-                $fileName=$request->file('aadhar')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                    //upload
-                $request->file('aadhar')->move('uploads/nref/student_registration', $fileName);
-                    //column name 
-                $records['aadhar']=$fileName;
-                
-            }
-        } //Aadhar Document
+        if($request->hasFile('gate')) {
+			if ($request->file('gate')->isValid()) {  
+				$image = $request->file('gate');
+				$gate = $institiuteID.'_'.$last_id.'_'.'3'.'_gate.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/gate');
+				$imagePath = $destinationPath. "/".  $gate;
+				$image->move($destinationPath, $gate);
+				$records['gate'] = $gate;
+			}
+		}
+		
+		if($request->hasFile('net')) {
+				$image = $request->file('net');
+				$net = $institiuteID.'_'.$last_id.'_'.'3'.'_net.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/net');
+				$imagePath = $destinationPath. "/".  $net;
+				$image->move($destinationPath, $net);
+				$records['net'] = $net;
+		}
+		
+		if($request->hasFile('experience')) {
+				$image = $request->file('experience');
+				$experience = $institiuteID.'_'.$last_id.'_'.'3'.'_experience.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nref/student_registration/experience');
+				$imagePath = $destinationPath. "/".  $experience;
+				$image->move($destinationPath, $experience);
+				$records['experience'] = $experience;
+		}
 
-        if ($request->hasFile('bankMandate')) {
-            if ($request->file('bankMandate')->isValid()) {
-             
-                $fileName=$request->file('bankMandate')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                    //upload
-                $request->file('bankMandate')->move('uploads/nref/student_registration', $fileName);
-                    //column name 
-                $records['bankMandate']=$fileName;
-                
-            }
-        } //Bank Mandate Document
-
-        if ($request->hasFile('publication')) {
-            if ($request->file('publication')->isValid()) {
-             
-                $fileName=$request->file('publication')->getClientOriginalName();
-                $fileName =time()."_".$fileName;
-                    //upload
-                $request->file('publication')->move('uploads/nref/student_registration', $fileName);
-                    //column name 
-                $records['publication']=$fileName;
-                
-            }
-        } //Bank Mandate Document
-
-        $records->firstname = $request->firstname;
-        $records->middlename = $request->middlename;
-        $records->lastname = $request->lastname;
-        $records->gender = $request->gender;
-        $records->email_id = $request->email_id;
-        $records->mobile = $request->mobile;
-        $records->address = $request->address;
-        $records->dob = $request->dob;
-        $records->country = $request->country;
-        $records->state = $request->state;
-        $records->distric = $request->distric;
-        $records->gate_neet = $records['gate_neet'];
-        $records->highest_qulification = $records['highest_qulification'];
-        $records->bankMandate = $records['bankMandate'];
-        $records->publication = $records['publication'];
-        $records->aadhar = $request->aadhar;
-        $records->nref_id = $request->nref_id;
-          
-        $records->save();
-        return redirect()->route('student-registration.index')
+        date_default_timezone_set('Asia/Kolkata');
+		$date = date('Y-m-d H:i:s');
+	    $row = array('firstname'=>$request->firstname,
+				'firstname'=>$request->firstname,
+				'middlename'=>$request->middlename,
+				'lastname'=>$request->lastname,
+				'mobile'=>$request->mobile,
+				'email_id'=>$request->email_id,
+				'gender'=>$request->gender,
+				'address'=>$request->address,
+				'dob'=>$request->dob,
+				'pincode'=>$request->pincode,
+				'course'=>$request->course,
+				'country'=>$request->country,
+				'state'=>$request->state,
+				'distric'=>$request->distric,
+				'aadhar'=>$request->aadhar,
+				'category'=>$request->category,
+				'highest_qulification'=>$records['highest_qulification'],
+				'publication'=>$records['publication'],
+				// 'bankMandate'=>$record['bankMandate'],
+				'student_image'=> $records['student_image'],
+				'commiteedocument'=> $records['commiteedocument'],
+				'gate'=>$records['gate'],
+				'net'=>$records['net'],
+				'experience'=>$records['experience'],
+				'candidate_declaration'=>$records['candidate_declaration'],
+				'user_id' =>Auth::id(),
+				'doj'=>$request->doj,
+				'modified_date'=>$date,
+				'modified_by'=>Auth::id(),
+				'scheme_code'=>3,
+			);
+			 DB::table('studentregistrations')->where('id',$id)->update($row); 
+		 
+            return redirect()->route('student-registration.index')
                         ->with('message','Student registration updated successfully.');
 
     }
@@ -366,9 +423,9 @@ class studentRegistrationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //studentRegistration::destroy($id);
+         studentRegistration::destroy($id);
          return redirect()->route('student-registration.index')->with('message','Student detail deleted successfully !');
     }
 
@@ -381,51 +438,70 @@ class studentRegistrationController extends Controller
     }
 
     public function validateEmail(Request $request){
-        //echo 'amresh';
+     
         $data = $request->email_id;
-         
-        if($data){
-            $result =DB::table('studentregistrations')->where('email_id',$data)->count();
-
-            if($result>0){
-                return Response::json('Email id all ready exit in database');
+		$hidden_id = $request->hidden_id;
+		// dd($hidden_id);
+		 if($data){
+			 if($hidden_id == null){
+               $result =DB::table('studentregistrations')->where('email_id',$data)->count(); 
+			 }else{
+				$result =DB::table('studentregistrations')->where('email_id',$data)->where('id','!=',$hidden_id)->count();  
+			 }
+			if($result>0){
+               echo "<span style='color:red'>Email id all ready exit in database</span>" ;// 
+			   // return Response::json('Email id all ready exit in database');
+			   // return false;
             }else{
-                return Response::json('<span style="color:green">Congratulation email id not exit in database</span>');   
+               echo "<span style='color:green'>Congratulation email id not exit in database</span>"; 
+			   // return true;
+			   // return Response::json('<span style="color:green">Congratulation email id not exit in database</span>');   
             }
         }      
  
     }
 
     public function validateMobile(Request $request){
-        //echo 'amresh';
         $data = $request->mobile;
-         
-        if($data){
-            $result =DB::table('studentregistrations')->where('mobile',$data)->count();
-
-            if($result>0){
-                return Response::json('Mobile all ready exit in database');
+		$hidden_id = $request->hidden_id;
+         if($data){
+			 if($hidden_id == null){
+                $result =DB::table('studentregistrations')->where('mobile',$data)->count();
+			 }else{
+				$result =DB::table('studentregistrations')->where('mobile',$data)->where('id','!=',$hidden_id)->count();  
+			 }
+           
+            if($result != 0){
+				 echo "<span style='color:red'>Mobile all ready exit in database</span>" ;// 
+                // return Response::json('Mobile all ready exit in database');
             }else{
-                return Response::json('<span style="color:green">Congratulation mobile not exit in database</span>');   
+				 echo "<span style='color:green'>Congratulation mobile not exit in database</span>"; 
+                // return Response::json('<span style="color:green">Congratulation mobile not exit in database</span>');   
             }
         }      
  
     }
-    public function validateAadhar(Request $request){
-        //echo 'amresh';
+	
+	 public function validateAadhar(Request $request){
         $data = $request->aadhar;
-         
+		$hidden_id = $request->hidden_id;
+         $row = DB::table('studentregistrations')->where('aadhar',$data)->get() ;
         if($data){
-            $result =DB::table('studentregistrations')->where('aadhar',$data)->count();
-
+			 if($hidden_id == null){
+                 $result =DB::table('studentregistrations')->where('aadhar',$data)->count();
+			 }else{
+				$result =DB::table('studentregistrations')->where('aadhar',$data)->where('id','!=',$hidden_id)->count();  
+			 }
+           
             if($result>0){
-                return Response::json('Aadhar all ready exit in database');
+				 echo "<span style='color:red'>Aadhar all ready exit in database</span>" ;// 
+                // return Response::json('Aadhar all ready exit in database');
             }else{
-                return Response::json('<span style="color:green">Congratulation aadhar not exit in database</span>');   
+				 echo "<span style='color:green'>Congratulation aadhar not exit in database</span>"; 
+               // return Response::json('<span style="color:green">Congratulation aadhar not exit in database</span>');   
             }
         }      
  
     }
-
-    
+	
 }

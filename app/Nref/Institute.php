@@ -20,6 +20,8 @@ class Institute extends Model
 	    $data['state_data'] = DB::table('state_master')->orderBy('state_name','asc')->get();
 	    $data['district_data'] = DB::table('district_master')->orderBy('district_name','asc')->get();
 		$data['courses_data'] = DB::table('courses')->orderBy('course_name','asc')->get();
+		$data['courses_list'] = DB::table('courses')->where('display',1)->orderBy('course_name','asc')->get();
+		$data['courses_offered'] = DB::table('courses')->where('course_offered',1)->orderBy('course_name','asc')->get();
        return $data;
      }
 	 
