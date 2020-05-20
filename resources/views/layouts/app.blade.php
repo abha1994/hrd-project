@@ -262,7 +262,7 @@ footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
 					$homeClass = "buttoncss";
 				}?>
                 <li class="nav-item {{$homeClass}}" style="">
-					<a class="nav-link" href="{{ url('/') }}"><b>Home</b></a>
+					<a class="nav-link" href="{{ url('/') }}"><b>Home1</b></a>
 				</li>&nbsp;&nbsp;
 				<li class="nav-item {{$logClass}}">
 					<a  class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
