@@ -4,20 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Mail;
+use App\Mail\ForgetPasswordOtp;
+use App\Mail\ResetPassword;
 use DateTime;
 use Validator,Redirect;
 use Session;
-use Auth;
+
 
 
 class ForgetPasswordController extends Controller
 {
-   
+    
     public function index(Request $request)
-    { 
-	echo "SDfSD";die;
-		$all_data =  Session::get('userdata');
-		if($all_data == null){
+    {
+		
+		
+		 
 			
 			date_default_timezone_set('Asia/Kolkata');
 			$date = date('Y-m-d H:i:s');
@@ -34,10 +38,9 @@ class ForgetPasswordController extends Controller
 			$audtitrail_tbl_post['ipaddress'] = $ipaddress;
 			$audtitrail_tbl_post['timestamp'] = $date;
 			$data = DB::table('audtitrail_tbl')->insert($audtitrail_tbl_post);
-			return view('front/forgetpassword_form');
-	   }else{
-			  return redirect('dashboard');
-		 }
+			
+			return view('forgetpassword_form');
+	   
 		
     }
     
@@ -90,8 +93,8 @@ class ForgetPasswordController extends Controller
 					->with('CaptchaCode',$code);
 			}else{
 				
-				$registeration_id = $user_data->registeration_id;
-				$regist_data=  DB::table('registration')->where('candidate_id', $registeration_id)->where('email_id', $email_id)->get()->first();
+				$registeration_id = $user_data->id;
+				$regist_data=  DB::table('user_credential')->where('id', $registeration_id)->where('email', $email_id)->get()->first();
 				if($regist_data == null){
 			    return back()->with('error',"Username or Email does not exist")
 					->with('username',$username)
@@ -108,21 +111,12 @@ class ForgetPasswordController extends Controller
 						$string=$string1.$string2.$string3;
 						$string= str_shuffle($string);
 						$user_password  = substr($string,8,14); 
-						$postdata['password'] = md5($user_password);
+						$postdata['password'] = Hash::make($user_password);
 						$a = DB::table('user_credential')->where('username', $username)->update($postdata);
 						
-						$to = 'test1@localhost';
-						$subject = 'HRD new password';
-						$html = "";
-						$html  .= "Your new password is ".$user_password." Kindly log in with new password.";
-						$message = $html;
 						
-						$headers  = 'MIME-Version: 1.0' . "\r\n";
-						$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-						$headers .= 'From: Server <test2@localhost>' . "\r\n";
-						$headers .= 'X-Mailer: PHP/' . phpversion();
+						 Mail::to($email_id)->send(new ResetPassword($user_password,$email_id));
 						
-						mail($to, $subject, $message, $headers);
 						return back()
 						->with('success',"New password has been sent to your registered email_id!")
 						->with('username',$username)
@@ -153,6 +147,8 @@ class ForgetPasswordController extends Controller
     }
     
     public function sendotp(Request $request) {
+		
+	
         
         date_default_timezone_set('Asia/Kolkata');
         $date = date('Y-m-d H:i:s');
@@ -169,7 +165,7 @@ class ForgetPasswordController extends Controller
         $audtitrail_tbl_post['ipaddress'] = $ipaddress;
         $audtitrail_tbl_post['timestamp'] = $date;
         $data = DB::table('audtitrail_tbl')->insert($audtitrail_tbl_post);
-        
+      
         $username = $request->get('username');
         
         $username_exist = DB::table('user_credential')->where('username', $username)->get()->first();
@@ -180,22 +176,9 @@ class ForgetPasswordController extends Controller
 			
             if(strlen($email_id)>0)
             {
-                $role_id= $username_exist->role;
                
-                if($role_id=="4")
-                {
-                  $email_exist = DB::table('registration')->where('email_id', $email_id)->where('candidate_id',$username_exist->registeration_id)->get()->first(); 
-				  // if($email_exist == null){
-					    // echo 5; //email does not exists
-				  // }
-                }
-                else
-                {
-                    $email_exist = DB::table('admin_user')->where('email', $email_id)->where('officer_id',$username_exist->registeration_id)->get()->first();
-					 // if($email_exist == null){
-					    echo 5; //email does not exists
-				  // }
-                }
+                 $email_exist = DB::table('user_credential')->where('email', $email_id)->where('username',$username)->get()->first(); 
+
                 if($email_exist != null)
                 {
                     
@@ -205,23 +188,14 @@ class ForgetPasswordController extends Controller
                     $postdata['otp'] = $otp;
                     $a = DB::table('user_credential')->where('username', $username)->update($postdata);
                     
-                    $to = 'email1@localhost';
-                    $subject = 'OTP for Forget Password HRD';
-                    $html = "";
-                    $html  .= $otp." is your otp for HRD portal forget password.";
-                    $message = $html;
-                    
-                    $headers  = 'MIME-Version: 1.0' . "\r\n";
-                    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                    $headers .= 'From: Server <email2@localhost>' . "\r\n";
-                    $headers .= 'X-Mailer: PHP/' . phpversion();
-                    
-                    mail($to, $subject, $message, $headers);
-                    echo 1;/* return back()->with('success',"OTP has been sent to your registered email id.!"); */
+                  
+                     Mail::to($email_id)->send(new ForgetPasswordOtp($otp,$email_id));
+                   
+                     echo 1;/* return back()->with('success',"OTP has been sent to your registered email id.!"); */
                 }
                 else
                 {
-                   echo 0; /* return back()
+                    echo 0; /* return back()
                     ->with('error',"Email id doesn't exist!"); */
                 }
             }
@@ -230,7 +204,7 @@ class ForgetPasswordController extends Controller
                 $mobileno = $request->get('mobile_no');
                 if(strlen($mobileno)>0)
                 {
-                    $mobile_exist = DB::table('registration')->where('mobile_no', $mobileno)->get();
+                  $mobile_exist = DB::table('user_credential')->where('mobile', $mobileno)->where('username',$username)->get()->first();
                     if(count($mobile_exist)>0)
                     {
                         
@@ -242,7 +216,7 @@ class ForgetPasswordController extends Controller
                     }
                     else
                     {
-                        echo 4; /* return back()
+                         echo 4; /* return back()
                         ->with('error',"Mobile No. doesn't exist!"); */
                     }
                 }
@@ -252,7 +226,7 @@ class ForgetPasswordController extends Controller
         
         else
         {
-           echo 2;/*  return back()
+            echo 2;/*  return back()
             ->with('error',"Username doesn't exist!"); */
         }
         

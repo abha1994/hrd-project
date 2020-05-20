@@ -403,8 +403,7 @@
 							
 		<?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
 		
-
-	<?php if($data['institute_data']->officer_role_id!=5 && $data['institute_data']->status_id!=2 && $data['institute_data']->status_id!=3) { ?>
+	<?php if($role_id!=5) { ?>
 
 	           <center>
 								<div class="form-group" >
@@ -416,7 +415,7 @@
 			
 								   @if(Gate::check('admin-nref-institute-status-considered') || Gate::check('considered-nref-institute-by-level1-status-considered') || Gate::check('rejected-nref-institute-status-considered') || Gate::check('forward-to-committee-nref-institute-status-considered'))		
 									   
-								   <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_university(1,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Considered</button>
+								   <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_university(3,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Considered</button>
 								   @endif
  
                                    @if(Gate::check('admin-nref-institute-status-non-considered') || Gate::check('considered-nref-institute-by-level1-status-non-considered') || Gate::check('rejected-nref-institute-status-non-considered')  || Gate::check('forward-to-committee-nref-institute-status-non-considered'))	
@@ -525,7 +524,6 @@
 function consider_university_form_sumbit(){
 	
 	var urlRedirect = "<?php echo url()->previous(); ?>";
-	
   var status_application = $('#status_institute').val();
   
   if(status_application == "2"){

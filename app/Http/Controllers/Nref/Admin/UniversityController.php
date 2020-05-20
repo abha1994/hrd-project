@@ -105,9 +105,29 @@ class UniversityController extends Controller
 	
     public function index5(Request $request)
     { 
-		$data = Admin_institute::selected();
+		//$data = Admin_institute::selected();
+		$data = Admin_institute::recommendByCommitee();
+		
 		$stateList = Admin_institute::getState();
 		return view('backend/nref/Admin/admin_institute/university_selected_list',compact('data','stateList'));
+	}
+	
+	public function index6(Request $request)
+    { 
+		//$data = Admin_institute::selected();
+		$data = Admin_institute::rejectByCommitee();
+		
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_final_reject',compact('data','stateList'));
+	}
+	
+	public function index7(Request $request)
+    { 
+		//$data = Admin_institute::selected();
+		$data = Admin_institute::finalSelect();
+		
+		$stateList = Admin_institute::getState();
+		return view('backend/nref/Admin/admin_institute/university_final_select',compact('data','stateList'));
 	}
 	
 	/**
@@ -655,12 +675,45 @@ class UniversityController extends Controller
 		return view('backend/nref/Admin/admin_institute/university_view',compact('data'));
 	}
 	
+	public function view_frwdCommite($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/view_forwdCommte',compact('data'));
+	}
+	
+	public function view_recommendCommite($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/view_recommndCommte',compact('data'));
+	}
+	
+	
+	
 	
 	public function institute_status_considered(Request $request)
     { 
+	
+	//echo '==='.$request->status_application; die;
+	//echo "<pre>"; dd($request); die;
 	    $postdata['status_application'] = $request->status_application;
 	    date_default_timezone_set('Asia/Kolkata');
 		$date = date('Y-m-d H:i:s');
+		
+		/* New Code Start Rocky */
+		
+		if($request->status_application==3) {
+		
+		 $internship_data = DB::table('institute_details')->where('institute_id', $request->institute_id)->get()->first();
+			$loginuseer  = Auth::user();
+			$internship_data->selected_by = $loginuseer->id;
+			$internship_data->status = "3"; 
+			$internship_data->selected_by_role = $loginuseer->role;
+			$internship_data->scheme_code = "3"; 
+			$internship_data->modified_by = $loginuseer->id;
+			$internship_data->modified_date = $date;
+			$user = DB::table("selected_institute_application")->insert(get_object_vars($internship_data));
+		}
+		/* New COde Ended */
 	
 		$postdata['remarks'] = $request->remarks;
 		$postdata['institute_id'] = $request->institute_id;
@@ -785,6 +838,38 @@ class UniversityController extends Controller
 	return view('backend/nref/Admin/admin_institute/fwdCommiteAjax',compact('data'));
 	}
 	
+	
+	
+	
+	public function recommendInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::recommendInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/pendingrecommndAjax',compact('data'));
+	}
+	
+	public function finalrejectInstituteAjax(Request $request)
+    { 
+	
+	$frmDate=$request->frmDate;
+	$toDate = $request->toDate;
+	$stateId=  $request->stateId;
+	$courseId = $request->courseId;
+	
+	$data = Admin_institute::finalrejctInst($frmDate,$toDate,$stateId,$courseId);
+
+	return view('backend/nref/Admin/admin_institute/finalRejectAjax',compact('data'));
+	}
+	
+	
+	
+	
 	public function selectedInstituteAjax(Request $request)
     { 
 	
@@ -869,6 +954,16 @@ class UniversityController extends Controller
 		else if($institutetype=="5")
 		{
 			$redirectURL= 'universitySelected';
+		}
+		
+		else if($institutetype=="6")
+		{
+			$redirectURL= 'universityFinalSelected';
+		}
+		
+		else if($institutetype=="7")
+		{
+			$redirectURL= 'universityFinalReject';
 		}
 		
 		if(isset($response['internship_export']) && !empty($response['internship_export'])){

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\shortterm;
+namespace App\shortterm\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
-class studentRegistration extends Model
+class nrestParticipants extends Model
 {
    protected $table ='studentregistrations';
    protected $primaryKey ='id';

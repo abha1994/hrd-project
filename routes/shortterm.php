@@ -24,6 +24,11 @@ Route::group(['middleware' => ['auth']], function() {
    Route::resource('st-student-registration','shortterm\studentRegistrationController');
 //**************Student Form**********************/
 
+//************************Admin Student*******************//
+Route::get('/nrest-participants', 'shortterm\Admin\NrestParticipantsController@index');
+Route::get('/nrest-participants-show/{id}', 'shortterm\Admin\NrestParticipantsController@show');
+//************************Admin Student*******************//
+
 
 });
 

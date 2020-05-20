@@ -24,8 +24,10 @@ class studentRegistrationController extends Controller
      */
     public function index()
     {
-		$login_institute_id = Auth::id();//dd($login_institute_id);
-        $students = DB::table('studentregistrations')->where('user_id',$login_institute_id)->where('scheme_code','4')->orderBy('id','desc')->get();
+		$login_user_id = Auth::id();
+		$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
+		
+        $students = DB::table('studentregistrations')->where('institute_id',$short_term_id)->where('user_id',$login_user_id)->where('scheme_code','4')->orderBy('id','desc')->get();
         return view('backend.shortterm.studentRregistration.index',compact('students'));
     }
 	
@@ -63,12 +65,12 @@ class studentRegistrationController extends Controller
 		
 		 $transactionResult = DB::transaction(function() use ($request) {
 		$logID=Auth::id();
+		$short_term_id = DB::table('short_term_program')->where('user_id',$logID)->where('status_id','3')->get()->first()->short_term_id;
 		
-		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
 		
-		if(count(array($instID))>0)
+		if(count(array($short_term_id))>0)
 		{
-			$institiuteID=$instID->institute_id;
+			$institiuteID=$short_term_id;
 		}
 		else{
 			$institiuteID=="";
@@ -81,8 +83,8 @@ class studentRegistrationController extends Controller
             'mobile' => 'required|numeric|min:10|unique:studentregistrations',
             'address' => 'required|max:150',
 			'dob' => 'required',
-            'state' => 'required|not_in:0',
-            'distric' => 'required|not_in:Select',
+            'statecd' => 'required|not_in:0',
+            'districtcd' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
             'aadhar' => 'required|string|max:14|unique:studentregistrations',
             
@@ -144,8 +146,8 @@ class studentRegistrationController extends Controller
     {
         $recorde = studentRegistration::findOrFail($id);
         
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
          
         return view('backend.shortterm.studentRregistration.show',compact('recorde','stateName','disticName'));
     }
@@ -179,11 +181,12 @@ class studentRegistrationController extends Controller
 		
 		$logID=Auth::id();
 		
-		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
+		$short_term_id = DB::table('short_term_program')->where('user_id',$logID)->where('status_id','3')->get()->first()->short_term_id;
 		
-		if(count(array($instID))>0)
+		
+		if(count(array($short_term_id))>0)
 		{
-			$institiuteID=$instID->institute_id;
+			$institiuteID=$short_term_id;
 		}
 		else{
 			$institiuteID=="";
@@ -198,8 +201,8 @@ class studentRegistrationController extends Controller
             'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
             'address' => 'required|max:150',
             'dob' => 'required',
-            'state' => 'required|not_in:0',
-            'distric' => 'required|not_in:Select',
+            'statecd' => 'required|not_in:0',
+            'districtcd' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
             'aadhar' => 'required|string|max:14|unique:studentregistrations,aadhar,'.$records->id,
           
@@ -237,9 +240,9 @@ class studentRegistrationController extends Controller
 				'dob'=>$request->dob,
 				'pincode'=>$request->pincode,
 				
-				'country'=>$request->country,
-				'state'=>$request->state,
-				'distric'=>$request->distric,
+				'countrycd'=>$request->countrycd,
+				'statecd'=>$request->statecd,
+				'districtcd'=>$request->districtcd,
 				'aadhar'=>$request->aadhar,
 				'category'=>$request->category,
 				'student_image'=> $records['student_image'],

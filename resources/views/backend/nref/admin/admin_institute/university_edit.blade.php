@@ -573,22 +573,16 @@
 								
 								</div>
 								</div>
-								
-								<!--<div class="form-group">
-								<div class="row">
-								<div class="col-md-4">
-								@if(isset($data['institute_data']->final_submit))<?php //if($data['institute_data']->final_submit!=1) {  ?>
-								<a href="{{ route('pdfview',['download'=>'pdf']) }}">Download PDF</a>
-								<?php //} ?> @endif
-								</div>
-								</div>
-								</div>-->
+
+
 							
 							<hr>
 							
 		<div class="col-xs-12 col-sm-12 col-md-12 text-center">
          <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
-        <a class="btn btn-secondary" href="{{ URL('university')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+        <!--<a class="btn btn-secondary" href="{{ URL('university')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>-->
+		
+		<a class="btn btn-secondary" href="{{ url()->previous() }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
     </div>
 
 				    </form>

@@ -35,6 +35,9 @@
 		if($current_url == 'nrest-home' ){
 		   $nrestMClass = 'active';
 		}
+		if($current_url == 'nrest-participants' ){
+		   $nrestpMClass = 'active';
+		}
 	?>
 	<?php  //dd($current_url); die;?>	  
 		  
@@ -248,14 +251,36 @@
                 </a>
               </li>
 			  @endcan
-			   @can('Selected-nref-institute-list')
+			   
+             @can('Selected-nref-institute-list')
 			  <li class="nav-item">
                 <a href="{{ url('universitySelected')}}" class="nav-link  <?php if($current_url == 'universitySelected') {echo "active";}else{ echo "";} ?>">
+                   <i class="nav-icon fas fa-user"></i>
+                  <p>Recommended by Committee</p>
+                </a>
+              </li>
+			  @endcan
+			  
+			  
+			  @can('finalselected-nref-institute-list')
+			  <li class="nav-item">
+                <a href="{{ url('universityFinalSelected')}}" class="nav-link  <?php if($current_url == 'universityFinalSelected') {echo "active";}else{ echo "";} ?>">
                    <i class="nav-icon fas fa-user"></i>
                   <p>Selected Institute</p>
                 </a>
               </li>
 			  @endcan
+			  
+			  @can('finalRejected-nref-institute-list')
+			  <li class="nav-item">
+                <a href="{{ url('universityFinalReject')}}" class="nav-link  <?php if($current_url == 'universityFinalReject') {echo "active";}else{ echo "";} ?>">
+                   <i class="nav-icon fas fa-user"></i>
+                  <p>Final Rejection by Committee</p>
+                </a>
+              </li>
+			  @endcan
+
+
 			  </ul>
           </li>
 		  
@@ -440,6 +465,12 @@
                 <a href="{{ url('nrest-home')}}" class="nav-link  <?php if($current_url == 'nrest-home') {echo "active";}else{ echo "";} ?>" id="liofficers1">
                    <i class="nav-icon fas fa-users"></i>
                   <p>NREST Dashboard</p>
+                </a>
+              </li>
+			  <li class="nav-item">
+                <a href="{{ url('nrest-participants')}}" class="nav-link  <?php if($current_url == 'nrest-participants') {echo "active";}else{ echo "";} ?>" id="liofficers1">
+                   <i class="nav-icon fas fa-users"></i>
+                  <p>Participants</p>
                 </a>
               </li>
 			 

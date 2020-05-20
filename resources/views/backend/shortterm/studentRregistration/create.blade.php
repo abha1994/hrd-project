@@ -131,43 +131,43 @@
        
         <div class="form-row">
           <div class="form-group col-md-4">
-              <label for="country">Country <span style="color: red">*</span></label>               
+              <label for="countrycd">Country <span style="color: red">*</span></label>               
               <!-- <input type="text" name="country"  class="form-control" value="{{old('country')}}"> -->
-              <select name="country" class="form-control">
+              <select name="countrycd" class="form-control">
                
-                <option value="91" >INDIA</option>
+                <option value="99" >INDIA</option>
               
               </select>
-              @if ($errors->has('country'))
+              @if ($errors->has('countrycd'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('country') }}</strong>
+                      <strong>{{ $errors->first('countrycd') }}</strong>
                   </span>
                 @endif
           </div>
           <div class="form-group col-md-4">
-              <label for="state">State <span style="color: red">*</span></label>               
+              <label for="statecd">State <span style="color: red">*</span></label>               
               <!-- <input type="text" name="state"  class="form-control" value="{{old('state')}}"> -->
-              <select name="state" class="form-control" id="state" size='1'>
+              <select name="statecd" class="form-control" id="statecd" size='1'>
                 <option value=""> Select State</option>
                 @foreach($states as $state)
-                <option value="{{$state->statecd}}" @if (old('state') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
+                <option value="{{$state->statecd}}" @if (old('statecd') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
                 @endforeach
               </select>
-              @if ($errors->has('state'))
+              @if ($errors->has('statecd'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('state') }}</strong>
+                      <strong>{{ $errors->first('statecd') }}</strong>
                   </span>
                 @endif
           </div>
           <div class="form-group col-md-4">
-              <label for="distric">District <span style="color: red">*</span></label>    
-              <select id="distric" name="distric" class="form-control">
+              <label for="districtcd">District <span style="color: red">*</span></label>    
+              <select id="districtcd" name="districtcd" class="form-control">
                 <option value=""> Select District</option>
               </select>          
               <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
-              @if ($errors->has('distric'))
+              @if ($errors->has('districtcd'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('distric') }}</strong>
+                      <strong>{{ $errors->first('districtcd') }}</strong>
                   </span>
                 @endif
           </div>
@@ -284,7 +284,7 @@ $.ajax({
 }
 
 	// ajax for Destic
-$('#state').change(function(){    
+$('#statecd').change(function(){    
    var stateID = $(this).val();    
    if(stateID){
        $.ajax({
@@ -293,14 +293,14 @@ $('#state').change(function(){
           success:function(res){  
           console.log(res);             
            if(res){
-               $("#distric").empty();
-               $("#distric").append('<option>Select</option>');
+               $("#districtcd").empty();
+               $("#districtcd").append('<option>Select</option>');
                $.each(res,function(key,value){
-                   $("#distric").append('<option value="'+key+'">'+value+'</option>');
+                   $("#districtcd").append('<option value="'+key+'">'+value+'</option>');
                });
           
            }else{
-              $("#distric").empty();
+              $("#districtcd").empty();
            }
           }
        });
@@ -408,11 +408,11 @@ $('#student_image').bind('change', function() {
               digits: true
           },
          
-         state: {
+         statecd: {
               required: true
           },
         
-          distric:{
+          districtcd:{
             required:true
           },
 		  student_image :{

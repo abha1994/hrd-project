@@ -18,13 +18,19 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+// *************Forget Password**********************//
 Route::get('/forgetpassword', 'ForgetPasswordController@index')->name('forgetpassword');
 Route::post('/forgetpassword-form-post','ForgetPasswordController@forgetpassword_form')->name('forgetpassword-form-post');
 
-Route::get('/forgetusername', 'ForgetUsernameController@index')->name('forgetusername');
-Route::post('/forgetusername-form-post','ForgetUsernameController@forgetusername_form')->name('forgetusername-form-post');
+Route::post('/api/sendotp', 'ForgetPasswordController@sendotp')->name('sendotp');
+// *************Forget Password**********************//
 
+// ****************Forget Username*******************//
+Route::get('/forgetuser', 'ForgetUserController@index')->name('forgetuser');
+ Route::post('/forgetusername-form-post','ForgetUserController@forgetusername_form')->name('forgetusername-form-post');
 
+Route::post('/api/sendotpfu', 'ForgetUserController@sendotpfu')->name('sendotpfu');
+// ****************Forget Username*******************//
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('api/get-distic-list','Nref\studentRegistrationController@getDisticList');
@@ -239,6 +245,19 @@ Route::get('/universityNocons', 'Nref\Admin\UniversityController@index4')->name(
 Route::get('/universitySelected', 'Nref\Admin\UniversityController@index5')->name('universitySelected');
 Route::get('/final-selected-university/{id}', 'Nref\Admin\UniversityController@final_selected_university')->name('final-selected-university');
 Route::post('/api/admin-institute-considered', 'Nref\Admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
+
+Route::get('/universityFinalReject', 'Nref\Admin\UniversityController@index6')->name('universityFinalReject');
+
+Route::get('/universityFinalSelected', 'Nref\Admin\UniversityController@index7')->name('universityFinalSelected');
+
+Route::get('/view-frwdCommite/{id}', 'Nref\Admin\UniversityController@view_frwdCommite')->name('view-frwdCommite');
+
+Route::get('/view-recommendCommite/{id}', 'Nref\Admin\UniversityController@view_recommendCommite')->name('view-recommendCommite');
+
+Route::post('/recommendInstituteAjax', 'Nref\Admin\UniversityController@recommendInstituteAjax')->name('recommendInstituteAjax');
+
+Route::post('/finalrejectInstituteAjax', 'Nref\Admin\UniversityController@finalrejectInstituteAjax')->name('finalrejectInstituteAjax');
+
 
 Route::post('/pendingInstituteAjax', 'Nref\Admin\UniversityController@pendingInstituteAjax')->name('pendingInstituteAjax'); 
 Route::post('/considerInstituteAjax', 'Nref\Admin\UniversityController@considerInstituteAjax')->name('considerInstituteAjax');

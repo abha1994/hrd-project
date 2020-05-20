@@ -237,7 +237,15 @@
                                     
                                 <input class="btn btn-primary btn-block" type="submit"  name="submit" value="Submit">
 
+
                     </form>
+					<br>
+					<div class="text-center">
+							<a class="head" href="{{URL('login') }}">Login</a> | 
+							<a class="head" href="{{URL('register') }}">Register</a> | 
+							<a class="head" href="{{URL('forgetpassword') }}">Forgot Password</a> |
+							<a class="head" href="{{URL('forgetuser') }}">Forgot Username</a>
+						</div>
                 </div>
             </div>
         </div>
@@ -246,6 +254,10 @@
 <br><br><br><br>
 </body>
 <style type="text/css">
+ .head{
+ 	   font-size: 18px;
+      font-weight: bold;
+   }
     .error{
         color: red;
         font-size: 10px;

@@ -190,9 +190,38 @@ footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
 	.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
        color: #f8f9fa;
     }
-        </style>
+	.buttoncss{
+    background-color: rgb(255, 255, 255);
+    border-radius: 22px;
+    border-width: 0px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+  /*  padding: 12px;*/
+    text-align: center;
+    color: rgb(17, 17, 17);
+    min-width: 100px;
+    white-space: nowrap;
+	}
+	.active1{
+    background: #ffc107;
+    border-radius: 22px;
+    border-width: 0px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+  /*  padding: 12px;*/
+    text-align: center;
+    color: rgb(17, 17, 17);
+    min-width: 100px;
+    white-space: nowrap;
+	}
+        
+		.buttoncss > a.nav-link {
+			color:black  !important;
+		}</style>
 </head>
-<body>
+<body> 
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -213,17 +242,36 @@ footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
                     <ul class="navbar-nav ml-auto navbar-right">
                         <!-- Authentication Links -->
                         @guest
-						    <li class="nav-item">
-								<a class="nav-link" href="{{ url('/') }}">Home</a>
-							</li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+						   <?php  $current_url =  Request::segment(1); 
+				$logClass = $regClass = $homeClass ="";
+				if($current_url == "login" ){
+					$logClass ="active1";
+				}else{
+					$logClass = "buttoncss";
+				}
+				if($current_url == "register" ){
+					$regClass ="active1";
+				}
+				else{
+					$regClass = "buttoncss";
+				}
+				if($current_url == "" ){
+					$homeClass ="active1";
+				}
+				else{
+					$homeClass = "buttoncss";
+				}?>
+                <li class="nav-item {{$homeClass}}" style="">
+					<a class="nav-link" href="{{ url('/') }}"><b>Home</b></a>
+				</li>&nbsp;&nbsp;
+				<li class="nav-item {{$logClass}}">
+					<a  class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+				</li>&nbsp;&nbsp;
+				@if (Route::has('register'))
+					<li class="nav-item  {{$regClass}}">
+						<a  class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+					</li>
+				@endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

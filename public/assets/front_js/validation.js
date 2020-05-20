@@ -372,3 +372,195 @@ $(document).ready(function (){
 	   
      });
 	 /************************Rocky Reegistration Form*********/
+	 
+	 /*------ Send Otp at password forget-----------*/
+$(document).ready(function() {
+ $('#forgot_password_form').validate({
+     ignore: [],
+     debug: false,
+     rules: {
+		username: {
+			required: true,
+		},
+		email_id: {
+			required: true,email: true,
+		},
+		otp: {
+			required: true,
+		},
+		CaptchaCode: {
+			required: true,
+		},
+	},
+      submitHandler: function(form) {
+          if(form.submit()!==''){
+           }
+        },
+
+	 });	 });
+	 
+ 
+	
+$(document).ready(function() {
+	$('#sendotp').on('click', function() {
+		
+		  var username = $('#username').val();
+	      var email_id = $('#email_id').val();
+	      var mobile_no = $('#mobile_no').val();
+	     
+	      if(username!="" ){
+	    	    if(email_id!="" || mobile_no!="" )
+	            {
+				
+	             var _token = $('input[name="_token"]').val();
+	             $.ajax({
+	    			  url:page_url,
+	    			  type:"POST",
+	    			  data:{username:username,email_id:email_id,mobile_no:mobile_no, _token:_token},
+	    			  success: function(data)
+	    			  {
+						  	if(data == '0'){
+								 $('#msg').html("Email Id doesn't exist!.Please enter correct Email id");
+			    			     $('#msg').css('color','red'); 
+							     setTimeout(function(){  
+							        $('#msg').html('');
+			    			     }, 3000);
+			    		 }else if(data == '1'){
+							 $('#sendotp').val('Resend OTP');
+							  $('#msg').html('OTP has been sent to your registered email id');
+			    			  $('#msg').css('color','green');
+							  setTimeout(function(){  
+			    			    $('#msg').html('');
+							  }, 5000);
+			    		 }else if(data == '2'){
+							  $('#msg').html("Username doesn't exist!. Kindly enter correct username");
+			    			  $('#msg').css('color','red');
+			    			  setTimeout(function(){  
+							   $('#msg').html('');
+							  }, 3000);
+			    		 }else if(data == '3'){
+							 $('#sendotp').val('Resend OTP');
+							  $('#msg').html('OTP has been sent to your registered mobile no.');
+		    			      $('#msg').css('color','green');
+							   // document.getElementById("sendotp").value="Resend OTP";
+							   
+		    			      setTimeout(function(){  
+							  $('#msg').html('');
+							  }, 3000);
+		    			 }else if(data == '4'){
+							   $('#msg').html("Mobile No. doesn't exist!");
+							   $('#msg').css('color','red');
+      		    			  setTimeout(function(){  
+							 $('#msg').html('');
+							  }, 3000);
+		    			 }
+
+			        }
+	    		});
+	           }
+	    	  else{
+		          $('#email_mob_error').html('Please fill Email/Mobile!');$('#email_mob_error').css('color','red'); setTimeout(function(){  
+							 $('#email_mob_error').html('');
+							  }, 3000);
+		      }
+		    } else{
+				$('#username_error').html('Please fill username!');$('#username_error').css('color','red'); setTimeout(function(){  
+							 $('#username_error').html('');
+							  }, 3000);
+	          
+	      }
+	     
+	  });
+	}); 
+	
+/*------ Send Otp at password forget-----------*/
+
+/*------ Send Otp at username forget-----------*/
+
+
+
+$(document).ready(function() {
+ $('#forgot_username_form').validate({
+     ignore: [],
+     debug: false,
+     rules: {
+		first_name: {
+			required: true,
+		},
+		email_id: {
+			required: true,email: true,
+		},
+		fu_otp: {
+			required: true,
+		},
+		CaptchaCode1: {
+			required: true,
+		},
+	},
+      submitHandler: function(form) {
+          if(form.submit()!==''){
+           }
+        },
+
+	 });	 });
+	 
+	 
+    $(document).ready(function() {
+	   
+	    $('#sendotpfu').on('click', function() {
+			
+			var first_name = $('#first_name').val();
+			var dob = $('#datepicker').val();
+			var email_id = $('#email_id').val();
+			var mobile_no = $('#mobile_no').val();
+
+            if(first_name!="" && dob!="" )
+		    {
+	           if(email_id!="" || mobile_no!="" )
+		       {
+	            var _token = $('input[name="_token"]').val();
+	            $.ajax({
+	    			  url:page_url1,
+	    			  type:"POST",
+	    			  data:{first_name:first_name,dob:dob,email_id:email_id,mobile_no:mobile_no, _token:_token},
+	    			  success: function(data)
+	    			  {
+		    			if(data == '0'){
+							  setTimeout(function(){  
+							     $('#msg').html('Email id is not correct');
+			    			     $('#msg').css('color','red'); 
+							   }, 3000);
+			    		 }else if(data == '1'){
+							  setTimeout(function(){  
+			    			    $('#msg').html('OTP has been sent to your registered email id');
+			    			    $('#msg').css('color','green');
+							  }, 3000);
+			    		 }else if(data == '2'){
+			    			  setTimeout(function(){  
+							    $('#msg').html("Details doesn't exist!. Kindly enter correct details");
+			    			    $('#msg').css('color','red');
+							  }, 3000);
+			    		 }else if(data == '3'){
+		    			      setTimeout(function(){  
+							   $('#msg').html('OTP has been sent to your registered mobile no.');
+		    			       $('#msg').css('color','green');
+							  }, 3000);
+		    			 }else if(data == '4'){
+      		    			  setTimeout(function(){  
+							   $('#msg').html("Mobile No. doesn't exist!");
+							   $('#msg').css('color','red');
+							  }, 3000);
+		    			 }
+				}
+	    	 });
+	      }
+	      else{
+	          alert('Please fill Email/Mobile!');
+	      }
+	     } else {
+		          alert('Please fill details!');
+		 }
+	  });
+	}); 
+	
+/*------ Send Otp at username forget-----------*/

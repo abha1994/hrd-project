@@ -133,13 +133,13 @@
 				
 				  <br>
 					  @can('forward-to-committee-nref-institute-status-selected')
-					  <a href="{{route('final-selected-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to Select this institute?')"><button type='button' class='btn btn-primary' style='border: #d81a11;font-size:10px;width:75%;background-color: #096c71;'>Click For Selection</button></a>
+					  <!--<a href="{{route('final-selected-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to Select this institute?')"><button type='button' class='btn btn-primary' style='border: #d81a11;font-size:10px;width:75%;background-color: #096c71;'>Click For Selection</button></a>-->
 					  @endcan
 					  @can('forward-to-committee-nref-institute-edit')		
 				      <a href="{{route('edit-university',$v->institute_id )}}"><i class="fa fa-edit"></i></a>
 					  @endcan
 				      @can('forward-to-committee-nref-institute-list')
-					  <a href="{{route('view-university',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
+					  <a href="{{route('view-frwdCommite',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
 				      @endcan
 					  @can('forward-to-committee-nref-institute-delete')
 					  <a href="{{route('delete-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash"></i></a>

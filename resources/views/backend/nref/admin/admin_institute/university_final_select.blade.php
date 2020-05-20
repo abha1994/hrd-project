@@ -3,7 +3,7 @@
 @section('container')
 
 <script>
-    var page_url = "{{ url('recommendInstituteAjax') }}";
+    var page_url = "{{ url('selectedInstituteAjax') }}";
 </script>
 
  <div class="content-wrapper">
@@ -87,7 +87,7 @@
 			 <input type="hidden" name="frmdatepdf" value="" id="frmdatepdf">
 			 <input type="hidden" name="todatepdf" value="" id="todatepdf">
 			 
-			 <input type="hidden" name="institutetype" value="5" >
+			 <input type="hidden" name="institutetype" value="6" >
 			 
 			<button class="btn btn-info btn-sm" type="submit"  value="2" name="type" ><i class="glyphicon glyphicon-export icon-share"></i> Export Pdf </button>
 			
@@ -111,7 +111,6 @@
 				  <th>Fellowship Request Period</th>
                   <th>Institute Reg.No</th>
 				  <th>Pincode</th>
-				  <th>Remarks</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -133,24 +132,12 @@
 				  <td>
 				   <?php echo $v->pincode;?>
 				  </td>
-				  <td><?php if(isset($v->remarks)) { echo $v->remarks; } else { echo "-"; }  ?></td>
                   <td>
 				
 				  <br>
-				  
-				     @can('selected-by-admin')
-					 <!-- <a href="{{route('final-selected-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to Select this institute?')"><button type='button' class='btn btn-primary' style='border: #d81a11;font-size:10px;width:75%;background-color: #096c71;'>Click For Selection</button></a>-->
-					  @endcan
-			
-					  @can('Selected-nref-institute-list-edit')		
-				      <a href="{{route('edit-university',$v->institute_id )}}"><i class="fa fa-edit"></i></a>
-					  @endcan
 				      @can('Selected-nref-institute-list')
-					  <a href="{{route('view-recommendCommite',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
+					  <a href="{{route('view-university',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
 				      @endcan
-					  @can('Selected-nref-institute-delete')
-					  <a href="{{route('delete-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash"></i></a>
-					  @endcan
 					  
 				  </td>
 				  </tr>
@@ -227,7 +214,6 @@ else
 					{ data: 'fellowPeriod' },
 					{ data: 'regno' },
 					{ data: 'pincode' },
-					{ data: 'remarks' },
 					{ data: 'clickTocheck' },
                 ]
             }); 

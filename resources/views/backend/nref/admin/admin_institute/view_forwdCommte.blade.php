@@ -403,8 +403,7 @@
 							
 		<?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
 		
-
-	<?php if($data['institute_data']->officer_role_id!=5 && $data['institute_data']->status_id!=2 && $data['institute_data']->status_id!=3) { ?>
+	<?php if($role_id==5) { ?>
 
 	           <center>
 								<div class="form-group" >
