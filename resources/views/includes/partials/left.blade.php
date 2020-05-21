@@ -7,8 +7,10 @@
     </a>
 
     <!-- Sidebar -->
+
     <div class="sidebar">
     <?php
+	
 	    $current_url =  Request::segment(1);
 		$dashboardClass = $roleMClass = $userMClass = $officerMClass = $intershipMClass = $nrefMClass = $nresMClass = $nrestMClass ='' ;
 		if($current_url == 'home'){
