@@ -237,7 +237,9 @@ Route::post('/frwdCommiteInstituteAjax', 'Nref\Admin\UniversityController@frwdCo
 Route::post('/selectedInstituteAjax', 'Nref\Admin\UniversityController@selectedInstituteAjax')->name('selectedInstituteAjax');
 Route::post('/exportPdf', 'Nref\Admin\UniversityController@exportPdf')->name('exportPdf');
 
-//******************Admin Intitute**************************//	
+Route::get('/view-finalReject/{id}', 'Nref\Admin\UniversityController@viewFinalReject')->name('view-finalReject');
+
+//******************Admin Institute**************************//	
 
 
 Route::get('/acknowledgeAdmin', 'Nref\Admin\AcknowledgeController@index')->name('/acknowledgeAdmin');
@@ -302,7 +304,8 @@ Route::get('/intern-status/{id}', 'Internship\InternshipController@intern_status
 	
 Route::get('internship-home','Internship\Admin\@index');	
 Route::get('admin-internship','Internship\Admin\AdminInternshipController@index');
-Route::get('/admin-internship-view/{id}', 'Internship\Admin\AdminInternshipController@view')->name(InternhomeController'admin-internship-view');
+Route::get('/admin-internship-view/{id}', 'Internship\Admin\AdminInternshipController@view')
+->name('admin-internship-view');
 Route::get('/admin-internship-edit/{id}', 'Internship\Admin\AdminInternshipController@edit')->name('admin-internship-edit');
 Route::post('/admin-internship-update/{id}', 'Internship\Admin\AdminInternshipController@update')->name('admin-internship-update');
 Route::get('/admin-internship-delete/{id}', 'Internship\Admin\AdminInternshipController@delete')->name('admin-internship-delete');

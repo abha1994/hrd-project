@@ -675,6 +675,12 @@ class UniversityController extends Controller
 		return view('backend/nref/Admin/admin_institute/university_view',compact('data'));
 	}
 	
+	public function viewFinalReject($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/university_view_finalReject',compact('data'));
+	}
+	
 	
 	public function viewPendingUniversity($id)
     { 

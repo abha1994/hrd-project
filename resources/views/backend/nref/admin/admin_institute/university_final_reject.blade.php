@@ -137,7 +137,7 @@
 				  <br>
 
 				      @can('Selected-nref-institute-list')
-					  <a href="{{route('view-university',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
+					  <a href="{{route('view-finalReject',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
 				      @endcan
 					  
 				  </td>
