@@ -10,9 +10,9 @@
 <link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
 
 	 
-	 <?php   $first_name = Session::get('firstname');
+	 <?php   $first_name = Session::get('first_name');
 			 $email_id = Session::get('email_id');
-			 $otp = Session::get('otp');
+			 $fu_otp = Session::get('fu_otp');
              $CaptchaCode = Session::get('CaptchaCode');
 	 ?>		
 <section class="register-cust">
@@ -38,22 +38,14 @@
 							
 							<div class="form-group">
 										<!--label>First Name<em style="color:red">*</em></label-->
-										<input type="text" class="form-control onlyalpha"    value="<?php if(!empty($first_name)){ ?>{{$first_name}}<?php }else if(old('first_name')){ ?>{{ old('first_name')}} <?php } ?>" id="first_name" placeholder="Name*" name="first_name">
+										<input type="text" class="form-control onlyalpha"  value="<?php if(!empty($first_name)){ ?>{{$first_name}}<?php }else if(old('first_name')){ ?>{{ old('first_name')}} <?php } ?>" id="first_name" placeholder="Name*" name="first_name">
 										@if ($errors->has('first_name'))
 											<span class="invalid-feedback " role="alert">
 												<strong >{{ $errors->first('first_name') }}</strong>
 											</span>
 										@endif
 							</div>
-							<!--div class="form-group">
-								
-								<input class="date form-control" type="text" readonly value="<?php if(!empty($dob)){ ?>{{$dob}}<?php }else if(old('dob')){ ?>{{ old('dob')}} <?php } ?>" name="dob" placeholder="Date Of Birth*" id="datepicker">
-								@if ($errors->has('dob'))
-									<span class="invalid-feedback " role="alert">
-										<strong>{{ $errors->first('dob') }}</strong>
-									</span>
-								@endif
-							  </div-->
+						
 									
 							 &nbsp;&nbsp; <input type="radio" onclick="emailmobileCheck();" name="emailmobile" id="yesemail" checked> <strong>Email</strong>
 							   <input type="radio" onclick="emailmobileCheck();" name="emailmobile" id="yesmobile"><strong>Mobile No.</strong>
@@ -97,7 +89,7 @@
 						<div id="enterotpfu" >
 							<div class="form-group" >
 								
-								<input type="text" class="form-control" value="{{old('fu_otp')}}" id="fu_otp" placeholder="Enter OTP" name="fu_otp">
+								<input type="text" class="form-control"  value="<?php if(!empty($fu_otp)){ ?>{{$fu_otp}}<?php }else if(old('fu_otp')){ ?>{{ old('fu_otp')}} <?php } ?>"  id="fu_otp" placeholder="Enter OTP" name="fu_otp">
 								@if ($errors->has('fu_otp'))
 									<span class="invalid-feedback " role="alert">
 										<strong>{{ $errors->first('fu_otp') }}</strong>

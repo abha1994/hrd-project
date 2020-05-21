@@ -30,7 +30,8 @@ class registerVerificationController extends Controller
 				$string1="abcdefghijklmnopqrstuvwxyz";
 				$string2="1234567890";
 				$string3="!@#$%^&*()_+";
-				$string=$string1.$string2.$string3;
+				$string4="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                $string=$string1.$string2.$string3.$string4;
 				$string= str_shuffle($string);
 				$user_password  = substr($string,8,14); 
         		$password = $user_password;

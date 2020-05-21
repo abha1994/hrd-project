@@ -675,6 +675,27 @@ class UniversityController extends Controller
 		return view('backend/nref/Admin/admin_institute/university_view',compact('data'));
 	}
 	
+	
+	public function viewPendingUniversity($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/university_pending',compact('data'));
+	}
+	
+	public function viewlvl1University($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/university_level1',compact('data'));
+	}
+	
+	public function viewrejectUniversity($id)
+    { 
+	    $data = Admin_institute::edit($id);
+		return view('backend/nref/Admin/admin_institute/university_rejectList',compact('data'));
+	}
+	
+	
+	
 	public function view_frwdCommite($id)
     { 
 	    $data = Admin_institute::edit($id);
@@ -692,28 +713,10 @@ class UniversityController extends Controller
 	
 	public function institute_status_considered(Request $request)
     { 
-	
-	//echo '==='.$request->status_application; die;
-	//echo "<pre>"; dd($request); die;
+
 	    $postdata['status_application'] = $request->status_application;
 	    date_default_timezone_set('Asia/Kolkata');
 		$date = date('Y-m-d H:i:s');
-		
-		/* New Code Start Rocky */
-		
-		if($request->status_application==3) {
-		
-		 $internship_data = DB::table('institute_details')->where('institute_id', $request->institute_id)->get()->first();
-			$loginuseer  = Auth::user();
-			$internship_data->selected_by = $loginuseer->id;
-			$internship_data->status = "3"; 
-			$internship_data->selected_by_role = $loginuseer->role;
-			$internship_data->scheme_code = "3"; 
-			$internship_data->modified_by = $loginuseer->id;
-			$internship_data->modified_date = $date;
-			$user = DB::table("selected_institute_application")->insert(get_object_vars($internship_data));
-		}
-		/* New COde Ended */
 	
 		$postdata['remarks'] = $request->remarks;
 		$postdata['institute_id'] = $request->institute_id;
@@ -731,6 +734,78 @@ class UniversityController extends Controller
 		DB::table('institute_details')->where('institute_id',$request->institute_id)->update($status_application);
 		echo $a;
    }
+   
+   
+   public function institute_status_selected(Request $request)
+    { 
+
+	    $postdata['status_application'] = $request->status_application;
+	    date_default_timezone_set('Asia/Kolkata');
+		$date = date('Y-m-d H:i:s');
+		
+		/* New Code Start Rocky */
+		
+		if($request->status_application==3) {
+			
+		
+		 $internship_data = DB::table('institute_details')->where('institute_id', $request->institute_id)->get()->first();
+		 
+		 
+		 /* upload sancation Form */
+			if($request->hasFile('fileSancation')) {
+			$image = $request->file('fileSancation');
+			$file_upload_signature = $request->institute_id.'_sancation_form_'.$image->getClientOriginalName();
+			$destinationPath = public_path('/../public/uploads/sancation');
+			$imagePath = $destinationPath. "/".  $file_upload_signature;
+			$image->move($destinationPath, $file_upload_signature);
+			$forms['sancation_forms'] = $file_upload_signature;
+			}
+			
+			$updateFormsData = DB::table('institute_details')->where('institute_id', $request->institute_id)->update($forms);
+			
+			/* Upload Sancation Form ended*/
+			
+			$loginuseer  = Auth::user();
+			$internship_data->selected_by = $loginuseer->id;
+			$internship_data->status = "3"; 
+			$internship_data->selected_by_role = $loginuseer->role;
+			$internship_data->scheme_code = "3"; 
+			$internship_data->modified_by = $loginuseer->id;
+			$internship_data->modified_date = $date;
+			$user = DB::table("selected_institute_application")->insert(get_object_vars($internship_data));
+			
+			//return redirect('universityFinalSelected')->with('success','Institute is Selected successfully');
+		}
+		/* New COde Ended */
+	
+		$postdata['remarks'] = $request->remarks;
+		$postdata['institute_id'] = $request->institute_id;
+		$postdata['officer_id'] = $request->officer_id; 
+		$postdata['officer_role_id'] = $request->role_id;
+		$postdata['reason'] = $request->reason;
+		$postdata['verified_date'] = $date;
+		$postdata['scheme_code'] = "3";
+		
+		$a = DB::table('internship_verification')->insert($postdata);
+		
+		$status_application['status_id'] = $postdata['status_application'];
+		$status_application['officer_role_id'] = $request->role_id;
+		$status_application['officer_id'] = $request->officer_id;
+		DB::table('institute_details')->where('institute_id',$request->institute_id)->update($status_application);
+		
+		if($request->status_application==3) {
+		return redirect('universityFinalSelected')->with('error','Institute is Selected successfully');
+		}
+		else
+		{
+		
+		return redirect('universityNocons')->with('error','Institute has been Non Considered.');
+		}
+		//echo $a;
+   }
+   
+   
+   
    
    
 	
@@ -880,7 +955,8 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::selectedInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	//return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/selectedAjax',compact('data'));
 	}
 	
 	

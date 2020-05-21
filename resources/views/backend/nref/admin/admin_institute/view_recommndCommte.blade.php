@@ -9,7 +9,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active"> View Institute</li>
       </ol>
@@ -403,7 +403,7 @@
 							
 		<?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
 		
-	<?php if($role_id!=5) { ?>
+	<?php if($role_id!=5 && $role_id!=3) { ?>
 
 	           <center>
 								<div class="form-group" >
@@ -413,15 +413,14 @@
 			
 
 			
-								   @if(Gate::check('admin-nref-institute-status-considered') || Gate::check('considered-nref-institute-by-level1-status-considered') || Gate::check('rejected-nref-institute-status-considered') || Gate::check('forward-to-committee-nref-institute-status-considered'))		
+								  	
 									   
 								   <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_university(3,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Considered</button>
-								   @endif
+								   
  
-                                   @if(Gate::check('admin-nref-institute-status-non-considered') || Gate::check('considered-nref-institute-by-level1-status-non-considered') || Gate::check('rejected-nref-institute-status-non-considered')  || Gate::check('forward-to-committee-nref-institute-status-non-considered'))	
 									   
-								   <button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; "  onclick="considered_university(2,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Non Considered</button>
-							       @endif
+								   <!--button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; "  onclick="considered_university(2,'<?php //echo $data['institute_data']->institute_id;?>','<?php //echo $data['institute_data']->application_cd;?>')">Non Considered</button-->
+							       
 								   
 								</div> 
 							</center>
@@ -444,7 +443,7 @@
      </div>
 
       <!-- Modal body -->
-    <form  action="{{ route('admin-institute-considered') }}" class=""  onsubmit="this.elements['submit'].disabled=true;" autocomplete="off" id="considered_from" method="POST" >
+    <form  enctype="multipart/form-data" action="{{ route('admin-institute-selected') }}" class=""  onsubmit="this.elements['submit'].disabled=true;" autocomplete="off" id="considered_from" method="POST" >
 
 <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
 		<input type = "hidden" name ="status_application" id="status_institute" value="">
@@ -474,10 +473,9 @@
 							<td>
 							<select class="form-control" name="reason" id="reason">
 								<option value="">Select</option>
-								<option value="Id Proof is not Valid">Id Proof is not Valid</option>
-								<option value="Experience not matches">Experience not matches</option>
-								<option value="Qualification not matches">Qualification not matches</option>
-								<option value="Desired Internship place is already fulfil">Desired Internship place is already fulfil</option>
+								<option value="Application not in format">Application not in format</option>
+								<option value="University ranking not up to the mark">University ranking not up to the mark</option>
+								<option value="Attached doc is not proper">Attached doc is not proper</option>
 								<option value="Others">Others</option>
 							</select>
 							</td>
@@ -487,6 +485,20 @@
 			
 			</div> 
 		</div>
+		
+		           <div class="form-group" style="display:none" id="fileSancation" > 
+				   
+				   <div class="col-md-4">
+						<tr>
+							<td><b>Upload Sanction Form: </b></td>
+						</tr>
+					</div>
+			   <div class="col-md-6">
+
+					<input type="file" id="fileSancation1" name="fileSancation" class="form-control" />
+					</div>
+					<div id="sancation_file_error"></div>
+					</div>
 		
 	    <div class="form-group">
 			<div class="row"  style=" margin-right:0px; margin-left:0px;">  
@@ -506,7 +518,10 @@
 		<hr>
 		<center>
 			<div class="form-group" >
-			    <button onclick="consider_university_form_sumbit()"  id="cons_institute"  class="btn btn-primary icon-btn" type="button">Submit</button>
+			    <!--<button onclick="consider_university_form_sumbit()"  id="cons_institute"  class="btn btn-primary icon-btn" type="button">Submit</button>-->
+				
+				<button onclick="consider_university_form_sumbit()"  id="cons_institute"  class="btn btn-primary icon-btn" type="submit">Submit</button>
+				
 				<button type="button" class="btn btn-danger" onclick="close_consider_university()">Close</button>
 			</div> 
 		</center>
@@ -521,19 +536,35 @@
    
 
 
-function consider_university_form_sumbit(){
+//function consider_university_form_sumbit(){
+	
+	$('#considered_from').on('submit', function(event){
 	
 	var urlRedirect = "<?php echo url()->previous(); ?>";
   var status_application = $('#status_institute').val();
+  var fileData = "";
+  
   
   if(status_application == "2"){
 	  var reason = $('#reason').val();
 	  if(reason == ""){
 		 $('#non_reason_error').html('Please select reason!!..');
 		 $('#non_reason_error').css('color','red');
+		 return false;
 	  }
-  }else if(status_application == "1"){
+  }else if(status_application == "3"){
+	  
+	  var fileData = $('#fileSancation1').val();
 	  var reason = "";
+	  
+	  if(fileData=="")
+	  {
+		  $('#sancation_file_error').html('Please Upload File!!..');
+		 $('#sancation_file_error').css('color','red');
+		 return false;
+	  }
+	  
+	  
   }
   var institute_id = $('#institute_id').val();
   var officer_id = $('#officer_id').val();
@@ -543,11 +574,12 @@ function consider_university_form_sumbit(){
   if(remarks == ""){
      $('#consider_university_error').html('Please enter your remarks!!..');
      $('#consider_university_error').css('color','red');
+	 return false;
   }else{
     $.ajax({
-            url:"{{ route('admin-institute-considered') }}",
+            url:"{{ route('admin-institute-selected') }}",
             type: 'POST',
-            data: {reason:reason,status_application: status_application,institute_id:institute_id,remarks:remarks,officer_id:officer_id,role_id:role_id,_token:_token},
+            data: {fileData:fileData,reason:reason,status_application: status_application,institute_id:institute_id,remarks:remarks,officer_id:officer_id,role_id:role_id,_token:_token},
              success: function(data) {
 				  if(data == 1){
                   $('#cons_institute').prop('disabled','true');
@@ -561,16 +593,22 @@ function consider_university_form_sumbit(){
             }
       });
     }
-}
+
+}); 
+	
+//}
 
 function considered_university(status,candidate_id,application_id){
 $('#non_reason_error').html('');$('#consider_university_error').html('');
     if(status == "2"){
 		$('#non_cons_show').show();
+		$('#fileSancation').hide();
+		
 		$('.application_id').html('Non Considered Application: '+application_id);
-	}else if(status =="1"){
+	}else if(status =="3"){
 		$('.application_id').html('Considered Application: '+application_id);
 		$('#non_cons_show').hide();
+		$('#fileSancation').show();
 	}
 	
 	$('#status_institute').val(status);

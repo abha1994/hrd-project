@@ -8,13 +8,13 @@
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Student Registarion
+        <li class="breadcrumb-item active">Participant Registarion
 		 </li>
       </ol>
 	 
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-	    <div class="card-header text-center"><h4 class="mt-2">Student Registarion</h4></div>
+	    <div class="card-header text-center"><h4 class="mt-2">Participant Registarion</h4></div>
 	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 
         @include('includes/flashmessage')
@@ -25,7 +25,7 @@
 			@endif
 			
 			<div class="pull-right" style="float: right;">
-					<a class="btn btn-success" href="{{ route('st-student-registration.create')  }}"> <i class="nav-icon fas fa-plus"></i> Student Registration</a>
+					<a class="btn btn-success" href="{{ route('st-student-registration.create')  }}"> <i class="nav-icon fas fa-plus"></i> Participant Registration</a>
 			</div>  
            <br />
 			
@@ -37,8 +37,9 @@
                                     <tr>
                                         <th>Sr. No.</th>
 										<th>Photo</th>
-                                        <th style="width:30%;">Student Name</th>
+                                        <th style="width:30%;">Participant Name</th>
 									    <th>Gender</th>
+										<th>Email</th>
 										<th>Mobile</th>
                                         <th>Action</th>
                                     </tr>
@@ -51,7 +52,8 @@
 										<td>{{$loop->iteration}}</td>
 										<td><img src="{{asset('public/uploads/shortterm/student_registration/student_photo/'.$student->student_image)}}" width="50px; height:50px"></td>
 										<td> <?php echo ucwords($student->firstname.' '.$student->middlename.' '.$student->lastname);?></td>
-										<td><?php if($student->gender == "1"){echo "Male";}else if($student->gender == "2"){echo "Female";} ?></td>
+										<td><?php if($student->gender == "1"){echo "Male";}else if($student->gender == "2"){echo "Female";}else if($student->gender == "3"){echo "Others";} ?></td>
+										<td>{{$student->email_id}}</td>
 										<td>{{$student->mobile}}</td>
 										<td>
 										
@@ -162,27 +164,7 @@ $("#insID").val(insID);
 	 }); 
 
 
-	 	 //************bankMandate  upload***************//
-    $('#bankMandate').bind('change', function() {
-		    var a=(this.files[0].size);
-			if(a > 1000000) {
-				$('#bankMandate').val('');
-			   $('#bankMandate_error').html('Maximum allowed size for file is "5MB" ');
-			   $('#bankMandate_error').css('color','red');
-			   return false;
-			}else{
-				 $('#bankMandate_error').html('');
-			};
-			
-			var fileExtension = ['pdf'];
-			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-				$('#bankMandate_error').html('Only pdf files allow');
-				 $('#bankMandate_error').css('color','red');
-				 return false;
-			}
-		
-	});
-     //************bankMandate  upload***************//
+	 	
 	 
 	 
 	}); 

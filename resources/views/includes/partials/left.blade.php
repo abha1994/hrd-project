@@ -26,7 +26,7 @@
 		if($current_url == 'admin-internship' || $current_url == 'considered-internship' || $current_url == 'rejected-internship' || $current_url == 'selecteded-internship' || $current_url == 'internship-home' || $current_url == 'forward-to-committee' || $current_url == 'selected-internship' ){
 		   $intershipMClass = 'active';
 		}
-		if($current_url == 'university' || $current_url == 'universityCons' || $current_url == 'universityNocons' || $current_url == 'universityConsAdmin' || $current_url == 'universitySelected'|| $current_url == 'nref-home'  || $current_url == 'attendanceAdmin' || $current_url == 'fund-transfer' || $current_url == 'application-processed'|| $current_url == 'get-institute'|| $current_url == 'admin-student-considered'|| $current_url == 'admin-student-rejected' || $current_url == 'admin-student-forward-to-committee'|| $current_url == 'admin-student-final-rejected'|| $current_url == 'admin-student-final-selected'){
+		if($current_url == 'university' || $current_url == 'universityCons' || $current_url == 'universityNocons' || $current_url == 'universityConsAdmin' || $current_url == 'universitySelected'|| $current_url == 'nref-home'  || $current_url == 'attendanceAdmin' || $current_url == 'fund-transfer' || $current_url == 'application-processed'|| $current_url == 'get-institute'|| $current_url == 'admin-student-considered'|| $current_url == 'admin-student-rejected' || $current_url == 'admin-student-forward-to-committee'|| $current_url == 'admin-student-final-rejected'|| $current_url == 'admin-student-final-selected' || $current_url == 'admin-student-committee-rec'){
 		   $nrefMClass = 'active';
 		}
 		if($current_url == 'nres-home' ){
@@ -191,7 +191,9 @@
            <!-------------------Scheme Code 1 end---------------------->
 		 <?php }else if($menu_id == "3"){?>
 		   <!-------------------Scheme Code 3 Start---------------------->
-		   @if(Gate::check('admin-nref-institute-list') || Gate::check('considered-nref-institute-by-level1-list') || Gate::check('rejected-nref-institute-list') || Gate::check('forward-to-committee-nref-institute-list') || Gate::check('Selected-nref-institute-list') || Gate::check('nref-pending-student-list') || Gate::check('nref-considered-by-1-student-list') || Gate::check('nref-rejected-student-list') || Gate::check('nref-forward-committee-student-list') || Gate::check('nref-final-selected-student-list') || Gate::check('nref-final-rejected-student-list') || Gate::check('nref-student-attendance'))
+		   @if(Gate::check('admin-nref-institute-list') || Gate::check('considered-nref-institute-by-level1-list') || Gate::check('rejected-nref-institute-list') || Gate::check('forward-to-committee-nref-institute-list') || Gate::check('Selected-nref-institute-list') || Gate::check('nref-pending-student-list') || Gate::check('nref-considered-by-1-student-list') || Gate::check('nref-rejected-student-list') || Gate::check('nref-forward-committee-student-list') || Gate::check('nref-final-selected-student-list') || Gate::check('nref-final-rejected-student-list') || Gate::check('nref-student-attendance')|| Gate::check('finalRejected-nref-institute-list')|| Gate::check('finalselected-nref-institute-list') )
+			   
+		   
           <li class="nav-item has-treeview"  id="liofficer">
             <a href="#" class="nav-link {{$nrefMClass}}">
               <i class="nav-icon fas fa-copy"></i>
@@ -239,7 +241,7 @@
               <li class="nav-item">
                 <a href="{{ url('universityNocons')}}" class="nav-link  <?php if($current_url == 'universityNocons') {echo "active";}else{ echo "";} ?>">
                    <i class="nav-icon fas fa-user"></i>
-                  <p>Rejected Institute</p>
+                  <p>Rejected by level 1</p>
                 </a>
               </li>
 			  @endcan
@@ -256,29 +258,30 @@
 			  <li class="nav-item">
                 <a href="{{ url('universitySelected')}}" class="nav-link  <?php if($current_url == 'universitySelected') {echo "active";}else{ echo "";} ?>">
                    <i class="nav-icon fas fa-user"></i>
-                  <p>Recommended by Committee</p>
+                  <p>Committee Recommended</p>
                 </a>
               </li>
 			  @endcan
 			  
+			   @can('finalRejected-nref-institute-list')
+			  <li class="nav-item">
+                <a href="{{ url('universityFinalReject')}}" class="nav-link  <?php if($current_url == 'universityFinalReject') {echo "active";}else{ echo "";} ?>">
+                   <i class="nav-icon fas fa-user"></i>
+                  <p>Final Rejection Institute</p> 
+                </a>
+              </li>
+			  @endcan
 			  
 			  @can('finalselected-nref-institute-list')
 			  <li class="nav-item">
                 <a href="{{ url('universityFinalSelected')}}" class="nav-link  <?php if($current_url == 'universityFinalSelected') {echo "active";}else{ echo "";} ?>">
                    <i class="nav-icon fas fa-user"></i>
-                  <p>Selected Institute</p>
+                  <p>FInal Selected Institute</p>
                 </a>
               </li>
 			  @endcan
 			  
-			  @can('finalRejected-nref-institute-list')
-			  <li class="nav-item">
-                <a href="{{ url('universityFinalReject')}}" class="nav-link  <?php if($current_url == 'universityFinalReject') {echo "active";}else{ echo "";} ?>">
-                   <i class="nav-icon fas fa-user"></i>
-                  <p>Final Rejection by Committee</p>
-                </a>
-              </li>
-			  @endcan
+			 
 
 
 			  </ul>
@@ -321,7 +324,7 @@
 				<a href="{{url('admin-student-rejected')}}" class="nav-link <?php if($current_url == 'admin-student-rejected') {echo "active";}else{ echo "";} ?>" id="listudent">
 				  <i class="nav-icon fas fa-circle"></i>
 				  <p>
-					Rejected Student
+					Rejected by level 1
 					<!-- <span class="right badge badge-danger">New</span> -->
 				  </p>
 				</a>
@@ -338,9 +341,9 @@
 				</a>
 			  </li>
 			  @endcan
-			  @can('nref-final-selected-student-list')
+			  @can('nref-commitee-recom-student-list')
 			   <li class="nav-item">
-				<a href="{{url('admin-student-final-selected')}}" class="nav-link <?php if($current_url == 'admin-student-final-selected') {echo "active";}else{ echo "";} ?>" id="listudent">
+				<a href="{{url('admin-student-committee-rec')}}" class="nav-link <?php if($current_url == 'admin-student-committee-rec') {echo "active";}else{ echo "";} ?>" id="listudent">
 				  <i class="nav-icon fas fa-circle"></i>
 				  <p>
 					Committee Recommendation
@@ -354,7 +357,18 @@
 				<a href="{{url('admin-student-final-rejected')}}" class="nav-link <?php if($current_url == 'admin-student-final-rejected') {echo "active";}else{ echo "";} ?>" id="listudent">
 				  <i class="nav-icon fas fa-circle"></i>
 				  <p>
-					Rejected By Committee
+					Final Rejected Student
+					<!-- <span class="right badge badge-danger">New</span> -->
+				  </p>
+				</a>
+			  </li>
+			  @endcan
+			    @can('nref-final-selected-student-list')
+			   <li class="nav-item">
+				<a href="{{url('admin-student-final-selected')}}" class="nav-link <?php if($current_url == 'admin-student-final-selected') {echo "active";}else{ echo "";} ?>" id="listudent">
+				  <i class="nav-icon fas fa-circle"></i>
+				  <p>
+					Final Selected Student
 					<!-- <span class="right badge badge-danger">New</span> -->
 				  </p>
 				</a>

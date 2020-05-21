@@ -11,7 +11,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active"><?php echo $data['breadcum'];?></li>
       </ol>
@@ -137,7 +137,7 @@
 				      <a href="{{route('edit-university',$v->institute_id )}}"><i class="fa fa-edit"></i></a>
 					  @endcan
 				      @can('rejected-nref-institute-list')
-					  <a href="{{route('view-university',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
+					  <a href="{{route('view-rejctlist',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
 				      @endcan
 					  @can('rejected-nref-institute-delete')
 					  <a href="{{route('delete-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash"></i></a>

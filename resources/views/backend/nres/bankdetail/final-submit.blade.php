@@ -41,8 +41,7 @@
 								
 								<div class="col-md-4">
 								
-								<!--a href="{{ route('pdfview',['download'=>'pdf']) }}"-->
-								<a href="{{ route('pdfview',['download'=>'pdf','id'=>$id]) }}">
+								<a href="{{ route('pdfview_bank',['download'=>'pdf','id'=>$id]) }}">
 								<input class="btn btn-primary " type="button" value="Download PDF"></a>
 								</a>
 								

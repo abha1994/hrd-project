@@ -108,7 +108,7 @@
 	  <form enctype="multipart/form-data" action="{{ route('acknowledge-form-post') }}" autocomplete="off" id="acknowledge_form" method="POST" >
 			{!! csrf_field() !!}
 			
-			<input type="text" name="student_id" id="Std_id" />
+			<input type="hidden" name="student_id" id="Std_id" />
 			<input type="hidden" name="month" id="mnth_id" />
 			<input type="hidden" name="year" id="yr_id" />
 		

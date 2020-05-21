@@ -9,10 +9,10 @@
         <li class="breadcrumb-item">
           <a href="">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Student Registration</li>
+        <li class="breadcrumb-item active">Participant Registration</li>
       </ol>
     <div class="card card-login mx-auto mt-5 " >
-     	<div class="card-header text-center"><h4 class="mt-2">Student Registration</h4></div>
+     	<div class="card-header text-center"><h4 class="mt-2">Participant Registration</h4></div>
      	<!--div class="card-body text-center"><h4>Fellowship Program Application</h4><h4>Annexure 1A &nbsp;&nbsp;&nbsp;<input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></div-->
 		<div class="card-body">
 		
@@ -85,11 +85,47 @@
             <div class="form-group col-md-4">
             <label for="gender">Gender <span style="color: red">*</span></label><br />
             <input type="radio" name="gender" value="1" {{ old('gender') == "1" ? 'checked' : '' }}> Male &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="gender" value="2" {{ old('gender') == "2" ? 'checked' : '' }} > Female
+            <input type="radio" name="gender" value="2" {{ old('gender') == "2" ? 'checked' : '' }} > Female &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" name="gender" value="3" {{ old('gender') == "3" ? 'checked' : '' }} > Others
             <br />
             @if ($errors->has('gender'))
                   <span class="help-block">
                       <strong>{{ $errors->first('gender') }}</strong>
+                  </span>
+                @endif
+          </div>          
+        </div>
+		 <div class="form-row">
+         
+          <div class="form-group col-md-4">
+            <label for="email">Email Id <span style="color: red">*</span></label><br />
+            <input name="email_id" onblur="checkMailStatus()" id="email_id" class="form-control" value="{{old('email_id')}}">
+          <div id="email_msg"></div>
+		
+            @if ($errors->has('email_id'))
+                  <span class="help-block" id="aaa">
+                      <strong>{{ $errors->first('email_id') }}</strong>
+                  </span>
+                @endif
+                <div id="aaa" class="error"></div>
+          </div>
+		   <div class="form-group col-md-4 " >
+              <label for="dob">DOB <span style="color: red">*</span></label>               
+              <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
+              @if ($errors->has('dob'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('dob') }}</strong>
+                  </span>
+                @endif
+          </div>
+            <div class="form-group col-md-4">
+            <label for="participant_status">Participant Status <span style="color: red">*</span></label><br />
+            <input type="radio" name="participant_status" value="1" {{ old('participant_status') == "1" ? 'checked' : '' }}> Professional&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="participant_status" value="2" {{ old('participant_status') == "2" ? 'checked' : '' }} > Student
+            <br />
+            @if ($errors->has('participant_status'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('participant_status') }}</strong>
                   </span>
                 @endif
           </div>          
@@ -107,7 +143,7 @@
                   </span>
                 @endif
           </div>
-		  <div class="form-group col-md-3">
+		  <div class="form-group col-md-6">
               <label for="pincode">Pincode <span style="color: red">*</span></label>               
               <input type="text" name="pincode"  class="form-control" maxlength="6" value="{{old('pincode')}}">
               @if ($errors->has('pincode'))
@@ -116,15 +152,7 @@
                   </span>
                 @endif
           </div>
-		   		  <div class="form-group col-md-3 " >
-              <label for="dob">DOB <span style="color: red">*</span></label>               
-              <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
-              @if ($errors->has('dob'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('dob') }}</strong>
-                  </span>
-                @endif
-          </div>
+		   		 
 		
            
         </div>
@@ -178,7 +206,7 @@
          
 
           <div class="form-group col-md-4">
-              <label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>              
+              <label for="exampleInputPassword1">Aadhar Number of Participant <span style="color: red">*</span></label>              
               <input type="text" name="aadhar" id="aadhar"  onblur="checkadharStatus()"   class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
 			  <div id="aadhar_msg"></div>
               @if ($errors->has('aadhar'))
@@ -202,7 +230,7 @@
 				 <span  style="font-size: 12px;"id="upload_aadhar_error"> </span>
 		  </div> 
 		  <div class="form-group col-md-4">
-             <label for="student_image">Student Photo <span style="color: red">*</span></label>   
+             <label for="student_image">Participant Photo <span style="color: red">*</span></label>   
              <input type="file" name="student_image" class="form-control" id="student_image" value="{{old('student_image')}}">
               @if ($errors->has('student_image'))
                 <span class="help-block">
@@ -255,6 +283,20 @@ label.error
  
 </style>
 <script type="text/javascript">
+
+function checkMailStatus(){
+var email_id=$("#email_id").val();
+var hidden_id=$("#hidden_id").val();// value in field email
+$.ajax({
+    type:'get',
+        url:"{{URL('validate_email')}}",// put your real file name 
+        data:{email_id: email_id,hidden_id:hidden_id},
+        success:function(msg){
+            $('#email_msg').html(msg); // your message will come here.     
+        }
+ });
+}
+
 
 
 function checkmobileStatus(){
@@ -382,7 +424,10 @@ $('#student_image').bind('change', function() {
           },
            gender : {
             required: true,
-          },  
+          }, 
+           participant_status : {
+            required: true,
+          },		  
            mobile : {
             phoneStartingWith6:true,
             required: true,
@@ -395,6 +440,11 @@ $('#student_image').bind('change', function() {
             required: true,
             date:true
           }, 
+		   email_id : {
+            required: true,
+            email: true ,
+			//remote: "{{URL('validate_email')}}"
+        },
 		   
 		
           address : {

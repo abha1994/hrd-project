@@ -25,8 +25,8 @@ class studentRegistrationController extends Controller
     public function index()
     {
 		$login_user_id = Auth::id();
-		$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
-		
+		$short_term_data = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first();
+		$short_term_id = $short_term_data->short_term_id;
         $students = DB::table('studentregistrations')->where('institute_id',$short_term_id)->where('user_id',$login_user_id)->where('scheme_code','4')->orderBy('id','desc')->get();
         return view('backend.shortterm.studentRregistration.index',compact('students'));
     }
@@ -80,6 +80,8 @@ class studentRegistrationController extends Controller
          $this->validate($request,[
             'firstname'  =>  'required|max:50',
             'gender'=> 'required',
+			'participant_status'=> 'required',
+			'email_id' => 'required|email|unique:studentregistrations',
             'mobile' => 'required|numeric|min:10|unique:studentregistrations',
             'address' => 'required|max:150',
 			'dob' => 'required',
@@ -198,6 +200,8 @@ class studentRegistrationController extends Controller
         $this->validate($request,[
             'firstname'  =>  'required|max:50',
             'gender'=> 'required',
+			'participant_status'=> 'required',
+			 'email_id' => 'required|email|unique:studentregistrations,email_id,'.$records->id,
             'mobile' => 'required|numeric|min:10|unique:studentregistrations,mobile,'.$records->id,
             'address' => 'required|max:150',
             'dob' => 'required',
@@ -234,8 +238,9 @@ class studentRegistrationController extends Controller
 				'middlename'=>$request->middlename,
 				'lastname'=>$request->lastname,
 				'mobile'=>$request->mobile,
-				
+				'email_id'=>$request->email_id,
 				'gender'=>$request->gender,
+				'participant_status'=>$request->participant_status,
 				'address'=>$request->address,
 				'dob'=>$request->dob,
 				'pincode'=>$request->pincode,

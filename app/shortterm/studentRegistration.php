@@ -14,6 +14,7 @@ class studentRegistration extends Model
     'middlename',
     'lastname',
    	'gender',
+	'participant_status',
    	'address',
    	'dob',
    	'pincode',
@@ -25,6 +26,7 @@ class studentRegistration extends Model
    	'institute_id',
     'user_id',
    	'mobile',
+	'email_id',
 	'upload_aadhar',
 	'student_image',
    );

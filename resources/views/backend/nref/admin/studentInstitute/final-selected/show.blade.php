@@ -29,11 +29,11 @@
           </tr>
           <tr>
             <td>Student Name : </td>
-            <td>{{$recorde->firstname}} {{ $recorde->middlename}} {{$recorde->lastname}}</td>
-          </tr>
+             <td> <?php echo ucwords($recorde->firstname.' '.$recorde->middlename.' '.$recorde->lastname);?></td>
+		  </tr>
            <tr>
             <td>Gender : </td>
-            <td>{{$recorde->gender}}</td>
+            <td><?php if($recorde->gender == "1"){echo "Male";}else if($recorde->gender == "2"){echo "Female";} ?></td>
           </tr>
            <tr>
             <td>Address : </td>
@@ -58,12 +58,8 @@
             <td>{{$recorde->pincode}}</td>
           </tr>
            <tr>
-            <td>course : </td>
-            <td>{{$recorde->course}}</td>
-          </tr>
-           <tr>
             <td>Country : </td>
-            <td>{{$recorde->country}}</td>
+            <td>INDIA</td>
           </tr>
            <tr>
             <td>State : </td>
@@ -79,11 +75,11 @@
           </tr>
 		   <tr>
             <td>Selection Committee Recommandation : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/commitee_recommanded/'.$recorde->commitee_recommanded)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/commitee_recommanded/'.$recorde->commiteedocument)}}" target="_blank">{{$recorde->commiteedocument}}</a></td>
           </tr>
 		   <tr>
             <td>Highest Qualification : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/qulification/'.$recorde->qulification)}}" target="_blank">{{$recorde->qulification}}</a></td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/qulification/'.$recorde->highest_qulification)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
           </tr>
 		   <tr>
             <td>Candidate declaration form  : </td>
@@ -93,8 +89,7 @@
 	
 		   <tr>
             <td>Course Applied For : </td>
-            <td><?php 
-			foreach($courses as $course)  { 
+            <td><?php foreach($courses as $course)  { 
 			    if ($recorde->course == $course->course_id) {
 				echo $course->course_name ;
 			    }
@@ -117,7 +112,6 @@
             <td>Publication  : </td>
             <td><a href="{{asset('public/uploads/nref/student_registration/publication/'.$recorde->publication)}}" target="_blank"> {{$recorde->publication}}</a></td>
           </tr>
-           
         </tbody>
       </table>
         </div> 
@@ -176,11 +170,10 @@
           <label for>Select the reason for not considered:</label>
           <select class="form-control" name="reason" id="reason" required>
             <option value="">Select</option>
-            <option value="Id Proof is not Valid">Id Proof is not Valid</option>
-            <option value="Experience not matches">Experience not matches</option>
-            <option value="Qualification not matches">Qualification not matches</option>
-            <option value="Desired Internship place is already fulfil">Desired Internship place is already fulfil</option>
-            <option value="Others">Others</option>
+			<option value="Application not in format">Application not in format</option>
+			<option value="University ranking not up to the mark">University ranking not up to the mark</option>
+			<option value="Attached doc is not proper">Attached doc is not proper</option>
+			<option value="Others">Others</option>
           </select>
          </div>
         <div class="form-group">

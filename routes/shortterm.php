@@ -18,6 +18,11 @@ Route::group(['middleware' => ['auth']], function() {
 	Route::resource('short-term-program','shortterm\shortTermProgramController');
 	Route::get('pdfview/{id}',array('as'=>'pdfview','uses'=>'shortterm\shortTermProgramController@pdfview'));
 	Route::post('uploadsignature/{id}','shortterm\shortTermProgramController@uploadSignature');
+	
+	Route::resource('short-term-application','shortterm\Admin\adminShortTermApplicationController');
+    Route::post('/short-term-application-consider','shortterm\Admin\adminShortTermApplicationController@student_consider');
+	Route::get('/short-term-application-level1','shortterm\Admin\adminShortTermApplicationController@considerlvel1');
+    Route::get('/short-term-application-admin','shortterm\Admin\adminShortTermApplicationController@consideradmin');
 //************Short Term Form******************/
 
 //***************Student Form******************/ 

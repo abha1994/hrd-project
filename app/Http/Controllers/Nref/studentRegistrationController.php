@@ -90,6 +90,7 @@ class studentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
+			// dd("saD");
 		 $transactionResult = DB::transaction(function() use ($request) {
 		$logID=Auth::id();
 		// dd($logID);
@@ -113,8 +114,8 @@ class studentRegistrationController extends Controller
             'address' => 'required|max:150',
             'dob' => 'required',
             'doj' =>'required',
-            'state' => 'required|not_in:0',
-            'distric' => 'required|not_in:Select',
+            'statecd' => 'required|not_in:0',
+            'districtcd' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
             //'accountNo' => 'required|digits:10',
             //'ifscCode' =>'required|regex:/^[A-Za-z]{4}\d{7}$/',             
@@ -218,7 +219,7 @@ class studentRegistrationController extends Controller
             		
 		}
 		return redirect()->route('student-registration.index')
-                          ->with('message','Your registration  created successfully.');
+                          ->with('message','Your Student registered successfully.');
 		  });
 	   return $transactionResult;
         
@@ -234,8 +235,8 @@ class studentRegistrationController extends Controller
     {
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
          
         return view('backend.nref.studentRregistration.show',compact('recorde','stateName','disticName','courses'));
     }
@@ -267,6 +268,7 @@ class studentRegistrationController extends Controller
     public function update(Request $request, $id)
     {
 		
+	
 		$logID=Auth::id();
 		
 		$instID= DB::table('institute_details')->where('user_id', $logID)->first();
@@ -290,8 +292,8 @@ class studentRegistrationController extends Controller
             'address' => 'required|max:150',
             'dob' => 'required',
             'doj' =>'required',
-            'state' => 'required|not_in:0',
-            'distric' => 'required|not_in:Select',
+            'statecd' => 'required|not_in:0',
+            'districtcd' => 'required|not_in:Select',
             'pincode' => 'required|regex:/\b\d{6}\b/',
             //'accountNo' => 'required|digits:10',
             //'ifscCode' =>'required|regex:/^[A-Za-z]{4}\d{7}$/',             
@@ -390,9 +392,9 @@ class studentRegistrationController extends Controller
 				'dob'=>$request->dob,
 				'pincode'=>$request->pincode,
 				'course'=>$request->course,
-				'country'=>$request->country,
-				'state'=>$request->state,
-				'distric'=>$request->distric,
+				'countrycd'=>$request->countrycd,
+				'statecd'=>$request->statecd,
+				'districtcd'=>$request->districtcd,
 				'aadhar'=>$request->aadhar,
 				'category'=>$request->category,
 				'highest_qulification'=>$records['highest_qulification'],

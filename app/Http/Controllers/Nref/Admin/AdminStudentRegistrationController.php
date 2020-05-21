@@ -14,7 +14,7 @@ use Auth;
 class AdminStudentRegistrationController extends Controller
 {
    
-    public function __construct()
+   public function __construct()
     {
 		$current_url =  \Request::segment(1);
 		if($current_url == 'get-institute'){
@@ -27,34 +27,42 @@ class AdminStudentRegistrationController extends Controller
 			
 			$this->middleware('permission:nref-considered-by-1-student-list|nref-considered-by-1-student-edit|nref-considered-by-1-student-delete', ['only' => ['considered_level_1','consider_show','considered_level_1_ins']]);
 			$this->middleware('permission:nref-considered-by-1-student-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-considered-by-1-student-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-considered-by-1-student-delete', ['only' => ['considered_delete']]);
 
 		}else if($current_url == 'admin-student-rejected'){
 			
 			$this->middleware('permission:nref-rejected-student-list|nref-rejected-student-edit|nref-rejected-student-delete', ['only' => ['rejected_student','reject_show','reject_ins']]);
 			$this->middleware('permission:nref-rejected-student-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-rejected-student-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-rejected-student-delete', ['only' => ['reject_delete']]);
 			
 		}else if($current_url == 'admin-student-forward-to-committee'){
 			
 			$this->middleware('permission:nref-forward-committee-student-list|nref-forward-committee-student-edit|nref-forward-committee-student-delete', ['only' => ['forward_to_committee','committee_show','forward_committee_ins']]);
 			$this->middleware('permission:nref-forward-committee-student-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-forward-committee-student-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-forward-committee-student-delete', ['only' => ['committee_delete']]);
 			
 		}else if($current_url == 'admin-student-final-selected'){
 			
 			$this->middleware('permission:nref-final-selected-student-list|nref-final-selected-student-edit|nref-final-selected-student-delete', ['only' => ['final_selected','final_selected_show','final_selected_ins']]);
 			$this->middleware('permission:nref-final-selected-student-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-final-selected-student-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-final-selected-student-delete', ['only' => ['final_selecte_delete']]);
 		
 		}else if($current_url == 'admin-student-final-rejected'){
 			
 			$this->middleware('permission:nref-final-rejected-student-list|nref-final-rejected-student-edit|nref-final-rejected-student-delete', ['only' => ['final_rejected','final_rejected_show','final_rejected_ins']]);
 			$this->middleware('permission:nref-final-rejected-student-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-final-rejected-student-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-final-rejected-student-delete', ['only' => ['final_reject_delete']]);
+		}
+		else if($current_url == 'admin-student-committee-rec'){
+			
+			$this->middleware('permission:nref-commitee-recom-student-list|nref-commitee-recom-student-edit|nref-commitee-recom-student-delete', ['only' => ['committee_recom','committee_recom_show','committee_recom_ins']]);
+			$this->middleware('permission:nref-commitee-recom-student-edit', ['only' => ['edit','update']]);
+			$this->middleware('permission:nref-commitee-recom-student-delete', ['only' => ['committee_recom_delete']]);
 		}
 		
 	}
+	
+	
 	
 	
     public function index()
@@ -186,9 +194,9 @@ class AdminStudentRegistrationController extends Controller
             'dob'=>$request->dob,
             'pincode'=>$request->pincode,
             'course'=>$request->course,
-            'country'=>$request->country,
-            'state'=>$request->state,
-            'distric'=>$request->distric,
+            'countrycd'=>$request->countrycd,
+            'statecd'=>$request->statecd,
+            'districtcd'=>$request->districtcd,
             // 'gate_neet'=>$record['gate_neet'],
             'aadhar'=>$request->aadhar,
             'category'=>$request->category,
@@ -266,6 +274,12 @@ class AdminStudentRegistrationController extends Controller
         $records =  studentRegistration::findOrFail($id);
 		studentRegistration::destroy($id);
         return redirect('admin-student-rejected')->with('success','Student record deleted successfully!!..');
+    }
+	public function committee_recom_delete(Request $request,$id)
+    {
+        $records =  studentRegistration::findOrFail($id);
+		studentRegistration::destroy($id);
+        return redirect('admin-student-committee-rec')->with('success','Student record deleted successfully!!..');
     }
 
    
@@ -358,8 +372,8 @@ class AdminStudentRegistrationController extends Controller
 	public function show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.pending.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -410,8 +424,8 @@ class AdminStudentRegistrationController extends Controller
 	 public function consider_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.considered.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -441,7 +455,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('status_id',"2")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('officer_role_id',3)->where('status_id',"2")->orderBy('id','desc')->get();
 
         
         }else{
@@ -451,7 +465,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('status_id',"2")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('officer_role_id',3)->where('status_id',"2")->orderBy('id','desc')->get();
 		
         }
 		return view('backend.nref.Admin.studentInstitute.rejected.reject_list',compact('students','inst','id'));
@@ -460,8 +474,8 @@ class AdminStudentRegistrationController extends Controller
 	 public function reject_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.rejected.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -474,7 +488,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-        $students = DB::table('studentregistrations')->where('status_id',"2")->where('institute_id',$id)->orderBy('id','desc')->get();
+        $students = DB::table('studentregistrations')->where('officer_role_id',3)->where('status_id',"2")->where('institute_id',$id)->orderBy('id','desc')->get();
 
         return view('backend.nref.Admin.studentInstitute.rejected.reject_list',compact('students','inst','id'));
     }
@@ -493,7 +507,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('officer_role_id','!=',3)->where('status_id',"1")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('officer_role_id','!=',3)->where('officer_role_id','!=',5)->where('status_id',"1")->orderBy('id','desc')->get();
 
         
         }else{
@@ -503,7 +517,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('officer_role_id','!=',3)->where('status_id',"1")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('officer_role_id','!=',3)->where('officer_role_id','!=',5)->where('status_id',"1")->orderBy('id','desc')->get();
 		
         }
 		return view('backend.nref.Admin.studentInstitute.committee.list',compact('students','inst','id'));
@@ -512,8 +526,8 @@ class AdminStudentRegistrationController extends Controller
 	 public function committee_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.committee.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -526,14 +540,63 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-        $students = DB::table('studentregistrations')->where('officer_role_id','!=',3)->where('status_id',"1")->where('institute_id',$id)->orderBy('id','desc')->get();
+        $students = DB::table('studentregistrations')->where('officer_role_id','!=',3)->where('officer_role_id','!=',5)->where('status_id',"1")->where('institute_id',$id)->orderBy('id','desc')->get();
 
         return view('backend.nref.Admin.studentInstitute.committee.list',compact('students','inst','id'));
     }
 
 // /***********************Application Forward to committe End*********************//
 
+// /***********************Application Committee recommanded Student*********************//
+	public function committee_recom(Request $request)
+   {
+        $id = $request->findStudentInst;
+        if(!empty($request->findStudentInst)){
+            $inst = DB::table('institute_details')
+						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
+						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+						->select('registration.institute_name','institute_details.institute_id')
+						->where('institute_details.status_id',3)
+						->get();
+            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('officer_role_id',5)->where('status_id',"1")->orderBy('id','desc')->get();
 
+        
+        }else{
+            $inst = DB::table('institute_details')
+						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
+						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+						->select('registration.institute_name','institute_details.institute_id')
+						->where('institute_details.status_id',3)
+						->get();
+            $students = DB::table('studentregistrations')->where('officer_role_id',5)->where('status_id',"1")->orderBy('id','desc')->get();
+		
+        }
+		return view('backend.nref.Admin.studentInstitute.committee_recom.list',compact('students','inst','id'));
+    }
+	
+	 public function committee_recom_show($id, $ids){
+        $recorde = studentRegistration::findOrFail($id);
+        $courses = DB::table('courses')->where('display',1)->get();
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
+        $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
+        $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
+        return view('backend.nref.Admin.studentInstitute.committee_recom.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
+    }
+	
+    public function committee_recom_ins($id){
+         $inst = DB::table('institute_details')
+						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
+						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+						->select('registration.institute_name','institute_details.institute_id')
+						->where('institute_details.status_id',3)
+						->get();
+        $students = DB::table('studentregistrations')->where('officer_role_id',5)->where('status_id',"1")->where('institute_id',$id)->orderBy('id','desc')->get();
+
+        return view('backend.nref.Admin.studentInstitute.committee_recom.list',compact('students','inst','id'));
+    }
+
+// /***********************Application Committee recommanded Student End*********************//
    
 // /***********************Application Final Selected Student*********************//
 	public function final_selected(Request $request)
@@ -565,8 +628,8 @@ class AdminStudentRegistrationController extends Controller
 	 public function final_selected_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.final-selected.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -598,7 +661,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('status_id',"4")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('status_id',"2")->where('officer_role_id','!=',3)->orderBy('id','desc')->get();
 
         
         }else{
@@ -608,7 +671,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-            $students = DB::table('studentregistrations')->where('status_id',"4")->orderBy('id','desc')->get();
+            $students = DB::table('studentregistrations')->where('status_id',"2")->where('officer_role_id','!=',3)->orderBy('id','desc')->get();
 		
         }
 		return view('backend.nref.Admin.studentInstitute.final-rejected.list',compact('students','inst','id'));
@@ -617,8 +680,8 @@ class AdminStudentRegistrationController extends Controller
 	 public function final_rejected_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
-        $stateName = DB::table('state_master')->where('statecd',$recorde->state)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->distric)->distinct('statecd')->get();         
+        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
         $country = DB::table('country')->where('countrycd',$recorde->country)->get();   
         $course = DB::table('courses')->where('course_id',$recorde->course)->distinct('course_id')->get();     
         return view('backend.nref.Admin.studentInstitute.final-rejected.show',compact('recorde','stateName','disticName','ids','country','course','courses'));
@@ -631,7 +694,7 @@ class AdminStudentRegistrationController extends Controller
 						->select('registration.institute_name','institute_details.institute_id')
 						->where('institute_details.status_id',3)
 						->get();
-        $students = DB::table('studentregistrations')->where('status_id',"4")->where('institute_id',$id)->orderBy('id','desc')->get();
+        $students = DB::table('studentregistrations')->where('status_id',"2")->where('officer_role_id','!=',3)->where('institute_id',$id)->orderBy('id','desc')->get();
 
         return view('backend.nref.Admin.studentInstitute.final-rejected.list',compact('students','inst','id'));
     }
@@ -684,7 +747,7 @@ class AdminStudentRegistrationController extends Controller
 			$student_data->modified_by = $loginuseer->id;
 			$student_data->modified_by = $loginuseer->id;
 			$student_data->modified_date = date('Y-m-d');
-			$user = DB::table("final_selected_student")->insert(get_object_vars($student_data));
+			$user = DB::table("selected_student_application")->insert(get_object_vars($student_data));
 		 }
         $studentVerification = array(
             'candidate_id'=>$condidateRecord->id,

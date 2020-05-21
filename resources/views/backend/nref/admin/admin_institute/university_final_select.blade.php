@@ -111,6 +111,7 @@
 				  <th>Fellowship Request Period</th>
                   <th>Institute Reg.No</th>
 				  <th>Pincode</th>
+				  <th>Sancation Form</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -131,6 +132,12 @@
 				  </td>
 				  <td>
 				   <?php echo $v->pincode;?>
+				  </td>
+				  <td>
+				  <?php if(isset($v->sancation_forms)) { ?>
+				   <a href="<?php echo URL::asset('public/uploads/sancation/'.$v->sancation_forms);?>" download>Click Here</a>
+				  <?php } else {  ?>
+				  <?php echo "-"; } ?>
 				  </td>
                   <td>
 				
@@ -214,6 +221,7 @@ else
 					{ data: 'fellowPeriod' },
 					{ data: 'regno' },
 					{ data: 'pincode' },
+					{ data: 'sancation' },
 					{ data: 'clickTocheck' },
                 ]
             }); 

@@ -7,7 +7,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Edit Institute</li>
       </ol>
@@ -352,7 +352,7 @@
 								<div class="row">
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Experience in Energy related courses</label>
-										<input type="text" class="form-control" min="0" maxlength="200" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($data['institute_data']->energy_experience)){ ?>{{$data['institute_data']->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course">
+										<input type="text" class="form-control" min="0" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($data['institute_data']->energy_experience)){ ?>{{$data['institute_data']->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course">
 										@if ($errors->has('exp_energy_course'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('exp_energy_course') }}</strong>

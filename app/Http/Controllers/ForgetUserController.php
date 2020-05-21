@@ -69,29 +69,26 @@ class ForgetUserController extends Controller
         
         $code = $request->input('CaptchaCode');
         $isHuman = captcha_validate($code);
-        
+        $first_name = $request->first_name;
+		
+        $email_id = $request->email_id;
+		$fu_otp = $request->fu_otp;
         if ($isHuman)
         {
-            
-            $first_name = $request->first_name;
-            //$dob = $request->dob;
-            $email_id = $request->email_id;
-            
-           $user_data=  DB::table('user_credential')->where('name', $first_name)->where('email', $email_id)->get()->first();
+            $user_data=  DB::table('user_credential')->where('name', $first_name)->where('email', $email_id)->get()->first();
 		   
             if($user_data)
             {
                
                 $username= $user_data->username;
-                $otp = $request->fu_otp;
                 $otp_db= $user_data->fu_otp;
                 //dd($first_name,$dob,$email_id,$candidate_id,$username,$otp,$otp_db);
-                if($otp==$otp_db)
+                if($fu_otp==$otp_db)
                 {
                     
-                    Mail::to($email_id)->send(new ForgetUsername($username,$email_id));
+                    Mail::to($email_id)->send(new ForgetUsernameOtp($username,$email_id));
                     return back()
-                    ->with('success',"Username has been sent to your registered email_id!");
+                    ->with('success',"Username has been sent to your registered Email id : ".$email_id);
                     
                 }
                 else
@@ -99,7 +96,7 @@ class ForgetUserController extends Controller
                     return back()->with('error',"Entered otp is not valid!")
 					->with('first_name',$first_name)
 			        ->with('email_id',$email_id)
-			        ->with('otp',$otp)
+			        ->with('fu_otp',$fu_otp)
 			        ->with('CaptchaCode',$code);
 					
                 }
@@ -112,7 +109,7 @@ class ForgetUserController extends Controller
                 ->with('error',"Details are not valid!")
 				->with('first_name',$first_name)
 			    ->with('email_id',$email_id)
-			    ->with('otp',$otp)
+			    ->with('fu_otp',$fu_otp)
 			    ->with('CaptchaCode',$code);
 				
             }
@@ -120,11 +117,12 @@ class ForgetUserController extends Controller
         }
         else
         {
+			
             return back()
             ->with('error',"Captcha Code Didn't match successsfully!")
 			->with('first_name',$first_name)
 			->with('email_id',$email_id)
-			->with('otp',$otp)
+			->with('fu_otp',$fu_otp)
 			->with('CaptchaCode',$code);
 			
         }

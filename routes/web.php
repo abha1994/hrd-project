@@ -42,28 +42,28 @@ Route::group(['middleware' => ['auth']], function() {
 Route::resource('/roles','RoleController');
 Route::resource('users','UserController');
 Route::resource('products','ProductController');
-
-
-
-
-
-Route::resource('fund-transfer','Nref\Admin\fincaceController');
-Route::resource('application-processed','Nref\Admin\applicationProcessedController');
-Route::get('export-application','Nref\Admin\applicationProcessedController@exportcsv');
-
-
-// *************Pushkar**********************//
+Route::resource('user', 'adminUserController');
+Route::get('changeStatus/{id}','adminUserController@statuChange');
+Route::resource('link-officer', 'AdminLinkController');	
 
 Route::get('/changepassword', 'ChangePasswordController@index')->name('');
 Route::post('/changepassword-post','ChangePasswordController@changepassword')->name('changepassword-post');
-// *************Pushkar**********************//
 
-// officer module  rule
+//-------------Fellow Amount----------------->	
+Route::get('/fellowamount-list', 'FellowAmountController@index')->name('fellowamount');
+Route::get('/add-fellowamount', 'FellowAmountController@add')->name('add-fellowamount');
+Route::post('/create-fellowamount', 'FellowAmountController@create')->name('create-fellowamount');
+Route::get('/delete-fellowamount/{id}', 'FellowAmountController@delete')->name('delete-fellowamount');
+Route::get('/view-fellowamount/{id}', 'FellowAmountController@view')->name('view-fellowamount');
+Route::get('/edit-fellowamount/{id}', 'FellowAmountController@edit')->name('edit-fellowamount');
+Route::post('/update-fellowamount/{id}', 'FellowAmountController@update')->name('update-fellowamount');
+
+
+
+
+
 		
-Route::resource('user', 'adminUserController');
-Route::get('changeStatus/{id}','adminUserController@statuChange');
-	
-Route::resource('link-officer', 'AdminLinkController');	
+
 
 // Route::get('/link-officer', 'AdminLinkController@index')->name('link-officer');
 // Route::get('/add-link-officer', 'AdminLinkController@add')->name('add-link-officer');
@@ -84,36 +84,15 @@ Route::resource('link-officer', 'AdminLinkController');
 	
 //------------Nref Scheme code 3--------------------->
 
-// Route::resource('registerd-student','Nref\Admin\AdminStudentRegistrationController');
-// Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
-// Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
-// Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
-// Route::post('/consider','Nref\Admin\AdminStudentRegistrationController@consider');
-// Route::post('/nonconsider','Nref\Admin\AdminStudentRegistrationController@nonConsider');
-// Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
-// Route::post('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
-// Route::get('get-instituteId/{id}','Nref\Admin\AdminStudentRegistrationController@getInstitutebyid')->name('get-instituteId');
 
-// Route::get('registerd-student/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@showInstitueStudent');
-// Route::get('registerd-student/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
-
-
-
-
-// Route::resource('registerd-student','Nref\getInstituteController');
-// Route::post('get-institute','Nref\getInstituteController@getInstitute')->name('get-institute');
-// Route::get('get-instituteId/{id}','Nref\getInstituteController@getInstitutebyid')->name('get-instituteId');
-// Route::get('registerd-student/{id}/{ids}','Nref\getInstituteController@showInstitueStudent');
-// Route::post('/consider','Nref\getInstituteController@consider');
-// Route::post('/nonconsider','Nref\getInstituteController@nonConsider');
-// Route::get('registerd-student/{id}/edit/{ids}','Nref\getInstituteController@edit');
-// Route::post('get-institute','Nref\getInstituteController@getInstitute')->name('get-institute');
-// Route::get('get-instituteId/{id}','Nref\getInstituteController@getInstitutebyid')->name('get-instituteId');
-
-// Route::get('registerd-student/{id}/{ids}','Nref\getInstituteController@showInstitueStudent');
-// Route::get('registerd-student/{id}/edit/{ids}','Nref\getInstituteController@edit');
-
-
+Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
+Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');
+Route::get('pdfview_final',array('as'=>'pdfview_final','uses'=>'Nref\InstituteController@pdfview'));
+Route::get('/preview', 'Nref\InstituteController@previewIndex')->name('/preview');
+Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
+Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
+Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/instituteFinal');
+Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
 
 Route::resource('student-registration','Nref\studentRegistrationController');
 Route::get('student-registration/{id}/delete/','Nref\studentRegistrationController@delete');
@@ -122,9 +101,26 @@ Route::get('validate_mobile','Nref\studentRegistrationController@validateMobile'
 Route::get('validate_aadhar','Nref\studentRegistrationController@validateAadhar');
 Route::post('bankmandate-form-post','Nref\studentRegistrationController@bank_mandate_form');
 
+Route::get('/attendance', 'Nref\AttendanceController@index')->name('/attendance');
+Route::get('/attendanceAjax', 'Nref\AttendanceController@attendanceAjax')->name('/attendanceAjax');
+Route::post('/attendance-form-post', 'Nref\AttendanceController@attendance_form_post')->name('attendance-form-post');
+
+Route::get('/acknowledge_slip', 'Nref\AcknowledgeController@index')->name('/acknowledge_slip');
+Route::post('/acknowledge-form-post', 'Nref\AcknowledgeController@acknowledge_form_post')->name('acknowledge-form-post');
+Route::post('/acknowledgeAjax', 'Nref\AcknowledgeController@acknowledgeAjax')->name('acknowledgeAjax');
+Route::get('pdfdown',array('as'=>'pdfdown','uses'=>'Nref\AcknowledgeController@pdfdown'));
+
+Route::get('/yearly_reportProgress', 'Nref\ProgressreportController@index')->name('/yearly_reportProgress');
+Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progress_post')->name('progress-report-post');
+
+Route::get('/getReportAjax', 'Nref\ProgressreportController@getReportAjax')->name('/getReportAjax');
+Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew')->name('/getReportAjaxnew');
+
+
+	
 
 //****************Admin Student Panel*********************//
-\
+
 
 //************Admin Get ALL Student Start***********//
 Route::get('get-institute','Nref\Admin\AdminStudentRegistrationController@getInstitute')->name('get-institute');
@@ -162,6 +158,15 @@ Route::get('admin-student-forward-to-committee/{id}/edit/{ids}','Nref\Admin\Admi
 Route::get('admin-student-forward-to-committee/{id}/delete/{ids}','Nref\Admin\AdminStudentRegistrationController@committee_delete');
 //************Get ALL Student forward to committe End***********//
 
+//************Get ALL Student committee recommand Start
+Route::get('admin-student-committee-rec','Nref\Admin\AdminStudentRegistrationController@committee_recom')->name('admin-student-final-selected');
+Route::post('admin-student-committee-rec','Nref\Admin\AdminStudentRegistrationController@committee_recom')->name('admin-student-final-selected');
+Route::get('admin-student-committee-rec/{id}','Nref\Admin\AdminStudentRegistrationController@committee_recom_ins');
+Route::get('admin-student-committee-rec/{id}/{ids}','Nref\Admin\AdminStudentRegistrationController@committee_recom_show');
+Route::get('admin-student-committee-rec/{id}/edit/{ids}','Nref\Admin\AdminStudentRegistrationController@edit');
+Route::get('admin-student-committee-rec/{id}/delete/{ids}','Nref\Admin\AdminStudentRegistrationController@committee_recom_delete');
+//************Get ALL Student committee recommand End
+
 //************Get ALL Student Selecetd by committe Start
 Route::get('admin-student-final-selected','Nref\Admin\AdminStudentRegistrationController@final_selected')->name('admin-student-final-selected');
 Route::post('admin-student-final-selected','Nref\Admin\AdminStudentRegistrationController@final_selected')->name('admin-student-final-selected');
@@ -185,51 +190,10 @@ Route::post('registerd-student-update/{id}','Nref\Admin\AdminStudentRegistration
 Route::post('/consider','Nref\Admin\AdminStudentRegistrationController@consider');
 Route::post('/nonconsider','Nref\Admin\AdminStudentRegistrationController@nonConsider');
 
-
-Route::get('/acknowledgeAdmin', 'Nref\Admin\AcknowledgeController@index')->name('/acknowledgeAdmin');
-Route::post('/acknowledgeAjaxAdmin', 'Nref\Admin\AcknowledgeController@acknowledgeAjaxAdmin')->name('acknowledgeAjaxAdmin');
-
-Route::get('/progressReport', 'Nref\Admin\ProgressreportController@index')->name('/progressReport');
-Route::post('/getReportAdminAjaxnew', 'Nref\Admin\ProgressreportController@getReportAdminAjaxnew')->name('/getReportAdminAjaxnew');
 //****************Admin Student Panel*********************//
 
-Route::resource('fund-transfer','Nref\Admin\fincaceController');
-Route::resource('application-processed','Nref\Admin\applicationProcessedController');
-Route::get('export-application','Nref\Admin\applicationProcessedController@exportcsv');
 
-
-
-Route::get('/attendance', 'Nref\AttendanceController@index')->name('/attendance');
-Route::get('/attendanceAjax', 'Nref\AttendanceController@attendanceAjax')->name('/attendanceAjax');
-Route::post('/attendance-form-post', 'Nref\AttendanceController@attendance_form_post')->name('attendance-form-post');
-
-Route::get('/acknowledge_slip', 'Nref\AcknowledgeController@index')->name('/acknowledge_slip');
-Route::post('/acknowledge-form-post', 'Nref\AcknowledgeController@acknowledge_form_post')->name('acknowledge-form-post');
-Route::post('/acknowledgeAjax', 'Nref\AcknowledgeController@acknowledgeAjax')->name('acknowledgeAjax');
-Route::get('pdfdown',array('as'=>'pdfdown','uses'=>'Nref\AcknowledgeController@pdfdown'));
-
-/* Yearly Progress Report By ROcky */
-
-Route::get('/yearly_reportProgress', 'Nref\ProgressreportController@index')->name('/yearly_reportProgress');
-Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progress_post')->name('progress-report-post');
-
-Route::get('/getReportAjax', 'Nref\ProgressreportController@getReportAjax')->name('/getReportAjax');
-Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew')->name('/getReportAjaxnew');
-
-/* Yearly Progress Report By ROcky */
-
-
-Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
-Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');
-Route::get('pdfview_final',array('as'=>'pdfview_final','uses'=>'Nref\InstituteController@pdfview'));
-Route::get('/preview', 'Nref\InstituteController@previewIndex')->name('/preview');
-Route::post('/preview', 'Nref\InstituteController@preview')->name('preview');
-Route::get('/institute_status/{id}', 'Nref\InstituteController@institute_status')->name('institute_status');
-
-Route::get('/instituteFinal/{id}', 'Nref\InstituteController@index2')->name('/instituteFinal');
-Route::post('/institute-form-post-final', 'Nref\InstituteController@institute_form_post_final')->name('institute-form-post-final');
-	
-//******************Admin**************************//	
+//******************Admin Intitute**************************//	
 Route::get('/nref-home', 'Nref\Admin\NrefhomeController@index')->name('nref-home');
 Route::get('/university', 'Nref\Admin\UniversityController@index')->name('university');
 Route::get('/edit-university/{id}', 'Nref\Admin\UniversityController@edit')->name('edit-university');
@@ -245,6 +209,7 @@ Route::get('/universityNocons', 'Nref\Admin\UniversityController@index4')->name(
 Route::get('/universitySelected', 'Nref\Admin\UniversityController@index5')->name('universitySelected');
 Route::get('/final-selected-university/{id}', 'Nref\Admin\UniversityController@final_selected_university')->name('final-selected-university');
 Route::post('/api/admin-institute-considered', 'Nref\Admin\UniversityController@institute_status_considered')->name('admin-institute-considered');
+Route::post('/api/admin-institute-selected', 'Nref\Admin\UniversityController@institute_status_selected')->name('admin-institute-selected');
 
 Route::get('/universityFinalReject', 'Nref\Admin\UniversityController@index6')->name('universityFinalReject');
 
@@ -258,6 +223,12 @@ Route::post('/recommendInstituteAjax', 'Nref\Admin\UniversityController@recommen
 
 Route::post('/finalrejectInstituteAjax', 'Nref\Admin\UniversityController@finalrejectInstituteAjax')->name('finalrejectInstituteAjax');
 
+Route::get('/view-Pendinguniversity/{id}', 'Nref\Admin\UniversityController@viewPendingUniversity')->name('view-Pendinguniversity');
+
+Route::get('/view-level1university/{id}', 'Nref\Admin\UniversityController@viewlvl1University')->name('view-level1university');
+
+Route::get('/view-rejctlist/{id}', 'Nref\Admin\UniversityController@viewrejectUniversity')->name('view-rejctlist');
+
 
 Route::post('/pendingInstituteAjax', 'Nref\Admin\UniversityController@pendingInstituteAjax')->name('pendingInstituteAjax'); 
 Route::post('/considerInstituteAjax', 'Nref\Admin\UniversityController@considerInstituteAjax')->name('considerInstituteAjax');
@@ -266,21 +237,36 @@ Route::post('/frwdCommiteInstituteAjax', 'Nref\Admin\UniversityController@frwdCo
 Route::post('/selectedInstituteAjax', 'Nref\Admin\UniversityController@selectedInstituteAjax')->name('selectedInstituteAjax');
 Route::post('/exportPdf', 'Nref\Admin\UniversityController@exportPdf')->name('exportPdf');
 
+//******************Admin Intitute**************************//	
 
 
+Route::get('/acknowledgeAdmin', 'Nref\Admin\AcknowledgeController@index')->name('/acknowledgeAdmin');
+Route::post('/acknowledgeAjaxAdmin', 'Nref\Admin\AcknowledgeController@acknowledgeAjaxAdmin')->name('acknowledgeAjaxAdmin');
+
+Route::get('/progressReport', 'Nref\Admin\ProgressreportController@index')->name('/progressReport');
+Route::post('/getReportAdminAjaxnew', 'Nref\Admin\ProgressreportController@getReportAdminAjaxnew')->name('/getReportAdminAjaxnew');
 
 Route::get('/attendanceAdmin', 'Nref\Admin\AttendanceController@index')->name('/attendanceAdmin');
 Route::post('/attendanceAdmin-form-post', 'Nref\Admin\AttendanceController@attendance_form_post')->name('attendanceAdmin-form-post');
 Route::get('/attendanceAjaxadmin', 'Nref\Admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
+
+Route::resource('fund-transfer','Nref\Admin\fincaceController');
+Route::resource('application-processed','Nref\Admin\applicationProcessedController');
+Route::get('export-application','Nref\Admin\applicationProcessedController@exportcsv');
 
 //******************Admin**************************//
 
  
 //------------Nref Scheme code 3--------------------->
 	
+
+	
+	
+
+
+
+
 //------------Nres Scheme code 2--------------------->	
-
-
 Route::get('/nres-home', 'Nres\Admin\NreshomeController@index')->name('nres-home');
 Route::resource('fellowship-solar-form','Nres\fellowship\fellowshipController');
 
@@ -297,12 +283,12 @@ Route::get('api/get-student-adhaar-number','Nres\bankDetialController@get_studen
 Route::get('/bankMandateForm/{id}', 'Nres\bankDetialController@index2')->name('/bankMandateForm');
 Route::post('/bank-form-post-final/{id}', 'Nres\bankDetialController@bank_form_post_final')->name('bank-form-post-final');
 
-// Route::get('pdfview',array('as'=>'pdfview','uses'=>'Nres\bankDetialController@pdfview'));
+Route::get('pdfview_bank',array('as'=>'pdfview_bank','uses'=>'Nres\bankDetialController@pdfview'));
 
 //------------Nres Scheme code 2--------------------->	
-	
-	
-//-------------Internship Student Scheme code 1----------------->	
+
+
+//-------------Internship Scheme code 1----------------->	
 Route::get('/internship', 'Internship\InternshipController@index')->name('');
 Route::post('/internship-form-post', 'Internship\InternshipController@internship_form_post')->name('internship-form-post');
 Route::get('/contact-us', 'Internship\InternshipController@contact_us')->name('contact-us');
@@ -312,21 +298,11 @@ Route::get('/internship-print', 'Internship\InternshipController@internship_form
 Route::get('/internship-guidelines', 'Internship\InternshipController@guidelines')->name('internship-guidelines');
 Route::get('/intern-status/{id}', 'Internship\InternshipController@intern_status')->name('intern-status');
 
-
-//-------------Fellow Amount----------------->	
-Route::get('/fellowamount-list', 'FellowAmountController@index')->name('fellowamount');
-Route::get('/add-fellowamount', 'FellowAmountController@add')->name('add-fellowamount');
-Route::post('/create-fellowamount', 'FellowAmountController@create')->name('create-fellowamount');
-Route::get('/delete-fellowamount/{id}', 'FellowAmountController@delete')->name('delete-fellowamount');
-Route::get('/view-fellowamount/{id}', 'FellowAmountController@view')->name('view-fellowamount');
-Route::get('/edit-fellowamount/{id}', 'FellowAmountController@edit')->name('edit-fellowamount');
-Route::post('/update-fellowamount/{id}', 'FellowAmountController@update')->name('update-fellowamount');
-
 //-------------Admin Internship----------------->
 	
-Route::get('internship-home','Internship\Admin\InternhomeController@index');	
+Route::get('internship-home','Internship\Admin\@index');	
 Route::get('admin-internship','Internship\Admin\AdminInternshipController@index');
-Route::get('/admin-internship-view/{id}', 'Internship\Admin\AdminInternshipController@view')->name('admin-internship-view');
+Route::get('/admin-internship-view/{id}', 'Internship\Admin\AdminInternshipController@view')->name(InternhomeController'admin-internship-view');
 Route::get('/admin-internship-edit/{id}', 'Internship\Admin\AdminInternshipController@edit')->name('admin-internship-edit');
 Route::post('/admin-internship-update/{id}', 'Internship\Admin\AdminInternshipController@update')->name('admin-internship-update');
 Route::get('/admin-internship-delete/{id}', 'Internship\Admin\AdminInternshipController@delete')->name('admin-internship-delete');

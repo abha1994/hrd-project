@@ -43,7 +43,7 @@
                             <div class="row">
                                 <div class="col-md-4"> 
                                   <select class="form-control  @error('category_id') is-invalid @enderror" name="category_id"  id="category_id" onchange="showfield(this.options[this.selectedIndex].value)" required>
-                                    <option value="0">Select Category*</option>
+                                    <option value="">Select Category*</option>
                                         @foreach($categories as $val) 
                                             <option value="{{$val->category_id}}" @if($val->category_id == old('category_id')) ? selected : '' @endif >{{$val->category_name}}</option>
                                         @endforeach 
@@ -61,7 +61,7 @@
 
 
                                 <div class="form-group col-md-4 govtInst">
-                                        <input class="form-control @error('institute_name') is-invalid @enderror " type="text" value="{{ old('institute_name') }}" name="institute_name" placeholder="Name Of Institute" id="institute_name">
+                                        <input class="form-control @error('institute_name') is-invalid @enderror " type="text" value="{{ old('institute_name') }}" name="institute_name" placeholder="Name Of Institute*" id="institute_name">
                                         @error('institute_name')
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -71,7 +71,7 @@
                                     
                                     
                                     <div class="form-group  col-md-4 govtInst">
-                                        <input class="form-control @error('pan') is-invalid @enderror"  type="text" value="{{ old('pan') }}" name="pan" placeholder="Pan Number*" id="pan" > 
+                                        <input class="form-control @error('pan') is-invalid @enderror"  type="text" value="{{ old('pan') }}" onkeyup="this.value = this.value.toUpperCase();" name="pan" placeholder="Pan Number*" id="pan" > 
                                         @error('pan')
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -81,7 +81,7 @@
                                     
                                     
                                     <div class="form-group col-md-6 govtInst">
-                                        <input class="form-control @error('institute_reg_no') is-invalid @enderror" type="text"  value="{{ old('institute_reg_no') }}" name="institute_reg_no" placeholder="Institute Registration No." id="institute_reg_no">
+                                        <input class="form-control @error('institute_reg_no') is-invalid @enderror" type="text"  value="{{ old('institute_reg_no') }}" name="institute_reg_no" placeholder="Institute Registration No*" id="institute_reg_no">
                                         @error('institute_reg_no')
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -91,7 +91,7 @@
                                     
                                     <div class="form-group col-md-6 govtInst">
                                         
-                                        <textarea class="form-control @error('institute_addres') is-invalid @enderror"  style="height: 37px;" name="institute_addres" placeholder="Institute Address." id="institute_addres" >{{old('institute_addres')}}</textarea>
+                                        <textarea class="form-control @error('institute_addres') is-invalid @enderror"  style="height: 37px;" name="institute_addres" placeholder="Institute Address*" id="institute_addres" >{{old('institute_addres')}}</textarea>
                                         @if ($errors->has('institute_addres'))
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $errors->first('institute_addres') }}</strong>
@@ -102,13 +102,13 @@
                                 <!---- Govt. & Autonomous Educational Institutes / University form control end -->
 
                                 <div class="col-md-4 others">
-                                <?php $gender_arr = array( '1'=>'Male' ,'2'=>'Female','0'=>'Others')?>
+                                <?php $gender_arr = array( '1'=>'Male' ,'2'=>'Female','3'=>'Others')?>
                                 <select class="form-control @error('gender') is-invalid @enderror " name="gender"  id="gender" value="old('gender')">
                                 <option value="">Select Gender*</option>
                                     @foreach($gender_arr as $key=>$val)
                                         <option value="{{ $key }}"  @if($key == old('gender')) ? selected : '' @endif>{{ $val }}</option>
-                                            @endforeach
-                                        </select>
+                                     @endforeach
+                                 </select>
                                         @error ('gender')
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -172,7 +172,7 @@
                                     </div>
                                     
                                      <div class="col-md-6 govtInst">
-                                        <input type="text"   maxlength="10" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode')}}"  id="pincode" placeholder="Pincode.*" name="pincode">
+                                        <input type="text"   maxlength="6" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode')}}"  id="pincode" placeholder="Pincode.*" name="pincode">
                                 
                                         @error('pincode')
                                             <span class="invalid-feedback " role="alert">

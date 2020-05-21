@@ -108,17 +108,18 @@ class ForgetPasswordController extends Controller
 						$string1="abcdefghijklmnopqrstuvwxyz";
 						$string2="1234567890";
 						$string3="!@#$%^&*()_+";
-						$string=$string1.$string2.$string3;
+						$string4="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+						$string=$string1.$string2.$string3.$string4;
 						$string= str_shuffle($string);
 						$user_password  = substr($string,8,14); 
 						$postdata['password'] = Hash::make($user_password);
 						$a = DB::table('user_credential')->where('username', $username)->update($postdata);
 						
 						
-						 Mail::to($email_id)->send(new ResetPassword($user_password,$email_id));
+						 Mail::to($email_id)->send(new ForgetPasswordOtp($user_password,$email_id));
 						
 						return back()
-						->with('success',"New password has been sent to your registered email_id!")
+						->with('success',"New password has been sent to your registered Email id : " .$email_id)
 						->with('username',$username)
 						->with('email_id',$email_id)
 						->with('otp',$otp)

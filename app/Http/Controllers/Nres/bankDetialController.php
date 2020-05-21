@@ -64,11 +64,16 @@ class bankDetialController extends Controller
             ->where('studentregistrations.institute_id',$institute_id)
             ->get();
 			
+			// $arr = "";
 		    foreach($exists_in_bankdetails as $v){
 				$arr[] = $v->id;
 			}
-	
-			$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->whereNotIn('id',$arr)->where('institute_id',$institute_id)->get(); 
+			// dd($arr);
+	        if(!empty($arr)){
+			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->whereNotIn('id',$arr)->where('institute_id',$institute_id)->get(); 
+			}else{
+			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
+			}
 			// dd($student_name);
 			$bankdetils = DB::table('banklist')->distinct()->get('bank');
 			return view('backend.nres.bankdetail.create',compact('bankdetils','student_name'));

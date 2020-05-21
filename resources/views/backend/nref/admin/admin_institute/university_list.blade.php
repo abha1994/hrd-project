@@ -138,7 +138,7 @@
 				      <a href="{{route('edit-university',$v->institute_id )}}"><i class="fa fa-edit"></i></a>
 					  @endcan
 				      @can('admin-nref-institute-list')
-					  <a href="{{route('view-university',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
+					  <a href="{{route('view-Pendinguniversity',$v->institute_id )}}"><i class="fa fa-eye"></i></a>
 				      @endcan
 					  @can('admin-nref-institute-delete')
 					  <a href="{{route('delete-university',$v->institute_id )}}" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash"></i></a>

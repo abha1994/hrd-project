@@ -14,12 +14,12 @@
    <div class="card-header text-center"><h4 class="mt-2">NREF/{{date('Y')}}/{{$recorde->id}}</h4></div>
    
       <div class="card-body">
-	    @can('nref-forward-committee-student-status-considered')
+	   <?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
+	    <?php if($role_id!=2 && $role_id!=3 && $role_id!=4) { ?>
 	        <a class="btn btn-primary" data-toggle="modal" data-target="#consider" style="color:white" href="#">Consider</a>
-	    @endcan
-		@can('nref-forward-committee-student-status-non-considered')
-            <a class="btn btn-danger" data-toggle="modal" data-target="#nonConsider" style="color:white">Non Consider</a>      
-		@endcan
+	   
+		    <a class="btn btn-danger" data-toggle="modal" data-target="#nonConsider" style="color:white">Non Consider</a>      
+		<?php } ?>
             <a class="btn btn-secondary" href="{{url('admin-student-forward-to-committee/'.$ids)}}">Back</a>
                      
         @include('includes/flashmessage')
@@ -32,11 +32,11 @@
           </tr>
           <tr>
             <td>Student Name : </td>
-            <td>{{$recorde->firstname}} {{ $recorde->middlename}} {{$recorde->lastname}}</td>
-          </tr>
+             <td> <?php echo ucwords($recorde->firstname.' '.$recorde->middlename.' '.$recorde->lastname);?></td>
+		  </tr>
            <tr>
             <td>Gender : </td>
-            <td>{{$recorde->gender}}</td>
+            <td><?php if($recorde->gender == "1"){echo "Male";}else if($recorde->gender == "2"){echo "Female";} ?></td>
           </tr>
            <tr>
             <td>Address : </td>
@@ -61,12 +61,8 @@
             <td>{{$recorde->pincode}}</td>
           </tr>
            <tr>
-            <td>course : </td>
-            <td>{{$recorde->course}}</td>
-          </tr>
-           <tr>
             <td>Country : </td>
-            <td>{{$recorde->country}}</td>
+            <td>INDIA</td>
           </tr>
            <tr>
             <td>State : </td>
@@ -82,11 +78,11 @@
           </tr>
 		   <tr>
             <td>Selection Committee Recommandation : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/commitee_recommanded/'.$recorde->commitee_recommanded)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/commitee_recommanded/'.$recorde->commiteedocument)}}" target="_blank">{{$recorde->commiteedocument}}</a></td>
           </tr>
 		   <tr>
             <td>Highest Qualification : </td>
-            <td><a href="{{asset('public/uploads/nref/student_registration/qulification/'.$recorde->qulification)}}" target="_blank">{{$recorde->qulification}}</a></td>
+            <td><a href="{{asset('public/uploads/nref/student_registration/qulification/'.$recorde->highest_qulification)}}" target="_blank">{{$recorde->highest_qulification}}</a></td>
           </tr>
 		   <tr>
             <td>Candidate declaration form  : </td>
@@ -96,8 +92,7 @@
 	
 		   <tr>
             <td>Course Applied For : </td>
-            <td><?php 
-			foreach($courses as $course)  { 
+            <td><?php foreach($courses as $course)  { 
 			    if ($recorde->course == $course->course_id) {
 				echo $course->course_name ;
 			    }
@@ -120,7 +115,6 @@
             <td>Publication  : </td>
             <td><a href="{{asset('public/uploads/nref/student_registration/publication/'.$recorde->publication)}}" target="_blank"> {{$recorde->publication}}</a></td>
           </tr>
-           
         </tbody>
       </table>
         </div> 
@@ -144,7 +138,7 @@
           @csrf
         <input type="hidden" name="backPage" value="{{ $ids }}">
         <input type="hidden" name="studentId" value="{{ $recorde->id }}">
-        <input type="hidden" name="status_id" value="3">
+        <input type="hidden" name="status_id" value="1">
 		<input type="hidden" name="redirect_url" value="admin-student-forward-to-committee">
 		
         <div class="form-group">
@@ -176,7 +170,7 @@
           @csrf
         <input type="hidden" name="backPage" value="{{ $ids }}">
         <input type="hidden" name="studentId" value="{{ $recorde->id }}">
-		<input type="hidden" name="status_id" value="4">
+		<input type="hidden" name="status_id" value="2">
 		<input type="hidden" name="redirect_url" value="admin-student-forward-to-committee">
 		
          
@@ -184,11 +178,10 @@
           <label for>Select the reason for not considered:</label>
           <select class="form-control" name="reason" id="reason" required>
             <option value="">Select</option>
-            <option value="Id Proof is not Valid">Id Proof is not Valid</option>
-            <option value="Experience not matches">Experience not matches</option>
-            <option value="Qualification not matches">Qualification not matches</option>
-            <option value="Desired Internship place is already fulfil">Desired Internship place is already fulfil</option>
-            <option value="Others">Others</option>
+			<option value="Application not in format">Application not in format</option>
+			<option value="University ranking not up to the mark">University ranking not up to the mark</option>
+			<option value="Attached doc is not proper">Attached doc is not proper</option>
+			<option value="Others">Others</option>
           </select>
          </div>
         <div class="form-group">
