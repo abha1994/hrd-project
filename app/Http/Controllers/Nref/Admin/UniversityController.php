@@ -33,42 +33,34 @@ class UniversityController extends Controller
 	    $current_url =  \Request::segment(1);//dd($current_url);
 		if($current_url == 'university'){
 			
-			$this->middleware('permission:admin-nref-institute-list|admin-nref-institute-edit|admin-nref-institute-delete', ['only' => ['index','viewPendingUniversity']]);
+			$this->middleware('permission:admin-nref-institute-list|admin-nref-institute-edit|admin-nref-institute-delete', ['only' => ['index','view']]);
 			$this->middleware('permission:admin-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:admin-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universityCons'){
 			
-			$this->middleware('permission:considered-nref-institute-by-level1-list|considered-nref-institute-by-level1-edit|considered-nref-institute-by-level1-delete', ['only' => ['index2','viewlvl1University']]);
+			$this->middleware('permission:considered-nref-institute-by-level1-list|considered-nref-institute-by-level1-edit|considered-nref-institute-by-level1-delete', ['only' => ['considered_level_1','view']]);
 			$this->middleware('permission:considered-nref-institute-by-level1-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:considered-nref-institute-by-level1-delete', ['only' => ['destroy']]);
 
 		 }else if($current_url == 'universityNocons'){
 			
-			$this->middleware('permission:rejected-nref-institute-list|rejected-nref-institute-edit|rejected-nref-institute-delete', ['only' => ['index4','viewrejectUniversity']]);
+			$this->middleware('permission:rejected-nref-institute-list|rejected-nref-institute-edit|rejected-nref-institute-delete', ['only' => ['rejected_internship','view']]);
 			$this->middleware('permission:rejected-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:rejected-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universityConsAdmin'){
 			
-			$this->middleware('permission:forward-to-committee-nref-institute-list|forward-to-committee-nref-institute-edit|forward-to-committee-nref-institute-delete', ['only' => ['index3','view_frwdCommite']]);
+			$this->middleware('permission:forward-to-committee-nref-institute-list|forward-to-committee-nref-institute-edit|forward-to-committee-nref-institute-delete', ['only' => ['forword_to_committee','view']]);
 			$this->middleware('permission:forward-to-committee-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:forward-to-committee-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universitySelected'){
 			
-			$this->middleware('permission:nref-commitee-recom-institute-list|nref-commitee-recom-institute-edit|nref-commitee-recom-institute-delete', ['only' => ['index5','view_recommendCommite']]);
-			$this->middleware('permission:nref-commitee-recom-institute-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:nref-commitee-recom-institute-delete', ['only' => ['destroy']]);
-		}
-        else if($current_url == 'universityFinalReject'){
-			
-			$this->middleware('permission:finalRejected-nref-institute-list', ['only' => ['index6','viewFinalReject']]);
+			$this->middleware('permission:Selected-nref-institute-list|Selected-nref-institute-edit|Selected-nref-institute-delete', ['only' => ['selected_internship','view']]);
+			$this->middleware('permission:Selected-nref-institute-edit', ['only' => ['edit','update']]);
+			$this->middleware('permission:Selected-nref-institute-delete', ['only' => ['destroy']]);
 		}	
-        else if($current_url == 'universityFinalSelected'){
-			
-			$this->middleware('permission:finalselected-nref-institute-list', ['only' => ['index7','view']]);
-		}			
     }
 
   
@@ -285,7 +277,7 @@ class UniversityController extends Controller
 			}
 
 			$postdata['year_establishment'] = $request->yr_est;
-			$postdata['no_student'] = $request->apx_stdnt;
+			//$postdata['no_student'] = $request->apx_stdnt;
 			
 			if(isset($request->file_course_proof)) {
 			$postdata['faculty_details'] = $request->file_course_proof;
@@ -306,7 +298,7 @@ class UniversityController extends Controller
 			
 			$postdata['energy_experience'] = $request->exp_energy_course;
 			$postdata['course_start_date'] = $request->course_run;
-			$postdata['no_of_seat'] = $request->no_seat_course;
+			//$postdata['no_of_seat'] = $request->no_seat_course;
 			$postdata['specialization_offered'] = $request->spl_offer;
 			$postdata['industry_collaboration'] = $request->indus_collab;
 			$postdata['placement_details'] = $request->place_service;
@@ -320,6 +312,7 @@ class UniversityController extends Controller
 			$postdata['other_details'] = $request->other_details;
 			$postdata['spon_project'] = $request->spon_project;
 			$postdata['fellowship_period'] = $request->fellowship_period;
+			$postdata['fellowship_period_to'] = $request->fellowship_period_to;
 			$postdata['fellowship_mtech'] = $request->mtech; 
 			$postdata['fellowship_jrf'] = $request->jrf;
 			$postdata['fellowship_srf'] = $request->srf;
@@ -381,6 +374,7 @@ class UniversityController extends Controller
 			$insertRecord['other_details']=$fetchRecord['existRecords'][0]->other_details;
 			$insertRecord['spon_project']=$fetchRecord['existRecords'][0]->spon_project;
 			$insertRecord['fellowship_period']=$fetchRecord['existRecords'][0]->fellowship_period;
+			$insertRecord['fellowship_period_to']=$fetchRecord['existRecords'][0]->fellowship_period_to;
 			$insertRecord['fellowship_mtech']=$fetchRecord['existRecords'][0]->fellowship_mtech;
 			$insertRecord['fellowship_jrf']=$fetchRecord['existRecords'][0]->fellowship_jrf;
 			$insertRecord['fellowship_srf']=$fetchRecord['existRecords'][0]->fellowship_srf;
@@ -707,6 +701,8 @@ class UniversityController extends Controller
 	    $data = Admin_institute::edit($id);
 		return view('backend/nref/Admin/admin_institute/RejectByLevel1/university_rejectList',compact('data'));
 	}
+	
+	
 	
 	public function view_frwdCommite($id)
     { 

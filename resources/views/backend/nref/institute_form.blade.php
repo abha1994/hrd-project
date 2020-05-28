@@ -97,37 +97,11 @@
 										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control university_rank"  value="<?php if(!empty($inst_data->university_rank)){ ?>{{ $inst_data->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank" @if(isset($inst_data->final_submit)) <?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 									</div>
 									
-									<!-- MultiSelect DropDown-->
 									
-									<?php /* if(isset($inst_data->lstCourse)) { $curse=explode(',',$inst_data->lstCourse); } */ ?>
-								
-
-                                    <!--<div class="col-md-5">
-									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department</label><br>
-										<select class="form-control lstCourse" name="lstCourse[]"  id="lstCourse" 
-										@if(isset($inst_data->final_submit))<?php /* if($inst_data->final_submit==1) {  echo 'disabled'; } */ ?> @endif multiple required>
-											@if(isset($data['courses_list'])) 
-
-											@foreach($data['courses_list'] as $val)
-						<option value="{{$val->course_id}}" <?php /* if(isset($inst_data->lstCourse)) { if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$val->course_id) { echo "selected";} } } }  */?>>{{$val->course_name}}</option>
-
-											@endforeach
-											@endif
-								   	    </select>
-									</div> -->									
-									
-									<!-- MultiSelect Dropdown -->
-									
-								</div> 
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-								
-								<div class="col-md-4">
+									<div class="col-md-4 annual_reportDiv">
 									<label for="name"  style="font-size: 13px;" class="control-label">Please enclosed a copy of last annual report</label>
 										<input name="annual_report" type="file" class="form-control annual_report" value="{{ old('annual_report')}}" id="annual_report"  @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
-                                        <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
+                                        <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 10MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
 									    @if ($errors->has('annual_report'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('annual_report') }}</strong>
@@ -146,6 +120,12 @@
 								<a href="{{ asset('public/uploads/nref/annual_report/'.$inst_data->annual_report) }}" download><?php if($inst_data->annual_report) { echo $inst_data->annual_report; } ?></a>
 								</div>
 								@endif
+									
+								</div> 
+							</div>
+							
+							<div class="form-group">
+								<div class="row">
 								
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;" class="control-label">Years of Establishment</label>
@@ -153,16 +133,6 @@
 										@if ($errors->has('yr_est'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('yr_est') }}</strong>
-											</span>
-										@endif
-									</div>
-									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students in Proposed Program</label>
-										<input class="form-control apx_stdnt" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" value="<?php if(!empty($inst_data->no_student)){ ?>{{$inst_data->no_student}}<?php } ?>" id="apx_stdnt" placeholder="Approx. Number of Students" name="apx_stdnt" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
-										@if ($errors->has('apx_stdnt'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('apx_stdnt') }}</strong>
 											</span>
 										@endif
 									</div>
@@ -177,7 +147,7 @@
 						<tr>
                              
                             <th>Course Offered by department</th>
-                            <th class="text-center">Approx. Number of Students</th>
+                            <th class="text-center">Approx. Number of Students in Proposed Program</th>
                             <th class="text-center">Click Add Row for additional course</th>
                         </tr>
                     </thead>
@@ -387,18 +357,7 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Number of Seats in each of the course</label>
-										<input type="text" class="form-control no_seat_course" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->no_of_seat)){ ?>{{$inst_data->no_of_seat}}<?php } ?>" min="0" maxlength="4" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
-										@if ($errors->has('no_seat_course'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('no_seat_course') }}</strong>
-											</span>
-										@endif
-									</div>
-									
-									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) Specialization offered</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Specialization offered</label>
 										<input type="text" class="form-control spl_offer" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->specialization_offered)){ ?>{{$inst_data->specialization_offered}}<?php } ?>" id="spl_offer" placeholder="Specialization offered" name="spl_offer" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('spl_offer'))
 											<span class="invalid-feedback " role="alert">
@@ -408,7 +367,7 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">D) If any industry collaboration is there, if so details thereof</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) If any industry collaboration is there, if so details thereof</label>
 										<input type="text" class="form-control indus_collab" value="<?php if(!empty($inst_data->industry_collaboration)){ ?>{{$inst_data->industry_collaboration}}<?php } ?>" id="indus_collab" placeholder="If any industry collaboration is there, if so details thereof" name="indus_collab" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('indus_collab'))
 											<span class="invalid-feedback " role="alert">
@@ -419,7 +378,7 @@
 									
 									<div class="col-md-4">
 									
-                                  <label for="name"  style="font-size: 12px;" class="control-label">E) If placement service is being provided</label>
+                                  <label for="name"  style="font-size: 12px;" class="control-label">D) If placement service is being provided</label>
                                         <select name="place_service" id="place_service" class="form-control place_service" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										    <option value="">----- Select -----</option>
 											<option value="yes" <?php if(!empty($inst_data->placement_details)){ ?>@if($inst_data->placement_details=='yes') selected @endif <?php } ?>>Yes</option>
@@ -438,8 +397,8 @@
 									
 									
 									<div class="col-md-4" style="display:none;" id="prevstd">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
-										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+									<label for="name"  style="font-size: 13px;" class="control-label">E) Details of placement of previous students</label>
+										<input name="file_prevStudent_proof" type="file" class="form-control file_prevStudent_proof" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_prevStudent_proof_error"> </span>										
 									    @if ($errors->has('file_prevStudent_proof'))
 											<span class="invalid-feedback " role="alert">
@@ -489,7 +448,7 @@
 								
 								<div class="row">
 								<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period From</label>
 										<select class="form-control fellowship_period" name="fellowship_period"  id="fellowship_period" 
 										@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										    <option value="">Select Period</option>
@@ -506,6 +465,26 @@
 											
 								   	    </select>
 									</div>
+									
+									<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period To</label>
+										<select class="form-control fellowship_period_to" name="fellowship_period_to"  id="fellowship_period_to" 
+										@if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										    <option value="">Select Period</option>
+											<option value="2020-2021" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2020-2021") { echo "selected"; } } ?>>2020-2021</option>
+											<option value="2021-2022" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2021-2022") { echo "selected"; } }?>>2021-2022</option>
+											<option value="2022-2023" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2022-2023") { echo "selected"; } } ?>>2022-2023</option>
+											<option value="2023-2024" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2023-2024") { echo "selected"; } } ?>>2023-2024</option>
+											<option value="2024-2025" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2024-2025") { echo "selected"; } } ?>>2024-2025</option>
+											<option value="2025-2026" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2025-2026") { echo "selected"; } } ?>>2025-2026</option>
+											<option value="2026-2027" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2026-2027") { echo "selected"; } } ?>>2026-2027</option>
+											<option value="2027-2028" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2027-2028") { echo "selected"; } } ?>>2027-2028</option>
+											<option value="2028-2029" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2028-2029") { echo "selected"; } } ?>>2028-2029</option>
+											<option value="2029-2030" <?php if(isset($inst_data->fellowship_period_to)) { if($inst_data->fellowship_period_to=="2029-2030") { echo "selected"; } } ?>>2029-2030</option>
+											
+								   	    </select>
+									</div>
+									
 									</div>
 									
 								<div class="row">
@@ -618,7 +597,7 @@
 							<center>
 								<div class="form-group" >
 								    <!--input class="btn btn-primary buttonEvent" type="submit"  name ="submit" value="Submit">-->
-									<button type="submit" value="Save" class="btn btn-primary">
+									<button type="submit" value="Save" id="submitbtn" class="btn btn-primary">
 		                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
 									<button type="button" id="prevButton" class="btn btn-primary buttonEvent" data-toggle="modal" data-target="#myModal"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp; Preview</button>
 									
@@ -712,15 +691,22 @@
 	 $("#modalContent .place_service").val($("#modalCont .place_service").val()).attr('disabled',true);
 	 $("#modalContent #prevstd").remove();
 	 $("#modalContent #prevstd1").remove();
+	 $("#modalContent #submitbtn").remove();
+	 $("#modalContent .annual_reportDiv").remove();
 	 
 	 
 	 
 	 
-	 if($("#modalContent #place_service option:selected").val() == 'yes'){ $(".val1d").text('F');}
 	 
+	 
+	 
+	 
+	 if($("#modalContent #place_service option:selected").val() == 'yes'){ $(".val1d").text('E');}
 	 $("#modalContent .other_details").val($("#modalCont .other_details").val()).attr('disabled',true);
 	 $("#modalContent .spon_project").val($("#modalCont .spon_project").val()).attr('disabled',true);
 	 $("#modalContent .fellowship_period").val($("#modalCont .fellowship_period").val()).attr('readonly',true);
+	 
+	 $("#modalContent .fellowship_period_to").val($("#modalCont .fellowship_period_to").val()).attr('readonly',true);
 	 $("#modalContent .mtech").val($("#modalCont .mtech").val()).attr('readonly',true);
 	 $("#modalContent .jrf").val($("#modalCont .jrf").val()).attr('readonly',true);
 	 $("#modalContent .srf").val($("#modalCont .srf").val()).attr('readonly',true);
@@ -799,6 +785,7 @@ parseInt($('#counter').val(counter));
 });
 
 </script> 
+
 
 @endsection
 	

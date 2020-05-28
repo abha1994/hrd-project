@@ -7,7 +7,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('home')}}">Dashboard</a>
+          <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Edit Institute</li>
       </ol>
@@ -92,18 +92,6 @@
 										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="10" class="form-control"  value="<?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>" id="university_rank" placeholder="University Ranking as per UGC" name="university_rank">
 									</div>
 									
-									<?php //$curse=explode(',',$data['institute_data']->lstCourse); ?>
-									<!--<div class="col-md-3">
-									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department</label>
-										<select class="form-control" name="lstCourse[]"  id="lstCourse" multiple required>
-										   @if(isset($data['courses_list']))
-											@foreach($data['courses_list'] as $val)
-											<option value="{{$val->course_id}}" <?php /* if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$val->course_id) { echo "selected";} } } */ ?>>{{$val->course_name}}</option>
-											@endforeach
-											@endif
-								   	    </select>
-									</div>-->
-									
 									
 								</div> 
 							</div>
@@ -114,7 +102,7 @@
 								<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Please enclosed a copy of last annual report</label>
 										<input name="annual_report" type="file" class="form-control" value="{{ old('annual_report')}}" id="annual_report" >
-                                        <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
+                                        <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 10MB)</label><br><span  style=" font-size: 12px;"id="annual_report_error"> </span>										
 									    @if ($errors->has('annual_report'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('annual_report') }}</strong>
@@ -145,15 +133,6 @@
 										@endif
 									</div>
 									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students in Proposed Program</label>
-										<input class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" type="text"  min="0" maxlength="5" value="<?php if(!empty($data['institute_data']->no_student)){ ?>{{$data['institute_data']->no_student}}<?php } ?>" id="apx_stdnt" placeholder="Approx. Number of Students" name="apx_stdnt">
-										@if ($errors->has('apx_stdnt'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('apx_stdnt') }}</strong>
-											</span>
-										@endif
-									</div>
 								
 								</div> 
 							</div>
@@ -165,7 +144,7 @@
 						<tr>
                              
                             <th>Course Offered by department</th>
-                            <th class="text-center">Approx. Number of Students</th>
+                            <th class="text-center">Approx. Number of Students in Proposed Program</th>
                             <th class="text-center">Click Add Row for additional course</th>
                         </tr>
                     </thead>
@@ -373,19 +352,9 @@
 										@endif
 									</div>
 									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Number of Seats in each of the course</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($data['institute_data']->no_of_seat)){ ?>{{$data['institute_data']->no_of_seat}}<?php } ?>" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course">
-										@if ($errors->has('no_seat_course'))
-											<span class="invalid-feedback " role="alert">
-												<strong>{{ $errors->first('no_seat_course') }}</strong>
-											</span>
-										@endif
-									</div>
-									
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) Specialization offered</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Specialization offered</label>
 										<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($data['institute_data']->specialization_offered)){ ?>{{$data['institute_data']->specialization_offered}}<?php } ?>" id="spl_offer" placeholder="Specialization offered" name="spl_offer">
 										@if ($errors->has('spl_offer'))
 											<span class="invalid-feedback " role="alert">
@@ -395,7 +364,7 @@
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">D) If any industry collaboration is there, if so details thereof</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) If any industry collaboration is there, if so details thereof</label>
 										<input type="text" class="form-control" value="<?php if(!empty($data['institute_data']->industry_collaboration)){ ?>{{$data['institute_data']->industry_collaboration}}<?php } ?>" id="indus_collab" placeholder="If any industry collaboration is there, if so details thereof" name="indus_collab">
 										@if ($errors->has('indus_collab'))
 											<span class="invalid-feedback " role="alert">
@@ -407,7 +376,7 @@
 									
 									<div class="col-md-4">
 									
-                                  <label for="name"  style="font-size: 12px;" class="control-label">E) If placement service is being provided</label>
+                                  <label for="name"  style="font-size: 12px;" class="control-label">D) If placement service is being provided</label>
                                         <select name="place_service" id="place_service" class="form-control">
 										    <option value="">----- Select -----</option>
 											<option value="yes" <?php if(!empty($data['institute_data']->placement_details)){ ?>@if($data['institute_data']->placement_details=='yes') selected @endif <?php } ?>>Yes</option>
@@ -425,7 +394,7 @@
 									
 									
 									<div class="col-md-4" style="display:none;" id="prevstd">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">E) Details of placement of previous students</label>
 										<input name="file_prevStudent_proof" type="file" class="form-control" value="{{ old('file_id_proof')}}" id="file_prevStudent_proof">
                                         <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB)</label><br><span  style=" font-size: 12px;"id="file_id_proof_error"> </span>										
 									    @if ($errors->has('file_prevStudent_proof'))
@@ -478,7 +447,7 @@
 								
 								<div class="row">
 								<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period From</label>
 										<select class="form-control fellowship_period" name="fellowship_period"  id="fellowship_period" >
 										    <option value="">Select Period</option>
 											<option value="2020-2021" <?php if(isset($data['institute_data']->fellowship_period)) { if($data['institute_data']->fellowship_period=="2020-2021") { echo "selected"; } } ?>>2020-2021</option>
@@ -489,6 +458,20 @@
 											
 								   	    </select>
 									</div>
+									
+									<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period To</label>
+										<select class="form-control fellowship_period_to" name="fellowship_period_to"  id="fellowship_period_to" >
+										    <option value="">Select Period</option>
+											<option value="2020-2021" <?php if(isset($data['institute_data']->fellowship_period_to)) { if($data['institute_data']->fellowship_period_to=="2020-2021") { echo "selected"; } } ?>>2020-2021</option>
+											<option value="2021-2022" <?php if(isset($data['institute_data']->fellowship_period_to)) { if($data['institute_data']->fellowship_period_to=="2021-2022") { echo "selected"; } }?>>2021-2022</option>
+											<option value="2022-2023" <?php if(isset($data['institute_data']->fellowship_period_to)) { if($data['institute_data']->fellowship_period_to=="2022-2023") { echo "selected"; } } ?>>2022-2023</option>
+											<option value="2023-2024" <?php if(isset($data['institute_data']->fellowship_period_to)) { if($data['institute_data']->fellowship_period_to=="2023-2024") { echo "selected"; } } ?>>2023-2024</option>
+											<option value="2024-2025" <?php if(isset($data['institute_data']->fellowship_period_to)) { if($data['institute_data']->fellowship_period_to=="2024-2025") { echo "selected"; } } ?>>2024-2025</option>
+											
+								   	    </select>
+									</div>
+									
 									</div>
 									
 								<div class="row">
@@ -670,13 +653,13 @@ $(document).ready(function() {
 var hash = location.hash;
 var hash = location.hash.substr(1);
 
-   // var getUrl = window.location;
-	// var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
-	// var folderName= getUrl.pathname.split('/')[1];
-	// var URL1= baseurl+'/'+ hash;
+   var getUrl = window.location;
+	var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	//var folderName= getUrl.pathname.split('/')[1];
+	var URL1= baseurl+'/'+ hash;
 	
 	
-	// alert(hash);
+	//alert(URL1);
 	
 	if(hash=="university")
 	{

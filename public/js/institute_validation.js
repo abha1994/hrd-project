@@ -38,9 +38,9 @@
 		yr_est: {
 			required: true,
 		},
-		apx_stdnt: {
+		/* apx_stdnt: {
 			required: true,
-		},
+		}, */
 		
 		file_course_proof: {
 		required: function(element) {
@@ -81,9 +81,9 @@
 		 course_run:{
 			  required:true,
 		 },
-		 no_seat_course:{
+		 /* no_seat_course:{
 			  required:true,
-		 },
+		 }, */
 		 spl_offer:{
 			  required:true,
 		 },
@@ -91,6 +91,10 @@
 			  required:true,
 		 },
 		 fellowship_period:{
+			  required:true,
+		 },
+		 
+		 fellowship_period_to:{
 			  required:true,
 		 },
 		 certified:{
@@ -155,11 +159,11 @@
  $(document).ready(function() { 
 
   //************For Id proof upload***************//
-    $('#annual_report').bind('change', function() {
+     $('#annual_report').bind('change', function() {
 		var a=(this.files[0].size);
-			if(a > 1000000) {
+			if(a > 10485760) {
 				$('#annual_report').val('');
-			   $('#annual_report_error').html('Maximum allowed size for file is "1MB" ');
+			   $('#annual_report_error').html('Maximum allowed size for file is "10MB" ');
 			   $('#annual_report_error').css('color','red');
 			   return false;
 			}else{
@@ -167,12 +171,12 @@
 			};
 		var fileExtension = ['pdf'];
         if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-        	 $('#annual_report_error').html('Only pdf files allowed');
+        	 $('#annual_report_error').html('<strong>Only pdf files allowed</strong>');
              $('#annual_report_error').css('color','red');  //file_photo_error
              $('#annual_report').val('');
 		   return false;
         }
-    });
+    }); 
 	
 	
 	$('#file_course_proof').bind('change', function() {
@@ -187,7 +191,7 @@
 			};
 			var fileExtension = ['pdf'];
 			if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-				 $('#file_course_proof_error').html('Only pdf files allowed');
+				 $('#file_course_proof_error').html('<strong>Only pdf files allowed</strong>');
 				 $('#file_course_proof_error').css('color','red');  //file_photo_error
 				 $('#file_course_proof').val('');
 			   return false;
@@ -212,7 +216,7 @@
 		
 		var fileExtension = ['pdf'];
 		if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-			 $('#file_prevStudent_proof_error').html('Only pdf files allowed');
+			 $('#file_prevStudent_proof_error').html('<strong>Only pdf files allowed</strong>');
 			 $('#file_prevStudent_proof_error').css('color','red');  //file_photo_error
 			 $('#file_prevStudent_proof').val('');
 		   return false;
@@ -235,7 +239,7 @@
 		
 		var fileExtension = ['pdf'];
 		if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
-			 $('#file_upload_signature_error').html('Only pdf files allowed');
+			 $('#file_upload_signature_error').html('<strong>Only pdf files allowed</strong>');
 			 $('#file_upload_signature_error').css('color','red');  //file_photo_error
 			 $('#file_upload_signature').val('');
 		   return false;
@@ -259,6 +263,39 @@ $('.fellow').keyup(function () {
     $('#ftotal').val(sum);
      
 });
+
+
+$("#fellowship_period").on("change",function() {
+
+var v1= $(this).val();
+var v2=$("#fellowship_period_to").val();
+
+if(v1>v2 && v2!="")
+{
+	alert("From period should be less than To period");
+	$("#fellowship_period").val('');
+	$("#fellowship_period").focus();
+}
+
+
+});
+
+
+$("#fellowship_period_to").on("change",function() {
+
+var v1= $(this).val();
+var v2=$("#fellowship_period").val();
+
+if(v1<v2 && v1!="")
+{
+	alert("To period should be Greater than From period");
+	$("#fellowship_period_to").val('');
+	$("#fellowship_period_to").focus();
+}
+
+
+});
+
 });
 
 
@@ -296,6 +333,7 @@ $('.fellow').keyup(function () {
  
   //************Show Remarks remaining char**************//
   $(document).ready(function() {
+	  
 	
 	  $(".colab_inst_yes").hide();
 	  
@@ -333,14 +371,14 @@ $('.fellow').keyup(function () {
 		}
 	
 	
-	$("#val1d").text('F');
+	$("#val1d").text('E');
 	$("#place_service").change(function() {
    var p1=	$(this).val();
 
 	if(p1=="yes")
 	{
 		$("#prevstd").show();
-		$("#val1d").text('G');
+		$("#val1d").text('F');
 		$("#file_prevStudent_proof").prop('required',true);
 		
 		
@@ -348,7 +386,7 @@ $('.fellow').keyup(function () {
 	else
 	{
 		$("#prevstd").hide();
-		$("#val1d").text('F');
+		$("#val1d").text('E');
 		$("#file_prevStudent_proof").prop('required',false);
 	}	
 	
@@ -356,12 +394,12 @@ $('.fellow').keyup(function () {
 	
 	if($("#place_service option:selected").val() == 'yes'){
 		$("#prevstd").show();
-		$("#val1d").text('G');
+		$("#val1d").text('F');
 	}
 	else
 	{
 		$("#prevstd").hide();
-		$("#val1d").text('F');
+		$("#val1d").text('E');
 	}
 	
 	
@@ -387,9 +425,9 @@ $('.fellow').keyup(function () {
   
 //**** DatePicker Function  ****//
   
-  $( function() {
-    $( "#course_run" ).datepicker();
-  } );
+  $(function() {
+               $("#course_run").datepicker({ dateFormat: "dd-mm-yy" }).val()
+       });
   
   //** DatePicker Function **//
   
@@ -465,4 +503,17 @@ $('.fellow').keyup(function () {
     }); */
 		
 	});
+	
+	/* $('#submitbtn').on("click",function() {
+		
+	myfile = $("#annual_report").val();
+	var ext = myfile.split('.').pop();
+	  if(ext!="pdf") {
+		$('#file_data_error').html('Only pdf files allow');
+		$('#file_data_error').css('color','red');
+		return false;
+		}
+		
+	}); */
+	
 	});

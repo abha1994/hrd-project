@@ -9,7 +9,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('home')}}">Dashboard</a>
+          <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active"> View Institute</li>
       </ol>
@@ -67,45 +67,27 @@
 										<p><?php if(!empty($data['institute_data']->university_rank)){ ?>{{ $data['institute_data']->university_rank }} <?php } ?>
 									</div>
 									
-									<!--<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">Course offered by department : </label>
-									
-									<?php //$curse=explode(',',$data['institute_data']->lstCourse); ?>
-									
-									    @if(isset($data['courses_list']))
-										@foreach($data['courses_list'] as $courseName)
-										
-						<?php /* if(count($curse)>0) { for($k=0;$k<count($curse);$k++) { if($curse[$k]==$courseName->course_id) { ?>
-										<p>{{$k+1}}.{{$courseName->course_name}}</p>
-						<?php } } } */ ?>
-										@endforeach
-										@endif
-										
-									</div>-->
-									
-								</div> 
-							</div>
-							
-							<div class="form-group">
-								<div class="row">
-								
-								<div class="col-md-4">
+									<div class="col-md-4">
 									<label for="name"  style="font-size: 13px;" class="control-label">Last annual report</label>
 									@if(isset($data['institute_data']->annual_report))
 									<a href="{{ asset('public/uploads/nref/'.$data['institute_data']->annual_report) }}" download><?php if($data['institute_data']->annual_report) { echo $data['institute_data']->annual_report; } ?></a>
 								@endif
 									
 									</div>
+									
+									
+								</div> 
+							</div>
+							
+							<div class="form-group">
+								<div class="row">
+
 								
 								<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;" class="control-label">Years of Establishment</label>
 										<p><?php if(!empty($data['institute_data']->year_establishment)){ ?>{{$data['institute_data']->year_establishment}}<?php } ?></p>
 									</div>
 									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Approx. Number of Students in Proposed Program</label>
-										<p><?php if(!empty($data['institute_data']->no_student)){ ?>{{$data['institute_data']->no_student}}<?php } ?></p>
-									</div>
 								
 								</div> 
 							</div>
@@ -117,7 +99,7 @@
 						<tr>
                              
                             <th>Course Offered by department</th>
-                            <th class="text-center">Approx. Number of Students</th>
+                            <th class="text-center">Approx. Number of Students in Proposed Program</th>
                         </tr>
                     </thead>
                     <tbody id="table_append" class="table_append">
@@ -246,26 +228,22 @@
 										<p><?php if(!empty($data['institute_data']->course_start_date)){ ?>{{date('Y-m-d',strtotime($data['institute_data']->course_start_date))}}<?php } ?></p>
 									</div>
 									
-									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Number of Seats in each of the course</label>
-										<P><?php if(!empty($data['institute_data']->no_of_seat)){ ?>{{$data['institute_data']->no_of_seat}}<?php } ?></P>
-									</div>
 									
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) Specialization offered</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Specialization offered</label>
 										<p><?php if(!empty($data['institute_data']->specialization_offered)){ ?>{{$data['institute_data']->specialization_offered}}<?php } ?></p>
 									</div>
 									
 									<div class="col-md-4">
-									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">D) If any industry collaboration is there, if so details thereof</label>
+									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">C) If any industry collaboration is there, if so details thereof</label>
 										<p><?php if(!empty($data['institute_data']->industry_collaboration)){ ?>{{$data['institute_data']->industry_collaboration}}<?php } ?></p>
 									</div>
 									
 									
 									<div class="col-md-4">
 									
-                                  <label for="name"  style="font-size: 12px;" class="control-label">E) If placement service is being provided</label>
+                                  <label for="name"  style="font-size: 12px;" class="control-label">D) If placement service is being provided</label>
 								  
 								  <p><?php 
 								  if(!empty($data['institute_data']->placement_details)){
@@ -295,7 +273,7 @@
 									
 									@if($data['institute_data']->placement_details=='yes')
 									<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">F) Details of placement of previous students</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">E) Details of placement of previous students</label>
 										@if(isset($data['institute_data']->file_prevStudent_proof))
 										<a href="{{ asset('public/uploads/nref/'.$data['institute_data']->file_prevStudent_proof) }}" download><?php if($data['institute_data']->file_prevStudent_proof) { echo $data['institute_data']->file_prevStudent_proof; } ?></a>
 										@endif
@@ -305,10 +283,10 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">
-									 <?php if($data['institute_data']->placement_details=='yes') { echo "G"; }
+									 <?php if($data['institute_data']->placement_details=='yes') { echo "F"; }
 									       else
 										   {
-											   echo "F";
+											   echo "E";
 										   }
 										 
 										 ?>
@@ -333,9 +311,15 @@
 								
 								<div class="row">
 								<div class="col-md-4">
-									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period</label>
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period From</label>
 									<p><?php if(!empty($data['institute_data']->fellowship_period)){ ?>{{$data['institute_data']->fellowship_period}}<?php } ?></p>
 									</div>
+									
+									<div class="col-md-4">
+									<label for="name"  style="font-size: 13px;" class="control-label">Fellowship slot requirement Period To</label>
+									<p><?php if(!empty($data['institute_data']->fellowship_period_to)){ ?>{{$data['institute_data']->fellowship_period_to}}<?php } ?></p>
+									</div>
+									
 									</div>
 									
 								<div class="row">
@@ -569,7 +553,7 @@ $(document).ready(function() {
    var getUrl = window.location;
 	var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
 	//var folderName= getUrl.pathname.split('/')[1];
-	var URL1= '/universityFinalReject';
+	var URL1= baseurl+'/universityFinalReject';
 	$('li.nav-item a[href*="'+ URL1 + '"]').addClass('active');
 
 
