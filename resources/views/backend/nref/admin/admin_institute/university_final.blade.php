@@ -15,7 +15,7 @@
 	
 	
 <?php //dd($data['institute_data']);?>
-     <div class="card-header text-center"><h4 class="mt-2">Update Institute Details</h4></div>
+     <div class="card-header text-center"><h4 style="color: #2384c6;">Update Institute Details</h4></div>
       <div class="card-body">
      	<form  enctype="multipart/form-data"  action="{{ route('final-university-submit',$data['institute_data']->institute_id) }}" class=""   autocomplete="off" id="institute_form" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
@@ -61,13 +61,10 @@
 
 							
 							<hr>
-
-						
 							<center>
 								<div class="form-group" >
-								<button type="submit" value="Final Submit" class="btn btn-primary">
-		                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>	
-								<a href="{{url('/university')}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back</a>
+								   <input class="btn btn-primary" type="submit"  name="submit" value="Submit">
+								   <button class="btn btn-primary"style="background-color: #ffffff;" ><a href="{{ URL('university')}}">Cancel</a></button>
 								</div> 
 							</center>
 							

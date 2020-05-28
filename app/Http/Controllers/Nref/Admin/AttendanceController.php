@@ -41,122 +41,43 @@ class AttendanceController extends Controller
 		$val1=$request->input('monVal');
 		$val2=$request->input('yrVal');
 		$val3=$request->input('uni1');
+
 		
-		//echo $val1; die;
-	
-	if($val1)
+		$query = DB::table('candidate_attendence')
+		->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
+		->leftJoin('courses', 'studentregistrations.course', '=', 'courses.course_id')
+		->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*','courses.course_name');
+		
+		
+   if($val1!="")
 	{
-		
-			$attendanceList = DB::table('candidate_attendence')
-            ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
-			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
-			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->orderBy('attendence_id','asc')
-            ->get();
-			
-			//echo $attendanceList; die;
+
+	$query= $query->where(['month_atten' =>$val1,'candidate_attendence.scheme_code'=>3]);
 	}
 	
-	/* if($val3)
+	 if($val2!="")
 	{
-		$attendanceList = DB::table('candidate_attendence')
-            ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
-			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
-			->where(['studentregistrations.institute_id' =>$val3,'year_atten'=>$val2])
-			->orderBy('attendence_id','asc')
-            ->get();
-			
-			//echo $val3; die;
-			
-			//echo $attendanceList;
-			
-			//echo "<pre>"; print_r($attendanceList); die;
-	} */
-	
-	 if($val1 && $val3)
-	{
-		$attendanceList = DB::table('candidate_attendence')
-            ->leftJoin('studentregistrations', 'candidate_attendence.student_id', '=', 'studentregistrations.id')
-			->select('studentregistrations.firstname','studentregistrations.middlename','studentregistrations.lastname','studentregistrations.course','candidate_attendence.*')
-			->where(['month_atten' =>$val1,'year_atten'=>$val2])
-			->where(['studentregistrations.institute_id' =>$val3,'year_atten'=>$val2])
-			->orderBy('attendence_id','asc')
-            ->get();
+		$query= $query->where(['year_atten'=>$val2,'candidate_attendence.scheme_code'=>3]);
 	} 
 	
-	if($val1=="" && $val3=="")
+	if($val3!="")
 	{
-		$attendanceList=array();
+		$query= $query->where(['candidate_attendence.institute_id'=>$val3,'candidate_attendence.scheme_code'=>3]);
+	
 	}
 	
-	//echo "<pre>"; print_r($attendanceList); die;
+	if($val1=="" && $val2=="" && $val3=="")
+	{
+		$query= $query->where(['month_atten'=>'','year_atten'=>'','candidate_attendence.institute_id'=>'','candidate_attendence.scheme_code'=>3]);
+	}
 	
-		
+	
+	$query = $query->orderBy('attendence_id','asc');
+	$attendanceList = $query->get();
+	
 		return view('backend.nref.admin.admin_attendance.attendanceAjax',compact('attendanceList'));
+
 	}
-
- 
-
-   
-    /* public function attendance_form_post(Request $request)
-    {
-		//echo $request->month_atten;
-		//dd($request);
-		
-		$all_data =  Session::get('userdata');
-			$user_id = $all_data['candidate_id'];
-			
-			//echo $user_id; die;
-        
-         $this->validate($request,[
-            'working_days' => 'required',
-            'holiday' => 'required',
-            'present_days' =>'required',
-            'absent_days' => 'required',
-             'remarks' => 'required',
-            'leave_approval' => 'required',
-
-         ]); 
- 
-         $records = $request->all();
-		 
-		 for($i=0;$i<count($request->working_days);$i++)
-		 {
-		
-			 $postdata['institute_id']=$user_id;
-			 $postdata['student_id']=$request->user_id[$i];
-			 $postdata['month_atten']=$request->month_atten;
-			 $postdata['year_atten']=$request->year_atten;
-			 $postdata['working_days']=$request->working_days[$i];
-			 $postdata['holidays']=$request->holiday[$i];
-			 $postdata['present_days']=$request->present_days[$i];
-			 $postdata['absent_days']=$request->absent_days[$i];
-			 $postdata['remarks']=$request->remarks[$i];
-			 $postdata['leave_approved_days']=$request->leave_approval[$i];
-			 $postdata['total_days']=$request->total_days[$i];
-			 
-			 //echo $request->leave_approval[$i];
-			 
-			 
-			 $existUser = DB::table('candidate_attendence')->where(['institute_id' => $user_id,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->count();
-			 
-			 if($existUser>0)
-			 {
-				 DB::table('candidate_attendence')->where(['institute_id' => $user_id,'student_id' => $request->user_id[$i],'month_atten' =>$request->month_atten,'year_atten'=>$request->year_atten])->update($postdata);
-				 $msg="Your Attandace Updated successfully.";
-			 }
-			 else{
-				 DB::table('candidate_attendence')->insert($postdata);
-				 $msg="Your Attandace created successfully.";
-			 }
-			 
-			
-		 }
-		 
-		 return redirect()->route('/attendance')->with('message',$msg);
-		     
-
-    } */
 
     /**
      * Display the specified resource.

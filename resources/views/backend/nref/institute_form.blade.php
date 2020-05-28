@@ -193,7 +193,7 @@
 				
                                  
                                 <td class="text-center">
-	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_<?php echo $p; ?>" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
+	                                <select class="form-control courseid_input_<?php echo $p; ?> required" name="courseid[]" id="courseid_<?php echo $p; ?>" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>
 										<option value="">Select Course</option>
 											@foreach($data['courses_offered'] as $val) 
 										   		<option value="{{$val->course_id}}"  <?php if($key==$val->course_id) { echo "selected";} ?>>{{$val->course_name}}</option>
@@ -206,7 +206,7 @@
 									@endif
 								</td>
                                 <td class="text-center">
-                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="<?php echo $crseDtls->$key; ?>"  id="student_<?php echo $p; ?>" placeholder="Enter No of student*" name="studentno[]" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>									   
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control no_of_stu_<?php echo $p; ?> required"  maxlength="50" value="<?php echo $crseDtls->$key; ?>"  id="student_<?php echo $p; ?>" placeholder="Enter No of student*" name="studentno[]" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?>@endif>									   
 									@if ($errors->has('studentno'))
 										<span class="invalid-feedback " role="alert">
 											<strong>{{ $errors->first('studentno') }}</strong>
@@ -241,7 +241,7 @@
 							<tr>
                                  
                                 <td class="text-center">
-	                                <select class="form-control courseid_input required" name="courseid[]" id="courseid_0">
+	                                <select class="form-control courseid_input_0 required" name="courseid[]" id="courseid_0">
 										<option value="">Select Course</option>
 											@foreach($data['courses_offered'] as $val) 
 										   		<option value="{{$val->course_id}}">{{$val->course_name}}</option>
@@ -254,7 +254,7 @@
 									@endif
 								</td>
                                 <td class="text-center">
-                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control required"  maxlength="50" value="" id="student_0; ?>" placeholder="Enter No of student*" name="studentno[]">									   
+                                	<input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" class="form-control no_of_stu_0 required"  maxlength="50" value="" id="student_0; ?>" placeholder="Enter No of student*" name="studentno[]">									   
 									@if ($errors->has('studentno'))
 										<span class="invalid-feedback " role="alert">
 											<strong>{{ $errors->first('studentno') }}</strong>
@@ -365,7 +365,7 @@
 								<div class="row">
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">Experience in Energy related courses</label>
-										<input type="text" class="form-control exp_energy_course" onkeyup="this.value = this.value.toUpperCase();" value="<?php if(!empty($inst_data->energy_experience)){ ?>{{$inst_data->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										<input type="text" class="form-control exp_energy_course" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="0" maxlength="3" value="<?php if(!empty($inst_data->energy_experience)){ ?>{{$inst_data->energy_experience}}<?php } ?>" id="exp_energy_course" placeholder="Experience in Energy related courses" name="exp_energy_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('exp_energy_course'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('exp_energy_course') }}</strong>
@@ -388,7 +388,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">B) Number of Seats in each of the course</label>
-										<input type="text" class="form-control no_seat_course" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->no_of_seat)){ ?>{{$inst_data->no_of_seat}}<?php } ?>" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
+										<input type="text" class="form-control no_seat_course" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?php if(!empty($inst_data->no_of_seat)){ ?>{{$inst_data->no_of_seat}}<?php } ?>" min="0" maxlength="4" id="no_seat_course" placeholder="Number of Seats in each of the course" name="no_seat_course" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif>
 										@if ($errors->has('no_seat_course'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('no_seat_course') }}</strong>
@@ -687,6 +687,17 @@
 	 $("#modalContent .hideannualReport").remove();
 	 $("#modalContent .yr_est").val($("#modalCont .yr_est").val()).attr('readonly',true);
 	 $("#modalContent .apx_stdnt").val($("#modalCont .apx_stdnt").val()).attr('readonly',true);
+	 
+	 $("#modalContent .courseid_input_0").val($("#modalCont .courseid_input_0").val()).attr('readonly',true);
+	 $("#modalContent .no_of_stu_0").val($("#modalCont .no_of_stu_0").val()).attr('readonly',true);
+	 
+	 $("#modalContent .courseid_input_1").val($("#modalCont .courseid_input_1").val()).attr('readonly',true);
+	 $("#modalContent .no_of_stu_1").val($("#modalCont .no_of_stu_1").val()).attr('readonly',true);
+	 
+	 $("#modalContent .courseid_input_2").val($("#modalCont .courseid_input_2").val()).attr('readonly',true);
+	 $("#modalContent .no_of_stu_2").val($("#modalCont .no_of_stu_2").val()).attr('readonly',true);
+	
+	 
 	 $("#modalContent .file_course_proof").remove();
 	 $("#modalContent .collab_inst").val($("#modalCont .collab_inst").val()).attr('disabled',true);
 	 if ($("#research").is( ":checked")) { $(".research").prop('checked',true); }
@@ -773,7 +784,7 @@ parseInt($('#counter').val(counter));
 	   //alert(counter);
 
         if(counter <=2){  
-       var html = '<tr class="record"><td class="text-center"><select class="form-control courseid_input" name="courseid[]" id="courseid_' + counter + '"><option value="">Select Course</option>'+ opt +'</select></td><td><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="studentno[]" id="student_' + counter + '" placeholder="Enter No. of student*" class="form-control"></td><td><button type="button" class="remove_fields">-</button></td></tr>';         
+       var html = '<tr class="record"><td class="text-center"><select class="form-control courseid_input_' + counter + '" name="courseid[]" id="courseid_' + counter + '"><option value="">Select Course</option>'+ opt +'</select></td><td><input type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" name="studentno[]" id="student_' + counter + '" placeholder="Enter No. of student*" class="form-control no_of_stu_' + counter + '"></td><td><button type="button" class="remove_fields">-</button></td></tr>';         
         
         $('#table_append').append(html);
         $('#counter').val( counter + 1 );

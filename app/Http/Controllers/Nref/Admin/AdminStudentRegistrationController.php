@@ -548,15 +548,16 @@ class AdminStudentRegistrationController extends Controller
 // /***********************Application Forward to committe End*********************//
 
 // /***********************Application Committee recommanded Student*********************//
-	public function committee_recom(Request $request)
+   public function committee_recom(Request $request)
    {
+
         $id = $request->findStudentInst;
         if(!empty($request->findStudentInst)){
             $inst = DB::table('institute_details')
 						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
 						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
 						->select('registration.institute_name','institute_details.institute_id')
-						->where('institute_details.status_id',3)
+						->where('institute_details.status_id',1)
 						->get();
             $students = DB::table('studentregistrations')->where('institute_id',$request->findStudentInst)->where('officer_role_id',5)->where('status_id',"1")->orderBy('id','desc')->get();
 
@@ -566,7 +567,7 @@ class AdminStudentRegistrationController extends Controller
 						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
 						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
 						->select('registration.institute_name','institute_details.institute_id')
-						->where('institute_details.status_id',3)
+						->where('institute_details.status_id',1)
 						->get();
             $students = DB::table('studentregistrations')->where('officer_role_id',5)->where('status_id',"1")->orderBy('id','desc')->get();
 		
@@ -574,7 +575,7 @@ class AdminStudentRegistrationController extends Controller
 		return view('backend.nref.Admin.studentInstitute.committee_recom.list',compact('students','inst','id'));
     }
 	
-	 public function committee_recom_show($id, $ids){
+   public function committee_recom_show($id, $ids){
         $recorde = studentRegistration::findOrFail($id);
         $courses = DB::table('courses')->where('display',1)->get();
         $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
@@ -589,7 +590,7 @@ class AdminStudentRegistrationController extends Controller
 						->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')
 						->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
 						->select('registration.institute_name','institute_details.institute_id')
-						->where('institute_details.status_id',3)
+						->where('institute_details.status_id',1)
 						->get();
         $students = DB::table('studentregistrations')->where('officer_role_id',5)->where('status_id',"1")->where('institute_id',$id)->orderBy('id','desc')->get();
 

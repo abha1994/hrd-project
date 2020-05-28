@@ -70,7 +70,7 @@ class Admin_institute extends Model
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 2)
 			->where('institute_details.officer_role_id', 3)
-			->whereNotIn('institute_details.officer_role_id', [5])
+			//->whereNotIn('institute_details.officer_role_id', [5])
 			->where('institute_details.final_submit',1)
 			->get();
 		 
@@ -118,7 +118,6 @@ class Admin_institute extends Model
             ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id','institute_details.sancation_forms')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 3)
-			->where('institute_details.status_id', 3)
 			->where('institute_details.final_submit',1)
 			->get();
 			$data['breadcum'] = 'List of Selected Application';
@@ -133,7 +132,8 @@ class Admin_institute extends Model
             ->select('registration.candidate_id','registration.category_id','registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.email_id','registration.mobile_no','institute_details.institute_id','institute_details.application_cd','institute_details.department_name','institute_details.coordinate_prog','institute_details.institute_type_id','institute_details.university_rank','institute_details.year_establishment','institute_details.no_student','institute_details.any_collaboration','institute_details.research_phd','institute_details.energy_experience','institute_details.course_start_date','institute_details.no_of_seat','institute_details.specialization_offered','institute_details.industry_collaboration','institute_details.placement_details','institute_details.other_details','institute_details.spon_project','institute_details.fellowship_mtech','institute_details.fellowship_jrf','institute_details.fellowship_srf','institute_details.fellowship_msc','institute_details.fellowship_total','institute_details.fellowship_period','institute_details.certified_status','institute_details.annual_report','institute_details.final_submit','institute_details.faculty_details','institute_details.placement_details','institute_details.file_prevStudent_proof','institute_details.file_upload_signature','institute_details.status_id','institute_details.officer_role_id')
 			->where('registration.category_id', 3)
 			->where('institute_details.status_id', 2)
-			->where('institute_details.officer_role_id','!=',3)
+			//->where('institute_details.officer_role_id', 5)
+			->whereNotIn('institute_details.officer_role_id', [3])
 			->where('institute_details.final_submit',1)
 			->get();
 			$data['breadcum'] = 'List of Rejected Application By Committee';
@@ -698,7 +698,8 @@ class Admin_institute extends Model
 		}
 		
 		$query= $query->where('institute_details.status_id',2);
-		$query= $query->whereNotIn('institute_details.officer_role_id', [5]);
+		$query= $query->where('institute_details.officer_role_id',3);
+		//$query= $query->whereNotIn('institute_details.officer_role_id', [5]);
 		$query= $query->where('registration.category_id',3);
 		$query= $query->where('institute_details.final_submit',1);
 		
@@ -938,7 +939,8 @@ class Admin_institute extends Model
 		}
 		
 		$query= $query->where('institute_details.status_id',2);
-		$query= $query->where('institute_details.officer_role_id', 5);
+		//$query= $query->where('institute_details.officer_role_id', 5);
+		$query= $query->whereNotIn('institute_details.officer_role_id', [3]);
 		$query= $query->where('registration.category_id',3);
 		$query= $query->where('institute_details.final_submit',1);
 		
@@ -1094,7 +1096,8 @@ class Admin_institute extends Model
 			
 			if($institutetype == "7"){
 			$query= $query->where('institute_details.status_id',2);
-			$query= $query->where('institute_details.officer_role_id', 5);
+			//$query= $query->where('institute_details.officer_role_id', 5);
+			$query= $query->whereNotIn('institute_details.officer_role_id',[3]);
 			}
 			
 			if($institutetype == "6"){
@@ -1112,7 +1115,8 @@ class Admin_institute extends Model
 			
 			else if($institutetype == "3"){
 			$query= $query->where('institute_details.status_id',2);
-			$query= $query->whereNotIn('institute_details.officer_role_id', [5]);
+			//$query= $query->whereNotIn('institute_details.officer_role_id', [5]);
+			$query= $query->where('institute_details.officer_role_id', 3);
 			}
 			
 			else if($institutetype == "2"){
@@ -1203,7 +1207,8 @@ class Admin_institute extends Model
 			
 			if($institutetype == "7"){
 			$query= $query->where('institute_details.status_id',2);
-			$query= $query->where('institute_details.officer_role_id', 5);
+			//$query= $query->where('institute_details.officer_role_id', 5);
+			$query= $query->whereNotIn('institute_details.officer_role_id',[3]);
 			}
 			
 			if($institutetype == "6"){
@@ -1222,7 +1227,8 @@ class Admin_institute extends Model
 			
 			else if($institutetype == "3"){
 			$query= $query->where('institute_details.status_id',2);
-			$query= $query->whereNotIn('institute_details.officer_role_id',[5]);
+			//$query= $query->whereNotIn('institute_details.officer_role_id',[5]);
+			$query= $query->where('institute_details.officer_role_id',3);
 			}
 			
 			else if($institutetype == "2"){

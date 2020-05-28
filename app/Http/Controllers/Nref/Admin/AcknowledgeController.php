@@ -23,7 +23,7 @@ class AcknowledgeController extends Controller
         $curMonth=date("n"); 
 		$currentYear= date("Y");
 		$institute_id =  Auth::id(); // Institute login id
-        $candidates = DB::table('candidate_attendence')->where('user_id',$institute_id)->orderBy('attendence_id','desc')->get();
+       $candidates = DB::table('candidate_attendence')->where('scheme_code',3)->orderBy('attendence_id','desc')->get();
 		
 		$instituteDetails = DB::table('institute_details')
             ->leftJoin('user_credential', 'institute_details.user_id', '=', 'user_credential.id')

@@ -31,17 +31,72 @@
             {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
         </div>
     </div>
-    
+<style>
+.head_design{
+	background-color: #c1c1c1;
+    color: white;
+    padding: 6px;
+    border-radius: 8px;
+}  
+</style>
   <div class="col-xs-10 col-sm-10 col-md-12">
     <div class="form-group">
-            <div class="text-success mb-2">Choose Permission:</div>
+            <div class="text-success mb-2"><input type="checkbox" id="selectall"/> Choose Permission:</div>
             <div class="row">
-            @foreach($permission as $value)
-                <div class="col-4"><label style="font-size:16px;font-weight:400;display:inline-block;">{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-                {{ $value->name }}</label>
-                </div>
-            <br />
-            @endforeach
+			<div class="col-12">
+			
+			<?php  $scheme_arr = ['0'=>'','1'=>'Internship','3'=>'National Renewable Energy Fellowship'];
+			$mdarray = module_array();
+			foreach($scheme_arr as $sk=>$sv){
+			foreach($mdarray as $k=>$v){ 
+			
+				foreach($permission as $value) {
+					if($value->module_id == $k){
+						if($sk == $value->scheme_code){
+					      $arr[$sk][$value->module_id][$value->id] = $value->name;
+						}
+				
+					}
+					
+			 }
+			 
+			}
+				
+			}
+		// echo "<pre>";print_r($arr);	
+$mdarray = module_array();		
+foreach($arr as $k1=>$v1){
+	if($k1 == "0"){
+	}else if($k1  == "1"){ ?>
+	  <h3 class="head_design"><input type="checkbox" class="case select_1" dir="<?php echo $k1;?>">  NREI</h3>
+	<?php }else if($k1  == "3"){ ?> 
+	    <h3 class="head_design"><input type="checkbox" class="case select_3" dir="<?php echo $k1;?>" />  NREF</h3>
+   <?php	}
+	// echo "<pre>";print_r($v1);	
+	?>
+	
+	 <?php 
+	foreach($v1 as $k2=>$v2){
+		
+		foreach($mdarray as $k3=>$v3){ 
+			if($k2 == $k3){?>
+			  <h6 class=""><b><?php echo $v3.' :'; ?></b></h6>
+			  <?php 
+				 	foreach($v2 as $k4=>$v4){
+						?>
+						  <label style="font-size:16px;font-weight:400;display:inline-block;">{{ Form::checkbox('permission[]', $k4, in_array($k4, $rolePermissions) ? true : false, array('class' => "case select_code_$k1")) }}
+                         {{ $v4 }}</label>&nbsp;&nbsp;
+						<?php 
+						
+					}?>
+                  <hr>					
+			<?php
+		   }
+		}
+	}
+}			?>
+		
+			</div>	
         </div>  
       </div>
   </div>
@@ -60,9 +115,42 @@
 </div>
  <script type="text/javascript">
  $(document).ready(function () {
-      $(".nav-link").removeClass('active');
-      $("#liRole").addClass('active');
+	
+
+$("#selectall").click(function () {
+	var checkAll = $("#selectall").prop('checked');
+	    if (checkAll) {
+            $(".case").prop("checked", true);
+        } else {
+            $(".case").prop("checked", false);
+        }
+    }); 
+   $(".select_1").click(function () {
+	// var scheme_code = $(this).attr('dir');
+	var checkAll = $(".select_1").prop('checked');
+	    if (checkAll) {
+            $(".select_code_1").prop("checked", true);
+        } else {
+            $(".select_code_1").prop("checked", false);
+        }
     });
+	
+	$(".select_3").click(function () {
+	// var scheme_code = $(this).attr('dir');
+	var checkAll = $(".select_3").prop('checked');
+	    if (checkAll) {
+            $(".select_code_3").prop("checked", true);
+        } else {
+            $(".select_code_3").prop("checked", false);
+        }
+    });
+	
+	
+	
+
+    });
+	
+
 </script>
 <!-- <script src="{{ asset('js/app.js') }}"></script> 
  -->@endsection

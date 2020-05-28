@@ -37,11 +37,31 @@
 	</div>
 <?php } ?>
     <!-- Right navbar links -->
+	<?php //$institute_notification = institute_notification(); 
+	      //$role = Auth::user()->role;?> 
+
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
+<?php  //if($role == null){ ?>
+    <!--li class="nav-item dropdown">	  
+	 <a href="#" class="notification" class="nav-link" data-toggle="dropdown" >
+	  <span ><i style="font-size:24px;"class="fa fa-bell" aria-hidden="true"></i></span>
+	  <span class="badge" >3</span>
+	</a>
+	 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+		  <a class="nav-link" href="{{ url('changepassword') }}">
+             <i class="nav-icon fa fa-key" aria-hidden="true"></i> {{ __('Change Password') }}
+          </a>
+          <a class="nav-link" href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">
+             <i class="nav-icon fa fa-power-off red" aria-hidden="true"></i> {{ __('Logout') }}
+          </a>
+		</div>
+      </li-->
+<?php // } ?>
+		  <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-         <!--  <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3"> -->
          <div class="image">
           <img src="{{asset('public/assets/img/default.png')}}" class="img-circle" height="31px" alt="User Image">
           <span >{{Auth::user()->name}} </span>
@@ -68,6 +88,31 @@
   </nav>
 
 <style>
+
+
+.notification {
+
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.notification:hover {
+
+}
+
+.notification .badge {
+    position: absolute;
+    top: 0px;
+    right: 8px;
+    padding: 5px 10px;
+    border-radius: 17%;
+    background: red;
+    color: white;
+}
 
 hr.solid {
   border-top: 3px solid #bbb;

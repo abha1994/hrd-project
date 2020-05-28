@@ -5,20 +5,35 @@
 $(document).ready(function() { 
 
 
-
-$(".commoanPara").on("change",function() {
-
+$(".commoanPara").change(function(){
+	
 var monVal=$("#month_attenAdmin").val();
 var uni1=$("#university_atten").val();
 var yrVal=$("#year_atten").val();
+	
+var _token = $('input[name="_token"]').val();
+	$('#attend').DataTable({
+                "bDestroy": true,
+				"bLengthChange": false,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url':pageurl,
+					'data': { monVal,uni1,yrVal,_token }
+                },
 
-$.ajax({
-    type: "get",
-    url: pageurl, // This is what I have updated
-    data: { 'monVal': monVal,'yrVal':yrVal,'uni1':uni1}
-}).done(function( result ) {
-	$(".ajaxPart").html(result);
-});
+                'columns': [
+				    { data: 'fellowname' },
+                    { data: 'stream' },
+					{ data: 'working' },
+					{ data: 'holiday' },
+					{ data: 'present' },
+					{ data: 'absent' },
+					{ data: 'leave' },
+					{ data: 'total' },
+					{ data: 'remark' },
+                ]
+            });
+
 	
 });
 
@@ -26,6 +41,16 @@ $.ajax({
 
 
 });
+
+$(document).ready(function() {
+	$( "#attend" ).DataTable({
+		bProcessing: true,
+		bRetrieve: true,
+		bSort: false,
+        bLengthChange: false,
+
+	});
+  } );
 
 /* On Month Change Display Data */
 

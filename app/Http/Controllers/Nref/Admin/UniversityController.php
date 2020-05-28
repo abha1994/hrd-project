@@ -33,34 +33,42 @@ class UniversityController extends Controller
 	    $current_url =  \Request::segment(1);//dd($current_url);
 		if($current_url == 'university'){
 			
-			$this->middleware('permission:admin-nref-institute-list|admin-nref-institute-edit|admin-nref-institute-delete', ['only' => ['index','view']]);
+			$this->middleware('permission:admin-nref-institute-list|admin-nref-institute-edit|admin-nref-institute-delete', ['only' => ['index','viewPendingUniversity']]);
 			$this->middleware('permission:admin-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:admin-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universityCons'){
 			
-			$this->middleware('permission:considered-nref-institute-by-level1-list|considered-nref-institute-by-level1-edit|considered-nref-institute-by-level1-delete', ['only' => ['considered_level_1','view']]);
+			$this->middleware('permission:considered-nref-institute-by-level1-list|considered-nref-institute-by-level1-edit|considered-nref-institute-by-level1-delete', ['only' => ['index2','viewlvl1University']]);
 			$this->middleware('permission:considered-nref-institute-by-level1-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:considered-nref-institute-by-level1-delete', ['only' => ['destroy']]);
 
 		 }else if($current_url == 'universityNocons'){
 			
-			$this->middleware('permission:rejected-nref-institute-list|rejected-nref-institute-edit|rejected-nref-institute-delete', ['only' => ['rejected_internship','view']]);
+			$this->middleware('permission:rejected-nref-institute-list|rejected-nref-institute-edit|rejected-nref-institute-delete', ['only' => ['index4','viewrejectUniversity']]);
 			$this->middleware('permission:rejected-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:rejected-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universityConsAdmin'){
 			
-			$this->middleware('permission:forward-to-committee-nref-institute-list|forward-to-committee-nref-institute-edit|forward-to-committee-nref-institute-delete', ['only' => ['forword_to_committee','view']]);
+			$this->middleware('permission:forward-to-committee-nref-institute-list|forward-to-committee-nref-institute-edit|forward-to-committee-nref-institute-delete', ['only' => ['index3','view_frwdCommite']]);
 			$this->middleware('permission:forward-to-committee-nref-institute-edit', ['only' => ['edit','update']]);
 			$this->middleware('permission:forward-to-committee-nref-institute-delete', ['only' => ['destroy']]);
 			
 		 }else if($current_url == 'universitySelected'){
 			
-			$this->middleware('permission:Selected-nref-institute-list|Selected-nref-institute-edit|Selected-nref-institute-delete', ['only' => ['selected_internship','view']]);
-			$this->middleware('permission:Selected-nref-institute-edit', ['only' => ['edit','update']]);
-			$this->middleware('permission:Selected-nref-institute-delete', ['only' => ['destroy']]);
+			$this->middleware('permission:nref-commitee-recom-institute-list|nref-commitee-recom-institute-edit|nref-commitee-recom-institute-delete', ['only' => ['index5','view_recommendCommite']]);
+			$this->middleware('permission:nref-commitee-recom-institute-edit', ['only' => ['edit','update']]);
+			$this->middleware('permission:nref-commitee-recom-institute-delete', ['only' => ['destroy']]);
+		}
+        else if($current_url == 'universityFinalReject'){
+			
+			$this->middleware('permission:finalRejected-nref-institute-list', ['only' => ['index6','viewFinalReject']]);
 		}	
+        else if($current_url == 'universityFinalSelected'){
+			
+			$this->middleware('permission:finalselected-nref-institute-list', ['only' => ['index7','view']]);
+		}			
     }
 
   
@@ -78,14 +86,14 @@ class UniversityController extends Controller
 		
 		$stateList = Admin_institute::getState();
 
-		return view('backend/nref/Admin/admin_institute/university_list',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/pendingInstitute/university_list',compact('data','stateList'));
 	}
 	
 	public function index2(Request $request)
     { 
 		$data = Admin_institute::considered_by_level1();
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_level1_list',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/considerLevel1/university_level1_list',compact('data','stateList'));
 	}
 	
 	
@@ -93,14 +101,14 @@ class UniversityController extends Controller
     { 
 		$data = Admin_institute::forward_to_committee();
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_forward_to_committee_list',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/forwardToCommitee/university_forward_to_committee_list',compact('data','stateList'));
 	}
 	
 	public function index4(Request $request)
     { 
 		$data = Admin_institute::rejected();
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_reject_list',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/RejectByLevel1/university_reject_list',compact('data','stateList'));
 	}
 	
     public function index5(Request $request)
@@ -109,7 +117,7 @@ class UniversityController extends Controller
 		$data = Admin_institute::recommendByCommitee();
 		
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_selected_list',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/recommendByCommitee/university_selected_list',compact('data','stateList'));
 	}
 	
 	public function index6(Request $request)
@@ -118,7 +126,7 @@ class UniversityController extends Controller
 		$data = Admin_institute::rejectByCommitee();
 		
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_final_reject',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/FinalRejectInstitute/university_final_reject',compact('data','stateList'));
 	}
 	
 	public function index7(Request $request)
@@ -127,7 +135,7 @@ class UniversityController extends Controller
 		$data = Admin_institute::finalSelect();
 		
 		$stateList = Admin_institute::getState();
-		return view('backend/nref/Admin/admin_institute/university_final_select',compact('data','stateList'));
+		return view('backend/nref/Admin/admin_institute/FinalSelectedInstitute/university_final_select',compact('data','stateList'));
 	}
 	
 	/**
@@ -678,40 +686,38 @@ class UniversityController extends Controller
 	public function viewFinalReject($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/university_view_finalReject',compact('data'));
+		return view('backend/nref/Admin/admin_institute/FinalRejectInstitute/university_view_finalReject',compact('data'));
 	}
 	
 	
 	public function viewPendingUniversity($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/university_pending',compact('data'));
+		return view('backend/nref/Admin/admin_institute/pendingInstitute/university_pending',compact('data'));
 	}
 	
 	public function viewlvl1University($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/university_level1',compact('data'));
+		return view('backend/nref/Admin/admin_institute/considerLevel1/university_level1',compact('data'));
 	}
 	
 	public function viewrejectUniversity($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/university_rejectList',compact('data'));
+		return view('backend/nref/Admin/admin_institute/RejectByLevel1/university_rejectList',compact('data'));
 	}
-	
-	
 	
 	public function view_frwdCommite($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/view_forwdCommte',compact('data'));
+		return view('backend/nref/Admin/admin_institute/forwardToCommitee/view_forwdCommte',compact('data'));
 	}
 	
 	public function view_recommendCommite($id)
     { 
 	    $data = Admin_institute::edit($id);
-		return view('backend/nref/Admin/admin_institute/view_recommndCommte',compact('data'));
+		return view('backend/nref/Admin/admin_institute/recommendByCommitee/view_recommndCommte',compact('data'));
 	}
 	
 	
@@ -877,7 +883,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::pendingInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/pendingInstitute/pendingInstAjax',compact('data'));
 	}
 	
 	public function considerInstituteAjax(Request $request)
@@ -890,7 +896,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::considerInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/considerLevel1/pendingLevel1Ajax',compact('data'));
 	}
 	
 	public function nonconsiderInstituteAjax(Request $request)
@@ -903,7 +909,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::nonconsiderInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/RejectByLevel1/pendingRejectAjax',compact('data'));
 	}
 	
 	public function frwdCommiteInstituteAjax(Request $request)
@@ -916,7 +922,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::fwdcommitInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/fwdCommiteAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/forwardToCommitee/fwdCommiteAjax',compact('data'));
 	}
 	
 	
@@ -932,7 +938,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::recommendInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/pendingrecommndAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/recommendByCommitee/pendingrecommndAjax',compact('data'));
 	}
 	
 	public function finalrejectInstituteAjax(Request $request)
@@ -945,7 +951,7 @@ class UniversityController extends Controller
 	
 	$data = Admin_institute::finalrejctInst($frmDate,$toDate,$stateId,$courseId);
 
-	return view('backend/nref/Admin/admin_institute/finalRejectAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/FinalRejectInstitute/finalRejectAjax',compact('data'));
 	}
 	
 	
@@ -962,7 +968,7 @@ class UniversityController extends Controller
 	$data = Admin_institute::selectedInst($frmDate,$toDate,$stateId,$courseId);
 
 	//return view('backend/nref/Admin/admin_institute/pendingAjax',compact('data'));
-	return view('backend/nref/Admin/admin_institute/selectedAjax',compact('data'));
+	return view('backend/nref/Admin/admin_institute/FinalSelectedInstitute/selectedAjax',compact('data'));
 	}
 	
 	

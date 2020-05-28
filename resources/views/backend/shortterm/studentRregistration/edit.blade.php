@@ -263,7 +263,7 @@
 			 <center>
 					<button type="submit" value="Submit" class="btn btn-primary">
 					<i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
-					<a href="{{url('student-registration')}}" class="btn btn-outline-secondary">
+					<a href="{{url('st-student-registration')}}" class="btn btn-outline-secondary">
 					<i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 					</center>	
 	    </form>

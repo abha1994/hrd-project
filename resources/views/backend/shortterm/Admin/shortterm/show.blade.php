@@ -7,24 +7,29 @@
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Student Registration
-		 </li>
+        <li class="breadcrumb-item active">Pending Application</li>
       </ol>
 	 
       <!-- Example DataTables Card-->
     <div class="card mb-3">
-		<div class="card-header text-center"><h4 class="mt-2">Student Registration</h4></div>
+		<div class="card-header text-center"><h4 class="mt-2"> Pending Application </h4></div>
 	    <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 		 
 		<div class="pull-right" style="float: right;">
         
         <!-- <a class="btn btn-success" href="{{ url('short-term-application-consider/'.$record[0]->short_term_id) }}"><i class="nav-icon fas "></i>Consider</a>
          <a class="btn btn-danger" href="{{ url('short-term-application-nonconsider/'.$record[0]->short_term_id) }}"><i class="nav-icon fas"></i>Non Consider</a> -->
+         <?php 
+         $officer_id = Auth::id();
+         $roleid = \App\User::with('roles')->find($officer_id);
 
-         <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_nonconidered(1,'<?php echo $record[0]->short_term_id;?>' )">Considered</button>
+          ?> 
+          @if($roleid->role!=5 )
+    <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_nonconidered(1,'<?php echo $record[0]->short_term_id;?>' )">Considered</button>
 		
 		<button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; " onclick="considered_nonconidered(2,'<?php echo $record[0]->short_term_id;?>')">Non Considered</button>
-		<a href="{{url('short-term-application')}}" class="btn btn-secondary">Back</a>
+		@endif
+		<a href="{{url('pending-application')}}" class="btn btn-secondary">Back</a>
          
       </div><br />
            <div class="table-responsive card-box">
@@ -172,7 +177,7 @@
       <div class="modal-header">
 	  
 	    
-         <div class="card-header text-center" style="width: 100%;"><h4 style="color: #2384c6;" class="application_id"> </h4><button type="button" class="close" onclick="close_consider_non_cons()" style="padding: 15px;margin: -77px -31px -15px auto;">&times;</button></div>
+         <div class="card-header text-center" style="width: 100%;"><h4 style="color: #FFF;" class="application_id"> </h4><button type="button" class="close" onclick="close_consider_non_cons()" style="padding: 15px;margin: -77px -31px -15px auto;">&times;</button></div>
 		 
 		
      </div>
@@ -324,10 +329,18 @@ function consider_form_sumbit(){
 
 /*************Student Considered AND Non Considered popup open and popup close and form submit function*********/
 
-$(document).ready(function () {
-  $(".nav-link").removeClass('active');
-  $("#listudent").addClass('active');
-});
+ $(document).ready(function () {
+ 
+        $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        $("#pendingapplication").addClass("active");
+         $("#rejectededit").addClass("active");
+      });
 </script>
 @endsection
  

@@ -664,6 +664,53 @@ parseInt($('#counter').val(counter));
 
 </script>
 
+<script>
+$(document).ready(function() { 
+
+var hash = location.hash;
+var hash = location.hash.substr(1);
+
+   // var getUrl = window.location;
+	// var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	// var folderName= getUrl.pathname.split('/')[1];
+	// var URL1= baseurl+'/'+ hash;
+	
+	
+	// alert(hash);
+	
+	if(hash=="university")
+	{
+		$(".pending").addClass("active");
+	}
+	
+	if(hash=="universityCons")
+	{
+		$(".consider1").addClass("active");
+	}
+	
+	if(hash=="universityNocons")
+	{
+		$(".rejected").addClass("active");
+	}
+	
+	if(hash=="universityConsAdmin")
+	{
+		$(".frwdComm").addClass("active");
+	}
+	
+	if(hash=="universitySelected")
+	{
+		$(".recmndComm").addClass("active");
+	}
+	
+	if(hash=="universityFinalSelected")
+	{
+		$(".selectdInst").addClass("active");
+	}
+
+});
+</script>
+
 @endsection
 	
 	

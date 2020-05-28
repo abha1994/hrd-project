@@ -30,7 +30,7 @@ class ProgressreportController extends Controller
 		$institute_detailID = DB::table('candidate_attendence')->where('user_id',$institute_id)->first();
 		
 		$students = DB::table('studentregistrations')
-			->where('user_id',$institute_id)
+			->where('user_id',$institute_id)->where('status_id','3')->where('scheme_code','3')
 			->orderBy('id','desc')
             ->get();
 		return view('backend.nref.progressReport',compact('students','candidates','reports','institute_detailID'));
@@ -44,6 +44,7 @@ class ProgressreportController extends Controller
         $records = $request->all();
 		    $transactionResult = DB::transaction(function() use ($request) {
 			$user_id =  Auth::id();
+			$institute_id = DB::table('institute_details')->where('user_id', $user_id)->get()->first()->institute_id;
 			$existRecords = DB::table('progress_report')
 							->where(['student_id' => $request->student_id,'institute_login_id' =>$request->inst_log_id,'report_type' =>$request->report_type,'report_month' =>$request->report_month,'report_year' =>$request->report_year])
 							->get();
@@ -78,12 +79,17 @@ class ProgressreportController extends Controller
 			    ////return back()->with('error','Attendace Not Available');
 				
 				
+				//echo $user_id."==="; die;
+			
+			    
+				
+				
 				$postdata['institute_login_id']=$request->inst_log_id;
 				$postdata['student_id']=$request->student_id;
 				$postdata['report_type']=$request->report_type;
 				$postdata['report_month']=$request->report_month;
 				$postdata['report_year']=$request->report_year;
-				$postdata['institute_details_id']=$request->inst_id;
+				$postdata['institute_details_id']=$institute_id;
 				
 				
 				if($request->hasFile('fileSign')) {
@@ -184,6 +190,7 @@ class ProgressreportController extends Controller
         $attendanceList = DB::table('progress_report')
             ->leftJoin('studentregistrations', 'progress_report.student_id', '=', 'studentregistrations.id')
 			->where(['report_type' =>$val1,'report_year'=>$val2,'report_month' =>$mnths,])
+			->where('studentregistrations.status_id','3')->where('studentregistrations.scheme_code','3')
 			->orderBy('student_id','desc')
             ->get();
 			

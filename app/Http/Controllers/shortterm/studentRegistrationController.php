@@ -27,6 +27,7 @@ class studentRegistrationController extends Controller
 		$login_user_id = Auth::id();
 		$short_term_data = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first();
 		$short_term_id = $short_term_data->short_term_id;
+		
         $students = DB::table('studentregistrations')->where('institute_id',$short_term_id)->where('user_id',$login_user_id)->where('scheme_code','4')->orderBy('id','desc')->get();
         return view('backend.shortterm.studentRregistration.index',compact('students'));
     }

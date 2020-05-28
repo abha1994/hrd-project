@@ -23,7 +23,10 @@ class FellowAmountController extends Controller
      */
     public function __construct()
     {
-		
+		 $this->middleware('permission:fellowamount-list|fellowamount-create|fellowamount-edit|fellowamount-delete', ['only' => ['index','view','add']]);
+         $this->middleware('permission:fellowamount-create', ['only' => ['create','add']]);
+         $this->middleware('permission:fellowamount-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:fellowamount-delete', ['only' => ['delete']]);
     }
 	
 	
@@ -41,7 +44,7 @@ class FellowAmountController extends Controller
 	public function index(Request $request)
     { 
 		 $data = FellowAmount::index();
-	     return view('backend/nref/fellowamount/fellowamount_list',compact('data'));
+	     return view('fellowamount/fellowamount_list',compact('data'));
 	}
 	
 	
@@ -54,7 +57,7 @@ class FellowAmountController extends Controller
 	public function add()
     { 
 	      $data = FellowAmount::index();
-		  return view('backend/nref/fellowamount/fellowamount_add',compact('data'));
+		  return view('fellowamount/fellowamount_add',compact('data'));
     }
 	
      /**
@@ -109,7 +112,7 @@ class FellowAmountController extends Controller
 	public function edit($id)
     { 
 	     $data = FellowAmount::edit($id);
-	     return view('backend/nref/fellowamount/fellowamount_edit',compact('data'));
+	     return view('fellowamount/fellowamount_edit',compact('data'));
 	}
 	
 	
@@ -150,7 +153,7 @@ class FellowAmountController extends Controller
 	public function view($id)
     { 
 	      $data = FellowAmount::edit($id);
-		  return view('backend/nref/fellowamount/fellowamount_view',compact('data'));
+		  return view('fellowamount/fellowamount_view',compact('data'));
 	}
      
 	 

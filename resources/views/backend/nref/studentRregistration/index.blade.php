@@ -41,6 +41,7 @@
 										<th>Email ID</th>
 										<th>Mobile</th>
 										<th>DOB</th>
+										<th>Status</th>
                                         <th>Action</th>
 										
                   
@@ -57,6 +58,12 @@
 										<td>{{$student->email_id}}</td>
 										<td>{{$student->mobile}}</td>
 										<td><?php echo date("d-m-Y",strtotime($student->dob));?></td>
+										<td><?php 
+										if($student->status_id == "3"){?>
+											<button type="button" class="btn btn-success"><?php echo "Selected";?></button>
+										<?php }else if($student->status_id == "2" || $student->officer_role_id == "1"|| $student->officer_role_id == "2"|| $student->officer_role_id == "4" || $student->officer_role_id == "5"){?>
+											<button type="button" class="btn btn-danger"><?php echo "Rejected";?></button>
+									    <?php }?></td>
 										<td>
 										
 						<a href="{{ url('student-registration/'.$student->id) }}"><i class="fa fa-eye"></i></a>

@@ -15,7 +15,7 @@ class fincaceController extends Controller
     
     public function index()
     {
-        $data = DB::table('institute_details')
+       $data = DB::table('institute_details')
             ->select(
                 'institute_details.institute_id',
                 'institute_details.application_cd',
@@ -38,10 +38,11 @@ class fincaceController extends Controller
             ->join('fellow_amount','studentregistrations.course','=','fellow_amount.course_id')
             ->join('courses','courses.course_id','=','fellow_amount.course_id')
             ->join('candidate_attendence','candidate_attendence.student_id','=','studentregistrations.id')
-            ->join('bankdetails','bankdetails.institute_id','=','studentregistrations.institute_id')
-            ->where([ 'studentregistrations.pms_process' => '0','studentregistrations.status_id' => '1','candidate_attendence.isfilesubmit'=>'1'])
-            ->get();
-
+            ->join('bankdetails','bankdetails.student_id','=','studentregistrations.id')
+            ->where([ 'studentregistrations.pms_process' => '0','studentregistrations.status_id' => '3','candidate_attendence.isfilesubmit'=>'1'])
+             
+            ->get()
+            ->keyBy('id');
             return view('backend.nref.Admin.payment.index',compact('data'));
           
         
@@ -96,9 +97,9 @@ class fincaceController extends Controller
                 'studentregistrations.aadhar',
                 'studentregistrations.pincode',                
                 'studentregistrations.mobile',
-                'studentregistrations.country',
-                'studentregistrations.state',
-                'studentregistrations.distric',
+                'studentregistrations.countrycd',
+                'studentregistrations.statecd',
+                'studentregistrations.districtcd',
                 'fellow_amount.amount',
                 'courses.course_name',
                 'bankdetails.bank_name',
@@ -111,25 +112,25 @@ class fincaceController extends Controller
             ->join('courses','courses.course_id','=','fellow_amount.course_id')
             ->join('candidate_attendence','candidate_attendence.student_id','=','studentregistrations.id')
             ->join('bankdetails','bankdetails.institute_id','=','studentregistrations.institute_id')
-            ->where([ 'studentregistrations.pms_process' => '1','studentregistrations.status_id' => '1','candidate_attendence.isfilesubmit'=>'1'])
+            ->where([ 'studentregistrations.pms_process' => '1','studentregistrations.status_id' => '3','candidate_attendence.isfilesubmit'=>'1'])
             ->get();
-            //dd($data);
+            // dd($data);
             $pfms = array(
                 'institute_id'          =>  $data[0]->institute_id,
                 'student_id'            =>  $data[0]->id,
-                'full_name'             =>  $data[0]->firstname.' '. $data[0]->firstname.' '.$data[0]->firstname,
-                'gender'                 =>  1,
+                'full_name'             =>  $data[0]->firstname.' '. $data[0]->middlename.' '.$data[0]->lastname,
+                'gender'                 => $data[0]->gender,
                 'address_1'              =>  $data[0]->address,
                 'account_no'             =>  $data[0]->account_number,
                 'mobile_no'              =>  $data[0]->mobile,
-                'countrycd'              =>  101,
-                'statecd'                =>  $data[0]->state,
-                'districtcd'             =>  $data[0]->distric,
+                'countrycd'              =>  99,
+                'statecd'                =>  $data[0]->statecd,
+                'districtcd'             =>  $data[0]->districtcd,
                 'bank_name'              =>  $data[0]->bank_name,
                 'ifsc_code'              =>  $data[0]->ifsc_code,
                 'aadhar_no'              =>  $data[0]->aadhar_no,
                 'pin_code'               =>  $data[0]->pincode,
-                'scheme_code'            =>  1,
+                'scheme_code'            =>  3,
                 'payment_amount'         =>  $data[0]->amount,
                 'varify_by_1'            =>  Auth::id(),
                 'created_date'           =>  date('Y-m-d'),

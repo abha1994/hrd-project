@@ -53,15 +53,13 @@ class bankDetialController extends Controller
 		try {
 			$login_institute_id = Auth::id();
 			$institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-			$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->get(); 
+			$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->where('scheme_code','3')->get(); 
 			
 			
 			$exists_in_bankdetails = DB::table('bankdetails')
-            ->select(
-                'studentregistrations.id',
-             )
             ->join('studentregistrations','bankdetails.student_id','=','studentregistrations.id')
             ->where('studentregistrations.institute_id',$institute_id)
+			// ->where('bankdetails.scheme_code','3')
             ->get();
 			
 			// $arr = "";
@@ -70,9 +68,9 @@ class bankDetialController extends Controller
 			}
 			// dd($arr);
 	        if(!empty($arr)){
-			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->whereNotIn('id',$arr)->where('institute_id',$institute_id)->get(); 
+			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->whereNotIn('id',$arr)->where('institute_id',$institute_id)->get(); 
 			}else{
-			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
+			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
 			}
 			// dd($student_name);
 			$bankdetils = DB::table('banklist')->distinct()->get('bank');
@@ -86,7 +84,7 @@ class bankDetialController extends Controller
 
    public function get_student_adhar(Request $request){
 	    $getstudentData = $request->getstudentData;
-	    $student_name = DB::table('studentregistrations')->select('aadhar','mobile')->where('id',$getstudentData)->get()->first(); 
+	    $student_name = DB::table('studentregistrations')->where('scheme_code','3')->select('aadhar','mobile')->where('id',$getstudentData)->get()->first(); 
 	    echo json_encode($student_name);
    }
     /**
@@ -156,7 +154,7 @@ class bankDetialController extends Controller
     {
 		$login_institute_id =  Auth::user()->id;
         $institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->get();
+		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->where('institute_id',$institute_id)->get();
 		// dd($student_name);
         $recorde = BankDetail::findOrFail($id);
         return view('backend.nres.bankdetail.show',compact('recorde','student_name'));
@@ -190,7 +188,7 @@ public function pdfview(Request $request)
     {
 		$login_institute_id = Auth::id();
 		$institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->get(); 
+        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
 			
         $bankdetils = DB::table('banklist')->distinct()->get('bank');
         $record = BankDetail::findOrFail($id);

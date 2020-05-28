@@ -55,6 +55,7 @@ var pageurl = "{{ url('attendanceAjaxadmin')}}";
 		
 		<div class="col-md-4" style="float:left">
 		<select class="form-control" name="year_atten" id="year_atten">
+		<option value="">Select Year</option>
 						<option value="<?php echo $currentYear;?>"><?php echo $currentYear;?></option>
 		</select>
 		</div>
@@ -62,9 +63,9 @@ var pageurl = "{{ url('attendanceAjaxadmin')}}";
 		
 		<input type="hidden" value="<?php echo $currentMonthDays=date('t'); ?>"  name="maxDays" id="maxDays" />
 			
-    	<div class="card-body ajaxPart">
+    	<div class="card-body" style="border:none;">
 		
-    		  <table  width="100%"  class="table table-bordered data-table">
+    		  <table  width="100%"  class="table table-bordered data-table" id="attend">
 			    <thead>
 				       <tr>
 							<th class="filterhead">Student Name</th>
@@ -78,10 +79,6 @@ var pageurl = "{{ url('attendanceAjaxadmin')}}";
 							<th class="filterhead">Remarks</th>
 							 
 					  </tr>
-					  <tr>
-					  <td colspan="9"><center>No data available.</center></td>
-					  </tr>
-					 
 				</thead>
 				</table> 
 				<!--   -->
@@ -98,6 +95,8 @@ var pageurl = "{{ url('attendanceAjaxadmin')}}";
 </div></div></div>
 
 <!-- /.container-fluid-->
+
+
 @endsection
 	
 	

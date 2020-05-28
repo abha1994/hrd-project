@@ -8,9 +8,11 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
+
     <?php
+	    $institute_status_check = institute_status_check();
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 = $studentMClass = $shortMClass ='' ;
+		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 = $studentMClass = $shortMClass = $stuploadcoursesMClass = $stparticipantMClass  = $stbankdetailsMClass  = $stattandenceMClass  = $stuploadrMClass  = $staackrMClass = ' ' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -41,7 +43,25 @@
 		if($current_url == 'short-term-program' ){
 		   $shortMClass = 'active';
 		}
-	?>
+		if($current_url == 'course-content' ){
+		   $stuploadcoursesMClass = 'active';
+		}
+		if($current_url == 'st-student-registration' ){
+		   $stparticipantMClass = 'active';
+		}
+		if($current_url == 'st-bank-details' ){
+		   $stbankdetailsMClass  = 'active';
+		}
+		if($current_url == 'short_termAttandance' ){
+		   $stattandenceMClass  = 'active';
+		}
+		if($current_url == 'report-content' ){
+		   $stuploadrMClass  = 'active';
+		}
+		if($current_url == 'acknowledge_slip' ){
+		   $staackrMClass   = 'active';
+		}
+	?> 
 	
 <?php $menu_id = Session::get('menu_id'); ?>
       <!-- Sidebar Menu -->
@@ -68,7 +88,9 @@
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
-           
+          
+         <?php if(!empty($institute_status_check)){
+			 if($institute_status_check->status_id == "3"){ ?>		  
           <li class="nav-item">
             <a href="{{ URL('student-registration')}}" class="nav-link {{$studentMClass}}" id="listudent">
               <i class="nav-icon fas fa-circle"></i>
@@ -78,6 +100,7 @@
               </p>
             </a>
           </li>
+		
 		  
 		   <li class="nav-item">
             <a href="{{ URL('bank-details')}}" class="nav-link {{$bankMClass}}" id="libank">
@@ -116,7 +139,7 @@
               </p>
             </a>
           </li>
-		  
+			 <?php  }} ?>
 		  
 		  <?php $candidate_id = Auth::user()->id;?>
 		   <li class="nav-item">
@@ -127,6 +150,9 @@
               </p>
             </a>
           </li>
+		  
+		  
+		  
 		  <?php }else if($menu_id == "6"){ ?>
 		  
 		    <li class="nav-item">
@@ -137,15 +163,67 @@
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
+			</li>
 			
 			<li class="nav-item">
-            <a href="{{ URl('st-student-registration')}}" class="nav-link {{$studentMClass}}" id="liuniversity">
+            <a href="{{ URl('course-content')}}" class="nav-link {{$stuploadcoursesMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Upload Course and Practical Content
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			</li>
+			
+			<li class="nav-item">
+            <a href="{{ URl('st-student-registration')}}" class="nav-link {{$stparticipantMClass}}" id="liuniversity">
               <i class="nav-icon fas fa-th"></i>
               <p>
                   Participant Form
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>
+			</li>
+			
+			<li class="nav-item">
+            <a href="{{ URl('st-bank-details')}}" class="nav-link {{$stbankdetailsMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                 Bank Details
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			</li>
+			
+			<li class="nav-item">
+            <a href="{{ URl('short_termAttandance')}}" class="nav-link {{$stattandenceMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Short Term Attandance
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			</li>
+			
+			<li class="nav-item">
+            <a href="{{ URl('acknowledge_shortTerm')}}" class="nav-link {{$studentMClass}}" id="">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Short Term Acknowledgement Slip
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			</li>
+						
+			<li class="nav-item">
+            <a href="{{ URl('report-content')}}" class="nav-link {{$stuploadrMClass}}" id="liuniversity">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Upload Report
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+			</li>
 			
 		  <?php } ?>
            

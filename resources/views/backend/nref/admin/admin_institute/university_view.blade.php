@@ -404,23 +404,29 @@
 		<?php $role_id  = Auth::user()->role; $login_officer_id  = Auth::user()->id;?>
 		
 
-<?php if($data['institute_data']->officer_role_id!=5 && $data['institute_data']->status_id!=2 && $data['institute_data']->status_id!=3) { ?>
+	<?php if($data['institute_data']->officer_role_id!=5 && $data['institute_data']->status_id!=2 && $data['institute_data']->status_id!=3) { ?>
 
-	                 <center>
+	           <center>
 								<div class="form-group" >
-					             <a class="btn btn-secondary" href="{{ url()->previous() }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+					 <!--<a class="btn btn-secondary" href="{{ URL('university')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>-->
+					 
+					 <a class="btn btn-secondary" href="{{ url()->previous() }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 			
+
+			
+								   @if(Gate::check('admin-nref-institute-status-considered') || Gate::check('considered-nref-institute-by-level1-status-considered') || Gate::check('rejected-nref-institute-status-considered') || Gate::check('forward-to-committee-nref-institute-status-considered'))		
+									   
 								   <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_university(1,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Considered</button>
-								  
+								   @endif
  
+                                   @if(Gate::check('admin-nref-institute-status-non-considered') || Gate::check('considered-nref-institute-by-level1-status-non-considered') || Gate::check('rejected-nref-institute-status-non-considered')  || Gate::check('forward-to-committee-nref-institute-status-non-considered'))	
+									   
 								   <button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; "  onclick="considered_university(2,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Non Considered</button>
-							      
-								  
+							       @endif
+								   
 								</div> 
-								
 							</center>
-							 <?php } ?>
-	
+	<?php } ?>
                 </div>
             </div>
          </div>
@@ -469,9 +475,10 @@
 							<td>
 							<select class="form-control" name="reason" id="reason">
 								<option value="">Select</option>
-								<option value="Application not in format">Application not in format</option>
-								<option value="University ranking not up to the mark">University ranking not up to the mark</option>
-								<option value="Attached doc is not proper">Attached doc is not proper</option>
+								<option value="Id Proof is not Valid">Id Proof is not Valid</option>
+								<option value="Experience not matches">Experience not matches</option>
+								<option value="Qualification not matches">Qualification not matches</option>
+								<option value="Desired Internship place is already fulfil">Desired Internship place is already fulfil</option>
 								<option value="Others">Others</option>
 							</select>
 							</td>

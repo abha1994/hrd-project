@@ -250,13 +250,20 @@ Route::post('/getReportAdminAjaxnew', 'Nref\Admin\ProgressreportController@getRe
 
 Route::get('/attendanceAdmin', 'Nref\Admin\AttendanceController@index')->name('/attendanceAdmin');
 Route::post('/attendanceAdmin-form-post', 'Nref\Admin\AttendanceController@attendance_form_post')->name('attendanceAdmin-form-post');
-Route::get('/attendanceAjaxadmin', 'Nref\Admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
+Route::post('/attendanceAjaxadmin', 'Nref\Admin\AttendanceController@attendanceAjax')->name('/attendanceAjaxadmin');
 
 Route::resource('fund-transfer','Nref\Admin\fincaceController');
 Route::resource('application-processed','Nref\Admin\applicationProcessedController');
 Route::get('export-application','Nref\Admin\applicationProcessedController@exportcsv');
 
+Route::get('/nref-bankdetails', 'Nref\Admin\NrefBankDetailsController@index');
+Route::get('/nref-bankdetails-show/{id}', 'Nref\Admin\NrefBankDetailsController@show');
+
+
+
 //******************Admin**************************//
+
+
 
  
 //------------Nref Scheme code 3--------------------->

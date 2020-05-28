@@ -35,6 +35,18 @@
  <script>
 $(document).ready(function() {
 	
+	$('.frmDate').datepicker({
+       autoclose: true,
+  }).on("changeDate", function (e) {
+	   $('.toDate').val('');
+       $('.toDate').datepicker('setStartDate', e.date);
+  });
+
+  $('.toDate').datepicker({
+	 autoclose: true,
+  });
+  
+	
  $('#example').DataTable();
 });
 

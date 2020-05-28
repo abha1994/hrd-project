@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('container') 
+<?php
+
+?>
 <script type="text/javascript" src="{{asset('public/jquery-validation/dist/jquery.validate.js')}}"></script>
 <body onload="showfield('<?php echo trim($record->technology_area)?>')">
 <div class="content-wrapper">
@@ -858,6 +861,20 @@ $('#financial_proposal_doc').bind('change', function() {
     
 
 });
+
+$(document).ready(function () {
+   $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        //$("#rejectedbylevel1").addClass("active");
+        $("#rejectededit").addClass("active");
+        
+      });
+ 
 </script>
 
 @endsection

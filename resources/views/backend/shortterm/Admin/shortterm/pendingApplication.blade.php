@@ -63,6 +63,19 @@
   $('.confirmation').on('click', function () {
     return confirm('Are you sure want to delete?');
   });
+
+   $(document).ready(function () {
+ 
+        $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        $("#pendingapplication").addClass("active");
+      });
+ 
 </script>
 @endsection
 

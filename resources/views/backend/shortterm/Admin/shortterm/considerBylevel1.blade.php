@@ -41,7 +41,7 @@
                   <td>{{ $record->name_proposed_training_program }}</td>
                   <td>{{ $record->coordinator_name }}</td>
                   <td>{{ $record->coordinator_mobile }}</td>
-                   <td><a class="btn btn-info" href="{{ route('short-term-application.show',$record->short_term_id) }}" style="color: white">Show</a>
+                   <td><a class="btn btn-info" href="{{ url('consider-by-level1',$record->short_term_id) }}" style="color: white">Show</a>
                     @if(!empty($record->signature_doc))
                     <a class="btn btn-success" href="{{ route('short-term-application.edit',$record->short_term_id) }}">Edit</a>
                     @endif
@@ -63,6 +63,17 @@
   $('.confirmation').on('click', function () {
     return confirm('Are you sure want to delete?');
   });
+  $(document).ready(function () {
+ 
+        $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        $("#considerbylevel1").addClass("active");
+      });
 </script>
 @endsection
 

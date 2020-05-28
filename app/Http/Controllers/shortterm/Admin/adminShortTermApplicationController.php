@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use URL;
 class adminShortTermApplicationController extends Controller
 {
     /**
@@ -49,7 +50,8 @@ class adminShortTermApplicationController extends Controller
      */
     public function show($id)
     {
-        $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+        $record = DB::table('short_term_program')->where('short_term_id',$id)->get();     
+        
         return view('backend.shortterm.admin.shortterm.show',compact('record'));
     }
 
@@ -61,6 +63,7 @@ class adminShortTermApplicationController extends Controller
      */
     public function edit($id)
     {
+        
        $record = DB::table('short_term_program')->where('short_term_id', $id)->first();
        // dd($record);
         return view('backend.shortterm.admin.shortterm.edit',compact('record'));
@@ -201,6 +204,7 @@ class adminShortTermApplicationController extends Controller
             'user_id'=> $records->user_id,
             'modified_date' =>date('Y-m-d H-i-s'),
             'other_re_area'=>$request->other_re_area
+            
         );
          
         DB::table('short_term_program')
@@ -213,6 +217,7 @@ class adminShortTermApplicationController extends Controller
         $data["officer_id"] = $officer_id;
         $data["officer_role_id"] = $roleid->role;
         $data["status_id"] = 1;
+        $data['history_status'] =1;
 
 
         DB::table('short_term_history')
@@ -276,10 +281,12 @@ class adminShortTermApplicationController extends Controller
             'modified_date' =>date('Y-m-d H-i-s'),
             'other_re_area'=>$records->other_re_area,
             'short_term_id' => $id,
+            'status_id' => 2,
             'signature_doc' =>  $records->content_letter_doc,
             'officer_id' => $officer_id,
             'officer_role_id' => $roleid->role,
-            'status_id' => 2
+            
+            'history_status' =>2
         );
 
         DB::table('short_term_history')
@@ -296,23 +303,19 @@ class adminShortTermApplicationController extends Controller
          $officer_id = Auth::id();
 
         $roleid = \App\User::with('roles')->find($officer_id);
-        
-
-        $postdata['status_application'] = $request->status_application;
-    
+        $postdata['status_application'] = $request->status_application;    
         date_default_timezone_set('Asia/Kolkata');
         $date = date('Y-m-d H:i:s');
         $postdata['remarks'] = $request->remarks;
-        $postdata['short_term_id'] = $request->student_id;
-       
+        //$postdata['candidate_id'] = $request->student_id; 
+        $postdata['institute_id'] = $request->student_id;        
         $postdata['officer_id'] = $officer_id; 
         $postdata['officer_role_id'] = $roleid->role;
         $postdata['reason'] = $request->reason;
         $postdata['verified_date'] = $date;
-        $postdata['schema_code'] = "1";
+        $postdata['scheme_code'] = "4";
             // dd($postdata);
-        $a = DB::table('short_term_verification')->insert($postdata);
-
+        $a = DB::table('internship_verification')->insert($postdata);
         $postdata['status_application'] = $request->status_application;
         $status_application['status_id'] = $postdata['status_application'];
         $status_application['officer_role_id'] = $request->role_id;
@@ -323,37 +326,168 @@ class adminShortTermApplicationController extends Controller
 
     public function considerlvel1(){
 
-         $officer_id = Auth::id();
-         $roleid = \App\User::with('roles')->find($officer_id);
+         //$officer_id = Auth::id();
+        // $roleid = \App\User::with('roles')->find($officer_id);
+         $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',1]])->get();
 
-
-         $records = DB::table('short_term_program')->where('officer_role_id',3)->get();
          return view('backend.shortterm.admin.shortterm.considerBylevel1',compact('records'));
          
     }
+
+    public function considerlvel1show($id){
+
+         $record  = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',1]])->get();
+
+         return view('backend.shortterm.admin.shortterm.level1show',compact('record'));
+    }
+
+    public function nonconsiderlvel1(){
+
+         //$officer_id = Auth::id();
+        // $roleid = \App\User::with('roles')->find($officer_id);
+         $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',2]])->get();
+
+         return view('backend.shortterm.admin.shortterm.nonConsiderBylevel1',compact('records'));
+         
+    }
+
+    public function nonconsiderlvel1show(){
+        $record = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',2]])->get();
+
+         return view('backend.shortterm.admin.shortterm.nonConsiderBylevel1show',compact('record'));
+    }
+
+    public function forwardtocommittee(){
+
+        
+
+        $records =  DB::table('short_term_program')->where('status_id' , 1)
+     ->where(function($q) {
+         $q->where('officer_role_id', '1')
+           ->orWhere('officer_role_id', '2')
+           ->orWhere('officer_role_id', '4');
+          
+     })
+     ->get();
+         return view('backend.shortterm.admin.shortterm.forwardToCommittee',compact('records'));
+    }
+
+public function recommendByCommitte(){
+
+       $records = DB::table('short_term_program')
+       // ->where('officer_role_id','=','1')      
+        ->where([['officer_role_id','=','5'],['status_id','=','1']]) 
+         ->get();
+
+        
+         
+         return view('backend.shortterm.admin.shortterm.recommendCommittee',compact('records'));
+    }
+    
+
 
      public function consideradmin(){
 
          $officer_id = Auth::id();
          $roleid = \App\User::with('roles')->find($officer_id);
-        
          $records = DB::table('short_term_program')->where('officer_role_id',2)->get();
          return view('backend.shortterm.admin.shortterm.index',compact('records'));
     }
 
     public function pendingApplication(){
-
-        $records = DB::table('short_term_program')->where('status_id',0)->get();
+ 
+        $records = DB::table('short_term_program')->where('status_id',0)->get();  
          
         return view('backend.shortterm.admin.shortterm.pendingApplication',compact('records'));
     }
 
     public function rejectedApplication(){
 
-        $records = DB::table('short_term_program')->where('status_id',2)->get();
-          
-         
+        $records = DB::table('short_term_program')->where('status_id',2)->get();        
         return view('backend.shortterm.admin.shortterm.rejectedAppliation',compact('records'));
+    }
+
+
+    public function finalselection(){
+ 
+    $records =  DB::table('short_term_program')->where('status_id' , 3)
+     ->where(function($q) {
+         $q->where('officer_role_id', '5')
+           ->orWhere('officer_role_id', '2')
+           ->orWhere('officer_role_id', '4');
+          
+     })
+     ->get();
+    return view('backend.shortterm.admin.shortterm.finalselection',compact('records'));
+
+    }
+
+    public function rejected(){
+        $records =  DB::table('short_term_program')->where('status_id' , 2)
+     ->where(function($q) {
+         $q->where('officer_role_id', '5')
+           ->orWhere('officer_role_id', '2')
+            ->orWhere('officer_role_id', '1')
+           ->orWhere('officer_role_id', '4');
+          
+     })
+     ->get();
+
+    return view('backend.shortterm.admin.shortterm.finalrejected',compact('records'));
+    }
+
+public function finalselectionview($id){
+    $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+    return view('backend.shortterm.admin.shortterm.finalshow',compact('record'));
+}
+
+
+public function rejectedview($id){
+    $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+    return view('backend.shortterm.admin.shortterm.finalRejectedshow',compact('record'));
+}
+
+
+
+    public function considerNonconsider($id){
+ 
+       $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+       return view('backend.shortterm.admin.shortterm.committee',compact('record'));
+    }
+
+public function committeerecoment($id){
+ 
+       $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
+       return view('backend.shortterm.admin.shortterm.committeerecoment',compact('record'));
+    }
+
+
+
+
+    public function  student_selection(Request $request ){
+
+         $officer_id = Auth::id();
+
+        $roleid = \App\User::with('roles')->find($officer_id);
+        $postdata['status_application'] = $request->status_application;    
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date('Y-m-d H:i:s');
+        $postdata['remarks'] = $request->remarks;
+        //$postdata['candidate_id'] = $request->student_id; 
+        $postdata['institute_id'] = $request->student_id;        
+        $postdata['officer_id'] = $officer_id; 
+        $postdata['officer_role_id'] = $roleid->role;
+        $postdata['reason'] = $request->reason;
+        $postdata['verified_date'] = $date;
+        $postdata['scheme_code'] = "4";
+         
+        $a = DB::table('internship_verification')->insert($postdata);
+        $postdata['status_application'] = $request->status_application;
+        $status_application['status_id'] = $postdata['status_application'];
+        $status_application['officer_role_id'] = $request->role_id;
+        $status_application['officer_id'] = $request->officer_id;
+        DB::table('short_term_program')->where('short_term_id',$request->student_id)->update($status_application);
+        echo $a;
     }
 
 
