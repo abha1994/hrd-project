@@ -9,7 +9,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active"> View Institute</li>
       </ol>
@@ -396,17 +396,11 @@
 			
 
 			
-								   @if(Gate::check('admin-nref-institute-status-considered') || Gate::check('considered-nref-institute-by-level1-status-considered') || Gate::check('rejected-nref-institute-status-considered') || Gate::check('forward-to-committee-nref-institute-status-considered'))		
-									   
+							  
 								   <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_university(1,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Considered</button>
-								   @endif
- 
-                                   @if(Gate::check('admin-nref-institute-status-non-considered') || Gate::check('considered-nref-institute-by-level1-status-non-considered') || Gate::check('rejected-nref-institute-status-non-considered')  || Gate::check('forward-to-committee-nref-institute-status-non-considered'))	
-									   
+								    
 								   <button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; "  onclick="considered_university(2,'<?php echo $data['institute_data']->institute_id;?>','<?php echo $data['institute_data']->application_cd;?>')">Non Considered</button>
-							       @endif
-								   
-								</div> 
+							     								</div> 
 							</center>
 	<?php } ?>
                 </div>

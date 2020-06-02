@@ -18,7 +18,7 @@ class adminShortTermApplicationController extends Controller
     {
 
         $records = DB::table('short_term_program')->orderBy('short_term_id','DESC')->get();
-        return view('backend.shortterm.admin.shortterm.index',compact('records'));
+        return view('backend.shortterm.Admin.shortterm.index',compact('records'));
     }
 
     /**
@@ -52,7 +52,7 @@ class adminShortTermApplicationController extends Controller
     {
         $record = DB::table('short_term_program')->where('short_term_id',$id)->get();     
         
-        return view('backend.shortterm.admin.shortterm.show',compact('record'));
+        return view('backend.shortterm.Admin.shortterm.show',compact('record'));
     }
 
     /**
@@ -66,7 +66,7 @@ class adminShortTermApplicationController extends Controller
         
        $record = DB::table('short_term_program')->where('short_term_id', $id)->first();
        // dd($record);
-        return view('backend.shortterm.admin.shortterm.edit',compact('record'));
+        return view('backend.shortterm.Admin.shortterm.edit',compact('record'));
     }
 
     /**
@@ -330,7 +330,7 @@ class adminShortTermApplicationController extends Controller
         // $roleid = \App\User::with('roles')->find($officer_id);
          $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',1]])->get();
 
-         return view('backend.shortterm.admin.shortterm.considerBylevel1',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.considerBylevel1',compact('records'));
          
     }
 
@@ -338,7 +338,7 @@ class adminShortTermApplicationController extends Controller
 
          $record  = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',1]])->get();
 
-         return view('backend.shortterm.admin.shortterm.level1show',compact('record'));
+         return view('backend.shortterm.Admin.shortterm.level1show',compact('record'));
     }
 
     public function nonconsiderlvel1(){
@@ -347,14 +347,14 @@ class adminShortTermApplicationController extends Controller
         // $roleid = \App\User::with('roles')->find($officer_id);
          $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',2]])->get();
 
-         return view('backend.shortterm.admin.shortterm.nonConsiderBylevel1',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.nonConsiderBylevel1',compact('records'));
          
     }
 
     public function nonconsiderlvel1show(){
         $record = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',2]])->get();
 
-         return view('backend.shortterm.admin.shortterm.nonConsiderBylevel1show',compact('record'));
+         return view('backend.shortterm.Admin.shortterm.nonConsiderBylevel1show',compact('record'));
     }
 
     public function forwardtocommittee(){
@@ -369,7 +369,7 @@ class adminShortTermApplicationController extends Controller
           
      })
      ->get();
-         return view('backend.shortterm.admin.shortterm.forwardToCommittee',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.forwardToCommittee',compact('records'));
     }
 
 public function recommendByCommitte(){
@@ -381,7 +381,7 @@ public function recommendByCommitte(){
 
         
          
-         return view('backend.shortterm.admin.shortterm.recommendCommittee',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.recommendCommittee',compact('records'));
     }
     
 
@@ -391,20 +391,20 @@ public function recommendByCommitte(){
          $officer_id = Auth::id();
          $roleid = \App\User::with('roles')->find($officer_id);
          $records = DB::table('short_term_program')->where('officer_role_id',2)->get();
-         return view('backend.shortterm.admin.shortterm.index',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.index',compact('records'));
     }
 
     public function pendingApplication(){
  
         $records = DB::table('short_term_program')->where('status_id',0)->get();  
          
-        return view('backend.shortterm.admin.shortterm.pendingApplication',compact('records'));
+        return view('backend.shortterm.Admin.shortterm.pendingApplication',compact('records'));
     }
 
     public function rejectedApplication(){
 
         $records = DB::table('short_term_program')->where('status_id',2)->get();        
-        return view('backend.shortterm.admin.shortterm.rejectedAppliation',compact('records'));
+        return view('backend.shortterm.Admin.shortterm.rejectedAppliation',compact('records'));
     }
 
 
@@ -418,7 +418,7 @@ public function recommendByCommitte(){
           
      })
      ->get();
-    return view('backend.shortterm.admin.shortterm.finalselection',compact('records'));
+    return view('backend.shortterm.Admin.shortterm.finalselection',compact('records'));
 
     }
 
@@ -433,18 +433,18 @@ public function recommendByCommitte(){
      })
      ->get();
 
-    return view('backend.shortterm.admin.shortterm.finalrejected',compact('records'));
+    return view('backend.shortterm.Admin.shortterm.finalrejected',compact('records'));
     }
 
 public function finalselectionview($id){
     $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
-    return view('backend.shortterm.admin.shortterm.finalshow',compact('record'));
+    return view('backend.shortterm.Admin.shortterm.finalshow',compact('record'));
 }
 
 
 public function rejectedview($id){
     $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
-    return view('backend.shortterm.admin.shortterm.finalRejectedshow',compact('record'));
+    return view('backend.shortterm.Admin.shortterm.finalRejectedshow',compact('record'));
 }
 
 
@@ -452,13 +452,13 @@ public function rejectedview($id){
     public function considerNonconsider($id){
  
        $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
-       return view('backend.shortterm.admin.shortterm.committee',compact('record'));
+       return view('backend.shortterm.Admin.shortterm.committee',compact('record'));
     }
 
 public function committeerecoment($id){
  
        $record = DB::table('short_term_program')->where('short_term_id',$id)->get();
-       return view('backend.shortterm.admin.shortterm.committeerecoment',compact('record'));
+       return view('backend.shortterm.Admin.shortterm.committeerecoment',compact('record'));
     }
 
 

@@ -348,7 +348,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Date of approximate course Start</label>
-										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57 && event.charCode >= 65" type="text" class="form-control course_run" value="<?php if(!empty($inst_data->course_start_date)){ ?>{{date('Y-m-d',strtotime($inst_data->course_start_date))}}<?php } ?>" id="course_run" placeholder="Since when the course being run" name="course_run" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif >
+										<input onkeypress="return event.charCode >= 48 && event.charCode <= 57 && event.charCode >= 65" type="text" class="form-control course_run" value="<?php if(!empty($inst_data->course_start_date)){ ?>{{date('m/d/Y',strtotime($inst_data->course_start_date))}}<?php } ?>" id="course_run" placeholder="Since when the course being run" name="course_run" @if(isset($inst_data->final_submit))<?php if($inst_data->final_submit==1) {  echo 'disabled'; } ?> @endif >
 											@if ($errors->has('course_run'))
 												<span class="invalid-feedback " role="alert">
 													<strong>{{ $errors->first('course_run') }}</strong>

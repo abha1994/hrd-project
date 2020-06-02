@@ -36,8 +36,8 @@
 											</span>
 										@enderror
 								</div>
-								<div class="col-md-4 input-group date" data-provide="datepicker">
-										<input class="date form-control @error('dob') is-invalid @enderror" type="text" readonly value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="dob">
+								<div class="col-md-4 input-group date" data-provide="">
+										<input class="form-control @error('dob') is-invalid @enderror" type="text" readonly value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="datepicker_dob">
 										<div class="input-group-addon">
 								        	<span class="glyphicon glyphicon-th"></span>
 								    	</div>
@@ -147,19 +147,26 @@
 		</div>
 	</div>
 
+
+
+
+<script>
+
+$(document).ready(function() {
+	$('#datepicker_dob').datepicker({
+		dateFormat : 'dd/mm/yyyy',
+	});
+	
+});
+</script>
+
+
+
+
+
+
+
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

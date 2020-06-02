@@ -1,6 +1,10 @@
 @extends('layouts.master')
 @section('container')
 
+<script>
+  var page_url = "{{ url('getadminbankdata') }}";
+</script>
+
  <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
@@ -18,13 +22,30 @@
 	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 
               @include('includes/flashmessage')
+			  
+			    <div class="col-md-2" style="float:left">
+		
+		          <select class="form-control" name="shortermname" id="shortermname">
+					
+					<option value="">Select Short Term Name</option>
+					@if(isset($shortTerm)) 
+					@foreach($shortTerm as $termName)
+					<option value="{{$termName->short_term_id}}">{{$termName->coordinator_name}}</option>
+					@endforeach
+					@endif
+					</select>
+					</div>
+					
+					<div class="form-group" >
+					<input type="submit" id="filterSearch" class="btn btn-primary "  value= "Search" />
+					</div>
 			
 			
 			<br />
 			
 			<br />
            <div class="table-responsive card-box">
-                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <table id="bankdata" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 
                                 <thead>
                                     <tr>
@@ -71,6 +92,43 @@
         </div> 
     </div></div></div>
      <script type="text/javascript">
+	 
+$(document).ready(function() {
+$("#filterSearch").click(function(){
+	var v1= $('#shortermname').val();
+	
+var _token = $('input[name="_token"]').val();
+
+if(v1=="")
+		{
+			alert("Please Select Short Term");
+			$("#shortermname").focus();
+			return false;
+		}
+	else {
+	$('#bankdata').DataTable({
+                "bDestroy": true,
+				"bLengthChange": false,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url':page_url,
+					'data': { v1,_token }
+                },
+
+                'columns': [
+				    { data: 'srn' },
+				    { data: 'candidate_name' },
+                    { data: 'bank_name' },
+					{ data: 'accno' },
+					{ data: 'aadhar' },
+					{ data: 'view' },
+                ]
+            });
+	}
+
+	
+});
+});
 
 </script>
     <!--  <script src="{{ asset('js/app.js') }}"></script>  -->

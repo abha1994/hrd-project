@@ -72,7 +72,8 @@
 					  <tr>
 					  	<td>{{$student->firstname}}</td>
 					  	<td>{{$student->course}}</td>
-						<td><a href="{{ route('pdfdown',['download'=>'pdf']) }}">Download</a></td>
+						<td><!--a href="{{ route('pdfdown',['download'=>'pdf']) }}">Download</a-->
+						<a href="resources\views\backend\nref\Acknowledgment_receipt.docx" download>Download</a></td>
 						<td>
 						<button type="button"  stdID="<?php echo $student->id;?>" style="border: 1px solid red;padding: 4px 4px;background: red;color: white;" data-toggle="modal" data-target="#myModal" class="uploadValue">Upload</button>
 						</td>

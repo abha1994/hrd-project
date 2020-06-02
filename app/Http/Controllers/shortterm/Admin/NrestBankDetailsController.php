@@ -20,11 +20,28 @@ class NrestBankDetailsController extends Controller
      */
      public function index()
     {
+		$shortTerm = DB::table('short_term_program')
+			->select('short_term_id','name_proposed_training_program','coordinator_name')
+			->orderBy('coordinator_name','asc')
+            ->get();
 		
 		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','4')->get(); 
         $banks = nrestBankDetails::orderBy('id','desc')->where('scheme_code','4')->get(); 
-		  return view('backend.shortterm.Admin.nrest_bankdetails',compact('banks','student_name'));
+		  return view('backend.shortterm.Admin.nrest_bankdetails',compact('shortTerm','banks','student_name'));
 	}
+	
+	public function getadminbankdata(Request $request)
+	{
+	  
+        $val2=$request->input('v1');
+		
+		if($val2!=""){
+			$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','4')->get(); 
+        $banks = nrestBankDetails::orderBy('id','desc')->where('scheme_code','4')->where('institute_id',$val2)->get(); 
+		  return view('backend.shortterm.Admin.nrest_bankdetails_filter',compact('banks','student_name'));
+		}
+	}
+
 
     public function show($id)
     {

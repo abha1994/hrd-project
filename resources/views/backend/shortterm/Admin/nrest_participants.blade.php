@@ -1,5 +1,8 @@
 @extends('layouts.master')
 @section('container')
+<script>
+  var page_url = "{{ url('getadminparticipantdata') }}";
+</script>
 
  <div class="content-wrapper">
     <div class="container-fluid">
@@ -24,17 +27,34 @@
 				</div>
 			@endif
 			
+			  <div class="col-md-2" style="float:left">
+		
+		          <select class="form-control" name="shortermname" id="shortermname">
+					
+					<option value="">Select Short Term Name</option>
+					@if(isset($shortTerm)) 
+					@foreach($shortTerm as $termName)
+					<option value="{{$termName->short_term_id}}">{{$termName->coordinator_name}}</option>
+					@endforeach
+					@endif
+					</select>
+					</div>
+					
+					<div class="form-group" >
+					<input type="submit" id="filterSearch" class="btn btn-primary "  value= "Search" />
+					</div>
+			
 			
            <br />
 			
 			<br />
            <div class="table-responsive card-box">
-                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <table id="participant" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 
                                 <thead>
                                     <tr>
-                                        <th>Sr. No.</th>
-										<th style="width:30%;">Student Name</th>
+                                       <th>Sr.No.</th>
+										<th style="width:30%;">Participant Name</th>
 										<th>Gender</th>
 										<th>Address</th>
 										<th>DOB</th>
@@ -99,6 +119,54 @@
 
 </div>
      <script type="text/javascript">
+
+
+
+$(document).ready(function() {
+$("#filterSearch").click(function(){
+	var v1= $('#shortermname').val();
+	
+var _token = $('input[name="_token"]').val();
+
+if(v1=="")
+		{
+			alert("Please Select Short Term");
+			$("#shortermname").focus();
+			return false;
+		}
+	else {
+	$('#participant').DataTable({
+                "bDestroy": true,
+				"bLengthChange": false,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url':page_url,
+					'data': { v1,_token }
+                },
+
+                'columns': [
+				    { data: 'srn' },
+				    { data: 'firstname' },
+                    { data: 'gender' },
+					{ data: 'address' },
+					{ data: 'dob' },
+					{ data: 'aadhar' },
+					{ data: 'districtcd' },
+					{ data: 'statecd' },
+					{ data: 'countrycd' },
+					{ data: 'pincode' },
+					{ data: 'mobile' },
+					{ data: 'category' },
+					{ data: 'upload_aadhar' },
+					{ data: 'view' },
+                ]
+            });
+	}
+
+	
+});
+});
+
  
 
 

@@ -122,6 +122,9 @@ Route::get('/acknowledgeShortAdmin', 'shortterm\Admin\ShortTermAcknowledgeContro
 Route::post('/acknowledgeshortAjaxAdmin', 'shortterm\Admin\ShortTermAcknowledgeController@acknowledgeAjaxAdmin')->name('acknowledgeshortAjaxAdmin');
 
 
+
+Route::post('/getadminparticipantdata','shortterm\Admin\NrestParticipantsController@getadminparticipantdata')->name('getadminparticipantdata');
+Route::post('/getadminbankdata','shortterm\Admin\NrestBankDetailsController@getadminbankdata')->name('getadminbankdata');
 });
 
 

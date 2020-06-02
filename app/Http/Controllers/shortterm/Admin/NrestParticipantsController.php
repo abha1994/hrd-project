@@ -20,11 +20,33 @@ class NrestParticipantsController extends Controller
      */
      public function index()
     {
+		$shortTerm = DB::table('short_term_program')
+			->select('short_term_id','name_proposed_training_program','coordinator_name')
+			->orderBy('coordinator_name','asc')
+            ->get();
+			
+			
+			
 		$students = DB::table('studentregistrations')->where('scheme_code','4')->orderBy('id','desc')->get();
 		$state_data = DB::table('state_master')->distinct('statae_name')->get();
 		
         $district_data = DB::table('district_master')->distinct('district_name')->get();   
-		return view('backend.shortterm.Admin.nrest_participants',compact('students','state_data','district_data'));
+		return view('backend.shortterm.Admin.nrest_participants',compact('shortTerm','students','state_data','district_data'));
+			
+	}
+	
+	public function getadminparticipantdata(Request $request)
+	{
+	
+        $val2=$request->input('v1');
+		
+		if($val2!=""){
+			$state_data = DB::table('state_master')->distinct('statae_name')->get();
+            $district_data = DB::table('district_master')->distinct('district_name')->get(); 
+			$students = DB::table('studentregistrations')->where('scheme_code','4')->where('institute_id',$val2)->orderBy('id','desc')->get();
+			// dd($data);
+		   return view('backend.shortterm.Admin.nrest_participants_filter',compact('students','state_data','district_data'));
+		}
 	}
 
     public function show($id)
