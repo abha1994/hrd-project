@@ -11,8 +11,12 @@
 
     <?php
 	    $institute_status_check = institute_status_check();
+            $shortterm_status_check = shortterm_status_check();
+
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1 = $studentMClass = $shortMClass = $stuploadcoursesMClass = $stparticipantMClass  = $stbankdetailsMClass  = $stattandenceMClass  = $stuploadrMClass  = $staackrMClass = ' ' ;
+		$dashboardClass = $institutepMClass = $studentMClass = $bankMClass = $attendanceMClass = $acknowledgeMClass = $statusMclass1  = $progressMclass1
+ = $studentMClass = $shortMClass = $stuploadcoursesMClass = $stparticipantMClass  = $stbankdetailsMClass  = $stattandenceMClass  = $stuploadrMClass  =
+ $staackrMClass = $mouMClass = $stacknowledgeMClass =' ' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -55,12 +59,19 @@
 		if($current_url == 'short_termAttandance' ){
 		   $stattandenceMClass  = 'active';
 		}
+		if($current_url == 'acknowledge_shortTerm' ){
+		   $stacknowledgeMClass  = 'active';
+		}
 		if($current_url == 'report-content' ){
 		   $stuploadrMClass  = 'active';
 		}
 		if($current_url == 'acknowledge_slip' ){
 		   $staackrMClass   = 'active';
 		}
+                if($current_url == 'mou' ){
+		   $mouMClass   = 'active';
+		}
+
 	?> 
 	
 <?php $menu_id = Session::get('menu_id'); ?>
@@ -139,6 +150,14 @@
               </p>
             </a>
           </li>
+		   <li class="nav-item">
+            <a href="{{ URl('mou')}}" class="nav-link {{$mouMClass}}" id="">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Upload Mou
+              </p>
+            </a>
+			</li>
 			 <?php  }} ?>
 		  
 		  <?php $candidate_id = Auth::user()->id;?>
@@ -165,6 +184,9 @@
             </a>
 			</li>
 			
+         <?php if(!empty($shortterm_status_check)){
+			 if($shortterm_status_check->status_id == "3"){ ?>
+
 			<li class="nav-item">
             <a href="{{ URl('course-content')}}" class="nav-link {{$stuploadcoursesMClass}}" id="liuniversity">
               <i class="nav-icon fas fa-th"></i>
@@ -206,7 +228,7 @@
 			</li>
 			
 			<li class="nav-item">
-            <a href="{{ URl('acknowledge_shortTerm')}}" class="nav-link {{$studentMClass}}" id="">
+            <a href="{{ URl('acknowledge_shortTerm')}}" class="nav-link {{$stacknowledgeMClass}}" id="">
               <i class="nav-icon fas fa-th"></i>
               <p>
                   Short Term Acknowledgement Slip
@@ -224,6 +246,9 @@
               </p>
             </a>
 			</li>
+
+          <?php } }?>
+
 			
 		  <?php } ?>
            

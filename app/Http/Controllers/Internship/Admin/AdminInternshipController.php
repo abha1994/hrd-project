@@ -1,6 +1,6 @@
 <?php
 
-// namespace App\Http\Controllers;
+
 namespace App\Http\Controllers\Internship\Admin;
 use App\Http\Controllers\Controller;
 
@@ -84,10 +84,8 @@ class AdminInternshipController extends Controller
  
     public function index(Request $request)
     { 
-	
-	
-		  
-	   if ($request->ajax()) {  
+	try {
+  		    if ($request->ajax()) { 
 					$intern_duration = $request->intern_duration;
 					$pass_status = $request->pass_status;
 					$datepicker_search_from = $request->datepicker_search_from;
@@ -137,8 +135,25 @@ class AdminInternshipController extends Controller
 					 ->rawColumns(['action','first_name','intern_duration','date_entry'])
 					 ->make(true);
 					}
+					//**********Save Data into audtitrail_tbl************//
+					$audtitrail_tbl_post['status'] = '0';
+					$audtitrail_tbl_post['action_type1'] = '5';
+					$audtitrail_tbl_post['desc'] = 'Pending Internship Listing';
+					audtitrail_tbl_history($audtitrail_tbl_post);
+					//**********Save Data into audtitrail_tbl************// 
 					$data = AdminInternship::index();
 					return view('backend/internship/admin_internship/list',compact('data'));
+	    }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['scheme_code'] = '1';
+			$audtitrail_tbl_post['desc'] = 'Pending Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+	        // dd('Message', $ex->getMessage());
+            return redirect('error');
+	    }
 				
 	}
 	
@@ -150,6 +165,7 @@ class AdminInternshipController extends Controller
      */
 	public function considered_level_1(Request $request)
     { 
+	try {
 	  if ($request->ajax()) {  
 					$intern_duration = $request->intern_duration;
 					$pass_status = $request->pass_status;
@@ -198,8 +214,24 @@ class AdminInternshipController extends Controller
 					 ->rawColumns(['action','first_name','intern_duration','date_entry'])
 					 ->make(true);
 				}
+				//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post['status'] = '0';
+				$audtitrail_tbl_post['action_type1'] = '5';
+				$audtitrail_tbl_post['desc'] = 'Consider by level1 Officer Internship Listing';
+				audtitrail_tbl_history($audtitrail_tbl_post);
+				//**********Save Data into audtitrail_tbl************//  
 				$data = AdminInternship::considered_level_1();
 				return view('backend/internship/admin_internship/list_level_1',compact('data'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['desc'] = 'Consider by level1 Officer Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+	        // dd('Message', $ex->getMessage());
+            return redirect('error');
+	    }
 	}
 	
 	 
@@ -210,7 +242,8 @@ class AdminInternshipController extends Controller
      */
 	public function forword_to_committee(Request $request)
     { 
-	 if ($request->ajax()) {  
+	try{
+	    if ($request->ajax()) {  
 					$intern_duration = $request->intern_duration;
 					$pass_status = $request->pass_status;
 					$datepicker_search_from = $request->datepicker_search_from;
@@ -270,8 +303,24 @@ class AdminInternshipController extends Controller
 					 ->rawColumns(['action','first_name','intern_duration','date_entry'])
 					 ->make(true);
 				}
+				//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post['status'] = '0';
+				$audtitrail_tbl_post['action_type1'] = '5';
+				$audtitrail_tbl_post['desc'] = 'Forward To Committee Internship Listing';
+				audtitrail_tbl_history($audtitrail_tbl_post);
+				//**********Save Data into audtitrail_tbl************//  
 				$data = AdminInternship::forword_to_committee();
 				return view('backend/internship/admin_internship/list_forward_committee',compact('data'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['desc'] = 'Forward To Committee Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+	        // dd('Message', $ex->getMessage());
+            return redirect('error');
+	    }
 	 }
 	
 	 /**
@@ -282,6 +331,7 @@ class AdminInternshipController extends Controller
 	 
     public function rejected_internship(Request $request)
     { 
+	try{
 	   if ($request->ajax()) {  
 					$intern_duration = $request->intern_duration;
 					$pass_status = $request->pass_status;
@@ -343,20 +393,26 @@ class AdminInternshipController extends Controller
 					 ->rawColumns(['action','first_name','intern_duration','date_entry'])
 					 ->make(true);
 				}
+				//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post['status'] = '0';
+				$audtitrail_tbl_post['action_type1'] = '5';
+				$audtitrail_tbl_post['desc'] = 'Rejected Internship Listing';
+				audtitrail_tbl_history($audtitrail_tbl_post);
+				//**********Save Data into audtitrail_tbl************//
 				$data = AdminInternship::rejected_internship();
 				return view('backend/internship/admin_internship/list_reject',compact('data'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['desc'] = 'Rejected Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+	        // dd('Message', $ex->getMessage());
+            return redirect('error');
+	    }
 	 }
 	
-     /**
-     *Access denied view pagae
-     *
-     * @access_denied
-     */
-	 
-	public function access_denied()
-    { 
-	 return view('backend/access_denied');
-	}
 	
 	 /**
      *Fetch All Final Selected internship data by level 2
@@ -366,6 +422,7 @@ class AdminInternshipController extends Controller
 			
 	public function selected_internship(Request $request)
     { 
+	try{
 	 if ($request->ajax()) {  
 			$intern_duration = $request->intern_duration;
 			$pass_status = $request->pass_status;
@@ -413,8 +470,24 @@ class AdminInternshipController extends Controller
 				 ->rawColumns(['action','first_name','intern_duration','date_entry'])
 				 ->make(true);
 			}
-		$data = AdminInternship::selected_internship();
-        return view('backend/internship/admin_internship/list_selected',compact('data'));
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '0';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['desc'] = 'Final Selected Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			$data = AdminInternship::selected_internship();
+			return view('backend/internship/admin_internship/list_selected',compact('data'));
+	    }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['desc'] = 'Final Selected Internship Listing';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+	        // dd('Message', $ex->getMessage());
+            return redirect('error');
+	    }
 	}
 	
 	/**
@@ -455,12 +528,28 @@ class AdminInternshipController extends Controller
      */
 	public function view($id)
     { 
-	
-	  $decrypted = self::ID_decode($id);
-	  $all_data =  Session::get('userdata');
-	  $login_userdata = DB::table('user_credential')->where('officer_id',$all_data['officer_id'])->get()->first();
-	  $data = AdminInternship::edit($decrypted);
-	  return view('backend/internship/admin_internship/view',compact('data','login_userdata'));
+	  try{
+		  
+			$decrypted = self::ID_decode($id);
+			//**********Save Data into audtitrail_tbl************//
+			// $audtitrail_tbl_post['status'] = '0';
+			// $audtitrail_tbl_post['action_type1'] = '1';
+			// $audtitrail_tbl_post['desc'] = 'View Internship Data';
+			// audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			$data = AdminInternship::edit($decrypted);
+			return view('backend/internship/admin_internship/view',compact('data'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '1';
+			$audtitrail_tbl_post['desc'] = 'View Internship Data';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
+		
 	}
 	
 	/**

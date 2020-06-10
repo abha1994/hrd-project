@@ -37,7 +37,7 @@
             $internship_data =  $data['internship_data']
       ?>
 	 <marquee behavior="scroll" z-index:99;="" width="100%" height="30px" scrollamount="3" direction="left" style="background:rgba(0,0,0,.03)"><h3><span style="color:#FF0000;">The internship will be on unpaid basis. No stipend will be provided to interns. </span></h3></marquee>
-           <div class="card-header text-center"><h4 style="    color: #2384c6;">Internship View</h4></div>
+           <div class="card-header text-center"><h4 class="mt-2">Internship View</h4></div>
                <div class="card-body">
      	
 				            <div class="form-group">

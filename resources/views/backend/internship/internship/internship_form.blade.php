@@ -7,7 +7,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb"style="" >
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="home">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Internship Form</li>
       </ol>
@@ -39,7 +39,7 @@
 		    $loginuser_data = $data['loginuser_data'];
 	 ?>
 	 <marquee behavior="scroll" z-index:99;="" width="100%" height="30px" scrollamount="3" direction="left" style="background:rgba(0,0,0,.03)"><h3><span style="color:#FF0000;">The internship will be on unpaid basis. No stipend will be provided to interns. </span></h3></marquee>
-     <div class="card-header text-center"><h4 style="    color: #2384c6;">Internship Form</h4></div>
+     <div class="card-header text-center"><h4 class="mt-2">Internship Form</h4></div>
       <div class="card-body">
      	<form  enctype="multipart/form-data"  action="{{ url('internship-form-post') }}" class=""  autocomplete="off" id="internship_form" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">

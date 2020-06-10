@@ -7,7 +7,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Edit Institute</li>
       </ol>
@@ -22,6 +22,7 @@
       <div class="card-body">
      	<form  enctype="multipart/form-data"  action="{{ route('update-university',$data['institute_data']->institute_id) }}" class=""   autocomplete="off" id="institute_form" method="POST" >
 			<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+			<input type="text" name="urlhash" id="urlhash" />
 			
 				 <?php 
 			$crseDtls=json_decode($data['institute_data']->course_offered_dept);
@@ -344,7 +345,7 @@
 									
 									<div class="col-md-4">
 									 <label for="name"  style="font-size: 13px;color:#000" class="control-label">A) Date of approximate course Start</label>
-										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57 && event.charCode >= 65" value="<?php if(!empty($data['institute_data']->course_start_date)){ ?>{{date('m/d/Y',strtotime($data['institute_data']->course_start_date))}}<?php } ?>" id="course_run" placeholder="Since when the course being run" name="course_run">
+										<input type="text" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57 && event.charCode >= 65" value="<?php if(!empty($data['institute_data']->course_start_date)){ ?>{{date('m/d/Y',strtotime($data['institute_data']->course_start_date))}}<?php } ?>" id="university_datepicker" placeholder="Since when the course being run" name="course_run">
 										@if ($errors->has('course_run'))
 											<span class="invalid-feedback " role="alert">
 												<strong>{{ $errors->first('course_run') }}</strong>
@@ -574,7 +575,7 @@
          </div>
      </div>
 	 
-	 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 	 <style>
 	    .BDC_CaptchaIconsDiv{
@@ -692,6 +693,14 @@ var hash = location.hash.substr(1);
 	}
 
 });
+</script>
+
+<script>
+$(document).ready(function() { 
+var type = window.location.hash.substr(1);
+$("#urlhash").val(type);
+});
+
 </script>
 
 @endsection

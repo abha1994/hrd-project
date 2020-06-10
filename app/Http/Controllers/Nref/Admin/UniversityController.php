@@ -242,7 +242,7 @@ class UniversityController extends Controller
 	 
 	public function update($id, Request $request)
     { 
-	
+	//dd($request);
 	//$path= public_path('uploads/nref_history/');
 	
 	$fetchRecord = Admin_institute::fetch_details($id);
@@ -265,6 +265,7 @@ class UniversityController extends Controller
 		$courseDetails=array_combine($request->courseid,$request->studentno);
 		
 		    $institute_name = $request->institute_name;
+			$urlhash = $request->urlhash;
 			
 			// $postdata['user_id'] = $id;
 			$postdata['department_name'] = $request->dept_name;
@@ -549,7 +550,8 @@ class UniversityController extends Controller
 		
 		//return redirect()->route('final-university/', ['id' => $id]);
 		
-		return redirect()->to('final-university/'.$id);
+		//return redirect()->to('final-university/'.$id);
+		return redirect('final-university/'.$id.'#'.$urlhash);
 		}
 		
 		else
@@ -644,7 +646,8 @@ class UniversityController extends Controller
 			}
 			
 			////return redirect('university')->with('success','Institute Details are Inserted successfully');
-			return redirect()->to('final-university/'.$id);
+			//return redirect()->to('final-university/'.$id);
+			return redirect('final-university/'.$id.'#'.$urlhash);
 			
 			
 		}
@@ -872,6 +875,8 @@ class UniversityController extends Controller
 	public function pendingInstituteAjax(Request $request)
     { 
 	
+	//echo "<pre>"; print_r($request); die;
+	
 	$frmDate=$request->frmDate;
 	$toDate = $request->toDate;
 	$stateId=  $request->stateId;
@@ -955,7 +960,6 @@ class UniversityController extends Controller
 	
 	public function selectedInstituteAjax(Request $request)
     { 
-	
 	$frmDate=$request->frmDate;
 	$toDate = $request->toDate;
 	$stateId=  $request->stateId;
@@ -1008,7 +1012,7 @@ class UniversityController extends Controller
 	if($type == "2"){
             $institute_data= Admin_institute::all_export_data($coursepdf,$statepdf,$frmDate,$toDate,$institutetype); 
 			 //dd($internship_data);
-			$Mpdf = PDF::loadview('backend/nref/admin/admin_institute/pdf_report', compact('institute_data'))->setPaper('a4', 'landscape');
+			$Mpdf = PDF::loadview('backend/nref/Admin/admin_institute/pdf_report', compact('institute_data'))->setPaper('a4', 'landscape');
 			return $Mpdf->download('institute.pdf'); 
 	}
 	else

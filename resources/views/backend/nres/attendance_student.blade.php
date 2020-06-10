@@ -17,14 +17,14 @@
 	     
     @include('includes/flashmessage')
 
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Candidate Attendance Details</h4>
-     @if(!count($attendanceStudent)>0)
-		<span class="pull-right" style="margin-top:-35px">  <a href="{{ route('add_attendance') }}" class="btn btn-primary font-weight-normal mr-1 px-3"><i class="fa fa-plus-square-o mr-1" aria-hidden="true"></i> Add Attendance  </a></span>
-	 @endif
+	<div class="card-header text-center"><h4 class="mt-2">Candidate Attendance Details</h4>
+    
 	</div>
 
     	<div class="card-body">
-		
+		 @if(!count($attendanceStudent)>0)
+		<span class="pull-right" style="margin-top:-35px">  <a href="{{ route('add_attendance') }}" class="btn btn-primary font-weight-normal mr-1 px-3"><i class="fa fa-plus-square-o mr-1" aria-hidden="true"></i> Add Attendance  </a></span>
+	   @endif
 		<div class="col-md-4" style="float:left">
 					
 					<select class="form-control"name="monthnew" id="monthnew">

@@ -338,8 +338,8 @@ function consider_form_sumbit(){
         $(".nav-link").removeClass('active');
        // $("#liJobCategory").addClass("false");
        // $("#liCountry").addClass("false");
-        $("#pendingapplication").addClass("active");
-         $("#rejectededit").addClass("active");
+        $("#pendinapplication").addClass("active");
+        
       });
 </script>
 @endsection

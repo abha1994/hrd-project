@@ -10,7 +10,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{'/home'}}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{'/home'}}">Dashboard</a></li>
               <li class="breadcrumb-item active">User Management</li>
             </ol>
           </div><!-- /.col -->
@@ -64,8 +64,8 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <a href="{{url('users')}}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
+                        <a href="{{url('users')}}" class="btn btn-secondary"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
                     </div>
                 </div>
                 {!! Form::close() !!}

@@ -11,13 +11,7 @@
       </ol>
 
   <div class="card card-login mx-auto mt-5 " style="">     
-   <div class="card-header text-center"><h4 class="mt-2">View Bank details of  <?php 
-			// dd($student_name);
-			foreach($student_name as $v){
-				if($v->id == $recorde->student_id){
-					 echo ucwords($v->firstname.' '.$v->lastname);
-				}
-			 }?> </h4></div>
+   <div class="card-header text-center"><h4 class="mt-2">View Bank details of  <?php echo $name;?> </h4></div>
       
         <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">        
          <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
@@ -26,13 +20,7 @@
           <tr>
             <td>Candidate Name : </td>
 			
-            <td>  <?php 
-			// dd($student_name);
-			foreach($student_name as $v){
-				if($v->id == $recorde->student_id){
-					 echo ucwords($v->firstname.' '.$v->lastname);
-				}
-			 }?> 
+            <td>  <?php echo $name;?> 
 		    </td>
           </tr>
 		   <tr>
@@ -92,11 +80,7 @@
           <tr>
             <td>Bank Email Id : </td>
             <td>{{$recorde->bank_email}}</td>
-          </tr>  
-		  <tr>
-            <td>Bank Email Id : </td>
-            <td>{{$recorde->bank_email}}</td>
-          </tr>  
+          </tr>   
 		  <?php if(!empty($recorde->bank_mandate_form)){ ?>
 		  <tr>
             <td>Bank Mandate Form : </td>
@@ -109,7 +93,7 @@
         </tbody>
       </table>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-			<a class="btn btn-secondary" href="{{ route('bank-details.index') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+			<a class="btn btn-secondary" href="{{ route('bank-details-nres.index') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 			</div>
         </div>
         </div> 

@@ -84,7 +84,7 @@ foreach($arr as $k1=>$v1){
 			  <?php 
 				 	foreach($v2 as $k4=>$v4){
 						?>
-						  <label style="font-size:16px;font-weight:400;display:inline-block;">{{ Form::checkbox('permission[]', $k4, in_array($k4, $rolePermissions) ? true : false, array('class' => "case select_code_$k1")) }}
+						  <label style="font-size:16px;font-weight:400;display:inline-block;">{{ Form::checkbox('permission[]', $k4, in_array($k4, $rolePermissions) ? true : false, array('class' => "case select_case_$k1")) }}
                          {{ $v4 }}</label>&nbsp;&nbsp;
 						<?php 
 						
@@ -104,7 +104,7 @@ foreach($arr as $k1=>$v1){
 
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 	
-        <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
         <a class="btn btn-secondary" href="{{ route('roles.index') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
     </div>
 </div>
@@ -129,9 +129,9 @@ $("#selectall").click(function () {
 	// var scheme_code = $(this).attr('dir');
 	var checkAll = $(".select_1").prop('checked');
 	    if (checkAll) {
-            $(".select_code_1").prop("checked", true);
+            $(".select_case_1").prop("checked", true);
         } else {
-            $(".select_code_1").prop("checked", false);
+            $(".select_case_1").prop("checked", false);
         }
     });
 	
@@ -139,9 +139,9 @@ $("#selectall").click(function () {
 	// var scheme_code = $(this).attr('dir');
 	var checkAll = $(".select_3").prop('checked');
 	    if (checkAll) {
-            $(".select_code_3").prop("checked", true);
+            $(".select_case_3").prop("checked", true);
         } else {
-            $(".select_code_3").prop("checked", false);
+            $(".select_case_3").prop("checked", false);
         }
     });
 	

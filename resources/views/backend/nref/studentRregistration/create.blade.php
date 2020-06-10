@@ -7,7 +7,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb"style="" >
         <li class="breadcrumb-item">
-          <a href="">Dashboard</a>
+          <a href="home">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Student Registration</li>
       </ol>
@@ -80,7 +80,8 @@
             <div class="form-group col-md-4">
             <label for="gender">Gender <span style="color: red">*</span></label><br />
             <input type="radio" name="gender" value="1" {{ old('gender') == "1" ? 'checked' : '' }}> Male &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="gender" value="2" {{ old('gender') == "2" ? 'checked' : '' }} > Female
+            <input type="radio" name="gender" value="2" {{ old('gender') == "2" ? 'checked' : '' }} > Female &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="gender" value="3" {{ old('gender') == "3" ? 'checked' : '' }} > Other
             <br />
             @if ($errors->has('gender'))
                   <span class="help-block">
@@ -118,22 +119,22 @@
 			  <label style="color:#FF0000; font-size:11px;"> (File Format accepts: img,png &amp; Maximum Size: 100kb) <br>
 			<p id="file_photo_error"></p>
           </div>
-           <div class="form-group col-md-4">
-             <label for="commiteedocument">Selection Committee Recommandation doc.  <span style="color: red">*</span></label>   
-             <input type="file" name="commiteedocument" id="commiteedocument" class="form-control" value="{{old('commiteedocument')}}">
-              @if ($errors->has('commiteedocument'))
-                <span class="help-block">
-                  <strong>{{ $errors->first('commiteedocument') }}</strong>
-                </span>
-              @endif
-			   <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
-			<p id="commiteedocument_error"></p>
+           
+
+  <div class="form-group col-md-4 " >
+              <label for="dob">DOB <span style="color: red">*</span></label>               
+              <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
+              @if ($errors->has('dob'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('dob') }}</strong>
+                  </span>
+                @endif
           </div>
         </div>
 
 
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
               <label for="address">Address <span style="color: red">*</span></label>
                
               <textarea name="address"  style="height: 36px;"  class="form-control">{{old('address')}}</textarea>
@@ -143,15 +144,28 @@
                   </span>
                 @endif
           </div>
-		  <div class="form-group col-md-6 " >
-              <label for="dob">DOB <span style="color: red">*</span></label>               
-              <input type="date" name="dob"  class="form-control" value="{{old('dob')}}" id="dob">
-              @if ($errors->has('dob'))
+
+<div class="form-group col-md-4">
+              <label for="pincode">Pincode <span style="color: red">*</span></label>               
+              <input type="text" name="pincode"  class="form-control" maxlength="6" value="{{old('pincode')}}">
+              @if ($errors->has('pincode'))
                   <span class="help-block">
-                      <strong>{{ $errors->first('dob') }}</strong>
+                      <strong>{{ $errors->first('pincode') }}</strong>
                   </span>
                 @endif
           </div>
+   <div class="form-group col-md-4">
+              <label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>              
+              <input type="text" name="aadhar" id="aadhar"  onblur="checkadharStatus()"   class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
+			  <div id="aadhar_msg"></div>
+              @if ($errors->has('aadhar'))
+                  <span class="help-block">
+                      <strong>{{ $errors->first('aadhar') }}</strong>
+                  </span>
+                @endif
+          </div>
+         
+		
            
         </div>
         <div class="form-row">
@@ -164,15 +178,19 @@
                   </span>
                 @endif
           </div>
-          <div class="form-group col-md-4">
-              <label for="pincode">Pincode <span style="color: red">*</span></label>               
-              <input type="text" name="pincode"  class="form-control" maxlength="6" value="{{old('pincode')}}">
-              @if ($errors->has('pincode'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('pincode') }}</strong>
-                  </span>
-                @endif
+          
+<div class="form-group col-md-4">
+             <label for="commiteedocument">Selection Committee Recommandation doc.  <span style="color: red">*</span></label>   
+             <input type="file" name="commiteedocument" id="commiteedocument" class="form-control" value="{{old('commiteedocument')}}">
+              @if ($errors->has('commiteedocument'))
+                <span class="help-block">
+                  <strong>{{ $errors->first('commiteedocument') }}</strong>
+                </span>
+              @endif
+			   <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 1MB) <br>
+			<p id="commiteedocument_error"></p>
           </div>
+
           <div class="form-group col-md-4">
               <label for="couseApplied">Fellowship <span style="color: red">*</span></label>              
               <select name="course" class="form-control" onchange="showfield(this.options[this.selectedIndex].value)">
@@ -245,17 +263,7 @@
                 <label style="color:#FF0000; font-size:11px;"> (File Format accepts: PDF &amp; Maximum Size: 5MB) <br>
                <span  style="font-size: 12px;"id="highest_qulification_error"> </span>
           </div>
-          <div class="form-group col-md-4">
-              <label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>              
-              <input type="text" name="aadhar" id="aadhar"  onblur="checkadharStatus()"   class="form-control" value="{{old('aadhar')}}" data-type="adhaar-number" maxlength="14">
-			  <div id="aadhar_msg"></div>
-              @if ($errors->has('aadhar'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('aadhar') }}</strong>
-                  </span>
-                @endif
-          </div>
-         
+       
 		    <div class="form-group col-md-4">
 		    <p> First Download and Upload  <a href="./../resources/views/backend/nref/studentRregistration/nref_declation_form.pdf" download>Click</a></p>
 			 

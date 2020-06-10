@@ -6,7 +6,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Student Registarion
 		 </li>
@@ -54,7 +54,11 @@
 									<tr>
 										<td>{{$loop->iteration}}</td>
 										<td> <?php echo ucwords($student->firstname.' '.$student->middlename.' '.$student->lastname);?></td>
-										<td><?php if($student->gender == "1"){echo "Male";}else if($student->gender == "2"){echo "Female";} ?></td>
+										<td><?php if($student->gender == "1"){echo "Male";}
+                                                                                          else if($student->gender == "2"){echo "Female";}
+                                                                                          else if($student->gender == "3"){echo "Other";}
+                                                                                    ?>
+                                                                                </td>
 										<td>{{$student->email_id}}</td>
 										<td>{{$student->mobile}}</td>
 										<td><?php echo date("d-m-Y",strtotime($student->dob));?></td>

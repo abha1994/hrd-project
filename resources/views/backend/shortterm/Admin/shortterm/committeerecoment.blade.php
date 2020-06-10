@@ -341,7 +341,7 @@ $(document).ready(function () {
         $(".nav-link").removeClass('active');
        // $("#liJobCategory").addClass("false");
        // $("#liCountry").addClass("false");
-        $("#rejectededit").addClass("active");
+        $("#comm").addClass("active");
       });
 </script>
 @endsection

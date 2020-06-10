@@ -34,7 +34,7 @@
 					<option value="">Select Short Term Name</option>
 					@if(isset($shortTerm)) 
 					@foreach($shortTerm as $termName)
-					<option value="{{$termName->short_term_id}}">{{$termName->coordinator_name}}</option>
+					<option value="{{$termName->user_id}}">{{$termName->institute_name}}</option>
 					@endforeach
 					@endif
 					</select>

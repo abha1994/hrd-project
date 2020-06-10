@@ -25,17 +25,60 @@ class bankDetialController extends Controller
      */
     public function index()
     {
-	    $login_user_id =  Auth::user()->id;
+		
+		  try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '5';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'List Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			  $login_user_id =  Auth::user()->id;
 		
 		$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
-		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','4')->where('institute_id',$short_term_id)->get(); 
+		
+		$shortterm_exist = DB::table('bankdetails')->where('scheme_code','4')->where('institute_id',$short_term_id)->get(); 
         $banks = BankDetail::orderBy('id','desc')->where('scheme_code','4')->where('institute_id',$short_term_id)->get();
-        return view('backend.shortterm.bankdetail.index',compact('banks','student_name'));
+        return view('backend.shortterm.bankdetail.index',compact('banks','shortterm_exist'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'List Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
+	  
     }
 
     public function index2(Request $request	,$id)
     { 
-	   return view('backend.shortterm.bankdetail.final-submit',compact('id'));
+	
+	    try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '5';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'List Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
+	         return view('backend.shortterm.bankdetail.final-submit',compact('id'));
+	   }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '5';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'List Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
 	}
 	
     /**
@@ -47,13 +90,19 @@ class bankDetialController extends Controller
     {
 		
 		try {
+			
+			 
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '2';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'Create Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
+			 
 			$login_user_id = Auth::id();
 			$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
 			
-			// dd($short_term_id);
-			// $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','4')->where('institute_id',$short_term_id)->get(); 
-			
-			
+		
 			$exists_in_bankdetails = DB::table('bankdetails')
             ->select('studentregistrations.id')
             ->join('studentregistrations','bankdetails.student_id','=','studentregistrations.id')
@@ -77,7 +126,17 @@ class bankDetialController extends Controller
 			$bankdetils = DB::table('banklist')->distinct()->get('bank');
 			return view('backend.shortterm.bankdetail.create',compact('bankdetils','student_name'));
 	    }catch(\Exception $ex) {
-	        dd('Message', $ex->getMessage());
+			
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '2';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Create Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	        //dd('Message', $ex->getMessage());
 	    }
     }
 	
@@ -98,11 +157,19 @@ class bankDetialController extends Controller
     public function store(Request $request)
     {
 	try {
+		
+		//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '2';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'Save Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
+			 
         $records = $request->all();
 		
 		  $this->validate($request,[
-             'pan'=> 'required|unique:bankdetails',
-            'student_id' => 'required|unique:bankdetails',
+             
+           
             'account_number' => 'required|unique:bankdetails',
             'branch_name'  =>  'required',
             'rtgs' =>'required',
@@ -110,9 +177,9 @@ class bankDetialController extends Controller
             'micr_code' => 'required',
             'account_type' => 'required',
             'ifsc_code' =>'required',             
-            'bank_mobile' => 'required',
-            'bank_email' => 'required',
-			'participant_address' => 'required',
+            // 'bank_mobile' => 'required',
+            // 'bank_email' => 'required',
+			
 			'bank_address' => 'required',
 			
 		
@@ -121,27 +188,28 @@ class bankDetialController extends Controller
 		$user_id = Auth::user()->id;
 		$short_term_id = DB::table('short_term_program')->where('user_id',$user_id)->where('status_id','3')->get()->first()->short_term_id;
 		 
-		
-		 
 			   $records['institute_id'] = $short_term_id;
 			   $records['user_id'] = $user_id;
-			   $records['student_id'] = $records['student_id'];
+			   // $records['student_id'] = $short_term_id;
 			   $records['scheme_code'] = 4;
 		
-		
-		// $bank_mandate_uploaded['is_bank_details_fill'] = "1";
-			// $updateQuery=DB::table('studentregistrations')
-			// ->where(['id' => $request->student_id,'institute_id' =>$institute_id,'user_id' =>$user_id])
-			// ->update($bank_mandate_uploaded);
-	 
         BankDetail::create($records);
 		$last_id = DB::getPDO()->lastInsertId();
 		return redirect()->to('st-bankMandateForm/'.$last_id);
-          //return redirect()->route('bank-details.index')
-                        // ->with('message','Bank Detail created successfully.');
+        
 	}
 	catch(\Illuminate\Database\QueryException $ex) {
-	   dd('Message', $ex->getMessage());
+		
+		//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '2';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Save Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	   //dd('Message', $ex->getMessage());
 	}
 
       
@@ -155,6 +223,14 @@ class bankDetialController extends Controller
      */
     public function show($id)
     {
+		try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '1';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'show Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
 		 $login_user_id =  Auth::user()->id;
 		
 		$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
@@ -162,11 +238,30 @@ class bankDetialController extends Controller
 		// dd($student_name);
         $recorde = BankDetail::findOrFail($id);
         return view('backend.shortterm.bankdetail.show',compact('recorde','student_name'));
+		
+		 }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '1';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Show Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
     }
 
 public function pdfview_bank(Request $request)
     {
-		echo "sdsF";die;
+		 try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '1';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'PDF Download';
+		     audtitrail_tbl_history($audtitrail_tbl_post);
 		
 		$id=$request->input('id');
         $login_user_id =  Auth::user()->id;
@@ -181,6 +276,17 @@ public function pdfview_bank(Request $request)
             return $pdf->download('pdfview.pdf');
         }
       return view('backend.shortterm.bankdetail.pdfview');
+	   }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '1';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'PDF Download';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
     }
 	
     /**
@@ -190,7 +296,17 @@ public function pdfview_bank(Request $request)
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+	
     {
+		
+		 try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '3';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'Edit Bank Details';
+			  audtitrail_tbl_history($audtitrail_tbl_post);
 		 $login_user_id =  Auth::user()->id;
 		
 		$short_term_id = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first()->short_term_id;
@@ -199,6 +315,17 @@ public function pdfview_bank(Request $request)
         $bankdetils = DB::table('banklist')->distinct()->get('bank');
         $record = BankDetail::findOrFail($id);
         return view('backend.shortterm.bankdetail.edit',compact('record','bankdetils','student_name'));
+		 }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '3';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Edit Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
     }
 
     /**
@@ -210,20 +337,26 @@ public function pdfview_bank(Request $request)
      */
     public function update(Request $request, $id)
     {
+		 try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '3';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'Update Bank Details';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
 		
 		    $this->validate($request,[
             'branch_name'  =>  'required',
-            'pan'=> 'required|unique:bankdetails,pan,'.$id,
-            'student_id' => 'required|unique:bankdetails,student_id,'.$id,
             'account_number' => 'required|unique:bankdetails,account_number,'.$id,
             'rtgs' =>'required',
             'neft' => 'required',
             'ifsc_code' => 'required',
             'micr_code' => 'required',
             'account_type' => 'required',           
-            'bank_mobile' => 'required',
-            'bank_email' => 'required',
-			'participant_address' => 'required',
+            // 'bank_mobile' => 'required',
+            // 'bank_email' => 'required',
+			
 			'bank_address' => 'required',
           ]);
 		  
@@ -235,7 +368,7 @@ public function pdfview_bank(Request $request)
 	 
 		   $records->institute_id = $short_term_id;
 		   $records->user_id = $user_id;
-		   $records->student_id = $request->student_id;
+		   // $records->student_id = $short_term_id;
            $records->scheme_code = '4';
 	  
 	 
@@ -247,13 +380,9 @@ public function pdfview_bank(Request $request)
         $records->neft = $request->neft;
         $records->ifsc_code = $request->ifsc_code;
         $records->micr_code = $request->micr_code;
-        $records->pan = $request->pan;
-        $records->aadhar_no = $request->aadhar_no;
         $records->account_type = $request->account_type;
-        $records->candidate_phone = $request->candidate_phone;
         $records->bank_mobile = $request->bank_mobile;
         $records->bank_email = $request->bank_email;
-		$records->participant_address = $request->participant_address;
 		$records->bank_address = $request->bank_address;
 		$records->pfms_code = $request->pfms_code;
         $records->save();
@@ -261,11 +390,32 @@ public function pdfview_bank(Request $request)
 		return redirect()->to('st-bankMandateForm/'.$id);
          //return redirect()->route('st-bank-details.index')
                         // ->with('message','Bank details updated successfully.'); 
+						
+			 }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '3';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Update Bank Details';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
     }
 	
 	
 	
 	public function bank_form_post_final(Request $request,$id) {
+		
+		 try{
+		  
+			//**********Save Data into audtitrail_tbl************//
+			 $audtitrail_tbl_post['status'] = '0';
+			 $audtitrail_tbl_post['action_type1'] = '2';
+			 $audtitrail_tbl_post['scheme_code'] = '4';
+			 $audtitrail_tbl_post['desc'] = 'Create Bank Mandate Form';
+			 audtitrail_tbl_history($audtitrail_tbl_post);
 		$transactionResult = DB::transaction(function() use ($request,$id) {
 				date_default_timezone_set('Asia/Kolkata');
 				$date = date('Y-m-d H:i:s');
@@ -288,6 +438,18 @@ public function pdfview_bank(Request $request)
 			        return redirect()->to('st-bank-details/')->with('success',"Bank Mandatory Form Submitted successfully");
 		      });
 	   return $transactionResult;
+	   
+	   	  }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '2';
+			$audtitrail_tbl_post['scheme_code'] = '4';
+			$audtitrail_tbl_post['desc'] = 'Create Bank Mandate Form';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
 	 }
 	 
 
@@ -302,10 +464,5 @@ public function pdfview_bank(Request $request)
         //
     }
 
-    public function register($id){
-         
-          $bankdetils = DB::table('banklist')->distinct()->get('bank');
-         $record = BankDetail::findOrFail($id);
-        return view('backend.shortterm.bankregister.edit',compact('record','bankdetils'));
-    }
+   
 }

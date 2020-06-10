@@ -32,6 +32,16 @@ Route::get('/forgetuser', 'ForgetUserController@index')->name('forgetuser');
 Route::post('/api/sendotpfu', 'ForgetUserController@sendotpfu')->name('sendotpfu');
 // ****************Forget Username*******************//
 
+// *************Student Login**********************//
+Route::get('/stuLogin', 'StudentLoginController@index')->name('stuLogin');
+Route::post('/stuLogin-form-post','StudentLoginController@stuLogin_form')->name('stuLogin-form-post');
+
+Route::post('/api/sendotpstudent', 'StudentLoginController@sendotp')->name('sendotpstudent');
+
+Route::post('/feedback-form-post','StudentLoginController@feedback_form')->name('feedback-form-post');
+
+// ************* Student Login **********************//
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('api/get-distic-list','Nref\studentRegistrationController@getDisticList');
 Route::get('contact/{id}','Auth\registerVerificationController@verify')->name('contact');
@@ -84,6 +94,14 @@ Route::post('/update-fellowamount/{id}', 'FellowAmountController@update')->name(
 	
 //------------Nref Scheme code 3--------------------->
 
+Route::resource('bank-details','Nref\bankDetialController');
+// Route::resource('bank-details-register','Nref\bankDetialController');
+// Route::get('bank-details-registers/{id}','Nref\bankDetialController@register');
+Route::get('api/get-student-adhaar-number','Nref\bankDetialController@get_student_adhar');
+Route::get('/bankMandateForm/{id}', 'Nref\bankDetialController@index2')->name('/bankMandateForm');
+Route::post('/bank-form-post-final/{id}', 'Nref\bankDetialController@bank_form_post_final')->name('bank-form-post-final');
+Route::get('pdfview_bank',array('as'=>'pdfview_bank','uses'=>'Nref\bankDetialController@pdfview'));
+Route::post('/getinbanknref', 'Nref\Admin\NrefBankDetailsController@getinbanknref')->name('getinbanknref');
 
 Route::get('/institute', 'Nref\InstituteController@index')->name('/institute');
 Route::post('/institute-form-post', 'Nref\InstituteController@institute_form_post')->name('institute-form-post');
@@ -116,10 +134,29 @@ Route::post('/progress-report-post', 'Nref\ProgressreportController@report_progr
 Route::get('/getReportAjax', 'Nref\ProgressreportController@getReportAjax')->name('/getReportAjax');
 Route::post('/getReportAjaxnew', 'Nref\ProgressreportController@getReportAjaxnew')->name('/getReportAjaxnew');
 
+//---------MOU----------------->
+Route::get('/mou', 'Nref\MouController@index')->name('/mou');
+Route::post('/mou-form-post', 'Nref\MouController@mou_form_post')->name('mou-form-post');
+//-------------MOU----------------->
 
-	
 
 //****************Admin Student Panel*********************//
+//-------------Admin MOU----------------->
+Route::get('/adminmou', 'Nref\Admin\AdminMouController@index')->name('/adminmou');
+Route::post('/admin-mou-form-post', 'Nref\Admin\AdminMouController@admin_mou_form_post')->name('admin-mou-form-post');
+Route::post('/getinsmou','Nref\Admin\AdminMouController@getinsmou')->name('getinsmou');
+
+//-------------Admin MOU----------------->
+
+
+/* 04 June Training Program Evaluation Start rocky */
+
+Route::get('/trainingEvalution', 'shortterm\Admin\TrainingEvalutionController@index')->name('/trainingEvalution');
+Route::get('/view-evaluation/{id}', 'shortterm\Admin\TrainingEvalutionController@viewEvaluation')->name('view-evaluation');
+
+Route::post('/evaluationAjax', 'shortterm\Admin\TrainingEvalutionController@evaluationAjax')->name('evaluationAjax');
+
+/* 04 june Training Program Evaluation Ended */
 
 
 //************Admin Get ALL Student Start***********//
@@ -230,7 +267,7 @@ Route::get('/view-level1university/{id}', 'Nref\Admin\UniversityController@viewl
 Route::get('/view-rejctlist/{id}', 'Nref\Admin\UniversityController@viewrejectUniversity')->name('view-rejctlist');
 
 
-Route::post('/pendingInstituteAjax', 'Nref\Admin\UniversityController@pendingInstituteAjax')->name('pendingInstituteAjax'); 
+Route::post('/pendingInstituteAjax', 'Nref\Admin\UniversityController@pendingInstituteAjax')->name('/pendingInstituteAjax'); 
 Route::post('/considerInstituteAjax', 'Nref\Admin\UniversityController@considerInstituteAjax')->name('considerInstituteAjax');
 Route::post('/nonconsiderInstituteAjax', 'Nref\Admin\UniversityController@nonconsiderInstituteAjax')->name('nonconsiderInstituteAjax');
 Route::post('/frwdCommiteInstituteAjax', 'Nref\Admin\UniversityController@frwdCommiteInstituteAjax')->name('frwdCommiteInstituteAjax');
@@ -285,15 +322,24 @@ Route::post('store', 'Nres\AttendanceController@store')->name('store');
 Route::get('view_attendance/{id}', 'Nres\AttendanceController@show')->name('view_attendance');
 Route::get('/attendanceStudentAjax', 'Nres\AttendanceController@attendanceStudentAjax')->name('/attendanceStudentAjax');
 
-Route::resource('bank-details','Nres\bankDetialController');
-Route::resource('bank-details-register','Nres\bankDetialController');
-Route::get('bank-details-registers/{id}','Nres\bankDetialController@register');
+
+Route::resource('bank-details-nres','Nres\bankDetialController');
+// Route::resource('bank-details-register','Nres\bankDetialController');
+// Route::get('bank-details-registers/{id}','Nres\bankDetialController@register');
 Route::get('api/get-student-adhaar-number','Nres\bankDetialController@get_student_adhar');
-Route::get('/bankMandateForm/{id}', 'Nres\bankDetialController@index2')->name('/bankMandateForm');
-Route::post('/bank-form-post-final/{id}', 'Nres\bankDetialController@bank_form_post_final')->name('bank-form-post-final');
+Route::get('/bankMandateForm-nres/{id}', 'Nres\bankDetialController@index2')->name('/bankMandateForm');
+Route::post('/bank-form-nres-post-final/{id}', 'Nres\bankDetialController@bank_form_post_final')->name('bank-form-post-final');
+Route::get('pdfview_bank_nres',array('as'=>'pdfview_bank_nres','uses'=>'Nres\bankDetialController@pdfview'));
 
-Route::get('pdfview_bank',array('as'=>'pdfview_bank','uses'=>'Nres\bankDetialController@pdfview'));
 
+Route::resource('nres-report', 'Nres\ReportController');
+
+Route::post('upload-report-post', 'Nres\ReportController@report_form_post')->name('upload-report-post');
+
+Route::get('download-report/{content}', array(
+    'as'    => 'download-report',
+    'uses'  => 'Nres\ReportController@download'
+));
 //------------Nres Scheme code 2--------------------->	
 
 
@@ -309,7 +355,7 @@ Route::get('/intern-status/{id}', 'Internship\InternshipController@intern_status
 
 //-------------Admin Internship----------------->
 	
-Route::get('internship-home','Internship\Admin\@index');	
+Route::get('internship-home','Internship\Admin\InternhomeController@index');	
 Route::get('admin-internship','Internship\Admin\AdminInternshipController@index');
 Route::get('/admin-internship-view/{id}', 'Internship\Admin\AdminInternshipController@view')
 ->name('admin-internship-view');
@@ -330,5 +376,7 @@ Route::get('/selected-internship', 'Internship\Admin\AdminInternshipController@s
 Route::get('/selected-candidate/{id}', 'Internship\Admin\AdminInternshipController@selected_candidate')->name('selected-candidate');
 //-------------Admin Internship----------------->
 //-------------Internship Student Scheme code 1----------------->	
-Route::post('/session-menu', 'HomeController@session_menu')->name('session-menu');		
+Route::post('/session-menu', 'HomeController@session_menu')->name('session-menu');	
+	
+Route::get('/error', 'HomeController@error')->name('/error');	
 });

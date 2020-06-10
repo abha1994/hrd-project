@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('container')
-
+<script>
+  var pageurl = "{{ url('getinbanknref') }}";
+</script>
  <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
@@ -18,13 +20,26 @@
 	       <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
 
               @include('includes/flashmessage')
-			
+			  <div class="col-md-4" style="float:left">
+		
+		               <select class="form-control commoanPara" name="insname" id="insname">
+						<option value="">Select University</option>
+						<?php foreach($institute_data as $inst) { ?>
+						<option value="<?php echo $inst->institute_id; ?>"><?php echo $inst->institute_name; ?></option>
+						<?php } ?>
+						</select> 
+						
+		</div>
+		<div class="form-group" >
+					<input type="submit" id="filterSearch" class="btn btn-primary "  value= "Search" />
+					</div>
+
 			
 			<br />
 			
 			<br />
-           <div class="table-responsive card-box">
-                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+         <div class="ajaxPart" >
+    		  <table id="adminbank" style="width:100%" class="table table-striped table-bordered dt-responsive nowrap" >
                                 
                                 <thead>
                                     <tr>
@@ -72,6 +87,52 @@
     </div></div></div>
      <script type="text/javascript">
 
+
+
+
+
+
+$(document).ready(function() {
+$("#filterSearch").click(function(){
+	var v1= $('#insname').val();
+;
+var _token = $('input[name="_token"]').val();
+
+if(v1=="")
+		{
+			alert("Please Select Institute");
+			$("#insname").focus();
+			return false;
+		}
+	else {
+	$('#adminbank').DataTable({
+                "bDestroy": true,
+				"bLengthChange": false,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url':pageurl,
+					'data': { v1,_token }
+                },
+
+                'columns': [
+				    { data: 'srn' },
+				    { data: 'candidate_name' },
+                    { data: 'bank_name' },
+					{ data: 'accno' },
+					{ data: 'aadhar' },
+					{ data: 'view' },
+					
+                ]
+            });
+	}
+
+	
+});
+});
+ 
+
+
 </script>
-    <!--  <script src="{{ asset('js/app.js') }}"></script>  -->
+
+
 @endsection

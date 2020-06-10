@@ -24,12 +24,27 @@ class studentRegistrationController extends Controller
      */
     public function index()
     {
-		$login_user_id = Auth::id();
-		$short_term_data = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first();
-		$short_term_id = $short_term_data->short_term_id;
-		
-        $students = DB::table('studentregistrations')->where('institute_id',$short_term_id)->where('user_id',$login_user_id)->where('scheme_code','4')->orderBy('id','desc')->get();
-        return view('backend.shortterm.studentRregistration.index',compact('students'));
+		try{
+			$login_user_id = Auth::id();
+			$short_term_data = DB::table('short_term_program')->where('user_id',$login_user_id)->where('status_id','3')->get()->first();
+			$short_term_id = $short_term_data->short_term_id;
+			
+			$students = DB::table('studentregistrations')->where('institute_id',$short_term_id)->where('user_id',$login_user_id)->where('scheme_code','4')->orderBy('id','desc')->get();
+			
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'5','desc'=>'List Of Student Registration Form');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			
+			return view('backend.shortterm.studentRregistration.index',compact('students'));
+        }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'5','desc'=>'List Of Student Registration Form Not Working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	      return redirect('error');// dd('Message', $ex->getMessage());
+	    }
     }
 	
 	 /**
@@ -46,13 +61,25 @@ class studentRegistrationController extends Controller
      */
     public function create()
     {
-		
-        $country = DB::table('country')->get();
-        $states = DB::table('state_master')->get();
-        $distric = DB::table('district_master')->get();
-       
+		try{
+			$country = DB::table('country')->get();
+			$states = DB::table('state_master')->get();
+			$distric = DB::table('district_master')->get();
+			
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'2','desc'=>'Add Student Registration Form View');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			
+			return view('backend.shortterm.studentRregistration.create',compact('country','states','distric'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'2','desc'=>'Add Student Registration Form View Not Working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
 
-        return view('backend.shortterm.studentRregistration.create',compact('country','states','distric'));
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
     }
 
     /**
@@ -63,8 +90,8 @@ class studentRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-		
-		 $transactionResult = DB::transaction(function() use ($request) {
+		try{
+		$transactionResult = DB::transaction(function() use ($request) {
 		$logID=Auth::id();
 		$short_term_id = DB::table('short_term_program')->where('user_id',$logID)->where('status_id','3')->get()->first()->short_term_id;
 		
@@ -132,10 +159,22 @@ class studentRegistrationController extends Controller
 		    DB::table('studentregistrations')->where('id',$last_id)->update($records1); 
             		
 		}
+		//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'2','desc'=>'Student Registration Form Submit Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************// 
 		return redirect()->route('st-student-registration.index')
                           ->with('message','Your registration  created successfully.');
 		  });
-	   return $transactionResult;
+	       return $transactionResult;
+	    }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'2','desc'=>'Student Registration Form Submission Not Working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
         
     }
 
@@ -147,12 +186,23 @@ class studentRegistrationController extends Controller
      */
     public function show($id)
     {
-        $recorde = studentRegistration::findOrFail($id);
-        
-        $stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
-        $disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
-         
-        return view('backend.shortterm.studentRregistration.show',compact('recorde','stateName','disticName'));
+        try{
+			$recorde = studentRegistration::findOrFail($id);
+			$stateName = DB::table('state_master')->where('statecd',$recorde->statecd)->distinct('statecd')->get();
+			$disticName = DB::table('district_master')->where('districtcd',$recorde->districtcd)->distinct('statecd')->get();         
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'1','desc'=>'Student Registration Form view');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			return view('backend.shortterm.studentRregistration.show',compact('recorde','stateName','disticName'));
+	    }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'1','desc'=>'Student Registration Form view not working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
     }
 
     /**
@@ -163,13 +213,24 @@ class studentRegistrationController extends Controller
      */
     public function edit($id)
     {
-         $student = studentRegistration::findOrFail($id);
-         //dd($stuent);
-         $country = DB::table('country')->get();
-        $states = DB::table('state_master')->get();
-        $distric = DB::table('district_master')->get();
-       
-         return view('backend.shortterm.studentRregistration.edit',compact('student','country','states','distric'));
+        try{
+			$student = studentRegistration::findOrFail($id);
+			$country = DB::table('country')->get();
+			$states = DB::table('state_master')->get();
+			$distric = DB::table('district_master')->get();
+            //**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'3','desc'=>'Edit Student Registration Form view');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+            return view('backend.shortterm.studentRregistration.edit',compact('student','country','states','distric'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'3','desc'=>'Edit Student Registration Form view not working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
     }
 
     /**
@@ -181,7 +242,7 @@ class studentRegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
-		
+		try{
 		$logID=Auth::id();
 		
 		$short_term_id = DB::table('short_term_program')->where('user_id',$logID)->where('status_id','3')->get()->first()->short_term_id;
@@ -260,10 +321,21 @@ class studentRegistrationController extends Controller
 				'modified_by'=>Auth::id(),
 				'scheme_code'=>4,
 			);
-			 DB::table('studentregistrations')->where('id',$id)->update($row); 
-		 
-            return redirect()->route('st-student-registration.index')
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'3','desc'=>'Edit Student Registration Form submit successfully');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			DB::table('studentregistrations')->where('id',$id)->update($row); 
+		    return redirect()->route('st-student-registration.index')
                         ->with('message','Student registration updated successfully.');
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'3','desc'=>'Edit Student Registration Form submission is not working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
 
     }
 
@@ -275,9 +347,21 @@ class studentRegistrationController extends Controller
      */
     public function destroy($id)
     {
-		
-         studentRegistration::destroy($id);
-         return redirect()->route('st-student-registration.index')->with('message','Student detail deleted successfully !');
+		try{
+			 studentRegistration::destroy($id);
+			 //**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'4','desc'=>'Delete Student Registration records successfully');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			 return redirect()->route('st-student-registration.index')->with('message','Student detail deleted successfully !');
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'4','desc'=>'Delete Student Registration details is not working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
     }
 
      public function getDisticList(Request $request)

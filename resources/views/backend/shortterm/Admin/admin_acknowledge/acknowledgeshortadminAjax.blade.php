@@ -18,7 +18,7 @@ if(isset($instituteDetails))
 {
 foreach($instituteDetails as $inst_details)  
 { 
-if($inst_details->institute_id==$attendance->institute_id)
+if($inst_details->user_id==$attendance->user_id)
 { 
 $ss=$inst_details->institute_name; 
 } 

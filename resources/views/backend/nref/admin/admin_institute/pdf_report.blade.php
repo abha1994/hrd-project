@@ -39,28 +39,14 @@
 <td><?php echo $p; ?></td>
 <td style="width:8%">
 <?php
-$curse=explode(',',$instName->lstCourse);
-
 echo "<b class='font'>Institute Name:</b>".$instName->institute_name."<br>";
 echo "<b class='font'>Name of the Department:</b>".$instName->department_name."<br>";
 echo "<b class='font'>Coordinator of the Proposed Program:</b>".$instName->coordinate_prog."<br>";
 echo "<b class='font'>Type of Institution:</b>";
 foreach($institute_data['type_inst'] as $val)
 if($instName->institute_type_id == $val->institute_type_id){echo $val->institute_desc;}
-echo "<br><b class='font'>University/Institute Ranking as per UGC/NIRF:</b>".$instName->university_rank."<br>";
-echo "<b class='font'>Course Listing:</b><br>";
-if(isset($institute_data['courses_list'])) {
-foreach($institute_data['courses_list'] as $val)
-
-if(count($curse)>0) { 
-for($k=0;$k<count($curse);$k++) {
-if($curse[$k]==$val->course_id) {
-	$k=$k+1;
-echo $k .')'.$val->course_name."<br>";
-} } }
-}
+echo "<br><b class='font'>University/Institute Ranking as per UGC/NIRF:</b>".$instName->university_rank;
 echo "<br><b class='font'>Years of Establishment:</b>".$instName->year_establishment."<br>";
-echo "<b class='font'>Approx. Number of Students in Proposed Program:</b>".$instName->no_student."<br>";
 
 ?>
 </td>
@@ -94,13 +80,12 @@ if(isset($instName->research_phd))
 }
 
 echo "<b class='font'>Experience in Energy related courses:</b>".$instName->energy_experience."<br>";
-echo "<b class='font'>A)Date of approximate course Start:</b>".date('Y-m-d',strtotime($instName->course_start_date))."<br>";
-echo "<b class='font'>B)Number of Seats in each of the course:</b>".$instName->no_of_seat."<br>";
-echo "<b class='font'>C)Specialization offered:</b>".$instName->specialization_offered."<br>";
-echo "<b class='font'>D)If any industry collaboration is there, if so details thereof:</b>".$instName->industry_collaboration."<br>";
-echo "<b class='font'>E)If placement service is being provided:</b>".ucfirst($instName->placement_details)."<br>";
+echo "<b class='font'>A)Date of approximate course Start:</b>".date('d-m-Y',strtotime($instName->course_start_date))."<br>";
+echo "<b class='font'>B)Specialization offered:</b>".$instName->specialization_offered."<br>";
+echo "<b class='font'>C)If any industry collaboration is there, if so details thereof:</b>".$instName->industry_collaboration."<br>";
+echo "<b class='font'>D)If placement service is being provided:</b>".ucfirst($instName->placement_details)."<br>";
 if($instName->other_details) {
-echo "<b class='font'>F)Any other details:</b>".$instName->other_details."<br>";
+echo "<b class='font'>E)Any other details:</b>".$instName->other_details."<br>";
 }
 echo "<b class='font'>Sponsored Projects in the area of Energy, Environment and Renewable Energy:</b>".ucfirst($instName->spon_project)."<br>";
 ?>
@@ -108,7 +93,8 @@ echo "<b class='font'>Sponsored Projects in the area of Energy, Environment and 
 </td>
 <td>
 <?php 
-echo "<b class='font'>Fellowship slot requirement Period:</b>".$instName->fellowship_period."<br>";
+echo "<b class='font'>Fellowship slot requirement Period From:</b>".$instName->fellowship_period."<br>";
+echo "<b class='font'>Fellowship slot requirement Period To:</b>".$instName->fellowship_period_to."<br>";
 if($instName->fellowship_mtech){
 echo "<b class='font'>M.tech:</b>".$instName->fellowship_mtech."<br>";
 }

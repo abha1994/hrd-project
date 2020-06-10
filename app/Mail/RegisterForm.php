@@ -43,7 +43,7 @@ class RegisterForm extends Mailable
     
         Session::put('EMAILID', $this->emailid);
         
-         return $this->from('hrd@gov.in','HRD')
+         return $this->from('noreply@nic.in','HRD')
                     ->to($this->emailid)
                     ->subject('Email Verificattion for Registration')
                     ->markdown('email.Register');

@@ -21,9 +21,11 @@ class NrestParticipantsController extends Controller
      public function index()
     {
 		$shortTerm = DB::table('short_term_program')
-			->select('short_term_id','name_proposed_training_program','coordinator_name')
-			->orderBy('coordinator_name','asc')
-            ->get();
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
 			
 			
 			
@@ -43,7 +45,7 @@ class NrestParticipantsController extends Controller
 		if($val2!=""){
 			$state_data = DB::table('state_master')->distinct('statae_name')->get();
             $district_data = DB::table('district_master')->distinct('district_name')->get(); 
-			$students = DB::table('studentregistrations')->where('scheme_code','4')->where('institute_id',$val2)->orderBy('id','desc')->get();
+			$students = DB::table('studentregistrations')->where('scheme_code','4')->where('user_id',$val2)->orderBy('id','desc')->get();
 			// dd($data);
 		   return view('backend.shortterm.Admin.nrest_participants_filter',compact('students','state_data','district_data'));
 		}

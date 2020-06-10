@@ -6,7 +6,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('public/dist/js/demo.js') }}"></script>
 <script src="{{ asset('public/jquery-validation/dist/jquery.validate.js') }}"></script>
-<script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
+ <script type="text/javascript" src="{{ asset('public/js/jquery-ui.js') }}"></script>
 
 
 <!-- Rocky Start -->
@@ -18,6 +18,7 @@
 <script src="{{ asset('public/js/datatable/pdfmake.min.js') }}"></script>
 <script src="{{ asset('public/js/datatable/vfs_fonts.js') }}"></script>
 <script src="{{ asset('public/js/datatable/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('public/js/shortTerm_application_validaion.js') }}"></script>
 
 <!-- Rocky Ended -->
   <!--script type="text/javascript" src="{{ asset('public/js/jquery.dataTables.min.js') }}"></script-->
@@ -32,18 +33,38 @@
 		</div>
 	  </div>
 </footer>
+    <script>
+	$( function() {
+		
+		$( "#university_datepicker" ).datepicker({
+			 autoclose: true,
+			 dateFormat: "dd/mm/yy",
+             yearRange: "-90:+00",
+			 changeMonth: true,
+			 changeYear: true
+		});
+	} );
+	</script>
  <script>
 $(document).ready(function() {
 	
 	$('.frmDate').datepicker({
-       autoclose: true,
+        autoclose: true,
+	    dateFormat: "dd/mm/yy",
+		yearRange: "-90:+00",
+		changeMonth: true,
+		changeYear: true,
   }).on("changeDate", function (e) {
 	   $('.toDate').val('');
        $('.toDate').datepicker('setStartDate', e.date);
   });
 
   $('.toDate').datepicker({
-	 autoclose: true,
+	    autoclose: true,
+		dateFormat: "dd/mm/yy",
+		yearRange: "-90:+00",
+		changeMonth: true,
+		changeYear: true,
   });
   
 	
@@ -63,14 +84,22 @@ $(document).ready(function() {
 
 
  $('#datepicker_search_from').datepicker({
-       autoclose: true,
+		autoclose: true,
+		dateFormat: "dd/mm/yy",
+		yearRange: "-90:+00",
+		changeMonth: true,
+		changeYear: true,
   }).on("changeDate", function (e) {
 	   $('#dt21').val('');
        $('#dt21').datepicker('setStartDate', e.date);
   });
 
   $('#dt21').datepicker({
-	 autoclose: true,
+		autoclose: true,
+		dateFormat: "dd/mm/yy",
+		yearRange: "-90:+00",
+		changeMonth: true,
+		changeYear: true,
   });
   
   

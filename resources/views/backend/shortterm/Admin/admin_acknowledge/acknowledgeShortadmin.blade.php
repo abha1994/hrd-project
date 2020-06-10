@@ -33,7 +33,7 @@
 					<option value="">Select Short Term Name</option>
 					@if(isset($shortTerm)) 
 					@foreach($shortTerm as $termName)
-					<option value="{{$termName->short_term_id}}">{{$termName->coordinator_name}}</option>
+					<option value="{{$termName->user_id}}">{{$termName->institute_name}}</option>
 					@endforeach
 					@endif
 					</select>
@@ -69,7 +69,7 @@
 					 @if(isset($students)) @foreach($students as $student)
 					  <tr>
 					  	<td>{{$student->firstname.' '.$student->middlename.' '.$student->lastname}}</td>
-						<td>@foreach($instituteDetails as $inst_details) @if($inst_details->institute_id==$student->institute_id) {{$inst_details->institute_name }} @endif @endforeach</td>
+						<td>@foreach($instituteDetails as $inst_details) @if($inst_details->user_id==$student->user_id) {{$inst_details->institute_name }} @endif @endforeach</td>
 					  	<td>{{ucfirst($student->course_type)}}</td>
 						<td><?php foreach($candidates as $candi){ ?><a href="<?php echo URL::asset('public/uploads/shortterm/acknowledge/'.$candi->fileSign);?>" target="_blank"><?php  if($student->id==$candi->student_id) {  ?><?php if($candi->isfilesubmit==1) { echo "Click Here"; } } ?></a><?php } ?></td>
 					  </tr>

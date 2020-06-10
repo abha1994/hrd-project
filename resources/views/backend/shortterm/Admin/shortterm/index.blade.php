@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('container')
+
 <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
@@ -7,13 +8,13 @@
         <li class="breadcrumb-item">
           <a href="{{ url('dashboard')}}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">Student Registration Application
+        <li class="breadcrumb-item active">Pending Application
      </li>
       </ol>
    
       <!-- Example DataTables Card-->
       <div class="card mb-3">
-      <div class="card-header text-center"><h4 class="mt-2">Student Registration Application</h4></div>
+      <div class="card-header text-center"><h4 class="mt-2">Pending Application</h4></div>
          <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
       @include('includes/flashmessage')
       
@@ -22,6 +23,7 @@
         <a class="btn btn-success" href="{{ route('short-term-program.create') }}"><i class="nav-icon fas fa-plus"></i> New</a>
          
       </div> -->
+       
       <br />      
       <br />
         <div class="table-responsive card-box">
@@ -59,11 +61,49 @@
     </div>
   </div>
 </div>
+
+
+<?php 
+$pageid =$_GET['leftPageActive'];
+ 
+?>
 <script type="text/javascript">
   $('.confirmation').on('click', function () {
     return confirm('Are you sure want to delete?');
   });
 </script>
+@if($pageid == 'pending-application')
+<script type="text/javascript">
+  $(document).ready(function () {
+ //alert('aaa');
+        $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        $("#pendingapplication").addClass("active");
+      });
+</script>
+@endif
+@if($pageid == 'nonconsider-by-level1')
+<script type="text/javascript">
+  $(document).ready(function () {
+ //alert('aaa');
+        $(".sidebar-menu li").removeClass("menu-open");
+        $(".sidebar-menu li").removeClass("active");        
+        $("#lishortterm").addClass('menu-open');        
+        $("#ulshortterm").css('display', 'block');
+        $(".nav-link").removeClass('active');
+       // $("#liJobCategory").addClass("false");
+       // $("#liCountry").addClass("false");
+        $("#considerbylevel1").addClass("active");
+      });
+</script>
+@endif
+
+
 @endsection
 
  

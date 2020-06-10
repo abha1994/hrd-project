@@ -23,70 +23,18 @@
             <form action="{{route('st-bank-details.store')}}" autocomplete="off" id="bankdetails_form" method="POST" >
 			{{csrf_field()}}
 			
-			<h5><b>Participant Details In Bank :</b></h5><hr>
-            <div class="form-group">
 			
-                <div class="row">
+            
+			
+                
 				<?php $scheme_code = '4'; if($scheme_code == "4"){?>
-				<div class="col-md-3">
-						<select name="student_id" id="student_id" class="form-control">
-						   <option value="">Select Participant*</option>
-						   <?php foreach($student_name as $k=>$v){  ?>
-						      <option value="<?php echo $v->id;?>"><?php echo $v->firstname.' '.$v->lastname?></option>
-						   <?php } ?>
-						</select>
-						@if ($errors->has('student_id'))
-							<span class="invalid-feedback " role="alert">
-								<strong>{{ $errors->first('student_id') }}</strong>
-							</span>
-						@endif
-					</div>
+				
 				<?php } ?>
 				
-					<div class="col-md-3">
-					<input type="text" readonly class="form-control phoneStartingWith6 numericOnly"  value="{{old('candidate_phone')}}" id="candidate_phone" placeholder="Phone No*" name="candidate_phone" maxlength="10">
-							@if ($errors->has('candidate_phone'))
-								<span class="invalid-feedback " role="alert">
-									<strong>{{ $errors->first('candidate_phone') }}</strong>
-								</span>
-							@endif
-					</div>
-					
-					<div class="col-md-3">
-						<input name="aadhar_no" readonly  value="{{old('aadhar_no')}}" class="form-control numericOnly" type="text" id="aadhar_no"  class="form-control" placeholder="Adhar No*"  data-type="adhaar-number" maxlength="14" >
-						@if ($errors->has('aadhar_no'))
-							<span class="invalid-feedback " role="alert">
-								<strong>{{ $errors->first('aadhar_no') }}</strong>
-							</span>
-						@endif 
-					</div>
-				    
-					<div class="col-md-3">
-					<input type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();"   value="{{old('pan')}}" id="pan_no" placeholder="Pan Number*" name="pan" maxlength="10" >
-					@if ($errors->has('pan'))
-						<span class="invalid-feedback " role="alert">
-							<strong>{{ $errors->first('pan') }}</strong>
-						</span>
-					@endif
-				</div>	
-					
-                </div> 
-    	   
-		 <div class="form-row">
-          <div class="form-group col-md-12">
-              <label for="participant_address">Participant Address <span style="color: red">*</span></label>
-               
-              <textarea name="participant_address" id="participant_address" readonly  onkeyup="this.value = this.value.toUpperCase();" style="height: 36px;"  class="form-control">{{old('participant_address')}}</textarea>
-              @if ($errors->has('participant_address'))
-                  <span class="help-block">
-                      <strong>{{ $errors->first('participant_address') }}</strong>
-                  </span>
-                @endif
-          </div>
-		  </div>
-		   </div>
+			
+		
        
-<h5><b>Participant Bank Details :</b></h5><hr>
+<h5><b>Short Term Bank Details :</b></h5><hr>
       	<div class="form-group">			
             <div class="row">
 			       <div class="col-md-<?php if($scheme_code == "4"){ echo "3";}else{echo "6";}?>">

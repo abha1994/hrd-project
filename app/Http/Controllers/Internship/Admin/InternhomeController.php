@@ -19,8 +19,16 @@ class InternhomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function index()
-    {	//dd(123);
-		 $internship_data = DB::table('internship_tbl')->get();
+    {	
+	//**********Save Data into audtitrail_tbl************//
+	    $audtitrail_tbl_post['status'] = '0';
+        $audtitrail_tbl_post['action_type1'] = '1';
+        $audtitrail_tbl_post['desc'] = 'Internship Dashboard View';
+        audtitrail_tbl_history($audtitrail_tbl_post);
+    //**********Save Data into audtitrail_tbl************//      
+			
+
+	    $internship_data = DB::table('internship_tbl')->get();
         $dashboard_data['internship_data'] = count($internship_data);
         
         $considered_data =  DB::table('internship_tbl')->where('status_id',"1")->get();
@@ -97,9 +105,8 @@ class InternhomeController extends Controller
         
         $phd_pur =  DB::table('intern_course_details')->where('course_id',"11")->where('pass_status',"1")->get();
         $dashboard_data['phd_pur'] = count($phd_pur);
-		// return view('home',compact('dashboard_data'));
-	  return view('backend/internship/internship_home',compact('dashboard_data'));
-		 //return view('backend.internship.internship_home',compact('dashboard_data'));
+		
+	    return view('backend/internship/internship_home',compact('dashboard_data'));
 	}
 
 

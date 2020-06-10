@@ -19,7 +19,7 @@
 		  <option value="3" <?php if($menu_id == 3){echo "Selected";}else{ }?>>National Renewable Energy Fellowships
 		  </option>
 		  <hr class="solid">
-		  <option value="4" <?php if($menu_id == 4){echo "Selected";}else{ }?>>National Renewable Energy Short-term
+		  <option value="4" <?php if($menu_id == 4){echo "Selected";}else{ }?>>National Renewable Energy Short-term Training Program
 		  </option>
 	  </select>
 	</div>
@@ -31,7 +31,7 @@
 	     <option value="5" <?php if($menu_id == 5){echo "Selected";}else{ }?>>National Renewable Energy Fellowships Form
 		  </option>
 		  <hr class="solid">
-		  <option value="6" <?php if($menu_id == 6){echo "Selected";}else{ }?>>National Renewable Energy Short-term Form
+		  <option value="6" <?php if($menu_id == 6){echo "Selected";}else{ }?>>National Renewable Energy Short-term Training Program
 		  </option>
 	  </select>
 	</div>

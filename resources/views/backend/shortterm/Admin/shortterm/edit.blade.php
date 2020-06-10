@@ -1,7 +1,16 @@
 @extends('layouts.master')
 @section('container') 
 <?php
-
+ $url = url()->previous();
+//dd($url);
+ $link_array = explode('/',$url);
+ $page = end($link_array);
+  
+ if($page != 'edit'){
+  //$redirect='';
+  //$redirect = $page;    
+  Session::put('redirect', $page);
+ }  
 ?>
 <script type="text/javascript" src="{{asset('public/jquery-validation/dist/jquery.validate.js')}}"></script>
 <body onload="showfield('<?php echo trim($record->technology_area)?>')">
@@ -30,6 +39,7 @@
             action="{{ route('short-term-application.update',$record->short_term_id) }}" 
               id="shortterm" method="POST">
            <input type="hidden" name="_method" value="PUT">
+           <input type="hidden" name="page_name" value="{{ Session::get('redirect') }}">
             {{csrf_field()}}
             <div class="form-group{{ $errors->has('name_proposed_training_program') ? ' has-error' : '' }}">
               <div class="row">
@@ -861,21 +871,103 @@ $('#financial_proposal_doc').bind('change', function() {
     
 
 });
-
-$(document).ready(function () {
-   $(".sidebar-menu li").removeClass("menu-open");
-        $(".sidebar-menu li").removeClass("active");        
-        $("#lishortterm").addClass('menu-open');        
-        $("#ulshortterm").css('display', 'block');
-        $(".nav-link").removeClass('active');
-       // $("#liJobCategory").addClass("false");
-       // $("#liCountry").addClass("false");
-        //$("#rejectedbylevel1").addClass("active");
-        $("#rejectededit").addClass("active");
-        
-      });
- 
 </script>
+<?php 
+$pageval =  Session::get('redirect'); ?>
+
+<?php if($pageval == 'pending-application'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#pendinapplication").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+ <?php if($pageval == 'consider-by-level1'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#considerlevel1").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+
+ <?php if($pageval == 'nonconsider-by-level1'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#rejectedlevel1").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+
+ <?php if($pageval == 'forward-to-committee-short-term'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#forwardtocommittee").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+<?php if($pageval == 'recommend-by-committe-short-term'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#comm").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+<?php if($pageval == 'final-selecction'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#finalsec").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
+<?php if($pageval == 'final-rejected'){?>
+<script type="text/javascript">
+$(document).ready(function () {  
+  $(".sidebar-menu li").removeClass("menu-open");
+  $(".sidebar-menu li").removeClass("active");        
+  $("#lishortterm").addClass('menu-open');        
+  $("#ulshortterm").css('display', 'block');
+  $(".nav-link").removeClass('active');
+  $("#final_Rej").addClass("active");
+  }); 
+</script>
+ <?php }?>
+
 
 @endsection
   

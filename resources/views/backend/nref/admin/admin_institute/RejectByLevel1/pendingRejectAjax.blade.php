@@ -13,7 +13,6 @@ $data1[] = array(
     		"address"=>$inst->institute_addres,
 			"cordinator"=>$inst->coordinate_prog,
 			"email"=>$inst->email_id,
-			"mobile"=>$inst->mobile_no,
 			"fellowslot"=>$inst->fellowship_total,
 			"fellowPeriod"=>$inst->fellowship_period,
 			"regno"=>$inst->institute_reg_no,

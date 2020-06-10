@@ -120,6 +120,23 @@ class Admin_institute extends Model
 			->where('institute_details.status_id', 3)
 			->where('institute_details.final_submit',1)
 			->get();
+			
+			$data['remarksByAdmin'] =DB::table('internship_verification')
+			->leftJoin('institute_details', 'internship_verification.institute_id', '=','institute_details.institute_id')
+            ->select('internship_verification.institute_id','internship_verification.remarks')
+			->where('internship_verification.officer_role_id',1)
+			->where('internship_verification.status_application',3)
+			->where('internship_verification.scheme_code', 3)
+			->get();
+			
+			$data['remarksByCommitee'] =DB::table('internship_verification')
+			->leftJoin('institute_details', 'internship_verification.institute_id', '=','institute_details.institute_id')
+            ->select('internship_verification.institute_id','internship_verification.remarks')
+			->where('internship_verification.officer_role_id',5)
+			->where('internship_verification.status_application',1)
+			->where('internship_verification.scheme_code', 3)
+			->get();
+			
 			$data['breadcum'] = 'List of Selected Application';
 		 return $data;
 	}
@@ -959,6 +976,7 @@ class Admin_institute extends Model
 	
 	
 		public static function selectedInst($frmDate=null,$toDate=null,$stateId=null,$courseId=null){
+
 		 
 		  $data['breadcum'] = "List University Data";
 		  
@@ -1027,6 +1045,24 @@ class Admin_institute extends Model
 		
 		
 		$data['institute_data'] = $query->get();
+		
+		$data['remarksByAdmin'] =DB::table('internship_verification')
+			->leftJoin('institute_details', 'internship_verification.institute_id', '=','institute_details.institute_id')
+            ->select('internship_verification.institute_id','internship_verification.remarks')
+			->where('internship_verification.officer_role_id',1)
+			->where('internship_verification.status_application',3)
+			->where('internship_verification.scheme_code', 3)
+			->get();
+			
+			$data['remarksByCommitee'] =DB::table('internship_verification')
+			->leftJoin('institute_details', 'internship_verification.institute_id', '=','institute_details.institute_id')
+            ->select('internship_verification.institute_id','internship_verification.remarks')
+			->where('internship_verification.officer_role_id',5)
+			->where('internship_verification.status_application',1)
+			->where('internship_verification.scheme_code', 3)
+			->get();
+			
+			//echo "<pre>"; print_r($data['remarksByCommitee']); die; 
 		  
 		
 			

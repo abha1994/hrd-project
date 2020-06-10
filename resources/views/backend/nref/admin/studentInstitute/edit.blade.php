@@ -88,7 +88,8 @@
 		    		<div class="form-group col-md-4">
 				 		<label for="gender">Gender <span style="color: red">*</span></label><br />
 				 		<input type="radio" name="gender" value="1" {{$student->gender == "1" ? 'checked' : '' }}> Male &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 		<input type="radio" name="gender" value="2" {{$student->gender == "2" ? 'checked' : '' }} > Female
+				 		<input type="radio" name="gender" value="2" {{$student->gender == "2" ? 'checked' : '' }} > Female &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" name="gender" value="3" {{$student->gender == "3" ? 'checked' : '' }} > Other
 				 		<br />
 				 		@if ($errors->has('gender'))
             			<span class="help-block">
@@ -133,7 +134,62 @@
 			<input type="hidden" name="student_image_value" value="{{$student->student_image }}">	
 			
           </div>
-           <div class="form-group col-md-4">
+          <div class="form-group col-md-4">
+				     	<label for="dob">DOB <span style="color: red">*</span></label>				     	 
+				     	<input type="date" name="dob"  class="form-control" value="{{$student->dob}}" >
+				     	@if ($errors->has('dob'))
+            			<span class="help-block">
+                			<strong>{{ $errors->first('dob') }}</strong>
+             			</span>
+        				@endif
+				    </div>
+
+        </div>
+ 
+
+		     	<div class="form-row">
+					<div class="form-group col-md-4">
+				    	<label for="address">Address <span style="color: red">*</span></label>
+				       	<textarea name="address" style="height: 36px;" class="form-control">{{$student->address}}</textarea>
+				     	@if ($errors->has('address'))
+            			<span class="help-block">
+                			<strong>{{ $errors->first('address') }}</strong>
+             			</span>
+        				@endif
+				    </div>
+<div class="form-group col-md-4">
+				     	<label for="pincode">Pincode <span style="color: red">*</span></label>				     	 
+				     	<input type="text" name="pincode"  class="form-control" value="{{$student->pincode}}">
+				     	@if ($errors->has('pincode'))
+            			<span class="help-block">
+                			<strong>{{ $errors->first('pincode') }}</strong>
+             			</span>
+        				@endif
+				  	</div>
+<div class="form-group col-md-4">
+				     	<label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>				     	 
+				     	<input type="text" name="aadhar"  class="form-control" value="{{$student->aadhar}}" data-type="adhaar-number" maxlength="14">
+				     	@if ($errors->has('aadhar'))
+            			<span class="help-block">
+                			<strong>{{ $errors->first('aadhar') }}</strong>
+             			</span>
+        				@endif
+				 	</div>	
+				 	
+		   		</div> 
+		    	<div class="form-row">
+					
+					<div class="form-group col-md-4">
+				     	<label for="doj">DOJ <span style="color: red">*</span></label>				     	 
+				     	<input type="date" name="doj"  class="form-control" value="{{$student->doj}}" >
+				     	@if ($errors->has('doj'))
+            			<span class="help-block">
+                			<strong>{{ $errors->first('doj') }}</strong>
+             			</span>
+        				@endif
+				    </div>
+				  	
+  <div class="form-group col-md-4">
              <label for="commiteedocument">Selection Committee Recommandation doc.  <span style="color: red">*</span></label>   
              <input type="file" name="commiteedocument" id="commiteedocument" class="form-control" value="{{$student->commiteedocument }}">
               @if ($errors->has('commiteedocument'))
@@ -152,51 +208,8 @@
 			   
           </div>
 
-        </div>
- 
-
-		     	<div class="form-row">
-					<div class="form-group col-md-6">
-				    	<label for="address">Address <span style="color: red">*</span></label>
-				       	<textarea name="address" style="height: 36px;" class="form-control">{{$student->address}}</textarea>
-				     	@if ($errors->has('address'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('address') }}</strong>
-             			</span>
-        				@endif
-				    </div>
-				 	 <div class="form-group col-md-6">
-				     	<label for="dob">DOB <span style="color: red">*</span></label>				     	 
-				     	<input type="date" name="dob"  class="form-control" value="{{$student->dob}}" >
-				     	@if ($errors->has('dob'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('dob') }}</strong>
-             			</span>
-        				@endif
-				    </div>
-		   		</div> 
-		    	<div class="form-row">
-					
-					<div class="form-group col-md-4">
-				     	<label for="doj">DOJ <span style="color: red">*</span></label>				     	 
-				     	<input type="date" name="doj"  class="form-control" value="{{$student->doj}}" >
-				     	@if ($errors->has('doj'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('doj') }}</strong>
-             			</span>
-        				@endif
-				    </div>
 				  	<div class="form-group col-md-4">
-				     	<label for="pincode">Pincode <span style="color: red">*</span></label>				     	 
-				     	<input type="text" name="pincode"  class="form-control" value="{{$student->pincode}}">
-				     	@if ($errors->has('pincode'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('pincode') }}</strong>
-             			</span>
-        				@endif
-				  	</div>
-				  	<div class="form-group col-md-4">
-				     	<label for="couseApplied">Course Applied For<span style="color: red">*</span></label>				     	 
+				     	<label for="couseApplied">Fellowship<span style="color: red">*</span></label>				     	 
 				     	<select name="course" id="course" class="form-control" onchange="showfield(this.options[this.selectedIndex].value)">
 				     		@foreach($courses as $course)
 				     		<option value="{{$course->course_id}}" @if ($student->course == $course->course_id) {{ 'selected' }} @endif>{{$course->course_name}}</option>
@@ -327,15 +340,7 @@
 						 <?php } ?>
 						 <input type="hidden" name="candidate_declaration_value" value="{{$student->candidate_declaration }}">
 				  	</div>	
-				  	<div class="form-group col-md-4">
-				     	<label for="exampleInputPassword1">Aadhar Number of Student <span style="color: red">*</span></label>				     	 
-				     	<input type="text" name="aadhar"  class="form-control" value="{{$student->aadhar}}" data-type="adhaar-number" maxlength="14">
-				     	@if ($errors->has('aadhar'))
-            			<span class="help-block">
-                			<strong>{{ $errors->first('aadhar') }}</strong>
-             			</span>
-        				@endif
-				 	</div>				 	 
+				  				 	 
 		    	</div>  
 
 		    	<?php 

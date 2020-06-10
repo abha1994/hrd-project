@@ -9,7 +9,8 @@
 
   
  <script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>
-<link href="{{ asset('public/css/datepicker3.css') }}">
+<!--link href="{{ asset('public/css/datepicker3.css') }}"-->
+<link rel="stylesheet" href="{{ asset('public/css/jquery-ui.css') }}">
 
     <!-- Styles -->
 <link href="{{ asset('public/css/buttons.dataTables.css') }}" rel="stylesheet">

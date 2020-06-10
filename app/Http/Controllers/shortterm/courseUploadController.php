@@ -24,9 +24,22 @@ class courseUploadController extends Controller
      */
     public function index()
     {
-		$logID=Auth::id();
-		$short_term_data= DB::table('short_term_program')->select('short_term_id','course_content_doc','padaggogy_doc','practical_content_doc')->where('user_id', $logID)->first();
-		 return view('backend.shortterm.course_content.create',compact('short_term_data'));
+		try{
+			$logID=Auth::id();
+			$short_term_data= DB::table('short_term_program')->select('short_term_id','course_content_doc','padaggogy_doc','practical_content_doc')->where('user_id', $logID)->first();
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'5','desc'=>'List Of Upload Course and Practical Content');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+			 return view('backend.shortterm.course_content.create',compact('short_term_data'));
+		}catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'5','desc'=>'List Of Upload Course and Practical Content Not Working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    }
 	}
 
 
@@ -39,6 +52,7 @@ class courseUploadController extends Controller
      */
     public function store(Request $request)
     {
+		try{
 	    $transactionResult = DB::transaction(function() use ($request) {
 			$doc_id = $request->doc_id;
 			
@@ -102,7 +116,11 @@ class courseUploadController extends Controller
 				}
 		
 			}
-			
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'4','action_type1'=>'2','desc'=>'Data of Upload Course and Practical Content uploaded successfully');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
 			if($course_content_doc == null && $padaggogy_doc == null && $practical_content_doc ==null)
 			{  
 		        return redirect('course-content');
@@ -110,8 +128,15 @@ class courseUploadController extends Controller
 				return redirect('course-content')->with('message','Course and Content Uploaded successfully.');
 			}
 		  });
-	   return $transactionResult;
-          
+	    return $transactionResult;
+        }catch(\Exception $ex) {
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'4','action_type1'=>'2','desc'=>'Data of Upload Course and Practical Content is Not uploaded');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************// 
+
+	        return redirect('error');// dd('Message', $ex->getMessage());
+	    } 
     
  }
   

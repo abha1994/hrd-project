@@ -98,6 +98,44 @@
 			overflow: scroll;
 		}*/
 	</style>
+	
+	<script>
+$(document).ready(function() { 
+var hash = window.location.hash.substr(1);
+
+	if(hash=="university")
+		{
+			$(".pending").addClass("active");
+		}
+	
+	if(hash=="universityCons")
+	{
+		$(".consider1").addClass("active");
+	}
+	
+	if(hash=="universityNocons")
+	{
+		$(".rejected").addClass("active");
+	}
+	
+	if(hash=="universityConsAdmin")
+	{
+		$(".frwdComm").addClass("active");
+	}
+	
+	if(hash=="universitySelected")
+	{
+		$(".recmndComm").addClass("active");
+	}
+	
+	if(hash=="universityFinalSelected")
+	{
+		$(".selectdInst").addClass("active");
+	}
+	
+});
+
+</script>
 
 @endsection
 	

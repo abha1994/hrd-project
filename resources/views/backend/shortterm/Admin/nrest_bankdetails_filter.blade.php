@@ -15,10 +15,10 @@ foreach($banks as $bank)
 $i='1';
 $data[] = array(
 	        "srn"=>$i,
-	        "candidate_name"=>$stu,
+	        
 			"bank_name"=>$bank->bank_name,
 			"accno"=>$bank->account_number,
-			"aadhar"=>$bank->aadhar_no,
+			
 			"view"=>'<a href="'.url("nrest-bankdetails-show/").'/'.$bank->id.'"><i class="fa fa-eye"></i></a>',
 			
 			

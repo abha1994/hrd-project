@@ -8,7 +8,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Update Officer</li>
       </ol>
@@ -142,7 +142,7 @@
 						<center>
 							<div class="form-group">
 							   <button type="submit" value="Save" class="btn btn-primary">
-		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
 							   <a class="btn btn-secondary" href="{{ URL('user')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 							</div> 
 						</center>							

@@ -50,25 +50,24 @@ Route::get('short-term-program-view/{id}','shortterm\shortTermProgramController@
 
 //***************Short Term Program Admin******************/
 Route::resource('short-term-application','shortterm\Admin\adminShortTermApplicationController'); 
-Route::get('/pending-application','shortterm\Admin\adminShortTermApplicationController@pendingApplication');
-Route::get('/consider-by-level1','shortterm\Admin\adminShortTermApplicationController@considerlvel1');
+Route::get('/pending-application','shortterm\Admin\adminShortTermApplicationController@pendingApplication')->name('pending-application');
+Route::get('/consider-by-level1','shortterm\Admin\adminShortTermApplicationController@considerlvel1')->name('consider-by-level1');
 Route::get('/consider-by-level1/{id}','shortterm\Admin\adminShortTermApplicationController@considerlvel1show');
-Route::get('/nonconsider-by-level1','shortterm\Admin\adminShortTermApplicationController@nonconsiderlvel1');
+Route::get('/nonconsider-by-level1','shortterm\Admin\adminShortTermApplicationController@nonconsiderlvel1')->name('nonconsider-by-level1');
 Route::get('/nonconsider-by-level1/{id}','shortterm\Admin\adminShortTermApplicationController@nonconsiderlvel1show');
-Route::get('/recommend-by-committe-short-term','shortterm\Admin\adminShortTermApplicationController@recommendByCommitte');
+Route::get('/recommend-by-committe-short-term','shortterm\Admin\adminShortTermApplicationController@recommendByCommitte')->name('recommend-by-committe-short-term');
 //------------------------------------------------------------------------------------// 
 Route::post('/short-term-application-consider','shortterm\Admin\adminShortTermApplicationController@student_consider');
-Route::get('/forward-to-committee-short-term','shortterm\Admin\adminShortTermApplicationController@forwardtocommittee');
+Route::get('/forward-to-committee-short-term','shortterm\Admin\adminShortTermApplicationController@forwardtocommittee')->name('forward-to-committee-short-term');
 Route::get('/short-term-application-admin','recoment-committeeshortterm\adminShortTermApplicationController@consideradmin');
 Route::get('/rejected-application','shortterm\Admin\adminShortTermApplicationController@rejectedApplication');
-Route::get('/final-selecction','shortterm\Admin\adminShortTermApplicationController@finalselection');
+Route::get('/final-selecction','shortterm\Admin\adminShortTermApplicationController@finalselection')->name('final-selecction');
 Route::get('/final-selection/{id}','shortterm\Admin\adminShortTermApplicationController@finalselectionview');
-Route::get('/final-rejected','shortterm\Admin\adminShortTermApplicationController@rejected');
+Route::get('/final-rejected','shortterm\Admin\adminShortTermApplicationController@rejected')->name('final-rejected');
 Route::get('/final-rejected-view/{id}','shortterm\Admin\adminShortTermApplicationController@rejectedview');
 Route::get('forward-committee/{id}','shortterm\Admin\adminShortTermApplicationController@considerNonconsider');
 Route::get('recoment-committee/{id}','shortterm\Admin\adminShortTermApplicationController@committeerecoment');
 Route::post('/short-term-application-selection','shortterm\Admin\adminShortTermApplicationController@student_selection');
-
 
 //***************Short Term Program Admin******************/
 
@@ -77,8 +76,16 @@ Route::post('/short-term-application-selection','shortterm\Admin\adminShortTermA
 
 Route::get('course-content','shortterm\courseUploadController@index');
 Route::post('store_upload','shortterm\courseUploadController@store');
+Route::post('coursecontentfilter','shortterm\Admin\courseUploadController@coursecontentfilter');
 
 Route::get('admin-course-content','shortterm\Admin\courseUploadController@index');
+
+/* short Term Application Rocky 8 june */
+
+Route::post('/getPendingApp', 'shortterm\Admin\adminShortTermApplicationController@getPendingApp')->name('/getPendingApp');
+Route::post('/exportAppPdf', 'shortterm\Admin\adminShortTermApplicationController@exportPdf')->name('exportAppPdf');
+
+/* Short Term Application Rocky 8 june */
 
 
 //------------------------ Acknowlage Slip------------------------------------//
@@ -125,6 +132,9 @@ Route::post('/acknowledgeshortAjaxAdmin', 'shortterm\Admin\ShortTermAcknowledgeC
 
 Route::post('/getadminparticipantdata','shortterm\Admin\NrestParticipantsController@getadminparticipantdata')->name('getadminparticipantdata');
 Route::post('/getadminbankdata','shortterm\Admin\NrestBankDetailsController@getadminbankdata')->name('getadminbankdata');
+
+
+Route::resource('report-check', 'shortterm\Admin\CheckfieldsController');
 });
 
 

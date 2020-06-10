@@ -24,16 +24,15 @@
               @include('includes/flashmessage')
 			  
 			    <div class="col-md-2" style="float:left">
-		
-		          <select class="form-control" name="shortermname" id="shortermname">
+				          <select class="form-control" name="shortermname" id="shortermname">
 					
 					<option value="">Select Short Term Name</option>
 					@if(isset($shortTerm)) 
 					@foreach($shortTerm as $termName)
-					<option value="{{$termName->short_term_id}}">{{$termName->coordinator_name}}</option>
+					<option value="{{$termName->user_id}}">{{$termName->institute_name}}</option>
 					@endforeach
-					@endif
-					</select>
+					@endif					</select>
+
 					</div>
 					
 					<div class="form-group" >
@@ -50,10 +49,10 @@
                                 <thead>
                                     <tr>
                                         <th>S. No.</th>
-										<th>Candidate Name</th>
+										
 										<th>Bank Name</th>
 										<th>A/C Number</th>
-										<th>Aadhar No</th>
+										
 										<th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,15 +62,10 @@
 								   @foreach($banks as $bank)
 									<tr>
 										<td>{{$loop->iteration}}</td>
-										<td>
-										 <?php foreach($student_name as $v){
-											if($v->id == $bank->student_id){
-												 echo ucwords($v->firstname.' '.$v->lastname);
-											}
-										 }?> </td>
+										
 										<td>{{$bank->bank_name}} </td>
 										<td>{{$bank->account_number}}</td>
-										<td>{{$bank->aadhar_no}}</td>
+										
 										<td>
 											
 <a href="{{ url('nrest-bankdetails-show/'.$bank->id) }}"><i class="fa fa-eye"></i></a>
@@ -117,10 +111,10 @@ if(v1=="")
 
                 'columns': [
 				    { data: 'srn' },
-				    { data: 'candidate_name' },
+				   
                     { data: 'bank_name' },
 					{ data: 'accno' },
-					{ data: 'aadhar' },
+				
 					{ data: 'view' },
                 ]
             });

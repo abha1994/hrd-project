@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
 use App\Nres\BankDetail;
+use App\Internship\Internship;
 use DB;
 use Session;
 use Auth;
@@ -16,12 +17,6 @@ class bankDetialController extends Controller
 {
     function __construct()
     {
-         // $this->middleware('permission:bankdetail-list|bankdetail-create|bankdetail-edit|bankdetail-delete', ['only' => ['index','show']]);
-         // $this->middleware('permission:bankdetail-create', ['only' => ['create','store']]);
-         // $this->middleware('permission:bankdetail-edit', ['only' => ['edit','update']]);
-         // $this->middleware('permission:bankdetail-delete', ['only' => ['destroy']]);
-
-
     }
     /**
      * Display a listing of the resource.
@@ -30,17 +25,52 @@ class bankDetialController extends Controller
      */
     public function index()
     {
-	    $scheme_code =  Auth::user()->scheme_code;
-        $login_institute_id =  Auth::user()->id;
-        $institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->get(); 
-        $banks = BankDetail::orderBy('id','desc')->where('scheme_code',$scheme_code)->where('institute_id',$institute_id)->get();
-        return view('backend.nres.bankdetail.index',compact('banks','student_name'));
+		try{
+			$login_id =  Auth::user()->id;
+			$banks = BankDetail::orderBy('id','desc')->where('scheme_code','2')->where('student_id',$login_id)->get();
+			
+			$banks_add_button = BankDetail::orderBy('id','desc')->where('scheme_code','2')->where('student_id',$login_id)->get()->first();
+			
+			$data = Internship::index();
+			$name = $data['loginuser_data']->first_name.' '.$data['loginuser_data']->middle_name.' '.$data['loginuser_data']->last_name;
+			$mobile_no = $data['loginuser_data']->mobile_no;
+        
+			//**********Save Data into audtitrail_tbl************//
+			
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'5','desc'=>'Bank Details Form View');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			
+			//**********Save Data into audtitrail_tbl************//
+			
+			return view('backend.nres.bankdetail.index',compact('banks','name','mobile_no','banks_add_button'));
+		}catch(\Exception $ex) {
+	        //**********Save Data into audtitrail_tbl************//
+			
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'5','desc'=>'Bank Details Form View');
+            audtitrail_tbl_history($audtitrail_tbl_post);
+			
+			//**********Save Data into audtitrail_tbl************//    
+			dd('Message', $ex->getMessage());
+			return redirect('error');
+		}
     }
 
-    public function index2(Request $request	,$id)
+    public function index2(Request $request ,$id)
     { 
-	   return view('backend.nres.bankdetail.final-submit',compact('id'));
+	   try{
+		   //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'2','desc'=>'Final Submit Form View');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//  
+	        return view('backend.nres.bankdetail.final-submit',compact('id'));
+	   }catch(\Exception $ex) {
+	        //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'2','desc'=>'Final Submit Form View');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
+	    }
 	}
 	
     /**
@@ -51,32 +81,28 @@ class bankDetialController extends Controller
     public function create()
     {
 		try {
-			$login_institute_id = Auth::id();
-			$institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-			$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->where('scheme_code','3')->get(); 
-			
-			
-			$exists_in_bankdetails = DB::table('bankdetails')
-            ->join('studentregistrations','bankdetails.student_id','=','studentregistrations.id')
-            ->where('studentregistrations.institute_id',$institute_id)
-			// ->where('bankdetails.scheme_code','3')
-            ->get();
-			
-			// $arr = "";
-		    foreach($exists_in_bankdetails as $v){
-				$arr[] = $v->id;
-			}
-			// dd($arr);
-	        if(!empty($arr)){
-			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->whereNotIn('id',$arr)->where('institute_id',$institute_id)->get(); 
-			}else{
-			   $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
-			}
-			// dd($student_name);
+			 $data = Internship::index();
+			 $name = $data['loginuser_data']->first_name.' '.$data['loginuser_data']->middle_name.' '.$data['loginuser_data']->last_name;
+			 $mobile_no = $data['loginuser_data']->mobile_no;
+			 
+		
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '0';
+			$audtitrail_tbl_post['action_type1'] = '2';
+			$audtitrail_tbl_post['desc'] = 'Add Bank Details Form View';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//  
 			$bankdetils = DB::table('banklist')->distinct()->get('bank');
-			return view('backend.nres.bankdetail.create',compact('bankdetils','student_name'));
+			return view('backend.nres.bankdetail.create',compact('bankdetils','mobile_no','name'));
 	    }catch(\Exception $ex) {
-	        dd('Message', $ex->getMessage());
+	        //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post['status'] = '1';
+			$audtitrail_tbl_post['action_type1'] = '2';
+			$audtitrail_tbl_post['desc'] = 'Add Bank Details Form Not Working';
+			audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//    
+			// dd('Message', $ex->getMessage());
+			return redirect('error');
 	    }
     }
 	
@@ -99,7 +125,7 @@ class bankDetialController extends Controller
         $records = $request->all();
 		
 		  $this->validate($request,[
-             'pan'=> 'required|unique:bankdetails',
+            'pan'=> 'required|unique:bankdetails',
             'student_id' => 'required|unique:bankdetails',
             'account_number' => 'required|unique:bankdetails',
             'branch_name'  =>  'required',
@@ -108,37 +134,32 @@ class bankDetialController extends Controller
             'micr_code' => 'required',
             'account_type' => 'required',
             'ifsc_code' =>'required',             
-            'bank_mobile' => 'required',
-            'bank_email' => 'required',
+            // 'bank_mobile' => 'required',
+            // 'bank_email' => 'required',
          ]);
 		 
 		$user_id = Auth::user()->id;
-		$institute_id = DB::table('institute_details')->where('user_id',$user_id)->get()->first()->institute_id; 
-		 
-		$scheme_code =  Auth::user()->scheme_code;
-		  if($scheme_code == "2"){
-			   $records['student_id'] = $user_id;		   
-			   $records['scheme_code'] = '2';
-		  }elseif($scheme_code == "3"){
-			   $records['institute_id'] = $institute_id;
-			   $records['user_id'] = $user_id;
-			   $records['student_id'] = $records['student_id'];
-			   $records['scheme_code'] = 3;
-		}
+		$records['student_id'] = $user_id;	
+		$records['user_id'] = $user_id;			   
+		$records['scheme_code'] = '2';
+		  
 		
-		// $bank_mandate_uploaded['is_bank_details_fill'] = "1";
-			// $updateQuery=DB::table('studentregistrations')
-			// ->where(['id' => $request->student_id,'institute_id' =>$institute_id,'user_id' =>$user_id])
-			// ->update($bank_mandate_uploaded);
-	 
-        BankDetail::create($records);
+		BankDetail::create($records);
 		$last_id = DB::getPDO()->lastInsertId();
-		return redirect()->to('bankMandateForm/'.$last_id);
-         // return redirect()->route('bank-details.index')
-                        // ->with('message','Bank Detail created successfully.');
+		//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'2','desc'=>'Bank Details Form Submit Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//    
+		return redirect()->to('bankMandateForm-nres/'.$last_id);
+        
 	}
 	catch(\Illuminate\Database\QueryException $ex) {
-	   dd('Message', $ex->getMessage());
+	   // dd('Message', $ex->getMessage());
+	    //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'2','desc'=>'Bank Details Form Submit Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//  
+		return redirect('error');
 	}
 
       
@@ -152,27 +173,41 @@ class bankDetialController extends Controller
      */
     public function show($id)
     {
-		$login_institute_id =  Auth::user()->id;
-        $institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('scheme_code','3')->where('institute_id',$institute_id)->get();
-		// dd($student_name);
-        $recorde = BankDetail::findOrFail($id);
-        return view('backend.nres.bankdetail.show',compact('recorde','student_name'));
+		try{
+			$data = Internship::index();
+			$name = $data['loginuser_data']->first_name.' '.$data['loginuser_data']->middle_name.' '.$data['loginuser_data']->last_name;
+			$mobile_no = $data['loginuser_data']->mobile_no;
+			$recorde = BankDetail::findOrFail($id);
+			
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'2','desc'=>'Bank Details Form Submit Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		   //**********Save Data into audtitrail_tbl************//
+		   
+			return view('backend.nres.bankdetail.show',compact('recorde','mobile_no','name'));
+		}catch(\Illuminate\Database\QueryException $ex) {
+	    // dd('Message', $ex->getMessage());
+	   
+	   //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'2','desc'=>'Bank Details Form Submit Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//  
+		
+		return redirect('error');
+	   }
     }
 
 public function pdfview(Request $request)
     {
-		
+		$data = Internship::index();
+		$name = $data['loginuser_data']->first_name.' '.$data['loginuser_data']->middle_name.' '.$data['loginuser_data']->last_name;
+		$mobile_no = $data['loginuser_data']->mobile_no;
 		$id=$request->input('id');
-        $login_institute_id =  Auth::user()->id;
-        $institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-		$student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('institute_id',$institute_id)->get();
-		view()->share('student_name',$student_name);
         $recorde = BankDetail::findOrFail($id);
 		view()->share('recorde',$recorde);
 
         if($request->has('download')){
-            $pdf = PDF::loadview('backend.nres.bankdetail.pdfview');
+            $pdf = PDF::loadview('backend.nres.bankdetail.pdfview',compact('name','mobile_no'));
             return $pdf->download('pdfview.pdf');
         }
       return view('backend.nres.bankdetail.pdfview');
@@ -186,13 +221,28 @@ public function pdfview(Request $request)
      */
     public function edit($id)
     {
-		$login_institute_id = Auth::id();
-		$institute_id = DB::table('institute_details')->select('institute_id')->where('user_id', $login_institute_id)->get()->first()->institute_id;
-        $student_name = DB::table('studentregistrations')->select('id','firstname','lastname')->where('status_id','3')->where('scheme_code','3')->where('institute_id',$institute_id)->get(); 
-			
-        $bankdetils = DB::table('banklist')->distinct()->get('bank');
-        $record = BankDetail::findOrFail($id);
-        return view('backend.nres.bankdetail.edit',compact('record','bankdetils','student_name'));
+		try{
+			$data = Internship::index();
+			$name = $data['loginuser_data']->first_name.' '.$data['loginuser_data']->middle_name.' '.$data['loginuser_data']->last_name;
+			$mobile_no = $data['loginuser_data']->mobile_no;
+				
+			$bankdetils = DB::table('banklist')->distinct()->get('bank');
+			$record = BankDetail::findOrFail($id);
+			//**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'3','desc'=>'Edit Bank Details Form View');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//
+			return view('backend.nres.bankdetail.edit',compact('record','bankdetils','name','mobile_no'));
+		
+        }catch(\Illuminate\Database\QueryException $ex) {
+	    // dd('Message', $ex->getMessage());
+	   
+		   //**********Save Data into audtitrail_tbl************//
+				$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'3','desc'=>'Edit Bank Details Form View not working');
+				audtitrail_tbl_history($audtitrail_tbl_post);
+			//**********Save Data into audtitrail_tbl************//  
+			return redirect('error');
+	   }
     }
 
     /**
@@ -204,7 +254,7 @@ public function pdfview(Request $request)
      */
     public function update(Request $request, $id)
     {
-		
+		try{
 		    $this->validate($request,[
             'branch_name'  =>  'required',
             'pan'=> 'required|unique:bankdetails,pan,'.$id,
@@ -215,33 +265,17 @@ public function pdfview(Request $request)
             'ifsc_code' => 'required',
             'micr_code' => 'required',
             'account_type' => 'required',           
-            'bank_mobile' => 'required',
-            'bank_email' => 'required',
+            // 'bank_mobile' => 'required',
+            // 'bank_email' => 'required',
           ]);
 		  
-      $records = BankDetail::find($id);
-      $user_id = Auth::id(); 
-      $institute_id = DB::table('institute_details')->where('user_id',$user_id)->get()->first()->institute_id; 
-	  // dd($institute_id);
-	  $scheme_code =  Auth::user()->scheme_code;
-	  if($scheme_code == "2"){
-		   $records->student_id = $user_id;
-           $records->scheme_code = '2';
-	  }else if($scheme_code == "3"){
-		   $records->institute_id = $institute_id;
-		   $records->user_id = $user_id;
-		   $records->student_id = $request->student_id;
-           $records->scheme_code = '3';
-	  }
+		$records = BankDetail::find($id);
+		$user_id = Auth::id(); 
+	  
+		$records->student_id = $user_id;
+		$records->scheme_code = '2';
+		$records->user_id = $user_id;
 	 
-	    // $bank_mandate_uploaded['is_bank_details_fill'] = "1";
-		// $updateQuery=DB::table('studentregistrations')
-					// ->where(['id' => $request->student_id,'institute_id' =>$institute_id,'user_id' =>$user_id])
-					// ->update($bank_mandate_uploaded);
-		
-					
-        // $records->bank_cname = $request->bank_cname;
-       
         $records->branch_name = $request->branch_name;
         $records->account_number = $request->account_number;
         $records->rtgs = $request->rtgs;
@@ -255,55 +289,66 @@ public function pdfview(Request $request)
         $records->bank_mobile = $request->bank_mobile;
         $records->bank_email = $request->bank_email;
         $records->save();
-		
-		return redirect()->to('bankMandateForm/'.$id);
-        // return redirect()->route('bank-details.index')
-                        // ->with('message','Bank details updated successfully.'); 
-    }
+		 //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'3','desc'=>'Edit Bank Details Form Submitted Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//  
+		return redirect()->to('bankMandateForm-nres/'.$id);
+	}catch(\Illuminate\Database\QueryException $ex) {
+	// dd('Message', $ex->getMessage());
+   
+	   //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'3','desc'=>'Edit Bank Details Form Submitted Not Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//  
+		return redirect('error');
+   }
+  }
 	
 	
 	
 	public function bank_form_post_final(Request $request,$id) {
+		
+	try{
 		$transactionResult = DB::transaction(function() use ($request,$id) {
-				date_default_timezone_set('Asia/Kolkata');
-				$date = date('Y-m-d H:i:s');
-							   
-				$login_institute_id = Auth::user()->id;
-				$institute_id = DB::table('institute_details')->where('user_id', $login_institute_id)->get()->first()->institute_id;
+		date_default_timezone_set('Asia/Kolkata');
+		$date = date('Y-m-d H:i:s');
+					   
+		$login_institute_id = Auth::user()->id;
+		 if($request->hasFile('bank_mandate_form')) {
+				$image = $request->file('bank_mandate_form');
+				$bank_mandate_form = $id.'_fileupload_sign.'.$image->getClientOriginalExtension();
+				$destinationPath = public_path('/../public/uploads/nres/BankMandateForm');
+				$imagePath = $destinationPath. "/".  $bank_mandate_form;
+				$image->move($destinationPath, $bank_mandate_form);
 				
-				 if($request->hasFile('bank_mandate_form')) {
-						$image = $request->file('bank_mandate_form');
-						$bank_mandate_form = $id.'_fileupload_sign.'.$image->getClientOriginalExtension();
-						$destinationPath = public_path('/../public/uploads/nref/BankMandateForm');
-						$imagePath = $destinationPath. "/".  $bank_mandate_form;
-						$image->move($destinationPath, $bank_mandate_form);
-						
-						$filedata['bank_mandate_form'] = $bank_mandate_form;
-						$filedata['is_final_submit'] = 1;
-					}
-				    $filedata['updated_at'] = $date;
-				    $a = DB::table('bankdetails')->where('id',$id)->where('institute_id',$institute_id)->update($filedata); 
-			        return redirect()->to('bank-details/')->with('success',"Bank Mandatory Form Submitted successfully");
-		      });
+				$filedata['bank_mandate_form'] = $bank_mandate_form;
+				$filedata['is_final_submit'] = 1;
+			}
+			$filedata['updated_at'] = $date;
+			$a = DB::table('bankdetails')->where('id',$id)->where('student_id',$login_institute_id)->update($filedata); 
+			//**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'0','scheme_code'=>'2','action_type1'=>'3','desc'=>'Final Bank Details Form Submitted Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		    //**********Save Data into audtitrail_tbl************//  
+			return redirect()->to('bank-details-nres/')->with('success',"Bank Mandatory Form Submitted successfully");
+	    });
 	   return $transactionResult;
-	 }
+	}catch(\Illuminate\Database\QueryException $ex) {
+	  
+	   //**********Save Data into audtitrail_tbl************//
+			$audtitrail_tbl_post = array('status'=>'1','scheme_code'=>'2','action_type1'=>'3','desc'=>'Final Bank Details Form Submitted Not Successfully');
+			audtitrail_tbl_history($audtitrail_tbl_post);
+		//**********Save Data into audtitrail_tbl************//  
+		return redirect('error');
+   }
+  }
 	 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+    
     public function register($id){
-         
-          $bankdetils = DB::table('banklist')->distinct()->get('bank');
-         $record = BankDetail::findOrFail($id);
+        $bankdetils = DB::table('banklist')->distinct()->get('bank');
+        $record = BankDetail::findOrFail($id);
         return view('backend.nref.bankregister.edit',compact('record','bankdetils'));
     }
 }

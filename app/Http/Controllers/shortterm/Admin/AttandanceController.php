@@ -21,16 +21,54 @@ class AttandanceController extends Controller
     public function index()
     {
 		
-		$shortTerm = DB::table('short_term_program')
+		/* $shortTerm = DB::table('short_term_program')
 			->select('short_term_id','name_proposed_training_program','coordinator_name')
 			->orderBy('coordinator_name','asc')
-            ->get();
+            ->get(); */
+			
+			$shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
 		
 		return view('backend.shortterm.Admin.attandanceShortterm',compact('shortTerm'));
     }
-
+	
 	
 	public function getProgramAjax(Request $request)
+	{
+		$termVal = $request->input('termVal');
+		
+		if($termVal!="")
+		{
+		
+		$query = DB::table('short_term_program')
+		->select('name_proposed_training_program')->where('user_id',$termVal)->get();
+		$data[]="<option value=''>Select Program</option>";
+		for($i=0;$i<count($query);$i++)
+		{
+			$arr=explode(',',$query[$i]->name_proposed_training_program);
+			
+	foreach($arr as $arrname)
+	{
+		$data[]="<option value='".$arrname."'>".$arrname."</option>";
+	}
+			
+			
+		}
+		
+		}
+		else{
+			$data[]="<option value=''>Select Program</option>";
+		}
+		
+		return $data;
+	}
+
+	
+	/* public function getProgramAjax(Request $request)
 	{
 		$termVal = $request->input('termVal');
 		if($termVal!="")
@@ -51,7 +89,7 @@ class AttandanceController extends Controller
 			$data[]="<option value=''>Select Program</option>";
 		}
 		return $data;
-	}
+	} */
 
 
 	
@@ -71,7 +109,7 @@ class AttandanceController extends Controller
 			}
 			
 			if($val2!=""){
-			$query = $query->where('candidate_attendence.institute_id',$val2);
+			$query = $query->where('candidate_attendence.user_id',$val2);
 			}
 			$query = $query->where('candidate_attendence.scheme_code',4);
 			$attendanceList = $query->orderBy('student_id','desc')->get();

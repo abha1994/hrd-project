@@ -1,147 +1,175 @@
-
-<?php //echo "<pre>"; print_r($institute_data); die; ?>
-
-<style>
-
-.heading{
-	    background: #2291bb;
-		font-size: 27px;
-		color:white;    width:100%;
-    height: 10%;
-
-}
-}
-</style>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-  <body>
-  
-  <center><h4 class="heading">List of Selected Application After Committee Recommendation</h4></center>
-
-
-    <table size="1" face="Courier New" id="table" border="1" cellspacing="0" class="table table-bordered">
-    <thead>
-	
-      <tr style="font-size: 13px;">
-        <td style="width:1%; text-align:center;"><b>Sr. No.</b></td>
-        <td style="width:10%"><b>Institute Details</b></td> 
-		<td style="width:12%; text-align:center;"><b>Course Details</b></td>  
-		<td style="width:12%; text-align:center;"><b>Fellowship Slot Details</b></td>  
-     </tr>
-      </thead>
-      <tbody>
-	  <?php  $p=1;foreach($institute_data['institute_details'] as $instName){?>
-<tr style="font-size:11px;">
-<td><?php echo $p; ?></td>
-<td style="width:8%">
 <?php
 
-echo "<b class='font'>Institute Name:</b>".$instName->institute_name."<br>";
-echo "<b class='font'>Name of the Department:</b>".$instName->department_name."<br>";
-echo "<b class='font'>Coordinator of the Proposed Program:</b>".$instName->coordinate_prog."<br>";
-echo "<b class='font'>Type of Institution:</b>";
-foreach($institute_data['type_inst'] as $val)
-if($instName->institute_type_id == $val->institute_type_id){echo $val->institute_desc;}
-echo "<br><b class='font'>University/Institute Ranking as per UGC/NIRF:</b>".$instName->university_rank."<br>";
-echo "<b class='font'>Course Listing:</b><br>";
-// if(isset($institute_data['courses_list'])) {
-// foreach($institute_data['courses_list'] as $val)
+namespace App\Http\Controllers\Auth;
 
-// if(count($curse)>0) { 
-// for($k=0;$k<count($curse);$k++) {
-// if($curse[$k]==$val->course_id) {
-	// $k=$k+1;
-// echo $k .')'.$val->course_name."<br>";
-// } } }
-// }
-echo "<br><b class='font'>Years of Establishment:</b>".$instName->year_establishment."<br>";
-
-?>
-</td>
-<td>
-<?php 
-echo "<b class='font'>Any Collaborative Institute:</b>".ucfirst($instName->any_collaboration)."<br>";
-if($instName->any_collaboration=='yes')
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use DB;
+use Illuminate\Support\Facades\Hash;
+use Mail;
+use App\Mail\LoginCredential;
+use Response;
+class registerVerificationController extends Controller
 {
-if(isset($instName->research_phd))
-{
-	$ss=explode(',',$instName->research_phd);
-	
-	if(count($ss)>0) { 
-	for($i=0;$i<count($ss);$i++) {
-		$j =$i+1;
-	if($ss[$i]=='Research') {
-		echo $j.')'."Research"."<br>";
-	} 
-	
-	if($ss[$i]=='Ph. D Registration') {
-		echo $j.')'."Ph. D Registration"."<br>";
-	} 
-	
-	if($ss[$i]=='Post Graduate Program') {
-		echo $j.')'."Post Graduate Program"."<br>";
-	} 
-	
-	} 
-	}
-}
-}
 
-echo "<b class='font'>Experience in Energy related courses:</b>".$instName->energy_experience."<br>";
-echo "<b class='font'>A)Date of approximate course Start:</b>".date('Y-m-d',strtotime($instName->course_start_date))."<br>";
-echo "<b class='font'>B)Number of Seats in each of the course:</b>".$instName->no_of_seat."<br>";
-echo "<b class='font'>C)Specialization offered:</b>".$instName->specialization_offered."<br>";
-echo "<b class='font'>D)If any industry collaboration is there, if so details thereof:</b>".$instName->industry_collaboration."<br>";
-echo "<b class='font'>E)If placement service is being provided:</b>".ucfirst($instName->placement_details)."<br>";
-if($instName->other_details) {
-echo "<b class='font'>F)Any other details:</b>".$instName->other_details."<br>";
-}
-echo "<b class='font'>Sponsored Projects in the area of Energy, Environment and Renewable Energy:</b>".ucfirst($instName->spon_project)."<br>";
-?>
+    public function verify($id){
+    	
+    $transactionResult = DB::transaction(function() use ($id) {
+    	$registeruser = DB::table('registration')->where('email_id', $id)->first();
+    	if($registeruser){
+    		if($registeruser->email_varified==0){
+    			// update email_verified field
+    			DB::table('registration')->where('email_id', $id)->limit(1)->update(array('email_varified' => 1));  
+        		// end of email_verified_field
 
-</td>
-<td>
-<?php 
-echo "<b class='font'>Fellowship slot requirement Period:</b>".$instName->fellowship_period."<br>";
-if($instName->fellowship_mtech){
-echo "<b class='font'>M.tech:</b>".$instName->fellowship_mtech."<br>";
-}
-if($instName->fellowship_jrf){
-echo "<b class='font'>JRF:</b>".$instName->fellowship_jrf."<br>";
-}
+        		//insert value in user_credential table
+        		$date = date('Y-m-d H:i:s');
+        		$date = date('Y-m-d H:i:s');
+				
+				//************Password***************8//
+				$string1="abcdefghijklmnopqrstuvwxyz";
+				$string2="1234567890";
+				$string3="!@#$%^&*()_+";
+				$string4="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                $string=$string1.$string2.$string3.$string4;
+				$string= str_shuffle($string);
+				$user_password  = substr($string,8,14); 
+        		$password = $user_password;
+				//************Password***************8//
+				
+				$Instname = strtolower($registeruser->institute_name);
+				$candidate_id = $registeruser->candidate_id;
+				
+                if($registeruser->category_id==3){
+					
+					$substring_Instname = substr($Instname, 0, strpos($Instname, ' '));
+					  if($substring_Instname != ""){
+						$Instname_ex = str_replace('.','',$substring_Instname);
+						$username = strtolower(mb_substr($Instname_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($Instname, 0, 5).$candidate_id);
+					  }
+								  
+							// dd($username);	  
+								  
+                    // $username = strtolower(substr($registeruser->institute_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
+                    $hashPassword = Hash::make($password);
+					
+                    $firtname = $registeruser->institute_name;
+                    $candidate =$registeruser->institute_name;
+                    $scheme_code = 3;
+                }else if($registeruser->category_id==2){
+                    // $username = strtolower(substr($registeruser->first_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
+					 $name = $registeruser->first_name;
+					 $substring = substr($name, 0, strpos($name, ' '));
+					  if($substring != ""){
+						$name_ex = str_replace('.','',$substring);
+						$username = strtolower(mb_substr($name_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($name, 0, 5).$candidate_id);
+					  }
+					  
+                    $hashPassword = Hash::make($password);
+                    $firtname = $registeruser->first_name;
+                    $candidate = $registeruser->first_name.' '.$registeruser->middle_name. ' ' . $registeruser->last_name;
+                    $scheme_code =2;
 
-if($instName->fellowship_srf){
-echo "<b class='font'>SRF:</b>".$instName->fellowship_srf."<br>";
+                }else{
+                    // $username = strtolower(substr($registeruser->first_name,0,5));
+                    // $username = $username.$registeruser->candidate_id;
+					
+					 $name = $registeruser->first_name;
+					 $substring = substr($name, 0, strpos($name, ' '));
+					  if($substring != ""){
+						$name_ex = str_replace('.','',$substring);
+						$username = strtolower(mb_substr($name_ex, 0, 5).$candidate_id);
+					  }else{
+						$username = strtolower(mb_substr($name, 0, 5).$candidate_id);
+					  }
+					  
+                    $hashPassword = Hash::make($password);
+                    $firtname = $registeruser->first_name;
+                    $candidate = $registeruser->first_name.' '.$registeruser->middle_name. ' ' . $registeruser->last_name;
+                    $scheme_code =1;
+
+
+                }
+
+        		// $username = substr($registeruser->first_name,0,5);
+        		// $username = $username.$registeruser->candidate_id;
+        		// $hashPassword = Hash::make($password);
+        		// $firtname = $registeruser->first_name;
+	        	// $candidate = $registeruser->first_name.' '.$registeruser->middle_name. ' ' . $registeruser->last_name;
+    	    	$userData = array(
+        	    	'name' => $candidate,
+	        	    'email' =>$id,
+	            	'mobile' =>$registeruser->mobile_no,
+	            	'registeration_id' =>$registeruser->candidate_id,
+	            	'username' =>$username,
+	            	'password' =>$hashPassword,
+                    'scheme_code' => $scheme_code
+        		);
+        		//dd($userData);
+				$category_id = $registeruser->category_id;
+         		DB::table('user_credential')->insert($userData); 
+         		$userCredential = array('username'=>$username,'name' =>$registeruser->first_name,'emailid'=>$id);
+
+         		Mail::to($id)->send(new LoginCredential($username,$id,$firtname,$password,$category_id));
+
+         		//return view('auth.login');
+         		return redirect()->route('login')->with('message','Your login Credential sent to email. Please check your email id');
+     		}
+     		else
+     		{
+     			echo 'your email id is all ready verified';
+     		}
+
+        	// end of user_credetial table
+        }else{
+        	echo 'there is some proble please try after some time';
+        }
+		});
+	   return $transactionResult;
+
+    }
+
+    public function thankyou(){
+    	return view('auth.regiserThank');
+    	
+
+    }
+
+    public function validateemail(Request $request){
+        //echo 'amresh';
+        $data = $request->email_id;
+         
+        if($data){
+            $result =DB::table('registration')->where('email_id',$data)->count();
+
+            if($result>0){
+                return Response::json('Email id all ready exit in database');
+            }else{
+                return Response::json('<span style="color:green">Congratulation email id not exit in database</span>');   
+            }
+        }
+      
+    }
+    public function validatemobile(Request $request){
+        //echo 'amresh';
+        $data = $request->mobile_no;
+         
+        if($data){
+            $result =DB::table('registration')->where('mobile_no',$data)->count();
+
+            if($result>0){
+                return Response::json('Mobie Number all ready exit in database');
+            }else{
+                return Response::json('<span style="color:green">Congratulation mobile number not exit in database</span>');   
+            }
+        }
+      
+    }
+
 }
-
-if($instName->fellowship_msc){
-echo "<b class='font'>M.SC. Renewable Energy:</b>".$instName->fellowship_msc."<br>";
-}
-
-if($instName->fellowship_ra){
-echo "<b class='font'>RA:</b>".$instName->fellowship_ra."<br>";
-}
-
-if($instName->fellowship_pdf){
-echo "<b class='font'>PDF:</b>".$instName->fellowship_pdf."<br>";
-}
-
-if($instName->fellowship_total){
-echo "<b class='font'>Total:</b>".$instName->fellowship_total."<br>";
-}
-
-?>
-</td>
-</tr> 
-
-<?php $p++; } ?> 
-      </tbody>
-    </table>
-	<div style="position:fixed;bottom:0px;">
-     <p><strong>Ministry of New and Renewable Energy</strong>
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></div>

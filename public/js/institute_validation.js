@@ -64,7 +64,7 @@
 			 required: true,
 			 required: function(element) {
 				
-				alert("Hii");
+				//alert("Hii");
 				if($("#collab_inst").val()!= 'yes')
 				{
 					//return $("input.resrch_phd:checked").length < 0;
@@ -135,7 +135,7 @@
 		 $("#prev").click(function() {
 			  
 	     var dept_name = $("#dept_name").val();
-		 alert(dept_name);
+		 //alert(dept_name);
 		 
 		 $.ajax({
                   url: 'preview',
@@ -156,11 +156,12 @@
 
   
   /************ preview code ended **********/
- $(document).ready(function() { 
+ $(document).ready(function() {
 
   //************For Id proof upload***************//
      $('#annual_report').bind('change', function() {
 		var a=(this.files[0].size);
+		$("#annual_report123").val(this.files[0].name);
 			if(a > 10485760) {
 				$('#annual_report').val('');
 			   $('#annual_report_error').html('Maximum allowed size for file is "10MB" ');
@@ -181,6 +182,7 @@
 	
 	$('#file_course_proof').bind('change', function() {
 		var a=(this.files[0].size);
+		$("#file_course_proof123").val(this.files[0].name);
 			if(a > 1000000) {
 				$('#file_course_proof').val('');
 			   $('#file_course_proof_error').html('Maximum allowed size for file is "1MB" ');
@@ -426,7 +428,14 @@ if(v1<v2 && v1!="")
 //**** DatePicker Function  ****//
   
   $(function() {
-               $("#course_run").datepicker({ dateFormat: "dd-mm-yy" }).val()
+
+               $("#course_run").datepicker({ 
+                  autoclose: true,
+	  	  dateFormat: "dd/mm/yy",
+                  yearRange: "-90:+00",
+		  changeMonth: true,
+		  changeYear: true
+           });
        });
   
   //** DatePicker Function **//

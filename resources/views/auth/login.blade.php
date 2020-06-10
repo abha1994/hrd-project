@@ -102,7 +102,8 @@
 							<a class="head" href="{{URL('login') }}">Login</a> | 
 							<a class="head" href="{{URL('register') }}">Register</a> | 
 							<a class="head" href="{{URL('forgetpassword') }}">Forgot Password</a> |
-							<a class="head" href="{{URL('forgetuser') }}">Forgot Username</a>
+							<a class="head" href="{{URL('forgetuser') }}">Forgot Username</a> |
+							<a class="head" href="{{URL('stuLogin') }}">Student Login</a>
 						</div>
                 </div>
             </div>

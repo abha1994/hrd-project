@@ -19,7 +19,7 @@
 
               @include('includes/flashmessage')
 			
-			<?php $scheme_code =  Auth::user()->scheme_code; if($scheme_code == "3"){ ?>
+			<?php  if(count($shortterm_exist)=='0'){ ?>
 				<div  style="float: right; padding-bottom: 10px;">
 				   <a class="btn btn-success" href="{{ route('st-bank-details.create') }}"> <i class="nav-icon fas fa-plus"></i> Add Bank Details</a>
 				</div>                 
@@ -33,10 +33,10 @@
                                 <thead>
                                     <tr>
                                         <th>S. No.</th>
-										<th>Candidate Name</th>
+										
 										<th>Bank Name</th>
 										<th>A/C Number</th>
-										<th>Aadhar No</th>
+										
 										<th>Action</th>
                                     </tr>
                                 </thead>
@@ -46,15 +46,10 @@
 								   @foreach($banks as $bank)
 									<tr>
 										<td>{{$loop->iteration}}</td>
-										<td>
-										 <?php foreach($student_name as $v){
-											if($v->id == $bank->student_id){
-												 echo ucwords($v->firstname.' '.$v->lastname);
-											}
-										 }?> </td>
+										
 										<td>{{$bank->bank_name}} </td>
 										<td>{{$bank->account_number}}</td>
-										<td>{{$bank->aadhar_no}}</td>
+										
 										<td>
 											
 <a href="{{url('st-bank-details/'.$bank->id)}}"><i class="fa fa-eye"></i></a>

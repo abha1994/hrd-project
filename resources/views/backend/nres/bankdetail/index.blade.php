@@ -19,11 +19,11 @@
 
               @include('includes/flashmessage')
 			
-			<?php $scheme_code =  Auth::user()->scheme_code; if($scheme_code == "3"){ ?>
+	            <?php  if($banks_add_button == null ){?>
 				<div  style="float: right; padding-bottom: 10px;">
-				   <a class="btn btn-success" href="{{ route('bank-details.create') }}"> <i class="nav-icon fas fa-plus"></i> Add Bank Details</a>
+				   <a class="btn btn-success" href="{{ route('bank-details-nres.create') }}"> <i class="nav-icon fas fa-plus"></i> Add Bank Details</a>
 				</div>                 
-			<?php } ?>  
+			    <?php }?>
 			<br />
 			
 			<br />
@@ -46,21 +46,16 @@
 								   @foreach($banks as $bank)
 									<tr>
 										<td>{{$loop->iteration}}</td>
-										<td>
-										 <?php foreach($student_name as $v){
-											if($v->id == $bank->student_id){
-												 echo ucwords($v->firstname.' '.$v->lastname);
-											}
-										 }?> </td>
+										<td>{{ $name }}</td>
 										<td>{{$bank->bank_name}} </td>
 										<td>{{$bank->account_number}}</td>
 										<td>{{$bank->aadhar_no}}</td>
 										<td>
 											
-<a href="{{url('bank-details/'.$bank->id)}}"><i class="fa fa-eye"></i></a>
-<?php if($bank->is_final_submit == "0"){ ?>
-<a href="{{url('bank-details/'.$bank->id.'/edit')}}"><i class="fa fa-edit"></i></a>
-<?php } ?>
+										<a href="{{url('bank-details-nres/'.$bank->id)}}"><i class="fa fa-eye"></i></a>
+										<?php if($bank->is_final_submit == "0"){ ?>
+										<a href="{{url('bank-details-nres/'.$bank->id.'/edit')}}"><i class="fa fa-edit"></i></a>
+										<?php } ?>
 										 
 										<?php //if($bank->bank_mandate_uploaded != "1") {?>
 										   <!--a  class="btn btn-primary" href="{{url('bank-details/'.$bank->id.'/edit')}}">Edit</a-->

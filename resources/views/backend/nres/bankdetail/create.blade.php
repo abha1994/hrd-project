@@ -20,31 +20,25 @@
         <div class="container-fluid border-top bg-white card-footer text-muted text-left " id="app">  
             
         <br />
-            <form action="{{route('bank-details.store')}}" autocomplete="off" id="bankdetails_form" method="POST" >
+            <form action="{{route('bank-details-nres.store')}}" autocomplete="off" id="bankdetails_form" method="POST" >
 			{{csrf_field()}}
 			
 			<h5><b>Student Details In Bank :</b></h5><hr>
             <div class="form-group">
 			
                 <div class="row">
-				<?php $scheme_code =  Auth::user()->scheme_code; if($scheme_code == "3"){?>
 				<div class="col-md-3">
-						<select name="student_id" id="student_id" class="form-control">
-						   <option value="">Select Student*</option>
-						   <?php foreach($student_name as $k=>$v){  ?>
-						      <option value="<?php echo $v->id;?>"><?php echo $v->firstname.' '.$v->lastname?></option>
-						   <?php } ?>
-						</select>
+				<input type="text" name="student_id" readonly  id="student_id" class="form-control" value="<?php echo $name;?>">
 						@if ($errors->has('student_id'))
 							<span class="invalid-feedback " role="alert">
 								<strong>{{ $errors->first('student_id') }}</strong>
 							</span>
 						@endif
 					</div>
-				<?php } ?>
+				
 				
 					<div class="col-md-3">
-					<input type="text" readonly class="form-control phoneStartingWith6 numericOnly"  value="{{old('candidate_phone')}}" id="candidate_phone" placeholder="Phone No*" name="candidate_phone" maxlength="10">
+					<input type="text" readonly class="form-control phoneStartingWith6 numericOnly"  value="<?php echo $mobile_no;?>" id="candidate_phone" placeholder="Phone No*" name="candidate_phone" maxlength="10">
 							@if ($errors->has('candidate_phone'))
 								<span class="invalid-feedback " role="alert">
 									<strong>{{ $errors->first('candidate_phone') }}</strong>
@@ -53,7 +47,7 @@
 					</div>
 					
 					<div class="col-md-3">
-						<input name="aadhar_no" readonly  value="{{old('aadhar_no')}}" class="form-control numericOnly" type="text" id="aadhar_no"  class="form-control" placeholder="Adhar No*"  data-type="adhaar-number" maxlength="14" >
+						<input name="aadhar_no"  value="{{old('aadhar_no')}}" class="form-control numericOnly" type="text" id="aadhar_no"  class="form-control" placeholder="Adhar No*"  data-type="adhaar-number" maxlength="14" >
 						@if ($errors->has('aadhar_no'))
 							<span class="invalid-feedback " role="alert">
 								<strong>{{ $errors->first('aadhar_no') }}</strong>
@@ -76,7 +70,7 @@
 <h5><b>Student Bank Details :</b></h5><hr>
       	<div class="form-group">			
             <div class="row">
-			       <div class="col-md-<?php if($scheme_code == "3"){ echo "3";}else{echo "6";}?>">
+			       <div class="col-md-3">
 						<select name="bank_name" class="form-control" required>
 							<option value="">Select Bank*</option>
 							@foreach($bankdetils as $bankdetail)
@@ -181,7 +175,7 @@
      
 			<div class="col-xs-12 col-sm-12 col-md-12 text-center">
 				 <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
-				<a class="btn btn-secondary" href="{{ url('bank-details') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
+				<a class="btn btn-secondary" href="{{ url('bank-details-nref') }}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 			</div>
 	
 			<!--input class="btn btn-primary btn-block" type="submit"  name="submit"  value="<?php 

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use URL;
+use File;
+use PDF;
+use Maatwebsite\Excel\Facades\Excel;
 class adminShortTermApplicationController extends Controller
 {
     /**
@@ -14,11 +17,13 @@ class adminShortTermApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        $records = DB::table('short_term_program')->orderBy('short_term_id','DESC')->get();
-        return view('backend.shortterm.Admin.shortterm.index',compact('records'));
+         
+        $leftPageActivelink = $request->leftPageActive;
+        //$records = DB::table('short_term_program')->orderBy('short_term_id','DESC')->get();
+         $records = DB::table('short_term_program')->where('status_id',0)->get();  
+        return view('backend.shortterm.Admin.shortterm.index',compact('records','leftPageActivelink'));
     }
 
     /**
@@ -112,6 +117,8 @@ class adminShortTermApplicationController extends Controller
              'anticipated_impact' => 'required',
             // 'financial_proposal_doc' => 'required',
          ]);
+
+         $leftPageActive = $request->page_name;
 
          $records = DB::table('short_term_program')->where('short_term_id',$id)->first();
          
@@ -223,10 +230,16 @@ class adminShortTermApplicationController extends Controller
         DB::table('short_term_history')
         //->where('short_term_id',$id)
         ->insert($data);
+    $request->session()->forget('redirect');
 
-         return redirect()->route('short-term-application.index')->with('message','Recorde Updated Successfully!');
+return redirect()->route($leftPageActive)->with('message','Recorde Updated Successfully!');
+
+        // return redirect()->route('short-term-application.index',compact('leftPageActive'))->with('message','Recorde Updated Successfully!');
+
         
-        //return view('backend.shortterm.admin.shortterm.index',compact('record'));
+        //return view('backend.shortterm.Admin.shortterm.index',compact('record'));
+
+        //return redirect()->back()->with('message','Recorde Updated Successfully!');
     }
 
     /**
@@ -329,8 +342,17 @@ class adminShortTermApplicationController extends Controller
          //$officer_id = Auth::id();
         // $roleid = \App\User::with('roles')->find($officer_id);
          $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',1]])->get();
+		 
+		 $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
 
-         return view('backend.shortterm.Admin.shortterm.considerBylevel1',compact('records'));
+			$stateList = 	$this->getState();
+
+         return view('backend.shortterm.Admin.shortterm.considerBylevel1',compact('records','shortTerm','stateList'));
          
     }
 
@@ -346,8 +368,17 @@ class adminShortTermApplicationController extends Controller
          //$officer_id = Auth::id();
         // $roleid = \App\User::with('roles')->find($officer_id);
          $records = DB::table('short_term_program')->where([['officer_role_id',3],['status_id',2]])->get();
+		 
+		 $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
 
-         return view('backend.shortterm.Admin.shortterm.nonConsiderBylevel1',compact('records'));
+			$stateList = 	$this->getState();
+
+         return view('backend.shortterm.Admin.shortterm.nonConsiderBylevel1',compact('records','shortTerm','stateList'));
          
     }
 
@@ -369,7 +400,17 @@ class adminShortTermApplicationController extends Controller
           
      })
      ->get();
-         return view('backend.shortterm.Admin.shortterm.forwardToCommittee',compact('records'));
+	 
+	 $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
+
+			$stateList = 	$this->getState();
+			
+         return view('backend.shortterm.Admin.shortterm.forwardToCommittee',compact('records','shortTerm','stateList'));
     }
 
 public function recommendByCommitte(){
@@ -378,10 +419,19 @@ public function recommendByCommitte(){
        // ->where('officer_role_id','=','1')      
         ->where([['officer_role_id','=','5'],['status_id','=','1']]) 
          ->get();
+		 
+		  $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
+
+			$stateList = 	$this->getState();
 
         
          
-         return view('backend.shortterm.Admin.shortterm.recommendCommittee',compact('records'));
+         return view('backend.shortterm.Admin.shortterm.recommendCommittee',compact('records','shortTerm','stateList'));
     }
     
 
@@ -396,10 +446,101 @@ public function recommendByCommitte(){
 
     public function pendingApplication(){
  
-        $records = DB::table('short_term_program')->where('status_id',0)->get();  
+        $records = DB::table('short_term_program')->where('status_id',0)->get();
+
+        $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
+
+          $stateList = 	$this->getState();			 
          
-        return view('backend.shortterm.Admin.shortterm.pendingApplication',compact('records'));
+        return view('backend.shortterm.Admin.shortterm.pendingApplication',compact('records','shortTerm','stateList'));
     }
+	
+	public static function getState(){
+		 
+		  $state =DB::table('state_master')->distinct()->orderBy('state_name','asc')->get();
+		
+		 return $state;
+	}
+	
+	public function getPendingApp(Request $request)
+	{
+
+		$val1=$request->input('shortermname');
+		$frmDate=$request->input('frmDate');
+	    $toDate = $request->input('toDate');
+	    $stateId=  $request->input('stateId');
+		$institutetype = $request->input('institutetype');
+		
+		  $a = date("Y-m-d",strtotime($frmDate));
+	      $b = date("Y-m-d",strtotime($toDate));
+		
+		   $query = DB::table('short_term_program')
+		        ->leftJoin('user_credential', 'user_credential.id', '=', 'short_term_program.user_id')
+		        ->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id');
+			
+			if($val1!=""){
+			$query = $query->where('user_id',$val1);
+			}
+			
+			if($stateId!="") {
+			$query = $query->where('registration.statecd',$stateId);
+			}
+
+			if($frmDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','>=',$a);
+			}
+
+			if($toDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','<=',$b);
+			}
+			
+		if($institutetype==1) {
+			$query = $query->where('short_term_program.status_id',0);
+		}
+		
+		if($institutetype==2) {
+			$query = $query->where('short_term_program.officer_role_id',3);
+			$query = $query->where('short_term_program.status_id',1);
+		}
+		
+		if($institutetype==3) {
+			$query = $query->where('short_term_program.officer_role_id',3);
+			$query = $query->where('short_term_program.status_id',2);
+		}
+		
+		if($institutetype==4) {
+	
+			$query = $query->whereNotIn('short_term_program.officer_role_id',[3,5]);
+			$query = $query->where('short_term_program.status_id',1);
+		}
+		
+		if($institutetype==5) {
+	 
+			$query = $query->where('short_term_program.officer_role_id',5);
+			$query = $query->where('short_term_program.status_id',1);
+		}
+		
+		if($institutetype==6) {
+	 
+			$query = $query->whereNotIn('short_term_program.officer_role_id',[1,3]);
+			$query = $query->where('short_term_program.status_id',3);
+		}
+		
+		if($institutetype == 7){
+			$query= $query->where('short_term_program.status_id',2);
+			$query= $query->whereNotIn('short_term_program.officer_role_id',[3]);
+			}
+		
+			$shortTermList = $query->orderBy('short_term_id','desc')->get();
+		   return view('backend/shortterm/Admin/shortterm/ajaxApplication',compact('shortTermList'));
+	}
 
     public function rejectedApplication(){
 
@@ -418,7 +559,17 @@ public function recommendByCommitte(){
           
      })
      ->get();
-    return view('backend.shortterm.Admin.shortterm.finalselection',compact('records'));
+	 
+	 $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
+
+$stateList = 	$this->getState();
+
+    return view('backend.shortterm.Admin.shortterm.finalselection',compact('records','shortTerm','stateList'));
 
     }
 
@@ -432,8 +583,17 @@ public function recommendByCommitte(){
           
      })
      ->get();
+	 
+	 $shortTerm = DB::table('short_term_program')
+			->leftJoin('user_credential','short_term_program.user_id','=','user_credential.id')
+			->leftJoin('registration','user_credential.registeration_id','=','registration.candidate_id')
+			->select('short_term_program.user_id','name_proposed_training_program','registration.institute_name')
+			->groupby('short_term_program.user_id')
+             ->get();
 
-    return view('backend.shortterm.Admin.shortterm.finalrejected',compact('records'));
+$stateList = 	$this->getState();
+
+    return view('backend.shortterm.Admin.shortterm.finalrejected',compact('records','shortTerm','stateList'));
     }
 
 public function finalselectionview($id){
@@ -489,6 +649,270 @@ public function committeerecoment($id){
         DB::table('short_term_program')->where('short_term_id',$request->student_id)->update($status_application);
         echo $a;
     }
+	
+	/* Export COde Start */
+	
+  public static function all_export_data($instpdf=null,$statepdf=null,$frmDate=null,$toDate=null,$institutetype=null)
+	 
+	 {
+		 
+		$a = date("Y-m-d",strtotime($frmDate));
+		$b = date("Y-m-d",strtotime($toDate));
+		
+			$query =DB::table('short_term_program')
+			->leftJoin('user_credential', 'user_credential.id', '=', 'short_term_program.user_id')
+			->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+			->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','short_term_program.*');
+
+			if($instpdf!="") {
+			$query = $query->where('short_term_program.user_id',$instpdf);
+			}
+
+			if($statepdf!="") {
+			$query = $query->where('registration.statecd',$statepdf);
+			}
+
+			if($frmDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','>=',$a);
+			}
+
+			if($toDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','<=',$b);
+			}
+			if($institutetype == "7"){
+			$query= $query->where('short_term_program.status_id',2);
+			$query= $query->whereNotIn('short_term_program.officer_role_id',[3]);
+			}
+			
+			if($institutetype == "6"){
+			$query = $query->whereNotIn('short_term_program.officer_role_id',[1,3]);
+			$query = $query->where('short_term_program.status_id',3);
+			}
+			
+			if($institutetype == "5"){
+			$query= $query->where('short_term_program.status_id',1);
+			$query= $query->where('short_term_program.officer_role_id',5);
+			}
+			else if($institutetype == "4"){
+			$query= $query->where('short_term_program.status_id',1);
+			$query= $query->whereNotIn('short_term_program.officer_role_id',[3,5]);
+			}
+			
+			else if($institutetype == "3"){
+			$query= $query->where('short_term_program.status_id',2);
+			$query= $query->where('short_term_program.officer_role_id', 3);
+			}
+			
+			else if($institutetype == "2"){
+			$query= $query->where('short_term_program.status_id',1);
+		    $query= $query->where('short_term_program.officer_role_id',3);
+			}
+			
+			else if($institutetype == "1"){
+			$query= $query->where('short_term_program.status_id',0);
+			}
+
+			$data['shortTerm_details']  = $query->get();
+			return $data;
+    }
+	
+	
+	public static function export_all($instpdf=null,$statepdf=null,$frmDate=null,$toDate=null,$institutetype=null){
+			
+			//echo $statepdf; die;
+			
+			
+		$a = date("Y-m-d",strtotime($frmDate));
+		$b = date("Y-m-d",strtotime($toDate));
+		
+		$data=array();
+		
+		
+		$query =DB::table('short_term_program')
+			->leftJoin('user_credential', 'user_credential.id', '=', 'short_term_program.user_id')
+			->leftJoin('registration', 'user_credential.registeration_id', '=', 'registration.candidate_id')
+			->select('registration.institute_name','registration.institute_addres','registration.institute_reg_no','registration.pincode','registration.statecd','registration.category_id','registration.email_id','registration.mobile_no','short_term_program.*');
+			
+			if($instpdf!="") {
+			$query = $query->where('short_term_program.user_id',$instpdf);
+			}
+
+			if($statepdf!="") {
+			$query = $query->where('registration.statecd',$statepdf);
+			}
+
+			if($frmDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','>=',$a);
+			}
+
+			if($toDate !="")
+			{
+			$query= $query->where('short_term_program.created_date','<=',$b);
+			}
+			
+			if($institutetype == "7"){
+			$query= $query->where('short_term_program.status_id',2);
+			$query= $query->whereNotIn('short_term_program.officer_role_id',[3]);
+			}
+			
+			if($institutetype == "6"){
+			$query = $query->whereNotIn('short_term_program.officer_role_id',[1,3]);
+			$query = $query->where('short_term_program.status_id',3);
+			}
+
+			if($institutetype == "5"){
+			$query= $query->where('short_term_program.status_id',1);
+			$query= $query->where('short_term_program.officer_role_id',5);
+			}
+			
+			else if($institutetype == "4"){
+			$query= $query->where('short_term_program.status_id',1);
+			$query= $query->whereNotIn('short_term_program.officer_role_id',[3,5]);
+			}
+			
+			else if($institutetype == "3"){
+			$query= $query->where('short_term_program.status_id',2);
+			$query= $query->where('short_term_program.officer_role_id',3);
+			}
+			
+			else if($institutetype == "2"){
+			$query= $query->where('short_term_program.status_id',1);
+		    $query= $query->where('short_term_program.officer_role_id',3);
+			}
+			
+			else if($institutetype == "1"){
+			$query= $query->where('short_term_program.status_id',0);
+			}
+				
+			$data['short_details']  = $query->get();
+		 if(isset($data['short_details']) && !empty($data['short_details']))
+		{  
+	
+	    $header2=$newcomp=array();
+		$data['header']=array(
+		'0' =>array(
+		''  =>"S. No.",
+		'short_name'  =>"ShortTerm Name",
+		'prog_name' =>  "Program Name",
+		'cordinate_name'=>  "Coordinator Name",
+		'cordinate_mobile'=>  "Coordinator Mobile",
+
+		),
+		);
+		 $i=1; 
+		foreach($data['short_details'] as $value)
+		{ 
+
+		$data['internship_export'][$i]['']=$i;
+		$data['internship_export'][$i]['short_name'] = $value->institute_name;
+		$data['internship_export'][$i]['prog_name']=  $value->name_proposed_training_program;
+		$data['internship_export'][$i]['cordinate_name'] = $value->coordinator_name;
+		$data['internship_export'][$i]['cordinate_mobile'] = $value->coordinator_mobile;
+		$i++;
+		} 
+		 }
+		
+		return $data;   
+		}
+		
+		
+		public function array_to_csv($array, $download = "") {
+		if ($download != "") {	
+			header("Content-Description: File Transfer");
+			header("Content-Type: application/csv;");
+			header("Content-Disposition: attachment; filename=$download");
+		}		
+		ob_start();
+		$f = fopen('php://output', 'w') or show_error("Can't open php://output");
+		$n = 0;		
+		foreach ($array as $line) {
+			$n++;
+			if ( ! fputcsv($f, $line)) {
+				show_error("Can't write line $n: $line");
+			}
+		}
+		fclose($f) or show_error("Can't close php://output");
+		$str = ob_get_contents();
+		ob_end_clean();
+		if ($download == "") {
+			return $str;	
+		} else {	
+			echo $str;
+		}		
+	}
+	
+	
+	public function exportPdf(Request $request){
+		
+		//echo "<pre>"; dd($request);
+		 $type = $request->input('type');
+	     $instpdf = $request->input('instpdf');
+		 $statepdf = $request->input('statepdf');
+		 $frmDate=$request->input('frmdatepdf');
+	     $toDate = $request->input('todatepdf');
+		 $institutetype = $request->input('institutetype');
+	
+	if($type == "2"){
+            $shortterm_data= $this->all_export_data($instpdf,$statepdf,$frmDate,$toDate,$institutetype); 
+			 //dd($internship_data);
+			$Mpdf = PDF::loadview('backend/shortterm/Admin/shortterm/pdf_report', compact('shortterm_data'))->setPaper('a4', 'landscape');
+			return $Mpdf->download('Application.pdf'); 
+	}
+	else
+	{
+		$response = $this->export_all($instpdf,$statepdf,$frmDate,$toDate,$institutetype);
+		
+		if($institutetype=="1")
+		{
+			$redirectURL= 'pending-application';
+		}
+		
+		else if($institutetype=="2")
+		{
+			$redirectURL= 'consider-by-level1';
+		}
+		
+		else if($institutetype=="3")
+		{
+			$redirectURL= 'nonconsider-by-level1';
+		}
+		
+		else if($institutetype=="4")
+		{
+			$redirectURL= 'forward-to-committee-short-term';
+		}
+		
+		else if($institutetype=="5")
+		{
+			$redirectURL= 'recommend-by-committe-short-term';
+		}
+		
+		else if($institutetype=="6")
+		{
+			$redirectURL= 'final-selecction';
+		}
+		
+		else if($institutetype=="7")
+		{
+			$redirectURL= 'final-rejected';
+		}
+		
+		if(isset($response['internship_export']) && !empty($response['internship_export'])){
+		$datamrg = array_merge( $response['header'] , $response['internship_export'] );
+		self::array_to_csv($datamrg,'ShortTerm List-'.date('Y-m-d H:i:s').'.csv');
+		}
+		
+		else{
+		return redirect($redirectURL)->with('error','Data not found for export Some error, try again ');
+		} 
+	}
+		
+	}
+	
+	/* Export Code Ended */
 
 
 }

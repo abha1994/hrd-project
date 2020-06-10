@@ -570,9 +570,13 @@ function close_consider_university() {
 $(document).ready(function() { 
 
    var getUrl = window.location;
-	var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	var baseurl1 =  getUrl.origin;
 	//var folderName= getUrl.pathname.split('/')[1];
-	var URL1= baseurl+'/universityFinalSelected';
+	var URL1= baseurl1+'/universityFinalSelected';
+	//alert(baseurl);
+	//alert(baseurl1);
+	//alert(getUrl);
 	$('li.nav-item a[href*="'+ URL1 + '"]').addClass('active');
 
 

@@ -348,8 +348,8 @@ $(document).ready(function () {
         $(".nav-link").removeClass('active');
        // $("#liJobCategory").addClass("false");
        // $("#liCountry").addClass("false");
-        $("#considerbylevel1").addClass("active");
-         $("#rejectededit").addClass("active");
+        $("#considerlevel1").addClass("active");
+        // $("#rejectededit").addClass("active");
       });
 
 </script>

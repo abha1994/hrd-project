@@ -1,5 +1,9 @@
 @extends('layouts.master')
 @section('container')
+<script src="{{ asset('public/js/shortTerm_application_validation.js') }}"></script>
+<script>
+    var page_url = "{{ url('getPendingApp') }}";
+</script>
 <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs--><br>
@@ -17,13 +21,66 @@
          <div class="container-fluid border-top bg-white card-footer text-muted text-left" id="app">   
       @include('includes/flashmessage')
       
-     <!--  <div class="pull-right" style="float: right;">
-        
-        <a class="btn btn-success" href="{{ route('short-term-program.create') }}"><i class="nav-icon fas fa-plus"></i> New</a>
-         
-      </div> -->
-      <br />      
-      <br />
+     <!-- Filter Code Start -->
+	  
+	              <div class="col-md-2" style="float:left">
+		
+		          <select class="form-control" name="shortermname" id="shortermname">
+					
+					<option value="">Select Short Term Name</option>
+					@if(isset($shortTerm)) 
+					@foreach($shortTerm as $termName)
+					<option value="{{$termName->user_id}}">{{$termName->institute_name}}</option>
+					@endforeach
+					@endif
+					</select>
+					</div>
+					
+			   <div class="col-md-2" style="float:left">
+			   <select class="form-control" name="stateId" id="stateId" >
+			   <option value="">Select State</option>
+			   @if(isset($stateList)) @foreach($stateList as $state)
+			   <option value="{{$state->statecd}}">{{$state->state_name}}</option>
+			   @endforeach
+			   @endif
+			   
+			   </select>
+			</div>
+			
+			<div class="col-md-2" style="float:left">
+			   <input class="date form-control"  type="text"  value="" name="datepicker_search_from" id="datepicker_search_from" Placeholder="From Date">
+			</div>
+			
+			<div class="col-md-2" style="float:left">
+			   <input class="date form-control"  type="text" name="dt21" id="dt21" Placeholder="To Date">
+			</div>
+					
+					<!--<div class="col-md-2" style="float:left">
+					
+					<select class="form-control" name="programnew" id="programnew">
+					<option value="">Select Program</option>
+					</select>
+					</div> -->
+					
+					<div class="form-group" >
+					<input type="submit" id="filterSearch" class="btn btn-primary "  value= "Search" />
+					</div>
+		<form action="{{ route('exportAppPdf') }}" class=""  autocomplete="off" method="POST">
+		<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+		<input type="hidden" name="instpdf" value="" id="instpdf">
+		<input type="hidden" name="statepdf" value="" id="statepdf">
+		<input type="hidden" name="frmdatepdf" value="" id="frmdatepdf">
+		<input type="hidden" name="todatepdf" value="" id="todatepdf">
+
+		<input type="hidden" name="institutetype" id="institutetype" value="5" >
+
+		<button class="btn btn-info btn-sm" type="submit"  value="2" name="type" ><i class="glyphicon glyphicon-export icon-share"></i> Export Pdf </button>
+
+		<button class="btn btn-info btn-sm" type="submit"  value="1" name="type" ><i class="glyphicon glyphicon-export icon-share"></i> Export Excel</button> &nbsp;
+
+		</form>
+	  
+	  <!-- Filter Code Ended -->
         <div class="table-responsive card-box">
           <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>

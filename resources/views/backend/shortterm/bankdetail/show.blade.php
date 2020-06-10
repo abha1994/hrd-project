@@ -23,34 +23,6 @@
          <table id="example1" class="table table-bordered " role="grid" aria-describedby="example1_info">
         <tbody>
            
-          <tr>
-            <td>Candidate Name : </td>
-			
-            <td>  <?php 
-			// dd($student_name);
-			foreach($student_name as $v){
-				if($v->id == $recorde->student_id){
-					 echo ucwords($v->firstname.' '.$v->lastname);
-				}
-			 }?> 
-		    </td>
-          </tr>
-		   <tr>
-            <td>Bank Phone : </td>
-            <td>{{$recorde->candidate_phone}}</td>
-          </tr>
-		   <tr>
-            <td>Pan Number : </td>
-            <td>{{$recorde->pan}}</td>
-          </tr>
-           <tr>
-            <td>Aadhar Number : </td>
-            <td>{{$recorde->aadhar_no}}</td>
-          </tr>
-		  <tr>
-            <td>Address : </td>
-            <td>{{$recorde->participant_address}}</td>
-          </tr>
            <tr>
             <td>Bank Name : </td>
             <td>{{$recorde->bank_name}}</td>

@@ -124,6 +124,18 @@
 								</div> 
 							</div>
 							
+							
+							<div class="form-group annual_report321" style="display:none;">
+							<div class="row">
+
+							<div class="col-md-4">
+							<label for="name"  style="font-size: 13px;" class="control-label">Annual Report</label>
+
+							<input type="text" class="annual_report123" value="" id="annual_report123" disabled />
+							</div>
+							</div>
+							</div>
+							
 							<div class="form-group">
 								<div class="row">
 								
@@ -287,6 +299,17 @@
 								
 								</div>
 								</div>
+								
+								<div class="form-group file_course_proof321" style="display:none;">
+							<div class="row">
+
+							<div class="col-md-4">
+							<label for="name"  style="font-size: 13px;" class="control-label">Name and Qualification of the Faculty Members attached to the course</label>
+
+							<input type="text" class="file_course_proof123" value="" id="file_course_proof123" disabled />
+							</div>
+							</div>
+							</div>
 								
 								<div class="form-group">
 								<div class="row">
@@ -717,6 +740,12 @@
 	 $("#modalContent .tablecourse").val($("#modalCont .tablecourse").val()).attr('readonly',true);
 	 if ($("#certified").is( ":checked")) { $(".certified").prop('checked',true); }
 	 $("#modalContent .buttonEvent").remove();
+	 
+	 $(".annual_report321").css("display","block");
+	$("#modalContent .annual_report123").val($("#modalCont .annual_report123").val()).attr('readonly',true);
+
+$(".file_course_proof321").css("display","block");
+	$("#modalContent .file_course_proof123").val($("#modalCont .file_course_proof123").val()).attr('readonly',true);
 	 
 					
 					

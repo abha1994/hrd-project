@@ -2,16 +2,8 @@
 
 @section('content')
 <link href="{{ captcha_layout_stylesheet_url() }}" type="text/css" rel="stylesheet">
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
- <!--<script src="{{ asset('public/plugins/jquery/jquery.min.js') }}"></script>-->
- <!--<link href="{{ asset('public/plugins/jquery-ui/jquery-ui.css') }}" rel="stylesheet">-->
- <!--<script src="{{ asset('public/plugins/jquery-ui/jquery-ui.js') }}"></script> -->
- <script src="{{ asset('public/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('public/jquery-validation/dist/jquery.validate.min.js') }}"></script>
 
-<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
-<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-
-<!--<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
 <body onload="populateDistic()">
 <section class="register-cust">
 <div class="container">
@@ -21,7 +13,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" id="regiter">
+                    <form method="POST" action="{{ route('register') }}" id="registration_form">
                         @csrf
                         <div class="form-group" >
                             <div class="row">
@@ -54,7 +46,7 @@
                                     </div>
                                     
                                     
-                                    <div class="form-group  col-md-4 commonpan">
+                                    <div class="form-group  col-md-4 govtInst">
                                         <input class="form-control @error('pan') is-invalid @enderror"  type="text" value="{{ old('pan') }}" name="pan" placeholder="Pan Number*" id="pan" > 
                                         @error('pan')
                                             <span class="invalid-feedback " role="alert">
@@ -101,98 +93,15 @@
                                 </div>
 
                                 <div class="col-md-4 others">
-                                         <input type="date" class="form-control @error('dob') is-invalid @enderror"  value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="datepicker">     @error('dob')
+                                         <input type="date" class="form-control @error('dob') is-invalid @enderror"  value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="datepicker">                                        @error('dob')
                                             <span class="invalid-feedback " role="alert">
                                                 <strong>{{ $errors->first('dob') }}</strong>
                                             </span>
                                         @enderror
                                     </div>
-
-                                    <div class="col-md-4 ngo">
-                                        <input type="text" class="form-control @error('ngo_name') is-invalid @enderror onlyalpha" onkeyup="this.value = this.value.toUpperCase();"   value="{{old('ngo_name')}}" id="ngo_name" placeholder="NGO Name*" name="ngo_name">
-                                        @error('ngo_name')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-4 ngo">
-                                        <input type="text" class="form-control @error('uin_no') is-invalid @enderror" onkeyup="this.value = this.value.toUpperCase();"   value="{{old('uin_no')}}" id="uin_no" placeholder="NGO UIN No.*" name="uin_no">
-                                        @error('uin_no')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                     <div class="col-md-8 ngo">
-                                        <textarea name="ngo_address" id="ngo_address" class="form-control @error('address') is-invalid @enderror" placeholder="Address" rows="1">{{old('ngo_address')}}</textarea>
-                                        @error('ngo_address')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        
-                                        
-                                    </div>
-
-                                     
-
-                                    <div class="col-md-4 private">
-                                        <input type="text" class="form-control @error('company_name') is-invalid @enderror onlyalpha" onkeyup="this.value = this.value.toUpperCase();"   value="{{old('company_name')}}" id="company_name" placeholder="Name Of Company*" name="company_name">
-                                        @error('company_name')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                    <div class="col-md-4 private">
-                                        <input type="text" class="form-control @error('tin_number') is-invalid @enderror " value="{{old('tin_number')}}" id="tin_number" placeholder="Tin Number*" name="tin_number" maxlength="11">
-                                        @error('tin_number')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
                             </div>
                         </div>
-<!--------------------------------------- NGO --------------------------------------->
 
- <div class="form-group ">
-                                <div class="row ">
-                                    <div class="col-md-4 private">
-                                        <input type="text" class="form-control @error('gst_number') is-invalid @enderror"   value="{{old('gst_number')}}" id="gst_number" placeholder="GST Number*" name="gst_number">
-                                        @error('gst_number')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                    <div class="col-md-4 private">
-                                        <input type="text" class="form-control @error('pin_code') is-invalid @enderror" value="{{old('pin_code')}}"  id="pin_code" placeholder="Pin Code" name="pin_code">
-                                        @error('pin_code')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        
-                                    </div>
-                                    <div class="col-md-4 addresscommon">
-                                        <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror" placeholder="Address">{{old('address')}}</textarea>
-                                        @error('address')
-                                            <span class="invalid-feedback " role="alert">
-                                                <strong >{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        
-                                        
-                                    </div>
-                                </div> 
-                            </div> 
-<!----------------------------------------NGO END ----------------------------------->
                        
 
                         <div class="form-group others">
@@ -228,7 +137,7 @@
                                         
                                     </div>
                                     
-                                    <div class="col-md-6 othersmobile">
+                                    <div class="col-md-6 others">
                                         <input type="text"   maxlength="10" class="form-control @error('mobile_no') is-invalid @enderror" value="{{ old('mobile_no')}}"  id="mobile_no" placeholder="Mobile No.*" name="mobile_no">
                                 
                                         @error('mobile_no')
@@ -237,7 +146,6 @@
                                             </span>
                                         @enderror
                                     </div>
-
                                     
                                      <div class="col-md-6 govtInst">
                                         <input type="text"   maxlength="10" class="form-control @error('pincode') is-invalid @enderror" value="{{ old('pincode')}}"  id="pincode" placeholder="Pincode.*" name="pincode">
@@ -250,14 +158,15 @@
                                     </div>
 
                                      
-                                </div> <br >
+                                </div> 
+								<br>
                                 <p style='color:red' class="remainsFields"><br>Note:You cannot modify Email or Mobile later. So please be careful while entering.</p>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                            
                                             <select name="state" class="form-control @error('state') is-invalid @enderror" id="state" >
-                                                <option value="0"> Select </option>
+                                                <option value=""> Select State</option>
                                                     @foreach($states as $state)
                                                         <option value="{{$state->statecd}}" @if (old('state') == $state->statecd) {{ 'selected' }} @endif>{{$state->state_name}}</option>
                                                     @endforeach
@@ -268,18 +177,18 @@
                                             </span>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-6">
+                                          <div class="form-group col-md-6">
                                                      
-                                            <select id="distric" name="distric" class="form-control @error('distric') is-invalid @enderror">
-                                               <option value="0"> Select </option>
-                                            </select>                
-                                            <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
-                                            @error('distric')
-                                            <span class="help-block" style="color: red">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
+                                                <select id="distric" name="distric" class="form-control @error('distric') is-invalid @enderror">
+                                                    <option value=""> Select District</option>
+                                                </select>                
+                                                <!-- <input type="text" name="distric" id="distric"  class="form-control" value="{{old('distric')}}"> -->
+                                                @error('distric')
+                                                <span class="help-block" style="color: red">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                                @enderror
+                                          </div>
                                     </div>
                                 </div>
                                 <div class="form-group{{ $errors->has('CaptchaCode') ? ' has-error' : '' }}">
@@ -310,6 +219,7 @@
         </div>
     </div>
 </div></div></section>
+<br><br><br><br>
 </body>
 <style type="text/css">
     .error{
@@ -320,10 +230,10 @@
     .has-error .form-control {
         border-color: #a94442;
     }
-    .register-cust{
-            padding: 100px 0px 90px;
+	.register-cust{
+		    padding: 100px 0px 90px;
 }
-        
+		
    
 </style>
 <script type="text/javascript">
@@ -352,8 +262,10 @@
    }   
 });
 
- function populateDistic(){    
-   var stateID = $('#state').val();       
+   function populateDistic(){
+    
+    var stateID = $('#state').val();    
+   
    if(stateID){
        $.ajax({
           type:"GET",
@@ -369,136 +281,159 @@
           
            }else{
               $("#distric").empty();
-            }
+           }
           }
        });
-    }   
-}
+   }   
+   }
 
 
-function showfield(id){   
-
-    //alert(id);
-    if(id == 3 )
-    {                
-        $(".govtInst").show();
-        $('.others').hide();
-        $(".ngo").hide();
-        $(".private").hide();
-        $(".othersmobile").hide();
-        $(".addresscommon").hide();
-        $(".commonpan").show();
-    }else if(id==1){
-        $(".govtInst").hide();
-        $('.others').show();
-        $(".ngo").hide();
-        $(".private").hide();
-        $(".addresscommon").hide();
-    }else if(id ==2){
-
-        $('.others').show();
-        $(".ngo").hide();
-        $(".govtInst").hide();
-        $(".private").hide();
-        $(".addresscommon").hide();
-    }    
-    else if(id == 4 )
-    {    
-        $(".ngo").show();
-         $(".othersmobile").show();
-        //$(".addresscommon").show();
-        $(".commonpan").show();
-        $(".govtInst").hide();
-        $('.others').hide();
-        $(".private").hide();
-        $(".addresscommon").hide();
-       
-    }
-    else if(id == 5 )
-    {    
-        $(".private").show();
-        $(".ngo").hide();
-        $(".govtInst").hide();
-        $('.others').hide();
-        $(".commonpan").hide();
-        $(".othersmobile").show();
-         $(".addresscommon").show();
-    }else{
-        alert(id);
-        
-    }
-       
-}
-$( document ).ready(function() {
-    $(".ngo").hide();
-    $(".private").hide();
-    $(".addresscommon").hide();
-    $(".commonpan").hide();
-    // $(".govtInst").hide();
-   // $('.others').hide();
-    var catid = $('#category_id').val();
-   if(catid == 3 )
-    {                
-        $(".govtInst").show();
-         $(".commonpan").show();
-         $(".othersmobile").hide();
-        $('.others').hide();
-        $(".ngo").hide();
-        $(".private").hide();
-    }else if(catid==1){
-        $(".govtInst").hide();
-        $('.others').show();
-        $(".ngo").hide();
-        $(".private").hide();
-    }else if(catid ==2){
-
-        $('.others').show();
-        $(".ngo").hide();
-        $(".govtInst").hide();
-        $(".private").hide();
-    }    
-    else if(catid == 4 )
-    {    
-        $(".ngo").show();
-        $(".govtInst").hide();
-        $('.others').hide();
-        $(".private").hide();
-         $(".addresscommon").hide();
-          $(".commonpan").show();
-    }
-    else if(catid == 5 )
-    {    
-        //alert('amresh');
-        $(".private").show();
-        $(".ngo").hide();
-        $(".govtInst").hide();
-        $('.others').hide();
-         $(".addresscommon").show();
-    }else{
-       // alert(id);
-        
-    }
+   function showfield(id){   
 
     
+        if(id == 3 ){                
+            $(".govtInst").show();
+            $('.others').hide();
+        }else{             
+            $('.others').show();
+            $(".govtInst").hide();
+        }     
+    }
 
+$(document).ready(function () {
+
+
+
+    var catid = $('#category_id').val();
+    //var value = $('select#dropDownId option:selected').val();
+   // alert(catid);
+     if(catid == 3 ){                
+            $(".govtInst").show();
+            $('.others').hide();
+        }else{         
+         
+            $('.others').show();
+            $(".govtInst").hide();
+        }   
+    
+     
+
+
+
+
+
+
+
+    $( function() {
+       
+        $( "#datepicker" ).datepicker();
+    });
+
+ $.validator.addMethod("pan", function(value, element)
+    {
+        return this.optional(element) || /^[A-Z]{5}\d{4}[A-Z]{1}$/.test(value);
+    }, "Invalid Pan Number");
+
+
+
+ //    $('#regiter').validate({
+ //        rules: {
+ //            first_name:{
+ //                required: true,
+                 
+                
+ //            },
+ //            category_id:{
+ //                required:true
+ //            },
+ //            gender:{
+ //                required:true
+ //            },
+ //            dob:{
+ //                required:true
+ //            },
+ //            email_id : {
+ //            required: true,
+ //            email: true ,
+
+ //          remote: {
+ //              url: "{{URL('validateemail')}}",
+ //              type: "GET",
+ //                data: {
+ //              _token: function() {
+ //                return "{{csrf_token()}}"
+ //            }
+ //          },
+ //          // async: false,
+ //              complete: function(data) {
+                     
+ //                     console.log(data.responseText);
+ //                     if(data.responseText == "<span style=\"color:green\">Congratulation email id not exit in database<\/span>"){
+ //                        return true;
+ //                     }
+
+ //                  }
+ //              }
+             
+ //          }, 
+ //            mobile_no:{
+ //                required:true,
+ //                minlength:10,
+ //                maxlength:10,
+ //                number:true,
+ //          //        remote: {
+ //          //     url: "{{URL('validatemobile')}}",
+ //          //     type: "GET",
+ //          //       data: {
+ //          //     _token: function() {
+ //          //       return "{{csrf_token()}}"
+ //          //   }
+ //          // },
+ //          // // async: false,
+ //          //     complete: function(data) {
+                     
+ //          //            //console.log(data.responseText);
+
+                     
+ //          //         }
+ //          //     }
+ //            },
+ //            state:{
+ //                required:true
+ //            },
+ //            distric:{
+ //                required:true
+ //            },
+ //            CaptchaCode:{
+ //                required:true
+ //            },
+ //            institute_name:{
+ //                required:true
+ //            },
+            
+ //            "pan": {
+ //                required:true,
+ //                pan: true
+ //            },
+ //            institute_reg_no:{
+ //                required:true
+ //            },
+ //            institute_addres:{
+ //                required:true
+ //            }
+ //        }
+ //    });
 });
 
-$('input[name="tin_number"]').keyup(function(e)
-                                {
-  if (/\D/g.test(this.value))
-  {
-    // Filter non-digits from input value.
-    this.value = this.value.replace(/\D/g, '');
-  }
-});
+   </script>
 
-$('input[name="pin_code"]').keyup(function(e)
-                                {
-  if (/\D/g.test(this.value))
-  {
-    // Filter non-digits from input value.
-    this.value = this.value.replace(/\D/g, '');
-  }
+<script>
+$(document).ready(function(){
+    $("a[title ~= 'BotDetect']").removeAttr("style");
+    $("a[title ~= 'BotDetect']").removeAttr("href");
+    $("a[title ~= 'BotDetect']").css('visibility', 'hidden');
+
 });
 </script>
+
 @endsection

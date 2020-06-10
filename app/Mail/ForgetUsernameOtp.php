@@ -42,7 +42,7 @@ class ForgetUsernameOtp extends Mailable
     {
         
         
-         return $this->from('hrd@gov.in','HRD')
+         return $this->from('noreply@nic.in','HRD')
                     ->to($this->emailid)
                     ->subject('HRD Forget Username OTP')
                     ->markdown('email.ForgetUsernameOtp');

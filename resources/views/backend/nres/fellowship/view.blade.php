@@ -11,7 +11,7 @@
         <li class="breadcrumb-item active">Fellowship Program Application</li>
       </ol>
 	   <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
-		<div class="card-header text-center"><h4 style="color: #2384c6;">Fellowship Program Application</h4></div>
+		<div class="card-header text-center"><h4 class="mt-2">Fellowship Program Application</h4></div>
 		<div class="card-body">
     		    <!--div class="modal-header" style="color: #FFF"><h4>Internship Form <br />Fellowship Program Application Annexure 1A </h4><span style="float: right;"><input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></span></div>-->
             <div class="modal-body">

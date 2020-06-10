@@ -25,7 +25,7 @@
          $roleid = \App\User::with('roles')->find($officer_id);
  		 
           ?> 
-          @if($roleid->role!=3 && $roleid->role!=2)
+          @if($roleid->role!=3 )
          <button type="button" class="btn btn-primary" data-toggle="modal" style="border: #3c8424;background-color: #3c8424;" onclick="considered_nonconidered(1,'<?php echo $record[0]->short_term_id;?>' )">Consider</button>
 		
 		<button type="button" class="btn btn-primary" data-toggle="modal"  style="border: #d81a11;background-color: #d81a11; " onclick="considered_nonconidered(2,'<?php echo $record[0]->short_term_id;?>')">Non Considered</button> 

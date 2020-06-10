@@ -1,4 +1,4 @@
-<?php3
+<?php
 
 namespace App\Http\Controllers\Nref;
 use Illuminate\Http\Request;
@@ -24,8 +24,8 @@ class studentRegistrationController extends Controller
      */
     public function index()
     {
-		$login_institute_id = Auth::id();//dd($login_institute_id);
-        $students = DB::table('studentregistrations')->where('scheme_code','3')->where('user_id',$login_institute_id)->orderBy('id','desc')->get();
+	$login_institute_id = Auth::id();//dd($login_institute_id);
+        $students = DB::table('studentregistrations')->where('user_id',$login_institute_id)->where('scheme_code','3')->orderBy('id','desc')->get();
         return view('backend.nref.studentRregistration.index',compact('students'));
     }
 	

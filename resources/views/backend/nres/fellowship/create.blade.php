@@ -12,7 +12,7 @@
         <li class="breadcrumb-item active">Fellowship Program Application</li>
       </ol>
     <div class="card card-login mx-auto mt-5 " style="max-width: 65rem; margin-bottom: 28px;">
-     	<div class="card-header text-center"><h4 style="color: #2384c6;">Fellowship Program Application</h4></div>
+     	<div class="card-header text-center"><h4 class="mt-2">Fellowship Program Application</h4></div>
      	<!--div class="card-body text-center"><h4>Fellowship Program Application</h4><h4>Annexure 1A &nbsp;&nbsp;&nbsp;<input name="print" type="button" id="preview" class="btn btn-dark" value="Print this Application" onclick="JavaScript:window.print();"></h4></div-->
 		<div class="card-body">
     		<form  enctype="multipart/form-data"  action="{{route('fellowship-solar-form.store')}}" autocomplete="off" id="felloship_solar" method="POST" >

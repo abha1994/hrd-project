@@ -101,44 +101,92 @@
             <table class="table table-bordered" id="dataTable12" width="100%">
               <thead>
                 <tr>
-				  <th id="sort">S. No.</th>
-                  <th>Institute Name</th>
-                  <th>Address</th>
-				  <th>Name of the Cordinator/Proposed</th>
-				  <th>Email</th>
-				  <th>Mobile</th>
-				  <th>Total Fellowship Slot</th>
-				  <th>Fellowship Request Period</th>
-                  <th>Institute Reg.No</th>
-				  <th>Pincode</th>
+				<th id="sort">S. No.</th>
+<th>Institute Name</th>
+<th>Email</th>
+<th>Address</th>
+<th>Pincode</th>
+<th>Name of the Cordinator/Proposed</th>
+<th>Total Fellowship Slot</th>
+<th>Fellowship Request Period</th>
+<th>Fellowship Slot</th>
+				  <th>Remarks By Committee</th>
 				  <th>Sancation Form</th>
+				  <th>Remarks By Admin</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
+			  
+			  <?php //echo "<pre>"; print_r($data['remarksByCommitee']); //print_r($data['institute_data']); ?> 
               
 				<?php $i=1; foreach($data['institute_data'] as $v){?>
 				  <tr>
-				  <td><?php echo $i; ?></td>
-                  <td><?php echo $v->institute_name;?></td>
-                  <td><?php echo $v->institute_addres;?></td>
-				  <td><?php echo $v->coordinate_prog;?></td>
-				  <td><?php echo $v->email_id;?></td>
-				  <td><?php echo $v->mobile_no;?></td>
-				  <td><?php echo $v->fellowship_total;?></td>
-				  <td><?php echo $v->fellowship_period;?></td>
+			<td><?php echo $i; ?></td>
+<td><?php echo $v->institute_name;?></td>
+<td><?php echo $v->email_id;?></td>
+<td><?php echo $v->institute_addres;?></td>
+<td><?php echo $v->pincode;?></td>
+<td><?php echo $v->coordinate_prog;?></td>
+<td><?php echo $v->fellowship_total;?></td>
+<td><?php echo $v->fellowship_period.' '.$v->fellowship_period_to;?></td>
+<td>
+<?php 
+if(!empty($v->fellowship_mtech)){
+echo "MTECH :".$v->fellowship_mtech.'<br>';
+}
+if(!empty($v->fellowship_msc)){
+echo "MSC :".$v->fellowship_msc.'<br>';
+}
+if(!empty($v->fellowship_jrf)){
+echo "JRF :".$v->fellowship_jrf.'<br>';
+}
+if(!empty($v->fellowship_srf)){
+echo "SRF :".$v->fellowship_srf.'<br>';
+}
+if(!empty($v->fellowship_ra)){
+echo "RA :".$v->fellowship_ra.'<br>';
+}
+if(!empty($v->fellowship_pdf)){
+echo "PDF :".$v->fellowship_pdf.'<br>';
+}
+?>
+</td>
+
                   <td>
-				   <?php echo $v->institute_reg_no;?>
+				  
+				   <?php if(isset($data['remarksByCommitee'])) {
+					   
+					   foreach($data['remarksByCommitee'] as $val)
+					   {
+						   if($val->institute_id==$v->institute_id)
+						   echo $val->remarks;
+					   }
+					   
+				   } ?>
 				  </td>
-				  <td>
-				   <?php echo $v->pincode;?>
-				  </td>
+				  
 				  <td>
 				  <?php if(isset($v->sancation_forms)) { ?>
 				   <a href="<?php echo URL::asset('public/uploads/sancation/'.$v->sancation_forms);?>" download>Click Here</a>
 				  <?php } else {  ?>
 				  <?php echo "-"; } ?>
 				  </td>
+				  
+				  <td>
+				  
+				  <?php if(isset($data['remarksByAdmin'])) {
+					   
+					   foreach($data['remarksByAdmin'] as $val)
+					   {
+						   if($val->institute_id==$v->institute_id)
+						   echo $val->remarks;
+					   }
+					   
+				   } ?>
+
+				  </td>
+				  
                   <td>
 				
 				  <br>
@@ -189,11 +237,7 @@ $(document).ready(function() {
 		$("#frmdatepdf").val(frmDate);
 		$("#todatepdf").val(toDate);
 		
-		
-		
-		
-		
-		
+			
 	
 if(toDate!="" && frmDate=="")
 {
@@ -217,12 +261,13 @@ else
                     { data: 'address' },
 					{ data: 'cordinator' },
 					{ data: 'email' },
-					{ data: 'mobile' },
 					{ data: 'fellowslot' },
 					{ data: 'fellowPeriod' },
 					{ data: 'regno' },
 					{ data: 'pincode' },
+					{ data: 'remarksbyCommittee' },
 					{ data: 'sancation' },
+					{ data: 'remarksbyAdmin' },
 					{ data: 'clickTocheck' },
                 ]
             }); 

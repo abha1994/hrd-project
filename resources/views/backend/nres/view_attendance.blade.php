@@ -15,7 +15,7 @@
 	     
 
 
-	<div class="card-header text-center"><h4 style="color: #2384c6;">Candidate Attendance View <?php //echo "<pre>";print_r($singleRecord); ?></h4></div>
+	<div class="card-header text-center"><h4 class="mt-2">Candidate Attendance View <?php //echo "<pre>";print_r($singleRecord); ?></h4></div>
     	<div class="card-body">
     		<!-- @include('includes/flashmessage') -->
 			

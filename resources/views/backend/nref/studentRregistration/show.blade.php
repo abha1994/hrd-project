@@ -27,7 +27,7 @@
 		  </tr>
            <tr>
             <td>Gender : </td>
-            <td><?php if($recorde->gender == "1"){echo "Male";}else if($recorde->gender == "2"){echo "Female";} ?></td>
+            <td><?php if($recorde->gender == "1"){echo "Male";}else if($recorde->gender == "2"){echo "Female";} else if($recorde->gender == "3"){echo "Other";} ?></td>
           </tr>
            <tr>
             <td>Address : </td>

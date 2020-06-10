@@ -6,7 +6,7 @@
       <!-- Breadcrumbs--><br>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="{{ url('dashboard')}}">Dashboard</a>
+          <a href="{{ url('home')}}">Dashboard</a>
         </li>
         <li class="breadcrumb-item active">Add Officer</li>
       </ol>
@@ -36,8 +36,8 @@
 											</span>
 										@enderror
 								</div>
-								<div class="col-md-4 input-group date" data-provide="">
-										<input class="form-control @error('dob') is-invalid @enderror" type="text" readonly value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="datepicker_dob">
+								<div class="col-md-4 input-group date" data-provide="datepicker">
+										<input class="date form-control @error('dob') is-invalid @enderror" type="text" readonly value="{{ old('dob') }}" name="dob" placeholder="Date Of Birth*" id="dob">
 										<div class="input-group-addon">
 								        	<span class="glyphicon glyphicon-th"></span>
 								    	</div>
@@ -137,7 +137,7 @@
 						<center>
 							<div class="form-group">
 							   <button type="submit" value="Save" class="btn btn-primary">
-		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Save</button>
+		                       <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>
 							   <a class="btn btn-secondary" href="{{ URL('user')}}"><i class="fa fa-times" aria-hidden="true"></i>&nbsp; Cancel</a>
 							</div> 
 						</center>							
@@ -147,26 +147,19 @@
 		</div>
 	</div>
 
-
-
-
-<script>
-
-$(document).ready(function() {
-	$('#datepicker_dob').datepicker({
-		dateFormat : 'dd/mm/yyyy',
-	});
-	
-});
-</script>
-
-
-
-
-
-
-
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

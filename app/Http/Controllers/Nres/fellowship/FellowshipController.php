@@ -34,14 +34,9 @@ class fellowshipController extends Controller
     public function create()
     {
 		
-		$all_data =  Session::get('userdata');
-		$dataExist = DB::table('internship_tbl')->where('user_id',$all_data['candidate_id'])->get();
-	
-		
-		//echo "<pre>";print_r($all_data); echo $all_data['candidate_id'];
-
-//print_r($dataExist); echo count($dataExist); echo $dataExist[0]->candidate_id;	die;
-        $data = Internship::index();
+		$user_id = Auth::id();
+		$dataExist = DB::table('internship_tbl')->where('user_id',$user_id)->get();
+	    $data = Internship::index();
         $loginuser_data = $data['loginuser_data'];
 		
 		if(count($dataExist)>0)

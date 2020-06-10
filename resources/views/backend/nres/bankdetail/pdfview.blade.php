@@ -17,13 +17,7 @@
           <tr>
             <td>Candidate Name : </td>
 			
-            <td>  <?php 
-			// dd($student_name);
-			foreach($student_name as $v){
-				if($v->id == $recorde->student_id){
-					 echo ucwords($v->firstname.' '.$v->lastname);
-				}
-			 }?> 
+            <td>  <?php echo $name;?> 
 		    </td>
           </tr>
 		   <tr>

@@ -75,7 +75,7 @@ class AttendanceController extends Controller
 	$query = $query->orderBy('attendence_id','asc');
 	$attendanceList = $query->get();
 	
-		return view('backend.nref.admin.admin_attendance.attendanceAjax',compact('attendanceList'));
+		return view('backend.nref.Admin.admin_attendance.attendanceAjax',compact('attendanceList'));
 
 	}
 

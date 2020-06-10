@@ -110,6 +110,30 @@
 	    }
 	</style>
 	
+	
+	<script>
+$(document).ready(function() { 
+
+var hash = location.hash;
+var hash = location.hash.substr(1);
+
+   var getUrl = window.location;
+	//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	var baseurl1 =  getUrl.origin;
+	var folderName= getUrl.pathname.split('/')[1];
+
+	var URL1= baseurl1+'/'+ hash;
+	
+	if(folderName=="instituteFinal")
+	{
+		$("#liuniversity").addClass("active");
+	}
+	
+	
+
+});
+</script>
+	
 
     <!-- /.container-fluid-->
 @endsection

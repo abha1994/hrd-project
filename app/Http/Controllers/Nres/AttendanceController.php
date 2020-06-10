@@ -61,21 +61,16 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-		
-		//echo "<pre>"; dd($request);
-        
-         $this->validate($request,[
+		$this->validate($request,[
             'working_days'  =>  'required|min:0|max:2',
             'holiday'=> 'required|min:0|max:2',
             'present_days' => 'required|min:0|max:2',
             'leave_approval' => 'required|min:0|max:2',
-
-         ]);
+        ]);
 		 
-		 $login_user_id = Auth::id();
-        
-        $records['institute_id'] = $login_user_id;
-		$records['student_id'] = $login_user_id;
+		$login_user_id = Auth::id();
+        $records['student_id'] = $login_user_id;
+		$records['user_id'] = $login_user_id;
 		$records['scheme_code'] = 2;
 		
 		$records['month_atten'] = $request->month;
@@ -88,22 +83,16 @@ class AttendanceController extends Controller
 		$records['leave_approved_days'] = $request->leave_approval;
 		$records['total_days'] = $request->total_days;
 		
-			//echo "<pre>"; print_r($records); die;
-			
-	$existUser = DB::table('candidate_attendence')->where(['institute_id' => $login_user_id,'student_id' => $login_user_id,'month_atten' =>$request->month,'year_atten'=>$request->year])->count();
+		$existUser = DB::table('candidate_attendence')->where(['user_id' => $login_user_id,'student_id' => $login_user_id,'month_atten' =>$request->month,'year_atten'=>$request->year])->count();
 
-	
-	if($existUser>0)
-			 {
-				 return redirect()->route('/attendance-solar-form')
-                        ->with('message','Your attendance  already submitted!!');
-			 }
+	    if($existUser>0)
+		{
+		    return redirect()->route('/attendance-solar-form')->with('message','Your attendance  already submitted!!');
+		}
 		else
 		{
-         
-        studentAttendanceModel::create($records);
-         return redirect()->route('/attendance-solar-form')
-                        ->with('message','Your attendance  submitted successfully.');
+            studentAttendanceModel::create($records);
+            return redirect()->route('/attendance-solar-form')->with('message','Your attendance  submitted successfully.');
 		}
 
         
@@ -120,27 +109,23 @@ class AttendanceController extends Controller
      */
     public function show()
     {
-         //$recorde = studentRegistrationModel::findOrFail($id);
-		 $StdID = last(request()->segments());
-		 $singleRecord = DB::table('candidate_attendence')->where('attendence_id',$StdID)->get();
-         
-          return view('backend.nres.view_attendance',compact('singleRecord'));
+        $StdID = last(request()->segments());
+		$singleRecord = DB::table('candidate_attendence')->where('attendence_id',$StdID)->get();
+        return view('backend.nres.view_attendance',compact('singleRecord'));
     }
 	
 	
 	public function attendanceStudentAjax(Request $request)
 	{
-		//echo 'Hello'; die;
-	    $all_data =  Session::get('userdata');
+		$candidate_id =  Auth::id();
 		$val1=$request->input('monthVal');
 		$val2=$request->input('yearr');
 		
-$attendanceList = DB::table('candidate_attendence')
-            //->leftJoin('candidate_attendence', 'student_registration.id', '=', 'candidate_attendence.student_id')
-			->where(['student_id' =>$all_data['candidate_id'],'scheme_code'=>2,'month_atten' =>$val1,'year_atten'=>$val2])
+        $attendanceList = DB::table('candidate_attendence')
+         	->where(['student_id' =>$candidate_id,'scheme_code'=>2,'month_atten' =>$val1,'year_atten'=>$val2])
 			->orderBy('attendence_id','desc')
             ->get();
-  return view('backend.nres.attendanceStudentAjax',compact('attendanceList'));
+        return view('backend.nres.attendanceStudentAjax',compact('attendanceList'));
 	}
 
 }

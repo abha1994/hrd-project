@@ -34,14 +34,14 @@
      <div class="card-header text-center"><h4 class="mt-2">Bank Mandate Form</h4></div>
       <div class="card-body">
 							
-	<form enctype="multipart/form-data" action="{{ url('bank-form-post-final/'.$id) }}" autocomplete="off" id="bankmandate_form" method="POST" >
+	<form enctype="multipart/form-data" action="{{ url('bank-form-nres-post-final/'.$id) }}" autocomplete="off" id="bankmandate_form" method="POST" >
 			{!! csrf_field() !!}
 			
 			                    <div class="row">
 								
 								<div class="col-md-4">
 								
-								<a href="{{ route('pdfview_bank',['download'=>'pdf','id'=>$id]) }}">
+								<a href="{{ route('pdfview_bank_nres',['download'=>'pdf','id'=>$id]) }}">
 								<input class="btn btn-primary " type="button" value="Download PDF"></a>
 								</a>
 								
@@ -72,7 +72,7 @@
 								<div class="form-group" >
 								<button type="submit" value="Final Save" class="btn btn-primary">
 		                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp; Submit</button>	
-								<a href="{{url('/bank-details')}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back</a>
+								<a href="{{url('/bank-details-nres')}}" class="btn btn-primary buttonEvent"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp; Back</a>
 								</div> 
 							</center>
 							

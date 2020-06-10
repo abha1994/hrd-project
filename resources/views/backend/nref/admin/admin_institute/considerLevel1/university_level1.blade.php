@@ -566,10 +566,11 @@ function close_consider_university() {
 $(document).ready(function() { 
 
    var getUrl = window.location;
-	var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	//var baseurl =  getUrl.origin + '/' +getUrl.pathname.split('/')[1];
+	var baseurl1 =  getUrl.origin;
 	//var folderName= getUrl.pathname.split('/')[1];
-	var URL1= baseurl+'/universityCons';
-	var URL2= baseurl+'/universityConsAdmin';
+	var URL1= baseurl1+'/universityCons';
+	var URL2= baseurl1+'/universityConsAdmin';
 	//alert(URL1)
 	$('li.nav-item a[href*="'+ URL1 + '"]').addClass('active');
 	$('li.nav-item a[href*="'+ URL2 + '"]').removeClass('active');

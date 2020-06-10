@@ -16,7 +16,7 @@
  $page = end($link_array);
 	
 	    $current_url =  Request::segment(1);
-		$dashboardClass = $roleMClass = $userMClass = $officerMClass = $intershipMClass = $nrefMClass = $nresMClass = $nrestMClass ='' ;
+		$dashboardClass = $roleMClass = $userMClass = $officerMClass = $intershipMClass = $adminmouMClass = $nrefMClass = $nresMClass = $nrestMClass ='' ;
 		if($current_url == 'home'){
 		   $dashboardClass = 'active';
 		}
@@ -29,6 +29,9 @@
 		if($current_url == 'user'){
 		   $officerMClass = 'active';
 		}
+		if($current_url == 'adminmou'){
+		   $adminmouMClass = 'active';
+		}
 		if($current_url == 'admin-internship' || $current_url == 'considered-internship' || $current_url == 'rejected-internship' || $current_url == 'selecteded-internship' || $current_url == 'internship-home' || $current_url == 'forward-to-committee' || $current_url == 'selected-internship' ){
 		   $intershipMClass = 'active';
 		}
@@ -38,7 +41,7 @@ $current_url == 'universityConsAdmin' || $current_url == 'universitySelected'|| 
 $current_url == 'get-institute'|| $current_url == 'admin-student-considered'|| $current_url == 'admin-student-rejected' ||
  $current_url == 'admin-student-forward-to-committee'|| $current_url == 'admin-student-final-rejected'|| 
 $current_url == 'admin-student-final-selected' || $current_url == 'admin-student-committee-rec' || $current_url == 'nref-bankdetails'
-|| $current_url =='admin-student-committee-rec'){
+|| $current_url =='admin-student-committee-rec' || $current_url == 'adminmou'){
 		   $nrefMClass = 'active';
 		}
 		if($current_url == 'nres-home' ){
@@ -47,7 +50,7 @@ $current_url == 'admin-student-final-selected' || $current_url == 'admin-student
 		if($current_url == 'nrest-home' ){
 		   $nrestMClass = 'active';
 		}
-		if($current_url == 'nrest-participants' || $current_url == 'admin-course-content' || $current_url == 'nrest-participants' || $current_url == 'nrest-bankdetails' || $current_url == 'attandanceTerm'  || $current_url == 'shortterm-report'){
+		if($current_url == 'nrest-participants' || $current_url == 'admin-course-content' || $current_url == 'nrest-participants' || $current_url == 'nrest-bankdetails' || $current_url == 'attandanceTerm'  || $current_url == 'shortterm-report'|| $current_url == 'report-check'){
 		   $nrestpMClass = 'active';
 		}
 	?>
@@ -454,7 +457,16 @@ $current_url == 'admin-student-final-selected' || $current_url == 'admin-student
               </p>
             </a>
           </li>
-		  
+		  <li class="nav-item">
+            <a href="{{url('adminmou')}}" class="nav-link <?php if($current_url == 'adminmou') {echo "active";}else{ echo "";} ?>"  >
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+               Admin MOU
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li> 
+		 
 		   
              </ul>
           </li>
@@ -503,56 +515,50 @@ $current_url == 'admin-student-final-selected' || $current_url == 'admin-student
                   <p>NREST Dashboard</p>
                 </a>
               </li>
-			   <li class="nav-item has-treeview"  id="lishortterm">
+			     <li class="nav-item has-treeview"  id="lishortterm">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Shrot Term
+                Short Term
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview" id="ulshortterm">
               <li class="nav-item">
-                <a href="{{ url('/pending-application')}}" class="nav-link" @if($page != "pending-application") id= "pendingapplication" @else id="rejectededit" @endif>
+                <a href="{{ url('/pending-application')}}" class="nav-link" id="pendinapplication">
                   <i class="nav-icon fas fa-file"></i>
                   <p>Pending Application</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/consider-by-level1')}}" class="nav-link"  @if($page != "consider-by-level1") id= "considerbylevel1" @else id="rejectededit" @endif>
+                <a href="{{ url('/consider-by-level1')}}" class="nav-link" 
+                id="considerlevel1">
                   <i class="nav-icon fas fa-user"></i>
                   <p>Consider By Level1</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/nonconsider-by-level1')}}" class="nav-link" @if($page != "nonconsider-by-level1") id= "rejectedbylevel1"  @else id="rejectededit" @endif>
+                <a href="{{ url('/nonconsider-by-level1')}}" class="nav-link" id="rejectedlevel1">
                    <i class="nav-icon fas fa-user"></i>
                   <p>Rejected By Level1</p>
                 </a>
               </li>
                <li class="nav-item">
                <a href="{{ url('/forward-to-committee-short-term')}}" class="nav-link" 
-@if($page != "forward-to-committee-short-term") id= "forwardtocommittee" 
-                  @else id="rejectededit" @endif >
+                  id= "forwardtocommittee"  >
                    <i class="nav-icon fas fa-user"></i>
                   <p>Forward to Committee</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url('/recommend-by-committe-short-term')}}" 
-                class="nav-link" 
-
-@if($page != "recommend-by-committe-short-term") id= "comm" 
-                  @else id="rejectededit" @endif >
+                class="nav-link" id= "comm">
                    <i class="nav-icon fas fa-user"></i>
                   <p>Recommend By  Committee</p>
                 </a>
               </li> 
               <li class="nav-item">
-                <a href="{{ url('/final-selecction')}}" class="nav-link" 
-
-@if($page != "final-selecction") id= "finalsec" 
-                  @else id="rejectededit" @endif >
+                <a href="{{ url('/final-selecction')}}" class="nav-link" id= "finalsec">
                    <i class="nav-icon fa fa-check-square"></i>
                   <p>Final Selection</p>
                 </a>
@@ -560,9 +566,7 @@ $current_url == 'admin-student-final-selected' || $current_url == 'admin-student
 
               
               <li class="nav-item">
-                <a href="{{ url('/final-rejected')}}" class="nav-link" 
-@if($page != "final-rejected") id= "final_Rej" 
-                  @else id="rejectededit" @endif >
+                <a href="{{ url('/final-rejected')}}" class="nav-link" id= "final_Rej">
                    <i class="nav-icon fas fa-trash" style="color: red"></i>
                   <p>Final Rejection</p>
                 </a>
@@ -618,6 +622,24 @@ $current_url == 'admin-student-final-selected' || $current_url == 'admin-student
               </p>
             </a>
           </li> 
+		   <li class="nav-item">
+            <a href="{{url('report-check')}}" class="nav-link <?php if($current_url == 'report-check') {echo "active";}else{ echo "";} ?>"  >
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+               Check Report List
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li> 
+		  
+		  <li class="nav-item">
+            <a href="{{ URl('trainingEvalution')}}" class="nav-link <?php if($current_url == 'trainingEvalution') {echo "active";}else{ echo "";} ?>" id="trainingEvalution">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                  Training Program Evaluation
+              </p>
+            </a>
+			</li>
 			  
              </ul>
           </li>

@@ -11,18 +11,21 @@
     <div class="sidebar">
       <?php
 	    $current_url =  Request::segment(1);
-		$homeClass = $fellowshipClass = $bankMClass1 = $attendanceMClass = '' ;
+		$homeClass = $fellowshipClass = $bankMClass = $attendanceMClass = $reportMClass = '' ;
 		if($current_url == 'home'){
 		   $homeClass = 'active';
 		}
 		if($current_url == 'fellowship-solar-form'){
 		   $fellowshipClass = 'active';
 		}
-		if($current_url == 'bank-details'){
-		   $bankMClass1 = 'active1';
+		if($current_url == 'bank-details-nres'){
+		   $bankMClass = 'active';
 		}
 		if($current_url == 'attendance-solar-form'){
 		   $attendanceMClass = 'active';
+		}
+		if($current_url == 'nres-report'){
+		   $reportMClass = 'active';
 		}
 		
 	?>
@@ -59,7 +62,7 @@
             </a>
            
           <li class="nav-item">
-            <a href="{{ url('bank-details')}}" class="nav-link {{ $bankMClass1 }}" id="">
+            <a href="{{ url('bank-details-nres')}}" class="nav-link {{ $bankMClass }}" id="listudent">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                 Bank Details
@@ -68,11 +71,22 @@
             </a>
           </li>
           
+		  
 		   <li class="nav-item">
             <a href="{{ url('attendance-solar-form')}}" class="nav-link {{ $attendanceMClass }}" id="listudent">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                 Attandence
+                <!-- <span class="right badge badge-danger">New</span> -->
+              </p>
+            </a>
+          </li>
+		  
+		   <li class="nav-item">
+            <a href="{{ url('nres-report')}}" class="nav-link {{ $reportMClass }}" id="listudent">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+                Upload Report
                 <!-- <span class="right badge badge-danger">New</span> -->
               </p>
             </a>

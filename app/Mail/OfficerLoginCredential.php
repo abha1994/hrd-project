@@ -41,7 +41,7 @@ class OfficerLoginCredential extends Mailable
     {
         
         //return $this->markdown('email.Register');
-         return $this->from('hrd@gov.in','HRD')
+         return $this->from('noreply@nic.in','HRD')
                     ->to($this->emailid)
                     ->subject('User Credentials of Officer')
                     ->markdown('email.LoginCredential');
